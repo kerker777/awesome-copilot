@@ -1,153 +1,153 @@
 ---
-description: 'VueJS 3 development standards and best practices with Composition API and TypeScript'
+description: 'VueJS 3 開發標準和最佳實踐，搭配 Composition API 和 TypeScript'
 applyTo: '**/*.vue, **/*.ts, **/*.js, **/*.scss'
 ---
 
-# VueJS 3 Development Instructions
+# VueJS 3 開發指引
 
-Instructions for building high-quality VueJS 3 applications with the Composition API, TypeScript, and modern best practices.
+使用 Composition API、TypeScript 和現代最佳實踐構建高品質 VueJS 3 應用程式的指引。
 
-## Project Context
-- Vue 3.x with Composition API as default
-- TypeScript for type safety
-- Single File Components (`.vue`) with `<script setup>` syntax
-- Modern build tooling (Vite recommended)
-- Pinia for application state management
-- Official Vue style guide and best practices
+## 專案背景
+- Vue 3.x，預設使用 Composition API
+- TypeScript 用於型別安全
+- 單檔案元件（`.vue`），使用 `<script setup>` 語法
+- 現代構建工具（建議使用 Vite）
+- Pinia 用於應用程式狀態管理
+- 官方 Vue 風格指南和最佳實踐
 
-## Development Standards
+## 開發標準
 
-### Architecture
-- Favor the Composition API (`setup` functions and composables) over the Options API
-- Organize components and composables by feature or domain for scalability
-- Separate UI-focused components (presentational) from logic-focused components (containers)
-- Extract reusable logic into composable functions in a `composables/` directory
-- Structure store modules (Pinia) by domain, with clearly defined actions, state, and getters
+### 架構
+- 優先使用 Composition API（`setup` 函式和 composables）而非 Options API
+- 按功能或領域組織元件和 composables 以實現可擴展性
+- 分離 UI 導向元件（展示型）和邏輯導向元件（容器型）
+- 將可重用邏輯提取到 `composables/` 目錄中的 composable 函式
+- 按領域建構 store 模組（Pinia），具有明確定義的 actions、state 和 getters
 
-### TypeScript Integration
-- Enable `strict` mode in `tsconfig.json` for maximum type safety
-- Use `defineComponent` or `<script setup lang="ts">` with `defineProps` and `defineEmits`
-- Leverage `PropType<T>` for typed props and default values
-- Use interfaces or type aliases for complex prop and state shapes
-- Define types for event handlers, refs, and `useRoute`/`useRouter` hooks
-- Implement generic components and composables where applicable
+### TypeScript 整合
+- 在 `tsconfig.json` 中啟用 `strict` 模式以獲得最大型別安全
+- 使用 `defineComponent` 或 `<script setup lang="ts">`，搭配 `defineProps` 和 `defineEmits`
+- 對型別化 props 和預設值利用 `PropType<T>`
+- 對複雜 prop 和 state 形狀使用介面或型別別名
+- 為事件處理器、refs 和 `useRoute`/`useRouter` hooks 定義型別
+- 在適用的地方實作泛型元件和 composables
 
-### Component Design
-- Adhere to the single responsibility principle for components
-- Use PascalCase for component names and kebab-case for file names
-- Keep components small and focused on one concern
-- Use `<script setup>` syntax for brevity and performance
-- Validate props with TypeScript; use runtime checks only when necessary
-- Favor slots and scoped slots for flexible composition
+### 元件設計
+- 遵守元件的單一職責原則
+- 元件名稱使用 PascalCase，檔案名稱使用 kebab-case
+- 保持元件小型並專注於單一關注點
+- 使用 `<script setup>` 語法以獲得簡潔性和效能
+- 使用 TypeScript 驗證 props；僅在必要時使用執行時檢查
+- 優先使用 slots 和 scoped slots 實現靈活組合
 
-### State Management
-- Use Pinia for global state: define stores with `defineStore`
-- For simple local state, use `ref` and `reactive` within `setup`
-- Use `computed` for derived state
-- Keep state normalized for complex structures
-- Use actions in Pinia stores for asynchronous logic
-- Leverage store plugins for persistence or debugging
+### 狀態管理
+- 對全域狀態使用 Pinia：使用 `defineStore` 定義 stores
+- 對簡單本地狀態，在 `setup` 中使用 `ref` 和 `reactive`
+- 對衍生狀態使用 `computed`
+- 對複雜結構保持狀態正規化
+- 對非同步邏輯在 Pinia stores 中使用 actions
+- 利用 store 外掛進行持久化或除錯
 
-### Composition API Patterns
-- Create reusable composables for shared logic, e.g., `useFetch`, `useAuth`
-- Use `watch` and `watchEffect` with precise dependency lists
-- Cleanup side effects in `onUnmounted` or `watch` cleanup callbacks
-- Use `provide`/`inject` sparingly for deep dependency injection
-- Use `useAsyncData` or third-party data utilities (Vue Query)
+### Composition API 模式
+- 為共享邏輯建立可重用的 composables，例如 `useFetch`、`useAuth`
+- 使用具有精確依賴清單的 `watch` 和 `watchEffect`
+- 在 `onUnmounted` 或 `watch` 清理回呼中清理副作用
+- 謹慎使用 `provide`/`inject` 進行深度依賴注入
+- 使用 `useAsyncData` 或第三方資料實用程式（Vue Query）
 
-### Styling
-- Use `<style scoped>` for component-level styles or CSS Modules
-- Consider utility-first frameworks (Tailwind CSS) for rapid styling
-- Follow BEM or functional CSS conventions for class naming
-- Leverage CSS custom properties for theming and design tokens
-- Implement mobile-first, responsive design with CSS Grid and Flexbox
-- Ensure styles are accessible (contrast, focus states)
+### 樣式
+- 對元件級樣式使用 `<style scoped>` 或 CSS Modules
+- 考慮實用優先框架（Tailwind CSS）以快速設計樣式
+- 對類別命名遵循 BEM 或函式式 CSS 慣例
+- 利用 CSS 自訂屬性進行主題設定和設計 tokens
+- 使用 CSS Grid 和 Flexbox 實作移動優先的響應式設計
+- 確保樣式可訪問（對比度、焦點狀態）
 
-### Performance Optimization
-- Lazy-load components with dynamic imports and `defineAsyncComponent`
-- Use `<Suspense>` for async component loading fallbacks
-- Apply `v-once` and `v-memo` for static or infrequently changing elements
-- Profile with Vue DevTools Performance tab
-- Avoid unnecessary watchers; prefer `computed` where possible
-- Tree-shake unused code and leverage Vite’s optimization features
+### 效能優化
+- 使用動態匯入和 `defineAsyncComponent` 延遲載入元件
+- 對非同步元件載入備用使用 `<Suspense>`
+- 對靜態或不常變化的元素應用 `v-once` 和 `v-memo`
+- 使用 Vue DevTools 效能標籤進行分析
+- 避免不必要的 watchers；盡可能優先使用 `computed`
+- 樹搖動未使用的程式碼並利用 Vite 的優化功能
 
-### Data Fetching
-- Use composables like `useFetch` (Nuxt) or libraries like Vue Query
-- Handle loading, error, and success states explicitly
-- Cancel stale requests on component unmount or param change
-- Implement optimistic updates with rollbacks on failure
-- Cache responses and use background revalidation
+### 資料獲取
+- 使用 composables 如 `useFetch`（Nuxt）或函式庫如 Vue Query
+- 明確處理載入、錯誤和成功狀態
+- 在元件卸載或參數更改時取消過時請求
+- 在失敗時使用回滾實作樂觀更新
+- 快取回應並使用背景重新驗證
 
-### Error Handling
-- Use global error handler (`app.config.errorHandler`) for uncaught errors
-- Wrap risky logic in `try/catch`; provide user-friendly messages
-- Use `errorCaptured` hook in components for local boundaries
-- Display fallback UI or error alerts gracefully
-- Log errors to external services (Sentry, LogRocket)
+### 錯誤處理
+- 對未捕獲的錯誤使用全域錯誤處理器（`app.config.errorHandler`）
+- 將風險邏輯包裝在 `try/catch` 中；提供使用者友善的訊息
+- 在元件中使用 `errorCaptured` hook 作為本地邊界
+- 優雅地顯示備用 UI 或錯誤警報
+- 將錯誤記錄到外部服務（Sentry、LogRocket）
 
-### Forms and Validation
-- Use libraries like VeeValidate or @vueuse/form for declarative validation
-- Build forms with controlled `v-model` bindings
-- Validate on blur or input with debouncing for performance
-- Handle file uploads and complex multi-step forms in composables
-- Ensure accessible labeling, error announcements, and focus management
+### 表單和驗證
+- 使用函式庫如 VeeValidate 或 @vueuse/form 進行宣告式驗證
+- 使用受控的 `v-model` 綁定構建表單
+- 在 blur 或 input 時使用去抖動進行驗證以提高效能
+- 在 composables 中處理檔案上傳和複雜的多步驟表單
+- 確保可訪問的標籤、錯誤公告和焦點管理
 
-### Routing
-- Use Vue Router 4 with `createRouter` and `createWebHistory`
-- Implement nested routes and route-level code splitting
-- Protect routes with navigation guards (`beforeEnter`, `beforeEach`)
-- Use `useRoute` and `useRouter` in `setup` for programmatic navigation
-- Manage query params and dynamic segments properly
-- Implement breadcrumb data via route meta fields
+### 路由
+- 使用 Vue Router 4，搭配 `createRouter` 和 `createWebHistory`
+- 實作巢狀路由和路由級程式碼分割
+- 使用導航守衛（`beforeEnter`、`beforeEach`）保護路由
+- 在 `setup` 中使用 `useRoute` 和 `useRouter` 進行程式化導航
+- 正確管理查詢參數和動態區段
+- 透過路由 meta 欄位實作麵包屑資料
 
-### Testing
-- Write unit tests with Vue Test Utils and Jest
-- Focus on behavior, not implementation details
-- Use `mount` and `shallowMount` for component isolation
-- Mock global plugins (router, Pinia) as needed
-- Add end-to-end tests with Cypress or Playwright
-- Test accessibility using axe-core integration
+### 測試
+- 使用 Vue Test Utils 和 Jest 撰寫單元測試
+- 專注於行為，而非實作細節
+- 使用 `mount` 和 `shallowMount` 進行元件隔離
+- 根據需要模擬全域外掛（router、Pinia）
+- 使用 Cypress 或 Playwright 新增端對端測試
+- 使用 axe-core 整合測試可訪問性
 
-### Security
-- Avoid using `v-html`; sanitize any HTML inputs rigorously
-- Use CSP headers to mitigate XSS and injection attacks
-- Validate and escape data in templates and directives
-- Use HTTPS for all API requests
-- Store sensitive tokens in HTTP-only cookies, not `localStorage`
+### 安全性
+- 避免使用 `v-html`；嚴格清理任何 HTML 輸入
+- 使用 CSP 標頭來緩解 XSS 和注入攻擊
+- 在範本和指令中驗證和跳脫資料
+- 對所有 API 請求使用 HTTPS
+- 將敏感 tokens 儲存在 HTTP-only cookies 中，而非 `localStorage`
 
-### Accessibility
-- Use semantic HTML elements and ARIA attributes
-- Manage focus for modals and dynamic content
-- Provide keyboard navigation for interactive components
-- Add meaningful `alt` text for images and icons
-- Ensure color contrast meets WCAG AA standards
+### 可訪問性
+- 使用語義 HTML 元素和 ARIA 屬性
+- 為模態和動態內容管理焦點
+- 為互動元件提供鍵盤導航
+- 為圖片和圖示新增有意義的 `alt` 文字
+- 確保色彩對比度符合 WCAG AA 標準
 
-## Implementation Process
-1. Plan component and composable architecture
-2. Initialize Vite project with Vue 3 and TypeScript
-3. Define Pinia stores and composables
-4. Create core UI components and layout
-5. Integrate routing and navigation
-6. Implement data fetching and state logic
-7. Build forms with validation and error states
-8. Add global error handling and fallback UIs
-9. Add unit and E2E tests
-10. Optimize performance and bundle size
-11. Ensure accessibility compliance
-12. Document components, composables, and stores
+## 實作流程
+1. 規劃元件和 composable 架構
+2. 使用 Vue 3 和 TypeScript 初始化 Vite 專案
+3. 定義 Pinia stores 和 composables
+4. 建立核心 UI 元件和佈局
+5. 整合路由和導航
+6. 實作資料獲取和狀態邏輯
+7. 使用驗證和錯誤狀態構建表單
+8. 新增全域錯誤處理和備用 UI
+9. 新增單元和 E2E 測試
+10. 優化效能和套件大小
+11. 確保可訪問性合規性
+12. 記錄元件、composables 和 stores
 
-## Additional Guidelines
-- Follow Vue’s official style guide (vuejs.org/style-guide)
-- Use ESLint (with `plugin:vue/vue3-recommended`) and Prettier for code consistency
-- Write meaningful commit messages and maintain clean git history
-- Keep dependencies up to date and audit for vulnerabilities
-- Document complex logic with JSDoc/TSDoc
-- Use Vue DevTools for debugging and profiling
+## 其他指南
+- 遵循 Vue 的官方風格指南（vuejs.org/style-guide）
+- 使用 ESLint（搭配 `plugin:vue/vue3-recommended`）和 Prettier 保持程式碼一致性
+- 撰寫有意義的 commit 訊息並保持乾淨的 git 歷史記錄
+- 保持依賴項最新並審查漏洞
+- 使用 JSDoc/TSDoc 記錄複雜邏輯
+- 使用 Vue DevTools 進行除錯和分析
 
-## Common Patterns
-- Renderless components and scoped slots for flexible UI
-- Compound components using provide/inject
-- Custom directives for cross-cutting concerns
-- Teleport for modals and overlays
-- Plugin system for global utilities (i18n, analytics)
-- Composable factories for parameterized logic
+## 常見模式
+- 無渲染元件和 scoped slots 實現靈活 UI
+- 使用 provide/inject 的複合元件
+- 用於跨切面關注點的自訂指令
+- Teleport 用於模態和覆蓋層
+- 全域實用程式的外掛系統（i18n、analytics）
+- 參數化邏輯的 Composable 工廠

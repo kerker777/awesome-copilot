@@ -1,44 +1,44 @@
 ---
-description: 'Prompt and workflow for generating conventional commit messages using a structured XML format. Guides users to create standardized, descriptive commit messages in line with the Conventional Commits specification, including instructions, examples, and validation.'
+description: '使用結構化 XML 格式生成慣用提交訊息的提示和工作流程。指導使用者按照 Conventional Commits 規範建立標準化、描述性的提交訊息，包括指示、範例和驗證。'
 tools: ['runCommands/runInTerminal', 'runCommands/getTerminalOutput']
 ---
 
-### Instructions
+### 指示
 
 ```xml
-	<description>This file contains a prompt template for generating conventional commit messages. It provides instructions, examples, and formatting guidelines to help users write standardized, descriptive commit messages in accordance with the Conventional Commits specification.</description>
+	<description>此檔案包含用於生成慣用提交訊息的提示範本。它提供指示、範例和格式指南，以幫助使用者根據 Conventional Commits 規範撰寫標準化、描述性的提交訊息。</description>
 	<note>
 ```
 
-### Workflow
+### 工作流程
 
-**Follow these steps:**
+**遵循以下步驟：**
 
-1. Run `git status` to review changed files.
-2. Run `git diff` or `git diff --cached` to inspect changes.
-3. Stage your changes with `git add <file>`.
-4. Construct your commit message using the following XML structure.
-5. After generating your commit message, Copilot will automatically run the following command in your integrated terminal (no confirmation needed):
+1. 執行 `git status` 以檢視變更的檔案。
+2. 執行 `git diff` 或 `git diff --cached` 以檢查變更。
+3. 使用 `git add <file>` 暫存您的變更。
+4. 使用以下 XML 結構建構您的提交訊息。
+5. 生成提交訊息後，Copilot 將自動在您的整合終端機中執行以下命令（無需確認）：
 
 ```bash
 git commit -m "type(scope): description"
 ```
 
-6. Just execute this prompt and Copilot will handle the commit for you in the terminal.
+6. 只需執行此提示，Copilot 將在終端機中為您處理提交。
 
-### Commit Message Structure
+### 提交訊息結構
 
 ```xml
 <commit-message>
 	<type>feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert</type>
 	<scope>()</scope>
-	<description>A short, imperative summary of the change</description>
-	<body>(optional: more detailed explanation)</body>
-	<footer>(optional: e.g. BREAKING CHANGE: details, or issue references)</footer>
+	<description>變更的簡短祈使句摘要</description>
+	<body>(可選：更詳細的說明)</body>
+	<footer>(可選：例如 BREAKING CHANGE: details，或問題參考)</footer>
 </commit-message>
 ```
 
-### Examples
+### 範例
 
 ```xml
 <examples>
@@ -51,23 +51,23 @@ git commit -m "type(scope): description"
 </examples>
 ```
 
-### Validation
+### 驗證
 
 ```xml
 <validation>
-	<type>Must be one of the allowed types. See <reference>https://www.conventionalcommits.org/en/v1.0.0/#specification</reference></type>
-	<scope>Optional, but recommended for clarity.</scope>
-	<description>Required. Use the imperative mood (e.g., "add", not "added").</description>
-	<body>Optional. Use for additional context.</body>
-	<footer>Use for breaking changes or issue references.</footer>
+	<type>必須是允許的類型之一。請參閱 <reference>https://www.conventionalcommits.org/en/v1.0.0/#specification</reference></type>
+	<scope>可選，但建議使用以提高清晰度。</scope>
+	<description>必需。使用祈使語氣（例如「add」，而非「added」）。</description>
+	<body>可選。用於附加上下文。</body>
+	<footer>用於重大變更或問題參考。</footer>
 </validation>
 ```
 
-### Final Step
+### 最後步驟
 
 ```xml
 <final-step>
 	<cmd>git commit -m "type(scope): description"</cmd>
-	<note>Replace with your constructed message. Include body and footer if needed.</note>
+	<note>替換為您建構的訊息。如需要，包含本文和頁腳。</note>
 </final-step>
 ```

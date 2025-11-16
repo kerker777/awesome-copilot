@@ -1,240 +1,240 @@
 ---
-description: 'Migration and code evolution instructions generator for GitHub Copilot. Analyzes differences between two project versions (branches, commits, or releases) to create precise instructions allowing Copilot to maintain consistency during technology migrations, major refactoring, or framework version upgrades.'
+description: 'GitHub Copilot 的遷移和程式碼演進指令產生器。分析兩個專案版本（分支、提交或發行版本）之間的差異，以建立精確的指令，讓 Copilot 在技術遷移、主要重構或框架版本升級期間維護一致性。'
 mode: 'agent'
 ---
 
-# Migration and Code Evolution Instructions Generator
+# 遷移和程式碼演進指令產生器
 
-## Configuration Variables
+## 設定變數
 
 ```
-${MIGRATION_TYPE="Framework Version|Architecture Refactoring|Technology Migration|Dependencies Update|Pattern Changes"}
-<!-- Type of migration or evolution -->
+${MIGRATION_TYPE="框架版本|架構重構|技術遷移|相依性更新|模式變更"}
+<!-- 遷移或演進的類型 -->
 
 ${SOURCE_REFERENCE="branch|commit|tag"}
-<!-- Source reference point (before state) -->
+<!-- 來源參考點（之前的狀態） -->
 
-${TARGET_REFERENCE="branch|commit|tag"}  
-<!-- Target reference point (after state) -->
+${TARGET_REFERENCE="branch|commit|tag"}
+<!-- 目標參考點（之後的狀態） -->
 
-${ANALYSIS_SCOPE="Entire project|Specific folder|Modified files only"}
-<!-- Scope of analysis -->
+${ANALYSIS_SCOPE="整個專案|特定資料夾|僅修改的檔案"}
+<!-- 分析範圍 -->
 
-${CHANGE_FOCUS="Breaking Changes|New Conventions|Obsolete Patterns|API Changes|Configuration"}
-<!-- Main aspect of changes -->
+${CHANGE_FOCUS="重大變更|新慣例|過時模式|API 變更|設定"}
+<!-- 變更的主要面向 -->
 
-${AUTOMATION_LEVEL="Conservative|Balanced|Aggressive"}
-<!-- Level of automation for Copilot suggestions -->
+${AUTOMATION_LEVEL="保守|平衡|積極"}
+<!-- Copilot 建議的自動化等級 -->
 
 ${GENERATE_EXAMPLES="true|false"}
-<!-- Include transformation examples -->
+<!-- 包含轉換範例 -->
 
 ${VALIDATION_REQUIRED="true|false"}
-<!-- Require validation before application -->
+<!-- 應用前需要驗證 -->
 ```
 
-## Generated Prompt
+## 產生的提示詞
 
 ```
-"Analyze code evolution between two project states to generate precise migration instructions for GitHub Copilot. These instructions will guide Copilot to automatically apply the same transformation patterns during future modifications. Follow this methodology:
+"分析兩個專案狀態之間的程式碼演進，以產生 GitHub Copilot 的精確遷移指令。這些指令將指導 Copilot 在未來的修改中自動應用相同的轉換模式。遵循此方法：
 
-### Phase 1: Comparative State Analysis
+### 階段 1：比較狀態分析
 
-#### Structural Changes Detection
-- Compare folder structure between ${SOURCE_REFERENCE} and ${TARGET_REFERENCE}
-- Identify moved, renamed, or deleted files
-- Analyze changes in configuration files
-- Document new dependencies and removed ones
+#### 結構變更偵測
+- 比較 ${SOURCE_REFERENCE} 和 ${TARGET_REFERENCE} 之間的資料夾結構
+- 識別移動、重新命名或刪除的檔案
+- 分析設定檔中的變更
+- 記錄新增和移除的相依性
 
-#### Code Transformation Analysis
-${MIGRATION_TYPE == "Framework Version" ? 
-  "- Identify API changes between framework versions
-   - Analyze new features being used
-   - Document obsolete methods/properties
-   - Note syntax or convention changes" : ""}
+#### 程式碼轉換分析
+${MIGRATION_TYPE == "框架版本" ?
+  "- 識別框架版本之間的 API 變更
+   - 分析正在使用的新功能
+   - 記錄過時的方法/屬性
+   - 記錄語法或慣例變更" : ""}
 
-${MIGRATION_TYPE == "Architecture Refactoring" ? 
-  "- Analyze architectural pattern changes
-   - Identify new abstractions introduced
-   - Document responsibility reorganization
-   - Note changes in data flows" : ""}
+${MIGRATION_TYPE == "架構重構" ?
+  "- 分析架構模式變更
+   - 識別引入的新抽象
+   - 記錄職責重組
+   - 記錄資料流變更" : ""}
 
-${MIGRATION_TYPE == "Technology Migration" ? 
-  "- Analyze replacement of one technology with another
-   - Identify functional equivalences
-   - Document API and syntax changes
-   - Note new dependencies and configurations" : ""}
+${MIGRATION_TYPE == "技術遷移" ?
+  "- 分析一種技術替換為另一種技術
+   - 識別功能等效性
+   - 記錄 API 和語法變更
+   - 記錄新的相依性和設定" : ""}
 
-#### Transformation Pattern Extraction
-- Identify repetitive transformations applied
-- Analyze conversion rules from old to new format
-- Document exceptions and special cases
-- Create before/after correspondence matrix
+#### 轉換模式提取
+- 識別應用的重複轉換
+- 分析從舊格式到新格式的轉換規則
+- 記錄例外和特殊情況
+- 建立前後對應矩陣
 
-### Phase 2: Migration Instructions Generation
+### 階段 2：遷移指令產生
 
-Create a `.github/copilot-migration-instructions.md` file with this structure:
+建立一個具有此結構的 `.github/copilot-migration-instructions.md` 檔案：
 
 \`\`\`markdown
-# GitHub Copilot Migration Instructions
+# GitHub Copilot 遷移指令
 
-## Migration Context
-- **Type**: ${MIGRATION_TYPE}
-- **From**: ${SOURCE_REFERENCE} 
-- **To**: ${TARGET_REFERENCE}
-- **Date**: [GENERATION_DATE]
-- **Scope**: ${ANALYSIS_SCOPE}
+## 遷移情境
+- **類型**：${MIGRATION_TYPE}
+- **從**：${SOURCE_REFERENCE}
+- **到**：${TARGET_REFERENCE}
+- **日期**：[GENERATION_DATE]
+- **範圍**：${ANALYSIS_SCOPE}
 
-## Automatic Transformation Rules
+## 自動轉換規則
 
-### 1. Mandatory Transformations
-${AUTOMATION_LEVEL != "Conservative" ? 
+### 1. 強制轉換
+${AUTOMATION_LEVEL != "保守" ?
   "[AUTOMATIC_TRANSFORMATION_RULES]
-   - **Old Pattern**: [OLD_CODE]
-   - **New Pattern**: [NEW_CODE]
-   - **Trigger**: When to detect this pattern
-   - **Action**: Transformation to apply automatically" : ""}
+   - **舊模式**：[OLD_CODE]
+   - **新模式**：[NEW_CODE]
+   - **觸發**：何時偵測此模式
+   - **動作**：自動應用的轉換" : ""}
 
-### 2. Transformations with Validation
-${VALIDATION_REQUIRED == "true" ? 
+### 2. 需要驗證的轉換
+${VALIDATION_REQUIRED == "true" ?
   "[TRANSFORMATIONS_WITH_VALIDATION]
-   - **Detected Pattern**: [DESCRIPTION]
-   - **Suggested Transformation**: [NEW_APPROACH]
-   - **Required Validation**: [VALIDATION_CRITERIA]
-   - **Alternatives**: [ALTERNATIVE_OPTIONS]" : ""}
+   - **偵測到的模式**：[DESCRIPTION]
+   - **建議的轉換**：[NEW_APPROACH]
+   - **所需驗證**：[VALIDATION_CRITERIA]
+   - **替代方案**：[ALTERNATIVE_OPTIONS]" : ""}
 
-### 3. API Correspondences
-${CHANGE_FOCUS == "API Changes" || MIGRATION_TYPE == "Framework Version" ? 
+### 3. API 對應
+${CHANGE_FOCUS == "API 變更" || MIGRATION_TYPE == "框架版本" ?
   "[API_CORRESPONDENCE_TABLE]
-   | Old API   | New API   | Notes     | Example        |
+   | 舊 API   | 新 API   | 備註     | 範例        |
    | --------- | --------- | --------- | -------------- |
    | [OLD_API] | [NEW_API] | [CHANGES] | [CODE_EXAMPLE] | " : ""} |
 
-### 4. New Patterns to Adopt
+### 4. 要採用的新模式
 [DETECTED_EMERGING_PATTERNS]
-- **Pattern**: [PATTERN_NAME]
-- **Usage**: [WHEN_TO_USE] 
-- **Implementation**: [HOW_TO_IMPLEMENT]
-- **Benefits**: [ADVANTAGES]
+- **模式**：[PATTERN_NAME]
+- **用法**：[WHEN_TO_USE]
+- **實作**：[HOW_TO_IMPLEMENT]
+- **優勢**：[ADVANTAGES]
 
-### 5. Obsolete Patterns to Avoid
+### 5. 要避免的過時模式
 [DETECTED_OBSOLETE_PATTERNS]
-- **Obsolete Pattern**: [OLD_PATTERN]
-- **Why Avoid**: [REASONS]
-- **Alternative**: [NEW_PATTERN]
-- **Migration**: [CONVERSION_STEPS]
+- **過時模式**：[OLD_PATTERN]
+- **為何避免**：[REASONS]
+- **替代方案**：[NEW_PATTERN]
+- **遷移**：[CONVERSION_STEPS]
 
-## File Type Specific Instructions
+## 檔案類型特定指令
 
-${GENERATE_EXAMPLES == "true" ? 
-  "### Configuration Files
+${GENERATE_EXAMPLES == "true" ?
+  "### 設定檔
    [CONFIG_TRANSFORMATION_EXAMPLES]
-   
-   ### Main Source Files
+
+   ### 主要原始檔案
    [SOURCE_TRANSFORMATION_EXAMPLES]
-   
-   ### Test Files
+
+   ### 測試檔案
    [TEST_TRANSFORMATION_EXAMPLES]" : ""}
 
-## Validation and Security
+## 驗證與安全性
 
-### Automatic Control Points
-- Verifications to perform after each transformation
-- Tests to run to validate changes
-- Performance metrics to monitor
-- Compatibility checks to perform
+### 自動控制點
+- 每次轉換後執行的驗證
+- 驗證變更要執行的測試
+- 要監控的效能指標
+- 要執行的相容性檢查
 
-### Manual Escalation
-Situations requiring human intervention:
+### 手動升級
+需要人工介入的情況：
 - [COMPLEX_CASES_LIST]
 - [ARCHITECTURAL_DECISIONS]
 - [BUSINESS_IMPACTS]
 
-## Migration Monitoring
+## 遷移監控
 
-### Tracking Metrics
-- Percentage of code automatically migrated
-- Number of manual validations required
-- Error rate of automatic transformations
-- Average migration time per file
+### 追蹤指標
+- 自動遷移的程式碼百分比
+- 所需的手動驗證數量
+- 自動轉換的錯誤率
+- 每個檔案的平均遷移時間
 
-### Error Reporting
-How to report incorrect transformations to Copilot:
-- Feedback patterns to improve rules
-- Exceptions to document
-- Adjustments to make to instructions
+### 錯誤報告
+如何向 Copilot 報告不正確的轉換：
+- 改進規則的回饋模式
+- 要記錄的例外
+- 對指令進行的調整
 
 \`\`\`
 
-### Phase 3: Contextual Examples Generation
+### 階段 3：情境範例產生
 
-${GENERATE_EXAMPLES == "true" ? 
-  "#### Transformation Examples
-   For each identified pattern, generate:
-   
+${GENERATE_EXAMPLES == "true" ?
+  "#### 轉換範例
+   對於每個識別的模式，產生：
+
    \`\`\`
-   // BEFORE (${SOURCE_REFERENCE})
+   // 之前（${SOURCE_REFERENCE}）
    [OLD_CODE_EXAMPLE]
-   
-   // AFTER (${TARGET_REFERENCE}) 
+
+   // 之後（${TARGET_REFERENCE}）
    [NEW_CODE_EXAMPLE]
-   
-   // COPILOT INSTRUCTIONS
-   When you see this pattern [TRIGGER], transform it to [NEW_PATTERN] following these steps: [STEPS]
+
+   // COPILOT 指令
+   當您看到此模式 [TRIGGER]，將其轉換為 [NEW_PATTERN]，遵循以下步驟：[STEPS]
    \`\`\`" : ""}
 
-### Phase 4: Validation and Optimization
+### 階段 4：驗證與最佳化
 
-#### Instructions Testing
-- Apply instructions on test code
-- Verify transformation consistency
-- Adjust rules based on results
-- Document exceptions and edge cases
+#### 指令測試
+- 在測試程式碼上應用指令
+- 驗證轉換一致性
+- 根據結果調整規則
+- 記錄例外和邊緣案例
 
-#### Iterative Optimization  
-${AUTOMATION_LEVEL == "Aggressive" ? 
-  "- Refine rules to maximize automation
-   - Reduce false positives in detection
-   - Improve transformation accuracy
-   - Document lessons learned" : ""}
+#### 迭代最佳化
+${AUTOMATION_LEVEL == "積極" ?
+  "- 優化規則以最大化自動化
+   - 減少偵測中的誤判
+   - 改善轉換準確性
+   - 記錄經驗教訓" : ""}
 
-### Final Result
+### 最終結果
 
-Migration instructions that enable GitHub Copilot to:
-1. **Automatically apply** the same transformations during future modifications
-2. **Maintain consistency** with newly adopted conventions  
-3. **Avoid obsolete patterns** by automatically proposing alternatives
-4. **Accelerate future migrations** by capitalizing on acquired experience
-5. **Reduce errors** by automating repetitive transformations
+遷移指令使 GitHub Copilot 能夠：
+1. **自動應用**未來修改期間的相同轉換
+2. **維護一致性**與新採用的慣例
+3. **避免過時模式**透過自動提出替代方案
+4. **加速未來遷移**透過利用獲得的經驗
+5. **減少錯誤**透過自動化重複轉換
 
-These instructions transform Copilot into an intelligent migration assistant, capable of reproducing your technology evolution decisions consistently and reliably.
+這些指令將 Copilot 轉變為智慧遷移助理，能夠一致且可靠地複製您的技術演進決策。
 "
 ```
 
-## Typical Use Cases
+## 典型使用案例
 
-### Framework Version Migration
-Perfect for documenting the transition from Angular 14 to Angular 17, React Class Components to Hooks, or .NET Framework to .NET Core. Automatically identifies breaking changes and generates corresponding transformation rules.
+### 框架版本遷移
+非常適合記錄從 Angular 14 到 Angular 17、React Class Components 到 Hooks，或 .NET Framework 到 .NET Core 的轉換。自動識別重大變更並產生相應的轉換規則。
 
-### Technology Stack Evolution  
-Essential when replacing a technology entirely: jQuery to React, REST to GraphQL, SQL to NoSQL. Creates a comprehensive migration guide with pattern mappings.
+### 技術堆疊演進
+在完全替換技術時至關重要：jQuery 到 React、REST 到 GraphQL、SQL 到 NoSQL。建立包含模式對應的全面遷移指南。
 
-### Architecture Refactoring
-Ideal for large refactorings like Monolith to Microservices, MVC to Clean Architecture, or Component to Composable architecture. Preserves architectural knowledge for future similar transformations.
+### 架構重構
+非常適合大型重構，如 Monolith 到 Microservices、MVC 到 Clean Architecture，或 Component 到 Composable 架構。為未來類似的轉換保留架構知識。
 
-### Design Pattern Modernization
-Useful for adopting new patterns: Repository Pattern, Dependency Injection, Observer to Reactive Programming. Documents the rationale and implementation differences.
+### 設計模式現代化
+用於採用新模式：Repository Pattern、Dependency Injection、Observer 到 Reactive Programming。記錄理由和實作差異。
 
-## Unique Benefits
+## 獨特優勢
 
-### 🧠 **Artificial Intelligence Enhancement**
-Unlike traditional migration documentation, these instructions "train" GitHub Copilot to reproduce your technology evolution decisions automatically during future code modifications.
+### 🧠 **人工智慧增強**
+與傳統遷移文件不同，這些指令「訓練」GitHub Copilot 在未來的程式碼修改期間自動複製您的技術演進決策。
 
-### 🔄 **Knowledge Capitalization**  
-Transforms specific project experience into reusable rules, avoiding the loss of migration expertise and accelerating future similar transformations.
+### 🔄 **知識資本化**
+將特定專案經驗轉化為可重複使用的規則，避免遷移專業知識的流失並加速未來類似的轉換。
 
-### 🎯 **Context-Aware Precision**
-Instead of generic advice, generates instructions tailored to your specific codebase, with real before/after examples from your project evolution.
+### 🎯 **情境感知精確度**
+不是泛泛的建議，而是針對您特定的程式碼庫量身訂製的指令，並包含來自專案演進的真實前後範例。
 
-### ⚡ **Automated Consistency**
-Ensures that new code additions automatically follow the new conventions, preventing architectural regression and maintaining code evolution coherence.
+### ⚡ **自動化一致性**
+確保新增的程式碼自動遵循新慣例，防止架構退化並維護程式碼演進的一致性。

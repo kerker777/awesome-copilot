@@ -1,162 +1,162 @@
 ---
-description: 'ReactJS development standards and best practices'
+description: 'ReactJS 開發標準和最佳實踐'
 applyTo: '**/*.jsx, **/*.tsx, **/*.js, **/*.ts, **/*.css, **/*.scss'
 ---
 
-# ReactJS Development Instructions
+# ReactJS 開發指引
 
-Instructions for building high-quality ReactJS applications with modern patterns, hooks, and best practices following the official React documentation at https://react.dev.
+使用現代模式、Hooks 和最佳實踐構建高品質 ReactJS 應用程式的指引，遵循 https://react.dev 的官方 React 文檔。
 
-## Project Context
-- Latest React version (React 19+)
-- TypeScript for type safety (when applicable)
-- Functional components with hooks as default
-- Follow React's official style guide and best practices
-- Use modern build tools (Vite, Create React App, or custom Webpack setup)
-- Implement proper component composition and reusability patterns
+## 專案背景
+- 最新 React 版本（React 19+）
+- TypeScript 用於型別安全（適用時）
+- 函式元件與 Hooks 作為預設選擇
+- 遵循 React 的官方風格指南和最佳實踐
+- 使用現代構建工具（Vite、Create React App 或自訂 Webpack 設定）
+- 實作適當的元件組合和可重用性模式
 
-## Development Standards
+## 開發標準
 
-### Architecture
-- Use functional components with hooks as the primary pattern
-- Implement component composition over inheritance
-- Organize components by feature or domain for scalability
-- Separate presentational and container components clearly
-- Use custom hooks for reusable stateful logic
-- Implement proper component hierarchies with clear data flow
+### 架構
+- 使用函式元件與 Hooks 作為主要模式
+- 實作元件組合而非繼承
+- 按功能或領域組織元件以實現可擴展性
+- 清楚區分展示型和容器型元件
+- 使用自訂 Hooks 實現可重用的狀態邏輯
+- 實作適當的元件層次結構，具有清晰的資料流
 
-### TypeScript Integration
-- Use TypeScript interfaces for props, state, and component definitions
-- Define proper types for event handlers and refs
-- Implement generic components where appropriate
-- Use strict mode in `tsconfig.json` for type safety
-- Leverage React's built-in types (`React.FC`, `React.ComponentProps`, etc.)
-- Create union types for component variants and states
+### TypeScript 整合
+- 使用 TypeScript 介面定義 props、state 和元件定義
+- 為事件處理器和 refs 定義適當的型別
+- 在適當的地方實作泛型元件
+- 在 `tsconfig.json` 中使用嚴格模式以確保型別安全
+- 利用 React 的內建型別（`React.FC`、`React.ComponentProps` 等）
+- 為元件變體和狀態建立聯合型別
 
-### Component Design
-- Follow the single responsibility principle for components
-- Use descriptive and consistent naming conventions
-- Implement proper prop validation with TypeScript or PropTypes
-- Design components to be testable and reusable
-- Keep components small and focused on a single concern
-- Use composition patterns (render props, children as functions)
+### 元件設計
+- 遵循元件的單一職責原則
+- 使用描述性且一致的命名慣例
+- 使用 TypeScript 或 PropTypes 實作適當的 prop 驗證
+- 設計可測試和可重用的元件
+- 保持元件小型並專注於單一關注點
+- 使用組合模式（render props、children 作為函式）
 
-### State Management
-- Use `useState` for local component state
-- Implement `useReducer` for complex state logic
-- Leverage `useContext` for sharing state across component trees
-- Consider external state management (Redux Toolkit, Zustand) for complex applications
-- Implement proper state normalization and data structures
-- Use React Query or SWR for server state management
+### 狀態管理
+- 使用 `useState` 管理本地元件狀態
+- 對複雜狀態邏輯實作 `useReducer`
+- 利用 `useContext` 在元件樹之間共享狀態
+- 考慮外部狀態管理（Redux Toolkit、Zustand）用於複雜應用程式
+- 實作適當的狀態正規化和資料結構
+- 使用 React Query 或 SWR 進行伺服器狀態管理
 
-### Hooks and Effects
-- Use `useEffect` with proper dependency arrays to avoid infinite loops
-- Implement cleanup functions in effects to prevent memory leaks
-- Use `useMemo` and `useCallback` for performance optimization when needed
-- Create custom hooks for reusable stateful logic
-- Follow the rules of hooks (only call at the top level)
-- Use `useRef` for accessing DOM elements and storing mutable values
+### Hooks 和 Effects
+- 使用 `useEffect` 並配合適當的依賴陣列以避免無限迴圈
+- 在 effects 中實作清理函式以防止記憶體洩漏
+- 在需要時使用 `useMemo` 和 `useCallback` 進行效能優化
+- 建立自訂 Hooks 以實現可重用的狀態邏輯
+- 遵循 Hooks 的規則（只在頂層呼叫）
+- 使用 `useRef` 存取 DOM 元素和儲存可變值
 
-### Styling
-- Use CSS Modules, Styled Components, or modern CSS-in-JS solutions
-- Implement responsive design with mobile-first approach
-- Follow BEM methodology or similar naming conventions for CSS classes
-- Use CSS custom properties (variables) for theming
-- Implement consistent spacing, typography, and color systems
-- Ensure accessibility with proper ARIA attributes and semantic HTML
+### 樣式
+- 使用 CSS Modules、Styled Components 或現代 CSS-in-JS 解決方案
+- 實作響應式設計，採用移動優先方法
+- 遵循 BEM 方法論或類似的 CSS 類別命名慣例
+- 使用 CSS 自訂屬性（變數）進行主題設定
+- 實作一致的間距、排版和色彩系統
+- 使用適當的 ARIA 屬性和語義 HTML 確保可訪問性
 
-### Performance Optimization
-- Use `React.memo` for component memoization when appropriate
-- Implement code splitting with `React.lazy` and `Suspense`
-- Optimize bundle size with tree shaking and dynamic imports
-- Use `useMemo` and `useCallback` judiciously to prevent unnecessary re-renders
-- Implement virtual scrolling for large lists
-- Profile components with React DevTools to identify performance bottlenecks
+### 效能優化
+- 在適當時使用 `React.memo` 進行元件記憶化
+- 使用 `React.lazy` 和 `Suspense` 實作程式碼分割
+- 透過樹搖動和動態匯入優化套件大小
+- 謹慎使用 `useMemo` 和 `useCallback` 以防止不必要的重新渲染
+- 為大型列表實作虛擬滾動
+- 使用 React DevTools 分析元件以識別效能瓶頸
 
-### Data Fetching
-- Use modern data fetching libraries (React Query, SWR, Apollo Client)
-- Implement proper loading, error, and success states
-- Handle race conditions and request cancellation
-- Use optimistic updates for better user experience
-- Implement proper caching strategies
-- Handle offline scenarios and network errors gracefully
+### 資料獲取
+- 使用現代資料獲取函式庫（React Query、SWR、Apollo Client）
+- 實作適當的載入、錯誤和成功狀態
+- 處理競態條件和請求取消
+- 使用樂觀更新以獲得更好的使用者體驗
+- 實作適當的快取策略
+- 優雅地處理離線場景和網路錯誤
 
-### Error Handling
-- Implement Error Boundaries for component-level error handling
-- Use proper error states in data fetching
-- Implement fallback UI for error scenarios
-- Log errors appropriately for debugging
-- Handle async errors in effects and event handlers
-- Provide meaningful error messages to users
+### 錯誤處理
+- 實作 Error Boundaries 進行元件級錯誤處理
+- 在資料獲取中使用適當的錯誤狀態
+- 為錯誤場景實作備用 UI
+- 適當記錄錯誤以便除錯
+- 處理 effects 和事件處理器中的非同步錯誤
+- 向使用者提供有意義的錯誤訊息
 
-### Forms and Validation
-- Use controlled components for form inputs
-- Implement proper form validation with libraries like Formik, React Hook Form
-- Handle form submission and error states appropriately
-- Implement accessibility features for forms (labels, ARIA attributes)
-- Use debounced validation for better user experience
-- Handle file uploads and complex form scenarios
+### 表單和驗證
+- 對表單輸入使用受控元件
+- 使用函式庫（如 Formik、React Hook Form）實作適當的表單驗證
+- 適當處理表單提交和錯誤狀態
+- 為表單實作可訪問性功能（標籤、ARIA 屬性）
+- 使用去抖動驗證以獲得更好的使用者體驗
+- 處理檔案上傳和複雜表單場景
 
-### Routing
-- Use React Router for client-side routing
-- Implement nested routes and route protection
-- Handle route parameters and query strings properly
-- Implement lazy loading for route-based code splitting
-- Use proper navigation patterns and back button handling
-- Implement breadcrumbs and navigation state management
+### 路由
+- 使用 React Router 進行客戶端路由
+- 實作巢狀路由和路由保護
+- 適當處理路由參數和查詢字串
+- 為基於路由的程式碼分割實作延遲載入
+- 使用適當的導航模式和返回按鈕處理
+- 實作麵包屑和導航狀態管理
 
-### Testing
-- Write unit tests for components using React Testing Library
-- Test component behavior, not implementation details
-- Use Jest for test runner and assertion library
-- Implement integration tests for complex component interactions
-- Mock external dependencies and API calls appropriately
-- Test accessibility features and keyboard navigation
+### 測試
+- 使用 React Testing Library 為元件撰寫單元測試
+- 測試元件行為，而非實作細節
+- 使用 Jest 作為測試執行器和斷言函式庫
+- 為複雜元件互動實作整合測試
+- 適當模擬外部依賴項和 API 呼叫
+- 測試可訪問性功能和鍵盤導航
 
-### Security
-- Sanitize user inputs to prevent XSS attacks
-- Validate and escape data before rendering
-- Use HTTPS for all external API calls
-- Implement proper authentication and authorization patterns
-- Avoid storing sensitive data in localStorage or sessionStorage
-- Use Content Security Policy (CSP) headers
+### 安全性
+- 清理使用者輸入以防止 XSS 攻擊
+- 在渲染之前驗證和跳脫資料
+- 對所有外部 API 呼叫使用 HTTPS
+- 實作適當的身份驗證和授權模式
+- 避免將敏感資料儲存在 localStorage 或 sessionStorage 中
+- 使用內容安全政策（CSP）標頭
 
-### Accessibility
-- Use semantic HTML elements appropriately
-- Implement proper ARIA attributes and roles
-- Ensure keyboard navigation works for all interactive elements
-- Provide alt text for images and descriptive text for icons
-- Implement proper color contrast ratios
-- Test with screen readers and accessibility tools
+### 可訪問性
+- 適當使用語義 HTML 元素
+- 實作適當的 ARIA 屬性和角色
+- 確保所有互動元素的鍵盤導航有效
+- 為圖片提供替代文字，為圖示提供描述性文字
+- 實作適當的色彩對比度
+- 使用螢幕閱讀器和可訪問性工具進行測試
 
-## Implementation Process
-1. Plan component architecture and data flow
-2. Set up project structure with proper folder organization
-3. Define TypeScript interfaces and types
-4. Implement core components with proper styling
-5. Add state management and data fetching logic
-6. Implement routing and navigation
-7. Add form handling and validation
-8. Implement error handling and loading states
-9. Add testing coverage for components and functionality
-10. Optimize performance and bundle size
-11. Ensure accessibility compliance
-12. Add documentation and code comments
+## 實作流程
+1. 規劃元件架構和資料流
+2. 設定專案結構，採用適當的資料夾組織
+3. 定義 TypeScript 介面和型別
+4. 實作核心元件並配合適當的樣式
+5. 新增狀態管理和資料獲取邏輯
+6. 實作路由和導航
+7. 新增表單處理和驗證
+8. 實作錯誤處理和載入狀態
+9. 為元件和功能新增測試覆蓋率
+10. 優化效能和套件大小
+11. 確保可訪問性合規性
+12. 新增文檔和程式碼註解
 
-## Additional Guidelines
-- Follow React's naming conventions (PascalCase for components, camelCase for functions)
-- Use meaningful commit messages and maintain clean git history
-- Implement proper code splitting and lazy loading strategies
-- Document complex components and custom hooks with JSDoc
-- Use ESLint and Prettier for consistent code formatting
-- Keep dependencies up to date and audit for security vulnerabilities
-- Implement proper environment configuration for different deployment stages
-- Use React Developer Tools for debugging and performance analysis
+## 其他指南
+- 遵循 React 的命名慣例（元件使用 PascalCase，函式使用 camelCase）
+- 使用有意義的 commit 訊息並保持乾淨的 git 歷史記錄
+- 實作適當的程式碼分割和延遲載入策略
+- 使用 JSDoc 記錄複雜元件和自訂 Hooks
+- 使用 ESLint 和 Prettier 進行一致的程式碼格式化
+- 保持依賴項最新並審查安全漏洞
+- 為不同部署階段實作適當的環境配置
+- 使用 React Developer Tools 進行除錯和效能分析
 
-## Common Patterns
-- Higher-Order Components (HOCs) for cross-cutting concerns
-- Render props pattern for component composition
-- Compound components for related functionality
-- Provider pattern for context-based state sharing
-- Container/Presentational component separation
-- Custom hooks for reusable logic extraction
+## 常見模式
+- 高階元件（HOCs）用於跨切面關注點
+- Render props 模式用於元件組合
+- 複合元件用於相關功能
+- Provider 模式用於基於上下文的狀態共享
+- 容器/展示元件分離
+- 自訂 Hooks 用於可重用邏輯提取

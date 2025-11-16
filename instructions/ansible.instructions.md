@@ -1,88 +1,88 @@
 ---
-description: 'Ansible conventions and best practices'
+description: 'Ansible 慣例和最佳實踐'
 applyTo: '**/*.yaml, **/*.yml'
 ---
 
-# Ansible Conventions and Best Practices
+# Ansible 慣例和最佳實踐
 
-## General Instructions
+## 一般指示
 
-- Use Ansible to configure and manage infrastructure.
-- Use version control for your Ansible configurations.
-- Keep things simple; only use advanced features when necessary
-- Give every play, block, and task a concise but descriptive `name`
-  - Start names with an action verb that indicates the operation being performed, such as "Install," "Configure," or "Copy"
-  - Capitalize the first letter of the task name
-  - Omit periods from the end of task names for brevity
-  - Omit the role name from role tasks; Ansible will automatically display the role name when running a role
-  - When including tasks from a separate file, you may include the filename in each task name to make tasks easier to locate (e.g., `<TASK_FILENAME> : <TASK_NAME>`)
-- Use comments to provide additional context about **what**, **how**, and/or **why** something is being done
-  - Don't include redundant comments
-- Use dynamic inventory for cloud resources
-  - Use tags to dynamically create groups based on environment, function, location, etc.
-  - Use `group_vars` to set variables based on these attributes
-- Use idempotent Ansible modules whenever possible; avoid `shell`, `command`, and `raw`, as they break idempotency
-  - If you have to use `shell` or `command`, use the `creates:` or `removes:` parameter, where feasible, to prevent unnecessary execution
-- Use [fully qualified collection names (FQCN)](https://docs.ansible.com/ansible/latest/reference_appendices/glossary.html#term-Fully-Qualified-Collection-Name-FQCN) to ensure the correct module or plugin is selected
-  - Use the `ansible.builtin` collection for [builtin modules and plugins](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/index.html#plugin-index)
-- Group related tasks together to improve readability and modularity
-- For modules where `state` is optional, explicitly set `state: present` or `state: absent` to improve clarity and consistency
-- Use the lowest privileges necessary to perform a task
-  - Only set `become: true` at the play level or on an `include:` statement, if all included tasks require super user privileges; otherwise, specify `become: true` at the task level
-  - Only set `become: true` on a task if it requires super user privileges
+- 使用 Ansible 配置和管理基礎設施。
+- 為您的 Ansible 配置使用版本控制。
+- 保持簡單；僅在必要時使用進階功能
+- 為每個 play、block 和 task 提供簡潔但具描述性的 `name`
+  - 以指示正在執行的操作的動作動詞開始名稱，例如「Install」、「Configure」或「Copy」
+  - 大寫任務名稱的第一個字母
+  - 為簡潔起見，省略任務名稱末尾的句點
+  - 從角色任務中省略角色名稱；Ansible 在執行角色時會自動顯示角色名稱
+  - 當從單獨的檔案包含任務時，您可以在每個任務名稱中包含檔案名稱以便更輕鬆地定位任務(例如，`<TASK_FILENAME> : <TASK_NAME>`)
+- 使用註解提供關於**什麼**、**如何**和/或**為什麼**正在執行某些操作的額外情境
+  - 不要包含冗餘註解
+- 對雲端資源使用動態清單
+  - 使用標籤根據環境、功能、位置等動態建立群組
+  - 使用 `group_vars` 根據這些屬性設定變數
+- 盡可能使用冪等的 Ansible 模組；避免使用 `shell`、`command` 和 `raw`，因為它們會破壞冪等性
+  - 如果必須使用 `shell` 或 `command`，請在可行的情況下使用 `creates:` 或 `removes:` 參數，以防止不必要的執行
+- 使用[完全限定集合名稱(FQCN)](https://docs.ansible.com/ansible/latest/reference_appendices/glossary.html#term-Fully-Qualified-Collection-Name-FQCN)以確保選擇正確的模組或外掛程式
+  - 對於[內建模組和外掛程式](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/index.html#plugin-index)使用 `ansible.builtin` 集合
+- 將相關任務組合在一起以提高可讀性和模組化
+- 對於 `state` 為可選的模組，明確設定 `state: present` 或 `state: absent` 以提高清晰度和一致性
+- 使用執行任務所需的最低權限
+  - 僅在 play 層級或 `include:` 陳述式上設定 `become: true`，如果所有包含的任務都需要超級使用者權限；否則，在任務層級指定 `become: true`
+  - 僅在任務需要超級使用者權限時才在任務上設定 `become: true`
 
-## Secret Management
+## 密鑰管理
 
-- When using Ansible alone, store secrets using Ansible Vault
-  - Use the following process to make it easy to find where vaulted variables are defined
-    1. Create a `group_vars/` subdirectory named after the group
-    2. Inside this subdirectory, create two files named `vars` and `vault`
-    3. In the `vars` file, define all of the variables needed, including any sensitive ones
-    4. Copy all of the sensitive variables over to the `vault` file and prefix these variables with `vault_`
-    5. Adjust the variables in the `vars` file to point to the matching `vault_` variables using Jinja2 syntax: `db_password: "{{ vault_db_password }}"`
-    6. Encrypt the `vault` file to protect its contents
-    7. Use the variable name from the `vars` file in your playbooks
-- When using other tools with Ansible (e.g., Terraform), store secrets in a third-party secrets management tool (e.g., Hashicorp Vault, AWS Secrets Manager, etc.)
-  - This allows all tools to reference a single source of truth for secrets and prevents configurations from getting out of sync
+- 單獨使用 Ansible 時，使用 Ansible Vault 儲存密鑰
+  - 使用以下流程使找到定義 vault 變數的位置變得容易
+    1. 建立一個以群組命名的 `group_vars/` 子目錄
+    2. 在此子目錄中，建立兩個名為 `vars` 和 `vault` 的檔案
+    3. 在 `vars` 檔案中，定義所需的所有變數，包括任何敏感變數
+    4. 將所有敏感變數複製到 `vault` 檔案並在這些變數前加上 `vault_`
+    5. 調整 `vars` 檔案中的變數以使用 Jinja2 語法指向匹配的 `vault_` 變數：`db_password: "{{ vault_db_password }}"`
+    6. 加密 `vault` 檔案以保護其內容
+    7. 在您的 playbook 中使用 `vars` 檔案中的變數名稱
+- 將 Ansible 與其他工具(例如 Terraform)一起使用時，將密鑰儲存在第三方密鑰管理工具(例如 Hashicorp Vault、AWS Secrets Manager 等)中
+  - 這允許所有工具參考密鑰的單一事實來源，並防止配置不同步
 
-## Style
+## 樣式
 
-- Use 2-space indentation and always indent lists
-- Separate each of the following with a single blank line:
-  - Two host blocks
-  - Two task blocks
-  - Host and include blocks
-- Use `snake_case` for variable names
-- Sort variables alphabetically when defining them in `vars:` maps or variable files
-- Always use multi-line map syntax, regardless of how many pairs exist in the map
-  - It improves readability and reduces changeset collisions for version control
-- Prefer single quotes over double quotes
-  - The only time you should use double quotes is when they are nested within single quotes (e.g. Jinja map reference), or when your string requires escaping characters (e.g., using "\n" to represent a newline)
-  - If you must write a long string, use folded block scalar syntax (i.e., `>`) to replace newlines with spaces or literal block scalar syntax (i.e., `|`) to preserve newlines; omit all special quoting
-- The `host` section of a play should follow this general order:
-  - `hosts` declaration
-  - Host options in alphabetical order (e.g., `become`, `remote_user`, `vars`)
+- 使用 2 個空格縮排並始終縮排列表
+- 在以下每項之間使用單個空行分隔：
+  - 兩個主機區塊
+  - 兩個任務區塊
+  - 主機和包含區塊
+- 對變數名稱使用 `snake_case`
+- 在 `vars:` 對應或變數檔案中定義變數時按字母順序排序
+- 始終使用多行對應語法，無論對應中存在多少對
+  - 它提高可讀性並減少版本控制的變更集衝突
+- 偏好使用單引號而不是雙引號
+  - 唯一應該使用雙引號的時候是當它們巢狀在單引號中時(例如 Jinja 對應參考)，或者當您的字串需要跳脫字元時(例如，使用「\n」表示換行)
+  - 如果必須撰寫長字串，使用摺疊區塊純量語法(即 `>`)將換行符替換為空格或文字區塊純量語法(即 `|`)以保留換行符；省略所有特殊引號
+- play 的 `host` 部分應遵循以下一般順序：
+  - `hosts` 宣告
+  - 按字母順序排列的主機選項(例如 `become`、`remote_user`、`vars`)
   - `pre_tasks`
   - `roles`
   - `tasks`
-- Each task should follow this general order:
+- 每個任務應遵循以下一般順序：
   - `name`
-  - Task declaration (e.g., `service:`, `package:`)
-  - Task parameters (using multi-line map syntax)
-  - Loop operators (e.g., `loop`)
-  - Task options in alphabetical order (e.g. `become`, `ignore_errors`, `register`)
+  - 任務宣告(例如 `service:`、`package:`)
+  - 任務參數(使用多行對應語法)
+  - 迴圈運算子(例如 `loop`)
+  - 按字母順序排列的任務選項(例如 `become`、`ignore_errors`、`register`)
   - `tags`
-- For `include` statements, quote filenames and only use blank lines between `include` statements if they are multi-line (e.g., they have tags)
+- 對於 `include` 陳述式，引用檔案名稱並僅在 `include` 陳述式是多行時(例如，它們有標籤)在它們之間使用空行
 
-## Linting
+## Lint 檢查
 
-- Use `ansible-lint` and `yamllint` to check syntax and enforce project standards
-- Use `ansible-playbook --syntax-check` to check for syntax errors
-- Use `ansible-playbook --check --diff` to perform a dry-run of playbook execution
+- 使用 `ansible-lint` 和 `yamllint` 檢查語法並強制執行專案標準
+- 使用 `ansible-playbook --syntax-check` 檢查語法錯誤
+- 使用 `ansible-playbook --check --diff` 執行 playbook 執行的模擬執行
 
-<!-- 
-These guidelines were based on, or copied from, the following sources:
+<!--
+這些指南基於或複製自以下來源：
 
-- [Ansible Documentation - Tips and Tricks](https://docs.ansible.com/ansible/latest/tips_tricks/index.html)
-- [Whitecloud Ansible Styleguide](https://github.com/whitecloud/ansible-styleguide)
+- [Ansible 文件 - 提示和技巧](https://docs.ansible.com/ansible/latest/tips_tricks/index.html)
+- [Whitecloud Ansible 樣式指南](https://github.com/whitecloud/ansible-styleguide)
 -->

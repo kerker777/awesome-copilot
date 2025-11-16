@@ -1,173 +1,173 @@
 ---
-description: 'Perform janitorial tasks on C#/.NET code including cleanup, modernization, and tech debt remediation.'
+description: '對 C#/.NET 程式碼執行維護任務，包括清理、現代化和技術債務修復。'
 tools: ['codebase', 'edit/editFiles', 'search', 'runCommands', 'runTasks', 'runTests', 'problems', 'changes', 'usages', 'findTestFiles', 'testFailure', 'terminalLastCommand', 'terminalSelection', 'fetch', 'microsoft.docs.mcp']
 ---
 
-# .NET Upgrade Collection
+# .NET 升級集合
 
-.NET Framework upgrade specialist for comprehensive project migration
+.NET Framework 升級專家，用於全面的專案遷移
 
-**Tags:** dotnet, upgrade, migration, framework, modernization
+**標籤：** dotnet, 升級, 遷移, 框架, 現代化
 
-## Collection Usage
+## 集合使用方式
 
-### .NET Upgrade Chat Mode
+### .NET 升級聊天模式
 
-Discover and plan your .NET upgrade journey!
+探索並規劃您的 .NET 升級之旅！
 
 ```markdown, upgrade-analysis.prompt.md
 ---
 mode: dotnet-upgrade
-title: Analyze current .NET framework versions and create upgrade plan
+title: 分析當前 .NET 框架版本並建立升級計劃
 ---
-Analyze the repository and list each project's current TargetFramework 
-along with the latest available LTS version from Microsoft's release schedule.
-Create an upgrade strategy prioritizing least-dependent projects first.
+分析儲存庫並列出每個專案的當前 TargetFramework
+以及從 Microsoft 發布排程中取得的最新可用 LTS 版本。
+建立升級策略，優先處理依賴性最少的專案。
 ```
 
-The upgrade chat mode automatically adapts to your repository's current .NET version and provides context-aware upgrade guidance to the next stable version.
+升級聊天模式會自動適應您儲存庫的當前 .NET 版本，並提供符合情境的升級指導至下一個穩定版本。
 
-It will help you:
-- Auto-detect current .NET versions across all projects
-- Generate optimal upgrade sequences
-- Identify breaking changes and modernization opportunities
-- Create per-project upgrade flows
-
----
-
-### .NET Upgrade Instructions
-
-Execute comprehensive .NET framework upgrades with structured guidance!
-
-The instructions provide:
-- Sequential upgrade strategies
-- Dependency analysis and sequencing
-- Framework targeting and code adjustments
-- NuGet and dependency management
-- CI/CD pipeline updates
-- Testing and validation procedures
-
-Use these instructions when implementing upgrade plans to ensure proper execution and validation.
+它將協助您：
+- 自動檢測所有專案中的當前 .NET 版本
+- 產生最佳升級順序
+- 識別重大變更和現代化機會
+- 建立每個專案的升級流程
 
 ---
 
-### .NET Upgrade Prompts
+### .NET 升級說明
 
-Quick access to specialized upgrade analysis prompts!
+使用結構化指導執行全面的 .NET 框架升級！
 
-The prompts collection includes ready-to-use queries for:
-- Project discovery and assessment
-- Upgrade strategy and sequencing
-- Framework targeting and code adjustments
-- Breaking change analysis
-- CI/CD pipeline updates
-- Final validation and delivery
+這些說明提供：
+- 順序升級策略
+- 依賴性分析和排序
+- 框架目標和程式碼調整
+- NuGet 和依賴性管理
+- CI/CD 管道更新
+- 測試和驗證程序
 
-Use these prompts for targeted analysis of specific upgrade aspects.
-
----
-
-## Quick Start
-1. Run a discovery pass to enumerate all `*.sln` and `*.csproj` files in the repository.
-2. Detect the current .NET version(s) used across projects.
-3. Identify the latest available stable .NET version (LTS preferred) — usually `+2` years ahead of the existing version.
-4. Generate an upgrade plan to move from current → next stable version (e.g., `net6.0 → net8.0`, or `net7.0 → net9.0`).
-5. Upgrade one project at a time, validate builds, update tests, and modify CI/CD accordingly.
+在實施升級計劃時使用這些說明，以確保正確執行和驗證。
 
 ---
 
-## Auto-Detect Current .NET Version
-To automatically detect the current framework versions across the solution:
+### .NET 升級提示
+
+快速存取專業升級分析提示！
+
+提示集合包括可立即使用的查詢：
+- 專案探索和評估
+- 升級策略和排序
+- 框架目標和程式碼調整
+- 重大變更分析
+- CI/CD 管道更新
+- 最終驗證和交付
+
+使用這些提示來針對特定升級層面進行有針對性的分析。
+
+---
+
+## 快速開始
+1. 執行探索階段，列舉儲存庫中所有 `*.sln` 和 `*.csproj` 檔案。
+2. 檢測專案中使用的當前 .NET 版本。
+3. 識別最新可用的穩定 .NET 版本（優先選擇 LTS）— 通常比現有版本領先 `+2` 年。
+4. 產生升級計劃，從當前版本升級至下一個穩定版本（例如，`net6.0 → net8.0`，或 `net7.0 → net9.0`）。
+5. 一次升級一個專案，驗證建置、更新測試，並相應地修改 CI/CD。
+
+---
+
+## 自動檢測當前 .NET 版本
+要自動檢測解決方案中的當前框架版本：
 
 ```bash
-# 1. Check global SDKs installed
+# 1. 檢查已安裝的全域 SDK
 dotnet --list-sdks
 
-# 2. Detect project-level TargetFrameworks
+# 2. 檢測專案層級的 TargetFrameworks
 find . -name "*.csproj" -exec grep -H "<TargetFramework" {} \;
 
-# 3. Optional: summarize unique framework versions
+# 3. 可選：彙總獨特的框架版本
 grep -r "<TargetFramework" **/*.csproj | sed 's/.*<TargetFramework>//;s/<\/TargetFramework>//' | sort | uniq
 
-# 4. Verify runtime environment
+# 4. 驗證執行環境
 dotnet --info | grep "Version"
 ```
 
-**Chat Prompt:**
-> "Analyze the repository and list each project’s current TargetFramework along with the latest available LTS version from Microsoft’s release schedule."
+**聊天提示：**
+> "分析儲存庫並列出每個專案的當前 TargetFramework 以及從 Microsoft 發布排程中取得的最新可用 LTS 版本。"
 
 ---
 
-## Discovery & Analysis Commands
+## 探索與分析命令
 ```bash
-# List all projects
+# 列出所有專案
 dotnet sln list
 
-# Check current target frameworks for each project
+# 檢查每個專案的當前目標框架
 grep -H "TargetFramework" **/*.csproj
 
-# Check outdated packages
+# 檢查過時的套件
 dotnet list <ProjectName>.csproj package --outdated
 
-# Generate dependency graph
+# 產生依賴性圖表
 dotnet msbuild <ProjectName>.csproj /t:GenerateRestoreGraphFile /p:RestoreGraphOutputPath=graph.json
 ```
 
-**Chat Prompt:**
-> "Analyze the solution and summarize each project’s current TargetFramework and suggest the appropriate next LTS upgrade version."
+**聊天提示：**
+> "分析解決方案並彙總每個專案的當前 TargetFramework，並建議適當的下一個 LTS 升級版本。"
 
 ---
 
-## Classification Rules
-- `TargetFramework` starts with `netcoreapp`, `net5.0+`, `net6.0+`, etc. → **Modern .NET**
-- `netstandard*` → **.NET Standard** (migrate to current .NET version)
-- `net4*` → **.NET Framework** (migrate via intermediate step to .NET 6+)
+## 分類規則
+- `TargetFramework` 以 `netcoreapp`、`net5.0+`、`net6.0+` 等開頭 → **現代 .NET**
+- `netstandard*` → **.NET Standard**（遷移至當前 .NET 版本）
+- `net4*` → **.NET Framework**（透過中間步驟遷移至 .NET 6+）
 
 ---
 
-## Upgrade Sequence
-1. **Start with Independent Libraries:** Least dependent class libraries first.
-2. **Next:** Shared components and common utilities.
-3. **Then:** API, Web, or Function projects.
-4. **Finally:** Tests, integration points, and pipelines.
+## 升級順序
+1. **從獨立函式庫開始：** 優先處理依賴性最少的類別函式庫。
+2. **接下來：** 共用元件和通用工具程式。
+3. **然後：** API、Web 或 Function 專案。
+4. **最後：** 測試、整合點和管道。
 
-**Chat Prompt:**
-> "Generate the optimal upgrade order for this repository, prioritizing least-dependent projects first."
+**聊天提示：**
+> "為此儲存庫產生最佳升級順序，優先處理依賴性最少的專案。"
 
 ---
 
-## Per-Project Upgrade Flow
-1. **Create branch:** `upgrade/<project>-to-<targetVersion>`
-2. **Edit `<TargetFramework>`** in `.csproj` to the suggested version (e.g., `net9.0`)
-3. **Restore & update packages:**
+## 每個專案的升級流程
+1. **建立分支：** `upgrade/<project>-to-<targetVersion>`
+2. **編輯 `<TargetFramework>`** 在 `.csproj` 中至建議的版本（例如，`net9.0`）
+3. **還原和更新套件：**
    ```bash
    dotnet restore
    dotnet list package --outdated
    dotnet add package <PackageName> --version <LatestVersion>
    ```
-4. **Build & test:**
+4. **建置和測試：**
    ```bash
    dotnet build <ProjectName>.csproj
    dotnet test <ProjectName>.Tests.csproj
    ```
-5. **Fix issues** — resolve deprecated APIs, adjust configurations, modernize JSON/logging/DI.
-6. **Commit & push** PR with test evidence and checklist.
+5. **修復問題** — 解決已棄用的 API、調整配置、現代化 JSON/日誌/DI。
+6. **提交並推送** PR，附上測試證據和檢查清單。
 
 ---
 
-## Breaking Changes & Modernization
-- Use `.NET Upgrade Assistant` for initial recommendations.
-- Apply analyzers to detect obsolete APIs.
-- Replace outdated SDKs (e.g., `Microsoft.Azure.*` → `Azure.*`).
-- Modernize startup logic (`Startup.cs` → `Program.cs` top-level statements).
+## 重大變更與現代化
+- 使用 `.NET Upgrade Assistant` 取得初步建議。
+- 應用分析器來檢測過時的 API。
+- 替換過時的 SDK（例如，`Microsoft.Azure.*` → `Azure.*`）。
+- 現代化啟動邏輯（`Startup.cs` → `Program.cs` 頂層陳述式）。
 
-**Chat Prompt:**
-> "List deprecated or incompatible APIs when upgrading from <currentVersion> to <targetVersion> for <ProjectName>."
+**聊天提示：**
+> "列出從 <currentVersion> 升級到 <targetVersion> 時 <ProjectName> 已棄用或不相容的 API。"
 
 ---
 
-## CI/CD Configuration Updates
-Ensure pipelines use the detected **target version** dynamically:
+## CI/CD 配置更新
+確保管道動態使用檢測到的**目標版本**：
 
 **Azure DevOps**
 ```yaml
@@ -186,37 +186,37 @@ Ensure pipelines use the detected **target version** dynamically:
 
 ---
 
-## Validation Checklist
-- [ ] TargetFramework upgraded to next stable version
-- [ ] All NuGet packages compatible and updated
-- [ ] Build and test pipelines succeed locally and in CI
-- [ ] Integration tests pass
-- [ ] Deployed to a lower environment and verified
+## 驗證檢查清單
+- [ ] TargetFramework 已升級至下一個穩定版本
+- [ ] 所有 NuGet 套件相容且已更新
+- [ ] 建置和測試管道在本地和 CI 中成功執行
+- [ ] 整合測試通過
+- [ ] 已部署至較低環境並驗證
 
 ---
 
-## Branching & Rollback Strategy
-- Use feature branches: `upgrade/<project>-to-<targetVersion>`
-- Commit frequently and keep changes atomic
-- If CI fails after merge, revert PR and isolate failing modules
+## 分支與回滾策略
+- 使用功能分支：`upgrade/<project>-to-<targetVersion>`
+- 經常提交並保持變更原子性
+- 如果 CI 在合併後失敗，回滾 PR 並隔離失敗的模組
 
-**Chat Prompt:**
-> "Suggest a rollback and validation plan if the .NET upgrade for <ProjectName> introduces build or runtime regressions."
-
----
-
-## Automation & Scaling
-- Automate upgrade detection with GitHub Actions or Azure Pipelines.
-- Schedule nightly runs to check for new .NET releases via `dotnet --list-sdks`.
-- Use agents to automatically raise PRs for outdated frameworks.
+**聊天提示：**
+> "如果 <ProjectName> 的 .NET 升級引入建置或執行時回歸，建議回滾和驗證計劃。"
 
 ---
 
-## Chatmode Prompt Library
-1. "List all projects with current and recommended .NET versions."
-2. "Generate a per-project upgrade plan from <currentVersion> to <targetVersion>."
-3. "Suggest .csproj and pipeline edits to upgrade <ProjectName>."
-4. "Summarize build/test results post-upgrade for <ProjectName>."
-5. "Create PR description and checklist for the upgrade."
+## 自動化與擴展
+- 使用 GitHub Actions 或 Azure Pipelines 自動檢測升級。
+- 排程每晚執行，透過 `dotnet --list-sdks` 檢查新的 .NET 發布。
+- 使用代理自動為過時的框架提出 PR。
+
+---
+
+## 聊天模式提示庫
+1. "列出所有專案的當前和建議 .NET 版本。"
+2. "產生從 <currentVersion> 到 <targetVersion> 的每個專案升級計劃。"
+3. "建議 .csproj 和管道編輯以升級 <ProjectName>。"
+4. "彙總 <ProjectName> 升級後的建置/測試結果。"
+5. "建立升級的 PR 描述和檢查清單。"
 
 ---

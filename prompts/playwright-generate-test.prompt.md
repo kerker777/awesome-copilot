@@ -1,19 +1,19 @@
 ---
 mode: agent
-description: 'Generate a Playwright test based on a scenario using Playwright MCP'
+description: '使用 Playwright MCP 根據情境產生 Playwright 測試'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'fetch', 'problems', 'runCommands', 'runTasks', 'runTests', 'search', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection', 'testFailure', 'playwright/*']
 model: 'Claude Sonnet 4.5'
 ---
 
-# Test Generation with Playwright MCP
+# 使用 Playwright MCP 產生測試
 
-Your goal is to generate a Playwright test based on the provided scenario after completing all prescribed steps.
+您的目標是在完成所有規定的步驟後，根據提供的情境產生 Playwright 測試。
 
-## Specific Instructions
+## 具體指示
 
-- You are given a scenario, and you need to generate a playwright test for it. If the user does not provide a scenario, you will ask them to provide one.
-- DO NOT generate test code prematurely or based solely on the scenario without completing all prescribed steps.
-- DO run steps one by one using the tools provided by the Playwright MCP.
-- Only after all steps are completed, emit a Playwright TypeScript test that uses `@playwright/test` based on message history
-- Save generated test file in the tests directory
-- Execute the test file and iterate until the test passes
+- 您會獲得一個情境，您需要為其產生 playwright 測試。如果使用者未提供情境，您將要求他們提供一個。
+- 不要過早產生測試程式碼，或僅根據情境而未完成所有規定的步驟就產生程式碼。
+- 一定要使用 Playwright MCP 提供的工具逐步執行步驟。
+- 僅在完成所有步驟後，才根據訊息歷史記錄發出使用 `@playwright/test` 的 Playwright TypeScript 測試
+- 將產生的測試檔案儲存在 tests 目錄中
+- 執行測試檔案並迭代直到測試通過

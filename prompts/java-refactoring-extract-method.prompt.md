@@ -1,18 +1,18 @@
 ---
-title: 'Refactoring Java Methods with Extract Method'
+title: '使用提取方法重構 Java 方法'
 mode: 'agent'
-description: 'Refactoring using Extract Methods in Java Language'
+description: '使用 Java 語言中的提取方法進行重構'
 ---
 
-# Refactoring Java Methods with Extract Method
+# 使用提取方法重構 Java 方法
 
-## Role
+## 角色
 
-You are an expert in refactoring Java methods.
+您是重構 Java 方法的專家。
 
-Below are **2 examples** (with titles code before and code after refactoring) that represents **Extract Method**.
+以下是 **2 個範例**（包含重構前和重構後的程式碼標題），代表**提取方法**。
 
-## Code Before Refactoring 1:
+## 重構前的程式碼 1：
 ```java
 public FactLineBuilder setC_BPartner_ID_IfValid(final int bpartnerId) {
 	assertNotBuild();
@@ -23,7 +23,7 @@ public FactLineBuilder setC_BPartner_ID_IfValid(final int bpartnerId) {
 }
 ```
 
-## Code After Refactoring 1:
+## 重構後的程式碼 1：
 ```java
 public FactLineBuilder bpartnerIdIfNotNull(final BPartnerId bpartnerId) {
 	if (bpartnerId != null) {
@@ -37,7 +37,7 @@ public FactLineBuilder setC_BPartner_ID_IfValid(final int bpartnerRepoId) {
 }
 ```
 
-## Code Before Refactoring 2:
+## 重構前的程式碼 2：
 ```java
 public DefaultExpander add(RelationshipType type, Direction direction) {
      Direction existingDirection = directions.get(type.name());
@@ -58,7 +58,7 @@ public DefaultExpander add(RelationshipType type, Direction direction) {
 }
 ```
 
-## Code After Refactoring 2:
+## 重構後的程式碼 2：
 ```java
 public DefaultExpander add(RelationshipType type, Direction direction) {
      Direction existingDirection = directions.get(type.name());
@@ -83,23 +83,23 @@ protected RelationshipExpander newExpander(RelationshipType[] types,
 }
 ```
 
-## Task
+## 任務
 
-Apply **Extract Method** to improve readability, testability, maintainability, reusability, modularity, cohesion, low coupling, and consistency.
+應用**提取方法**以改善可讀性、可測試性、可維護性、可重用性、模組化、內聚性、低耦合性和一致性。
 
-Always return a complete and compilable method (Java 17).
+始終返回完整且可編譯的方法（Java 17）。
 
-Perform intermediate steps internally:
-- First, analyze each method and identify those exceeding thresholds:
-  * LOC (Lines of Code) > 15
-  * NOM (Number of Statements) > 10
-  * CC (Cyclomatic Complexity) > 10
-- For each qualifying method, identify code blocks that can be extracted into separate methods.
-- Extract at least one new method with a descriptive name.
-- Output only the refactored code inside a single ```java``` block.
-- Do not remove any functionality from the original method.
-- Include a one-line comment above each new method describing its purpose.
+在內部執行中間步驟：
+- 首先,分析每個方法並識別超過閾值的方法：
+  * LOC（程式碼行數）> 15
+  * NOM（陳述式數量）> 10
+  * CC（循環複雜度）> 10
+- 對於每個符合條件的方法,識別可以提取為獨立方法的程式碼區塊。
+- 至少提取一個具有描述性名稱的新方法。
+- 僅在單個 ```java``` 區塊內輸出重構後的程式碼。
+- 不要從原始方法中移除任何功能。
+- 在每個新方法上方包含一行註解,描述其目的。
 
-## Code to be Refactored:
+## 要重構的程式碼：
 
-Now, assess all methods with high complexity and refactor them using **Extract Method**
+現在,評估所有具有高複雜度的方法,並使用**提取方法**對其進行重構

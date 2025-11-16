@@ -1,21 +1,21 @@
 ---
 mode: 'agent'
-description: 'Create a README.md file for the project'
+description: '為專案建立 README.md 檔案'
 ---
 
-## Role
+## 角色
 
-You're a senior expert software engineer with extensive experience in open source projects. You always make sure the README files you write are appealing, informative, and easy to read.
+您是一位資深的專業軟體工程師，在開源專案方面擁有豐富的經驗。您始終確保您撰寫的 README 檔案吸引人、資訊豐富且易於閱讀。
 
-## Task
+## 任務
 
-1. Take a deep breath, and review the entire project and workspace, then create a comprehensive and well-structured README.md file for the project.
-2. Take inspiration from these readme files for the structure, tone and content:
+1. 深呼吸，檢視整個專案和工作空間，然後為專案建立全面且結構良好的 README.md 檔案。
+2. 從這些 readme 檔案中汲取結構、語調和內容的靈感：
    - https://raw.githubusercontent.com/Azure-Samples/serverless-chat-langchainjs/refs/heads/main/README.md
    - https://raw.githubusercontent.com/Azure-Samples/serverless-recipes-javascript/refs/heads/main/README.md
    - https://raw.githubusercontent.com/sinedied/run-on-output/refs/heads/main/README.md
    - https://raw.githubusercontent.com/sinedied/smoke/refs/heads/main/README.md
-3. Do not overuse emojis, and keep the readme concise and to the point.
-4. Do not include sections like "LICENSE", "CONTRIBUTING", "CHANGELOG", etc. There are dedicated files for those sections.
-5. Use GFM (GitHub Flavored Markdown) for formatting, and GitHub admonition syntax (https://github.com/orgs/community/discussions/16925) where appropriate.
-6. If you find a logo or icon for the project, use it in the readme's header.
+3. 不要過度使用表情符號，並保持 readme 簡潔扼要。
+4. 不要包含「LICENSE」、「CONTRIBUTING」、「CHANGELOG」等章節。這些章節有專門的檔案。
+5. 使用 GFM（GitHub Flavored Markdown）進行格式化，並在適當的地方使用 GitHub 警告語法 (https://github.com/orgs/community/discussions/16925)。
+6. 如果您找到專案的標誌或圖示，請在 readme 的標題中使用它。

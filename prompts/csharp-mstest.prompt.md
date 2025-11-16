@@ -1,67 +1,67 @@
 ---
 mode: 'agent'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'problems', 'search']
-description: 'Get best practices for MSTest unit testing, including data-driven tests'
+description: '取得 MSTest 單元測試的最佳實踐，包括資料驅動測試'
 ---
 
-# MSTest Best Practices
+# MSTest 最佳實踐
 
-Your goal is to help me write effective unit tests with MSTest, covering both standard and data-driven testing approaches.
+您的目標是協助我使用 MSTest 撰寫有效的單元測試，涵蓋標準和資料驅動測試方法。
 
-## Project Setup
+## 專案設定
 
-- Use a separate test project with naming convention `[ProjectName].Tests`
-- Reference MSTest package
-- Create test classes that match the classes being tested (e.g., `CalculatorTests` for `Calculator`)
-- Use .NET SDK test commands: `dotnet test` for running tests
+- 使用單獨的測試專案，命名慣例為 `[專案名稱].Tests`
+- 參考 MSTest 套件
+- 建立與被測試類別相符的測試類別（例如，`Calculator` 對應 `CalculatorTests`）
+- 使用 .NET SDK 測試命令：`dotnet test` 執行測試
 
-## Test Structure
+## 測試結構
 
-- Use `[TestClass]` attribute for test classes
-- Use `[TestMethod]` attribute for test methods
-- Follow the Arrange-Act-Assert (AAA) pattern
-- Name tests using the pattern `MethodName_Scenario_ExpectedBehavior`
-- Use `[TestInitialize]` and `[TestCleanup]` for per-test setup and teardown
-- Use `[ClassInitialize]` and `[ClassCleanup]` for per-class setup and teardown
-- Use `[AssemblyInitialize]` and `[AssemblyCleanup]` for assembly-level setup and teardown
+- 在測試類別上使用 `[TestClass]` 屬性
+- 在測試方法上使用 `[TestMethod]` 屬性
+- 遵循 Arrange-Act-Assert (AAA) 模式
+- 使用 `方法名稱_情境_預期行為` 模式命名測試
+- 使用 `[TestInitialize]` 和 `[TestCleanup]` 進行每個測試的設定和清理
+- 使用 `[ClassInitialize]` 和 `[ClassCleanup]` 進行每個類別的設定和清理
+- 使用 `[AssemblyInitialize]` 和 `[AssemblyCleanup]` 進行組件層級的設定和清理
 
-## Standard Tests
+## 標準測試
 
-- Keep tests focused on a single behavior
-- Avoid testing multiple behaviors in one test method
-- Use clear assertions that express intent
-- Include only the assertions needed to verify the test case
-- Make tests independent and idempotent (can run in any order)
-- Avoid test interdependencies
+- 保持測試專注於單一行為
+- 避免在一個測試方法中測試多個行為
+- 使用表達意圖的清晰斷言
+- 僅包含驗證測試案例所需的斷言
+- 使測試獨立且具有冪等性（可以任意順序執行）
+- 避免測試相依性
 
-## Data-Driven Tests
+## 資料驅動測試
 
-- Use `[TestMethod]` combined with data source attributes
-- Use `[DataRow]` for inline test data
-- Use `[DynamicData]` for programmatically generated test data
-- Use `[TestProperty]` to add metadata to tests
-- Use meaningful parameter names in data-driven tests
+- 將 `[TestMethod]` 與資料來源屬性結合使用
+- 使用 `[DataRow]` 提供行內測試資料
+- 使用 `[DynamicData]` 提供程式化產生的測試資料
+- 使用 `[TestProperty]` 為測試新增中繼資料
+- 在資料驅動測試中使用有意義的參數名稱
 
-## Assertions
+## 斷言
 
-- Use `Assert.AreEqual` for value equality
-- Use `Assert.AreSame` for reference equality
-- Use `Assert.IsTrue`/`Assert.IsFalse` for boolean conditions
-- Use `CollectionAssert` for collection comparisons
-- Use `StringAssert` for string-specific assertions
-- Use `Assert.Throws<T>` to test exceptions
-- Ensure assertions are simple in nature and have a message provided for clarity on failure
+- 使用 `Assert.AreEqual` 進行值相等性比較
+- 使用 `Assert.AreSame` 進行參考相等性比較
+- 使用 `Assert.IsTrue`/`Assert.IsFalse` 進行布林條件判斷
+- 使用 `CollectionAssert` 進行集合比較
+- 使用 `StringAssert` 進行字串特定斷言
+- 使用 `Assert.Throws<T>` 測試例外
+- 確保斷言本質上簡單，並提供訊息以便在失敗時清楚說明
 
-## Mocking and Isolation
+## 模擬和隔離
 
-- Consider using Moq or NSubstitute alongside MSTest
-- Mock dependencies to isolate units under test
-- Use interfaces to facilitate mocking
-- Consider using a DI container for complex test setups
+- 考慮搭配 MSTest 使用 Moq 或 NSubstitute
+- 模擬相依性以隔離待測單元
+- 使用介面來促進模擬
+- 對於複雜的測試設定，考慮使用 DI 容器
 
-## Test Organization
+## 測試組織
 
-- Group tests by feature or component
-- Use test categories with `[TestCategory("Category")]`
-- Use test priorities with `[Priority(1)]` for critical tests
-- Use `[Owner("DeveloperName")]` to indicate ownership
+- 按功能或元件分組測試
+- 使用 `[TestCategory("分類")]` 進行測試分類
+- 使用 `[Priority(1)]` 標記關鍵測試的優先順序
+- 使用 `[Owner("開發者名稱")]` 表示擁有者

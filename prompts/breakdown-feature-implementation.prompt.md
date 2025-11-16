@@ -1,23 +1,23 @@
 ---
 mode: 'agent'
-description: 'Prompt for creating detailed feature implementation plans, following Epoch monorepo structure.'
+description: '用於創建詳細功能實作計劃的提示，遵循 Epoch monorepo 結構。'
 ---
 
-# Feature Implementation Plan Prompt
+# 功能實作計劃提示
 
-## Goal
+## 目標
 
-Act as an industry-veteran software engineer responsible for crafting high-touch features for large-scale SaaS companies. Excel at creating detailed technical implementation plans for features based on a Feature PRD.
-Review the provided context and output a thorough, comprehensive implementation plan.
-**Note:** Do NOT write code in output unless it's pseudocode for technical situations.
+擔任為大型 SaaS 公司打造高品質功能的資深軟體工程師。擅長根據功能 PRD 創建詳細的技術實作計劃。
+審查提供的上下文並輸出全面、綜合的實作計劃。
+**注意：** 除非是用於技術情況的偽代碼，否則不要在輸出中撰寫程式碼。
 
-## Output Format
+## 輸出格式
 
-The output should be a complete implementation plan in Markdown format, saved to `/docs/ways-of-work/plan/{epic-name}/{feature-name}/implementation-plan.md`.
+輸出應該是一個完整的實作計劃，以 Markdown 格式保存到 `/docs/ways-of-work/plan/{epic-name}/{feature-name}/implementation-plan.md`。
 
-### File System
+### 檔案系統
 
-Folder and file structure for both front-end and back-end repositories following Epoch's monorepo structure:
+遵循 Epoch monorepo 結構的前端和後端儲存庫的資料夾和檔案結構：
 
 ```
 apps/
@@ -28,101 +28,101 @@ packages/
   [package-name]/
 ```
 
-### Implementation Plan
+### 實作計劃
 
-For each feature:
+對於每個功能：
 
-#### Goal
+#### 目標
 
-Feature goal described (3-5 sentences)
+描述功能目標（3-5 句）
 
-#### Requirements
+#### 需求
 
-- Detailed feature requirements (bulleted list)
-- Implementation plan specifics
+- 詳細的功能需求（項目符號列表）
+- 實作計劃細節
 
-#### Technical Considerations
+#### 技術考量
 
-##### System Architecture Overview
+##### 系統架構概述
 
-Create a comprehensive system architecture diagram using Mermaid that shows how this feature integrates into the overall system. The diagram should include:
+使用 Mermaid 創建一個全面的系統架構圖，展示此功能如何整合到整體系統中。圖表應包括：
 
-- **Frontend Layer**: User interface components, state management, and client-side logic
-- **API Layer**: tRPC endpoints, authentication middleware, input validation, and request routing
-- **Business Logic Layer**: Service classes, business rules, workflow orchestration, and event handling
-- **Data Layer**: Database interactions, caching mechanisms, and external API integrations
-- **Infrastructure Layer**: Docker containers, background services, and deployment components
+- **前端層**：使用者介面元件、狀態管理和客戶端邏輯
+- **API 層**：tRPC 端點、驗證中介軟體、輸入驗證和請求路由
+- **業務邏輯層**：服務類別、業務規則、工作流程編排和事件處理
+- **資料層**：資料庫互動、快取機制和外部 API 整合
+- **基礎設施層**：Docker 容器、背景服務和部署元件
 
-Use subgraphs to organize these layers clearly. Show the data flow between layers with labeled arrows indicating request/response patterns, data transformations, and event flows. Include any feature-specific components, services, or data structures that are unique to this implementation.
+使用子圖清楚地組織這些層次。使用標記箭頭顯示層次之間的資料流，指示請求/回應模式、資料轉換和事件流。包括此實作獨有的任何功能特定元件、服務或資料結構。
 
-- **Technology Stack Selection**: Document choice rationale for each layer
+- **技術堆疊選擇**：記錄每層的選擇理由
 ```
 
-- **Technology Stack Selection**: Document choice rationale for each layer
-- **Integration Points**: Define clear boundaries and communication protocols
-- **Deployment Architecture**: Docker containerization strategy
-- **Scalability Considerations**: Horizontal and vertical scaling approaches
+- **技術堆疊選擇**：記錄每層的選擇理由
+- **整合點**：定義清晰的邊界和通訊協定
+- **部署架構**：Docker 容器化策略
+- **可擴展性考量**：水平和垂直擴展方法
 
-##### Database Schema Design
+##### 資料庫架構設計
 
-Create an entity-relationship diagram using Mermaid showing the feature's data model:
+使用 Mermaid 創建實體關係圖，展示功能的資料模型：
 
-- **Table Specifications**: Detailed field definitions with types and constraints
-- **Indexing Strategy**: Performance-critical indexes and their rationale
-- **Foreign Key Relationships**: Data integrity and referential constraints
-- **Database Migration Strategy**: Version control and deployment approach
+- **資料表規格**：詳細的欄位定義，包含類型和約束
+- **索引策略**：效能關鍵索引及其理由
+- **外鍵關係**：資料完整性和參照約束
+- **資料庫遷移策略**：版本控制和部署方法
 
-##### API Design
+##### API 設計
 
-- Endpoints with full specifications
-- Request/response formats with TypeScript types
-- Authentication and authorization with Stack Auth
-- Error handling strategies and status codes
-- Rate limiting and caching strategies
+- 具有完整規格的端點
+- 請求/回應格式與 TypeScript 類型
+- 使用 Stack Auth 的驗證和授權
+- 錯誤處理策略和狀態碼
+- 速率限制和快取策略
 
-##### Frontend Architecture
+##### 前端架構
 
-###### Component Hierarchy Documentation
+###### 元件階層文件
 
-The component structure will leverage the `shadcn/ui` library for a consistent and accessible foundation.
+元件結構將利用 `shadcn/ui` 函式庫作為一致且易於存取的基礎。
 
-**Layout Structure:**
+**版面結構：**
 
 ```
-Recipe Library Page
-├── Header Section (shadcn: Card)
-│   ├── Title (shadcn: Typography `h1`)
-│   ├── Add Recipe Button (shadcn: Button with DropdownMenu)
-│   │   ├── Manual Entry (DropdownMenuItem)
-│   │   ├── Import from URL (DropdownMenuItem)
-│   │   └── Import from PDF (DropdownMenuItem)
-│   └── Search Input (shadcn: Input with icon)
-├── Main Content Area (flex container)
-│   ├── Filter Sidebar (aside)
-│   │   ├── Filter Title (shadcn: Typography `h4`)
-│   │   ├── Category Filters (shadcn: Checkbox group)
-│   │   ├── Cuisine Filters (shadcn: Checkbox group)
-│   │   └── Difficulty Filters (shadcn: RadioGroup)
-│   └── Recipe Grid (main)
-│       └── Recipe Card (shadcn: Card)
-│           ├── Recipe Image (img)
-│           ├── Recipe Title (shadcn: Typography `h3`)
-│           ├── Recipe Tags (shadcn: Badge)
-│           └── Quick Actions (shadcn: Button - View, Edit)
+食譜庫頁面
+├── 標題區段（shadcn: Card）
+│   ├── 標題（shadcn: Typography `h1`）
+│   ├── 新增食譜按鈕（shadcn: Button with DropdownMenu）
+│   │   ├── 手動輸入（DropdownMenuItem）
+│   │   ├── 從 URL 匯入（DropdownMenuItem）
+│   │   └── 從 PDF 匯入（DropdownMenuItem）
+│   └── 搜尋輸入（shadcn: Input with icon）
+├── 主要內容區域（flex 容器）
+│   ├── 篩選側邊欄（aside）
+│   │   ├── 篩選標題（shadcn: Typography `h4`）
+│   │   ├── 類別篩選（shadcn: Checkbox group）
+│   │   ├── 料理篩選（shadcn: Checkbox group）
+│   │   └── 難度篩選（shadcn: RadioGroup）
+│   └── 食譜網格（main）
+│       └── 食譜卡片（shadcn: Card）
+│           ├── 食譜圖片（img）
+│           ├── 食譜標題（shadcn: Typography `h3`）
+│           ├── 食譜標籤（shadcn: Badge）
+│           └── 快速操作（shadcn: Button - 檢視、編輯）
 ```
 
-- **State Flow Diagram**: Component state management using Mermaid
-- Reusable component library specifications
-- State management patterns with Zustand/React Query
-- TypeScript interfaces and types
+- **狀態流圖**：使用 Mermaid 的元件狀態管理
+- 可重用元件庫規格
+- 使用 Zustand/React Query 的狀態管理模式
+- TypeScript 介面和類型
 
-##### Security Performance
+##### 安全效能
 
-- Authentication/authorization requirements
-- Data validation and sanitization
-- Performance optimization strategies
-- Caching mechanisms
+- 驗證/授權需求
+- 資料驗證和清理
+- 效能優化策略
+- 快取機制
 
-## Context Template
+## 上下文模板
 
-- **Feature PRD:** [The content of the Feature PRD markdown file]
+- **功能 PRD：** [功能 PRD markdown 檔案的內容]

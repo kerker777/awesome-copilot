@@ -1,66 +1,66 @@
 ---
 mode: 'agent'
-description: 'Prompt for creating the high-level technical architecture for an Epic, based on a Product Requirements Document.'
+description: '根據產品需求文件建立史詩的高層次技術架構的提示。'
 ---
 
-# Epic Architecture Specification Prompt
+# 史詩架構規範提示
 
-## Goal
+## 目標
 
-Act as a Senior Software Architect. Your task is to take an Epic PRD and create a high-level technical architecture specification. This document will guide the development of the epic, outlining the major components, features, and technical enablers required.
+擔任資深軟體架構師。您的任務是採用史詩 PRD 並建立高層次的技術架構規範。此文件將指導史詩的開發，概述所需的主要元件、功能和技術推動因素。
 
-## Context Considerations
+## 上下文考量
 
-- The Epic PRD from the Product Manager.
-- **Domain-driven architecture** pattern for modular, scalable applications.
-- **Self-hosted and SaaS deployment** requirements.
-- **Docker containerization** for all services.
-- **TypeScript/Next.js** stack with App Router.
-- **Turborepo monorepo** patterns.
-- **tRPC** for type-safe APIs.
-- **Stack Auth** for authentication.
+- 產品經理的史詩 PRD。
+- **領域驅動架構**模式，用於模組化、可擴展的應用程式。
+- **自我託管和 SaaS 部署**需求。
+- 所有服務的 **Docker 容器化**。
+- **TypeScript/Next.js** 技術堆疊，使用 App Router。
+- **Turborepo monorepo** 模式。
+- **tRPC** 用於類型安全的 API。
+- **Stack Auth** 用於身份驗證。
 
-**Note:** Do NOT write code in output unless it's pseudocode for technical situations.
+**注意：** 除非是技術情況的偽程式碼，否則不要在輸出中撰寫程式碼。
 
-## Output Format
+## 輸出格式
 
-The output should be a complete Epic Architecture Specification in Markdown format, saved to `/docs/ways-of-work/plan/{epic-name}/arch.md`.
+輸出應該是一個完整的史詩架構規範，採用 Markdown 格式，儲存到 `/docs/ways-of-work/plan/{epic-name}/arch.md`。
 
-### Specification Structure
+### 規範結構
 
-#### 1. Epic Architecture Overview
+#### 1. 史詩架構概述
 
-- A brief summary of the technical approach for the epic.
+- 史詩技術方法的簡要摘要。
 
-#### 2. System Architecture Diagram
+#### 2. 系統架構圖
 
-Create a comprehensive Mermaid diagram that illustrates the complete system architecture for this epic. The diagram should include:
+建立一個全面的 Mermaid 圖，說明此史詩的完整系統架構。該圖應包括：
 
-- **User Layer**: Show how different user types (web browsers, mobile apps, admin interfaces) interact with the system
-- **Application Layer**: Depict load balancers, application instances, and authentication services (Stack Auth)
-- **Service Layer**: Include tRPC APIs, background services, workflow engines (n8n), and any epic-specific services
-- **Data Layer**: Show databases (PostgreSQL), vector databases (Qdrant), caching layers (Redis), and external API integrations
-- **Infrastructure Layer**: Represent Docker containerization and deployment architecture
+- **使用者層：** 顯示不同使用者類型（網頁瀏覽器、行動應用程式、管理介面）如何與系統互動
+- **應用層：** 描繪負載平衡器、應用程式實例和身份驗證服務 (Stack Auth)
+- **服務層：** 包括 tRPC API、背景服務、工作流程引擎 (n8n) 和任何史詩特定的服務
+- **資料層：** 顯示資料庫 (PostgreSQL)、向量資料庫 (Qdrant)、快取層 (Redis) 和外部 API 整合
+- **基礎架構層：** 代表 Docker 容器化和部署架構
 
-Use clear subgraphs to organize these layers, apply consistent color coding for different component types, and show the data flow between components. Include both synchronous request paths and asynchronous processing flows where relevant to the epic.
+使用清晰的子圖組織這些層，對不同的元件類型套用一致的顏色編碼，並顯示元件之間的資料流。包括同步請求路徑和與史詩相關的非同步處理流程。
 
-#### 3. High-Level Features & Technical Enablers
+#### 3. 高層次功能與技術推動因素
 
-- A list of the high-level features to be built.
-- A list of technical enablers (e.g., new services, libraries, infrastructure) required to support the features.
+- 要建構的高層次功能清單。
+- 支援功能所需的技術推動因素清單（例如新服務、程式庫、基礎架構）。
 
-#### 4. Technology Stack
+#### 4. 技術堆疊
 
-- A list of the key technologies, frameworks, and libraries to be used.
+- 要使用的關鍵技術、框架和程式庫清單。
 
-#### 5. Technical Value
+#### 5. 技術價值
 
-- Estimate the technical value (e.g., High, Medium, Low) with a brief justification.
+- 估計技術價值（例如高、中、低）並簡要說明理由。
 
-#### 6. T-Shirt Size Estimate
+#### 6. T-Shirt 尺寸估計
 
-- Provide a high-level t-shirt size estimate for the epic (e.g., S, M, L, XL).
+- 為史詩提供高層次的 T-shirt 尺寸估計（例如 S、M、L、XL）。
 
-## Context Template
+## 上下文範本
 
-- **Epic PRD:** [The content of the Epic PRD markdown file]
+- **史詩 PRD：** [史詩 PRD markdown 檔案的內容]

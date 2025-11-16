@@ -1,9 +1,9 @@
 ---
 mode: 'agent'
 tools: ['githubRepo', 'github', 'get_issue', 'get_issue_comments', 'get_me', 'list_issues']
-description: 'List my issues in the current repository'
+description: '列出目前儲存庫中我的 issue'
 ---
 
-Search the current repo (using #githubRepo for the repo info) and list any issues you find (using #list_issues) that are assigned to me.
+搜尋目前的儲存庫（使用 #githubRepo 取得儲存庫資訊）並列出您找到的任何指派給我的 issue（使用 #list_issues）。
 
-Suggest issues that I might want to focus on based on their age, the amount of comments, and their status (open/closed).
+根據 issue 的年齡、留言數量和狀態（開啟/關閉）建議我可能想要關注的 issue。

@@ -2,41 +2,41 @@
 applyTo: '**/*.{cs,ts,java}'
 description: Enforces Object Calisthenics principles for business domain code to ensure clean, maintainable, and robust code
 ---
-# Object Calisthenics Rules
+# Object Calisthenics 規則
 
-> ⚠️ **Warning:** This file contains the 9 original Object Calisthenics rules. No additional rules must be added, and none of these rules should be replaced or removed.
-> Examples may be added later if needed.
+> ⚠️ **警告：** 本檔案包含 9 條原始的 Object Calisthenics 規則。不得新增額外規則，也不應替換或移除這些規則。
+> 如有需要，稍後可能會新增範例。
 
-## Objective
-This rule enforces the principles of Object Calisthenics to ensure clean, maintainable, and robust code in the backend, **primarily for business domain code**.
+## 目標
+此規則強制執行 Object Calisthenics 原則，以確保後端的程式碼乾淨、可維護且穩健，**主要針對業務領域程式碼**。
 
-## Scope and Application
-- **Primary focus**: Business domain classes (aggregates, entities, value objects, domain services)
-- **Secondary focus**: Application layer services and use case handlers
-- **Exemptions**: 
-  - DTOs (Data Transfer Objects)
-  - API models/contracts
-  - Configuration classes
-  - Simple data containers without business logic
-  - Infrastructure code where flexibility is needed
+## 範圍與應用
+- **主要焦點**：業務領域類別（聚合、實體、值物件、領域服務）
+- **次要焦點**：應用層服務和用例處理器
+- **豁免情況**：
+  - DTOs（資料傳輸物件）
+  - API 模型/契約
+  - 設定類別
+  - 沒有業務邏輯的簡單資料容器
+  - 需要彈性的基礎設施程式碼
 
-## Key Principles
+## 關鍵原則
 
 
-1. **One Level of Indentation per Method**:
-   - Ensure methods are simple and do not exceed one level of indentation.
+1. **每個方法只有一層縮排**：
+   - 確保方法簡單且不超過一層縮排。
 
    ```csharp
-   // Bad Example - this method has multiple levels of indentation
+   // 不良範例 - 此方法有多層縮排
    public void SendNewsletter() {
          foreach (var user in users) {
             if (user.IsActive) {
-               // Do something
+               // 執行某些操作
                mailer.Send(user.Email);
             }
          }
    }
-   // Good Example - Extracted method to reduce indentation
+   // 良好範例 - 提取方法以減少縮排
    public void SendNewsletter() {
        foreach (var user in users) {
            SendEmail(user);
@@ -48,7 +48,7 @@ This rule enforces the principles of Object Calisthenics to ensure clean, mainta
        }
    }
 
-   // Good Example - Filtering users before sending emails
+   // 良好範例 - 在發送電子郵件前過濾使用者
    public void SendNewsletter() {
        var activeUsers = users.Where(user => user.IsActive);
 
@@ -57,49 +57,49 @@ This rule enforces the principles of Object Calisthenics to ensure clean, mainta
        }
    }
    ```
-2. **Don't Use the ELSE Keyword**:
+2. **不要使用 ELSE 關鍵字**：
 
-   - Avoid using the `else` keyword to reduce complexity and improve readability.
-   - Use early returns to handle conditions instead.
-   - Use Fail Fast principle
-   - Use Guard Clauses to validate inputs and conditions at the beginning of methods.
+   - 避免使用 `else` 關鍵字以降低複雜性並提高可讀性。
+   - 使用提前返回來處理條件。
+   - 使用快速失敗原則
+   - 使用守衛子句在方法開始時驗證輸入和條件。
 
    ```csharp
-   // Bad Example - Using else
+   // 不良範例 - 使用 else
    public void ProcessOrder(Order order) {
        if (order.IsValid) {
-           // Process order
+           // 處理訂單
        } else {
-           // Handle invalid order
+           // 處理無效訂單
        }
    }
-   // Good Example - Avoiding else
+   // 良好範例 - 避免 else
    public void ProcessOrder(Order order) {
        if (!order.IsValid) return;
-       // Process order
+       // 處理訂單
    }
    ```
 
-   Sample Fail fast principle:
+   快速失敗原則範例：
    ```csharp
    public void ProcessOrder(Order order) {
        if (order == null) throw new ArgumentNullException(nameof(order));
        if (!order.IsValid) throw new InvalidOperationException("Invalid order");
-       // Process order
+       // 處理訂單
    }
    ```
 
-3. **Wrapping All Primitives and Strings**:
-   - Avoid using primitive types directly in your code.
-   - Wrap them in classes to provide meaningful context and behavior.
+3. **包裝所有基本型別和字串**：
+   - 避免在程式碼中直接使用基本型別。
+   - 將它們包裝在類別中以提供有意義的上下文和行為。
 
    ```csharp
-   // Bad Example - Using primitive types directly
+   // 不良範例 - 直接使用基本型別
    public class User {
        public string Name { get; set; }
        public int Age { get; set; }
    }
-   // Good Example - Wrapping primitives
+   // 良好範例 - 包裝基本型別
    public class User {
        private string name;
        private Age age;
@@ -115,14 +115,14 @@ This rule enforces the principles of Object Calisthenics to ensure clean, mainta
            this.value = value;
        }
    }
-   ```   
+   ```
 
-4. **First Class Collections**:
-   - Use collections to encapsulate data and behavior, rather than exposing raw data structures.
-First Class Collections: a class that contains an array as an attribute should not contain any other attributes
+4. **第一級集合**：
+   - 使用集合來封裝資料和行為，而不是暴露原始資料結構。
+第一級集合：包含陣列作為屬性的類別不應包含任何其他屬性
 
 ```csharp
-   // Bad Example - Exposing raw collection
+   // 不良範例 - 暴露原始集合
    public class Group {
       public int Id { get; private set; }
       public string Name { get; private set; }
@@ -135,12 +135,12 @@ First Class Collections: a class that contains an array as an attribute should n
       }
    }
 
-   // Good Example - Encapsulating collection behavior
+   // 良好範例 - 封裝集合行為
    public class Group {
       public int Id { get; private set; }
       public string Name { get; private set; }
 
-      public GroupUserCollection userCollection { get; private set; } // The list of users is encapsulated in a class
+      public GroupUserCollection userCollection { get; private set; } // 使用者清單封裝在類別中
 
       public int GetNumberOfUsersIsActive() {
          return userCollection
@@ -150,57 +150,57 @@ First Class Collections: a class that contains an array as an attribute should n
    }
    ```
 
-5. **One Dot per Line**:
-   - Limit the number of method calls in a single line to improve readability and maintainability.
+5. **每行一個點**：
+   - 限制單行中方法呼叫的數量以提高可讀性和可維護性。
 
    ```csharp
-   // Bad Example - Multiple dots in a single line
+   // 不良範例 - 單行中有多個點
    public void ProcessOrder(Order order) {
        var userEmail = order.User.GetEmail().ToUpper().Trim();
-       // Do something with userEmail
+       // 對 userEmail 執行某些操作
    }
-   // Good Example - One dot per line
+   // 良好範例 - 每行一個點
    public void ProcessOrder(Order order) {
        var user = order.User;
        var email = user.GetEmail();
        var userEmail = email.ToUpper().Trim();
-       // Do something with userEmail
+       // 對 userEmail 執行某些操作
    }
    ```
 
-6. **Don't abbreviate**:
-   - Use meaningful names for classes, methods, and variables.
-   - Avoid abbreviations that can lead to confusion.
+6. **不要縮寫**：
+   - 為類別、方法和變數使用有意義的名稱。
+   - 避免可能導致混淆的縮寫。
 
    ```csharp
-   // Bad Example - Abbreviated names
+   // 不良範例 - 縮寫名稱
    public class U {
        public string N { get; set; }
    }
-   // Good Example - Meaningful names
+   // 良好範例 - 有意義的名稱
    public class User {
        public string Name { get; set; }
    }
    ```
 
-7. **Keep entities small (Class, method, namespace or package)**:
-   - Limit the size of classes and methods to improve code readability and maintainability.
-   - Each class should have a single responsibility and be as small as possible.
-   
-   Constraints:
-   - Maximum 10 methods per class
-   - Maximum 50 lines per class
-   - Maximum 10 classes per package or namespace
+7. **保持實體小型（類別、方法、命名空間或套件）**：
+   - 限制類別和方法的大小以提高程式碼可讀性和可維護性。
+   - 每個類別應該有單一職責並盡可能小。
+
+   限制：
+   - 每個類別最多 10 個方法
+   - 每個類別最多 50 行
+   - 每個套件或命名空間最多 10 個類別
 
    ```csharp
-   // Bad Example - Large class with multiple responsibilities
+   // 不良範例 - 具有多個職責的大型類別
    public class UserManager {
        public void CreateUser(string name) { /*...*/ }
        public void DeleteUser(int id) { /*...*/ }
        public void SendEmail(string email) { /*...*/ }
    }
 
-   // Good Example - Small classes with single responsibility
+   // 良好範例 - 具有單一職責的小型類別
    public class UserCreator {
        public void CreateUser(string name) { /*...*/ }
    }
@@ -214,15 +214,15 @@ First Class Collections: a class that contains an array as an attribute should n
    ```
 
 
-8. **No Classes with More Than Two Instance Variables**:
-   - Encourage classes to have a single responsibility by limiting the number of instance variables.
-   - Limit the number of instance variables to two to maintain simplicity.
-   - Do not count ILogger or any other logger as instance variable.
+8. **不超過兩個實例變數的類別**：
+   - 透過限制實例變數的數量來鼓勵類別具有單一職責。
+   - 將實例變數的數量限制為兩個以保持簡單性。
+   - 不要將 ILogger 或任何其他記錄器計為實例變數。
 
    ```csharp
-   // Bad Example - Class with multiple instance variables
+   // 不良範例 - 具有多個實例變數的類別
    public class UserCreateCommandHandler {
-      // Bad: Too many instance variables
+      // 不良：太多實例變數
       private readonly IUserRepository userRepository;
       private readonly IEmailService emailService;
       private readonly ILogger logger;
@@ -236,11 +236,11 @@ First Class Collections: a class that contains an array as an attribute should n
       }
    }
 
-   // Good: Class with two instance variables
+   // 良好：具有兩個實例變數的類別
    public class UserCreateCommandHandler {
       private readonly IUserRepository userRepository;
       private readonly INotificationService notificationService;
-      private readonly ILogger logger; // This is not counted as instance variable
+      private readonly ILogger logger; // 這不計為實例變數
 
       public UserCreateCommandHandler(IUserRepository userRepository, INotificationService notificationService, ILogger logger) {
          this.userRepository = userRepository;
@@ -250,53 +250,53 @@ First Class Collections: a class that contains an array as an attribute should n
    }
    ```
 
-9. **No Getters/Setters in Domain Classes**:
-   - Avoid exposing setters for properties in domain classes.
-   - Use private constructors and static factory methods for object creation.
-   - **Note**: This rule applies primarily to domain classes, not DTOs or data transfer objects.
+9. **領域類別中不使用 Getters/Setters**：
+   - 避免在領域類別中暴露屬性的 setters。
+   - 使用私有建構函式和靜態工廠方法來建立物件。
+   - **注意**：此規則主要適用於領域類別，不適用於 DTOs 或資料傳輸物件。
 
    ```csharp
-   // Bad Example - Domain class with public setters
-   public class User {  // Domain class
-       public string Name { get; set; } // Avoid this in domain classes
+   // 不良範例 - 具有公開 setters 的領域類別
+   public class User {  // 領域類別
+       public string Name { get; set; } // 在領域類別中避免這樣做
    }
-   
-   // Good Example - Domain class with encapsulation
-   public class User {  // Domain class
+
+   // 良好範例 - 具有封裝的領域類別
+   public class User {  // 領域類別
        private string name;
        private User(string name) { this.name = name; }
        public static User Create(string name) => new User(name);
    }
-   
-   // Acceptable Example - DTO with public setters
-   public class UserDto {  // DTO - exemption applies
-       public string Name { get; set; } // Acceptable for DTOs
+
+   // 可接受的範例 - 具有公開 setters 的 DTO
+   public class UserDto {  // DTO - 適用豁免
+       public string Name { get; set; } // 對於 DTOs 是可接受的
    }
    ```
 
-## Implementation Guidelines
-- **Domain Classes**:
-  - Use private constructors and static factory methods for creating instances.
-  - Avoid exposing setters for properties.
-  - Apply all 9 rules strictly for business domain code.
+## 實作指南
+- **領域類別**：
+  - 使用私有建構函式和靜態工廠方法來建立實例。
+  - 避免暴露屬性的 setters。
+  - 嚴格應用所有 9 條規則於業務領域程式碼。
 
-- **Application Layer**:
-  - Apply these rules to use case handlers and application services.
-  - Focus on maintaining single responsibility and clean abstractions.
+- **應用層**：
+  - 將這些規則應用於用例處理器和應用服務。
+  - 專注於保持單一職責和乾淨的抽象。
 
-- **DTOs and Data Objects**:
-  - Rules 3 (wrapping primitives), 8 (two instance variables), and 9 (no getters/setters) may be relaxed for DTOs.
-  - Public properties with getters/setters are acceptable for data transfer objects.
+- **DTOs 和資料物件**：
+  - 規則 3（包裝基本型別）、規則 8（兩個實例變數）和規則 9（無 getters/setters）對於 DTOs 可以放寬。
+  - 對於資料傳輸物件，具有 getters/setters 的公開屬性是可接受的。
 
-- **Testing**:
-  - Ensure tests validate the behavior of objects rather than their state.
-  - Test classes may have relaxed rules for readability and maintainability.
+- **測試**：
+  - 確保測試驗證物件的行為而不是它們的狀態。
+  - 測試類別可以放寬規則以提高可讀性和可維護性。
 
-- **Code Reviews**:
-  - Enforce these rules during code reviews for domain and application code.
-  - Be pragmatic about infrastructure and DTO code.
+- **程式碼審查**：
+  - 在程式碼審查期間對領域和應用程式碼強制執行這些規則。
+  - 對基礎設施和 DTO 程式碼要務實。
 
-## References
-- [Object Calisthenics - Original 9 Rules by Jeff Bay](https://www.cs.helsinki.fi/u/luontola/tdd-2009/ext/ObjectCalisthenics.pdf)
+## 參考資料
+- [Object Calisthenics - Jeff Bay 的原始 9 條規則](https://www.cs.helsinki.fi/u/luontola/tdd-2009/ext/ObjectCalisthenics.pdf)
 - [ThoughtWorks - Object Calisthenics](https://www.thoughtworks.com/insights/blog/object-calisthenics)
 - [Clean Code: A Handbook of Agile Software Craftsmanship - Robert C. Martin](https://www.oreilly.com/library/view/clean-code-a/9780136083238/)

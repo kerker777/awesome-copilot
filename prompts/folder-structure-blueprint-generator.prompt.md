@@ -1,405 +1,405 @@
 ---
-description: 'Comprehensive technology-agnostic prompt for analyzing and documenting project folder structures. Auto-detects project types (.NET, Java, React, Angular, Python, Node.js, Flutter), generates detailed blueprints with visualization options, naming conventions, file placement patterns, and extension templates for maintaining consistent code organization across diverse technology stacks.'
+description: '全面的技術無關提示詞，用於分析和文件化專案資料夾結構。自動偵測專案類型（.NET、Java、React、Angular、Python、Node.js、Flutter），產生詳細的藍圖，包含視覺化選項、命名慣例、檔案放置模式，以及用於在不同技術堆疊中維護一致程式碼組織的擴充範本。'
 mode: 'agent'
 ---
 
-# Project Folder Structure Blueprint Generator
+# 專案資料夾結構藍圖產生器
 
-## Configuration Variables
+## 設定變數
 
-${PROJECT_TYPE="Auto-detect|.NET|Java|React|Angular|Python|Node.js|Flutter|Other"} 
-<!-- Select primary technology -->
+${PROJECT_TYPE="自動偵測|.NET|Java|React|Angular|Python|Node.js|Flutter|其他"}
+<!-- 選擇主要技術 -->
 
-${INCLUDES_MICROSERVICES="Auto-detect|true|false"} 
-<!-- Is this a microservices architecture? -->
+${INCLUDES_MICROSERVICES="自動偵測|true|false"}
+<!-- 這是微服務架構嗎？ -->
 
-${INCLUDES_FRONTEND="Auto-detect|true|false"} 
-<!-- Does project include frontend components? -->
+${INCLUDES_FRONTEND="自動偵測|true|false"}
+<!-- 專案包含前端元件嗎？ -->
 
-${IS_MONOREPO="Auto-detect|true|false"} 
-<!-- Is this a monorepo with multiple projects? -->
+${IS_MONOREPO="自動偵測|true|false"}
+<!-- 這是包含多個專案的 monorepo 嗎？ -->
 
-${VISUALIZATION_STYLE="ASCII|Markdown List|Table"} 
-<!-- How to visualize the structure -->
+${VISUALIZATION_STYLE="ASCII|Markdown 清單|表格"}
+<!-- 如何視覺化結構 -->
 
-${DEPTH_LEVEL=1-5} 
-<!-- How many levels of folders to document in detail -->
+${DEPTH_LEVEL=1-5}
+<!-- 詳細文件化多少層級的資料夾 -->
 
-${INCLUDE_FILE_COUNTS=true|false} 
-<!-- Include file count statistics -->
+${INCLUDE_FILE_COUNTS=true|false}
+<!-- 包含檔案計數統計 -->
 
-${INCLUDE_GENERATED_FOLDERS=true|false} 
-<!-- Include auto-generated folders -->
+${INCLUDE_GENERATED_FOLDERS=true|false}
+<!-- 包含自動產生的資料夾 -->
 
-${INCLUDE_FILE_PATTERNS=true|false} 
-<!-- Document file naming/location patterns -->
+${INCLUDE_FILE_PATTERNS=true|false}
+<!-- 文件化檔案命名/位置模式 -->
 
-${INCLUDE_TEMPLATES=true|false} 
-<!-- Include file/folder templates for new features -->
+${INCLUDE_TEMPLATES=true|false}
+<!-- 包含新功能的檔案/資料夾範本 -->
 
-## Generated Prompt
+## 產生的提示詞
 
-"Analyze the project's folder structure and create a comprehensive 'Project_Folders_Structure_Blueprint.md' document that serves as a definitive guide for maintaining consistent code organization. Use the following approach:
+"分析專案的資料夾結構並建立全面的 'Project_Folders_Structure_Blueprint.md' 文件，作為維護一致程式碼組織的權威指南。使用以下方法：
 
-### Initial Auto-detection Phase
+### 初始自動偵測階段
 
-${PROJECT_TYPE == "Auto-detect" ? 
-"Begin by scanning the folder structure for key files that identify the project type:
-- Look for solution/project files (.sln, .csproj, .fsproj, .vbproj) to identify .NET projects
-- Check for build files (pom.xml, build.gradle, settings.gradle) for Java projects
-- Identify package.json with dependencies for JavaScript/TypeScript projects
-- Look for specific framework files (angular.json, react-scripts entries, next.config.js)
-- Check for Python project identifiers (requirements.txt, setup.py, pyproject.toml)
-- Examine mobile app identifiers (pubspec.yaml, android/ios folders)
-- Note all technology signatures found and their versions" : 
-"Focus analysis on ${PROJECT_TYPE} project structure"}
+${PROJECT_TYPE == "自動偵測" ?
+"首先掃描資料夾結構中的關鍵檔案以識別專案類型：
+- 尋找解決方案/專案檔案（.sln、.csproj、.fsproj、.vbproj）以識別 .NET 專案
+- 檢查建置檔案（pom.xml、build.gradle、settings.gradle）以識別 Java 專案
+- 識別包含相依性的 package.json 以識別 JavaScript/TypeScript 專案
+- 尋找特定框架檔案（angular.json、react-scripts 項目、next.config.js）
+- 檢查 Python 專案識別符號（requirements.txt、setup.py、pyproject.toml）
+- 檢查行動應用程式識別符號（pubspec.yaml、android/ios 資料夾）
+- 記錄找到的所有技術特徵及其版本" :
+"專注於 ${PROJECT_TYPE} 專案結構的分析"}
 
-${IS_MONOREPO == "Auto-detect" ? 
-"Determine if this is a monorepo by looking for:
-- Multiple distinct projects with their own configuration files
-- Workspace configuration files (lerna.json, nx.json, turborepo.json, etc.)
-- Cross-project references and shared dependency patterns
-- Root-level orchestration scripts and configuration" : ""}
+${IS_MONOREPO == "自動偵測" ?
+"透過尋找以下內容來判斷這是否為 monorepo：
+- 多個具有各自設定檔的不同專案
+- 工作區設定檔案（lerna.json、nx.json、turborepo.json 等）
+- 跨專案參考和共享相依性模式
+- 根層級的編排腳本和設定" : ""}
 
-${INCLUDES_MICROSERVICES == "Auto-detect" ? 
-"Check for microservices architecture indicators:
-- Multiple service directories with similar/repeated structures
-- Service-specific Dockerfiles or deployment configurations
-- Inter-service communication patterns (APIs, message brokers)
-- Service registry or discovery configuration
-- API gateway configuration files
-- Shared libraries or utilities across services" : ""}
+${INCLUDES_MICROSERVICES == "自動偵測" ?
+"檢查微服務架構指標：
+- 多個具有類似/重複結構的服務目錄
+- 特定於服務的 Dockerfile 或部署設定
+- 服務間通訊模式（API、訊息代理）
+- 服務註冊或探索設定
+- API 閘道設定檔案
+- 跨服務的共享程式庫或工具" : ""}
 
-${INCLUDES_FRONTEND == "Auto-detect" ? 
-"Identify frontend components by looking for:
-- Web asset directories (wwwroot, public, dist, static)
-- UI framework files (components, modules, pages)
-- Frontend build configuration (webpack, vite, rollup, etc.)
-- Style sheet organization (CSS, SCSS, styled-components)
-- Static asset organization (images, fonts, icons)" : ""}
+${INCLUDES_FRONTEND == "自動偵測" ?
+"透過尋找以下內容來識別前端元件：
+- Web 資源目錄（wwwroot、public、dist、static）
+- UI 框架檔案（元件、模組、頁面）
+- 前端建置設定（webpack、vite、rollup 等）
+- 樣式表組織（CSS、SCSS、styled-components）
+- 靜態資源組織（圖片、字型、圖示）" : ""}
 
-### 1. Structural Overview
+### 1. 結構概覽
 
-Provide a high-level overview of the ${PROJECT_TYPE == "Auto-detect" ? "detected project type(s)" : PROJECT_TYPE} project's organization principles and folder structure:
-
-- Document the overall architectural approach reflected in the folder structure
-- Identify the main organizational principles (by feature, by layer, by domain, etc.)
-- Note any structural patterns that repeat throughout the codebase
-- Document the rationale behind the structure where it can be inferred
+提供 ${PROJECT_TYPE == "自動偵測" ? "偵測到的專案類型" : PROJECT_TYPE} 專案組織原則和資料夾結構的高層級概覽：
 
-${IS_MONOREPO == "Auto-detect" ? 
-"If detected as a monorepo, explain how the monorepo is organized and the relationship between projects." : 
-IS_MONOREPO ? "Explain how the monorepo is organized and the relationship between projects." : ""}
+- 記錄資料夾結構反映的整體架構方法
+- 識別主要的組織原則（按功能、按層級、按領域等）
+- 記錄在整個程式碼庫中重複的任何結構模式
+- 在可以推斷的地方記錄結構背後的理由
 
-${INCLUDES_MICROSERVICES == "Auto-detect" ? 
-"If microservices are detected, describe how they are structured and organized." : 
-INCLUDES_MICROSERVICES ? "Describe how the microservices are structured and organized." : ""}
-
-### 2. Directory Visualization
-
-${VISUALIZATION_STYLE == "ASCII" ? 
-"Create an ASCII tree representation of the folder hierarchy to depth level ${DEPTH_LEVEL}." : ""}
-
-${VISUALIZATION_STYLE == "Markdown List" ? 
-"Use nested markdown lists to represent the folder hierarchy to depth level ${DEPTH_LEVEL}." : ""}
-
-${VISUALIZATION_STYLE == "Table" ? 
-"Create a table with columns for Path, Purpose, Content Types, and Conventions." : ""}
-
-${INCLUDE_GENERATED_FOLDERS ? 
-"Include all folders including generated ones." : 
-"Exclude auto-generated folders like bin/, obj/, node_modules/, etc."}
-
-### 3. Key Directory Analysis
-
-Document each significant directory's purpose, contents, and patterns:
-
-${PROJECT_TYPE == "Auto-detect" ? 
-"For each detected technology, analyze directory structures based on observed usage patterns:" : ""}
-
-${(PROJECT_TYPE == ".NET" || PROJECT_TYPE == "Auto-detect") ? 
-"#### .NET Project Structure (if detected)
-
-- **Solution Organization**: 
-  - How projects are grouped and related
-  - Solution folder organization patterns
-  - Multi-targeting project patterns
-
-- **Project Organization**:
-  - Internal folder structure patterns
-  - Source code organization approach
-  - Resource organization
-  - Project dependencies and references
-
-- **Domain/Feature Organization**:
-  - How business domains or features are separated
-  - Domain boundary enforcement patterns
-
-- **Layer Organization**:
-  - Separation of concerns (Controllers, Services, Repositories, etc.)
-  - Layer interaction and dependency patterns
-
-- **Configuration Management**:
-  - Configuration file locations and purposes
-  - Environment-specific configurations
-  - Secret management approach
-
-- **Test Project Organization**:
-  - Test project structure and naming
-  - Test categories and organization
-  - Test data and mock locations" : ""}
-
-${(PROJECT_TYPE == "React" || PROJECT_TYPE == "Angular" || PROJECT_TYPE == "Auto-detect") ? 
-"#### UI Project Structure (if detected)
-
-- **Component Organization**:
-  - Component folder structure patterns
-  - Grouping strategies (by feature, type, etc.)
-  - Shared vs. feature-specific components
-
-- **State Management**:
-  - State-related file organization
-  - Store structure for global state
-  - Local state management patterns
-
-- **Routing Organization**:
-  - Route definition locations
-  - Page/view component organization
-  - Route parameter handling
-
-- **API Integration**:
-  - API client organization
-  - Service layer structure
-  - Data fetching patterns
-
-- **Asset Management**:
-  - Static resource organization
-  - Image/media file structure
-  - Font and icon organization
-  
-- **Style Organization**:
-  - CSS/SCSS file structure
-  - Theme organization
-  - Style module patterns" : ""}
-
-### 4. File Placement Patterns
-
-${INCLUDE_FILE_PATTERNS ? 
-"Document the patterns that determine where different types of files should be placed:
-
-- **Configuration Files**:
-  - Locations for different types of configuration
-  - Environment-specific configuration patterns
-  
-- **Model/Entity Definitions**:
-  - Where domain models are defined
-  - Data transfer object (DTO) locations
-  - Schema definition locations
-  
-- **Business Logic**:
-  - Service implementation locations
-  - Business rule organization
-  - Utility and helper function placement
-  
-- **Interface Definitions**:
-  - Where interfaces and abstractions are defined
-  - How interfaces are grouped and organized
-  
-- **Test Files**:
-  - Unit test location patterns
-  - Integration test placement
-  - Test utility and mock locations
-  
-- **Documentation Files**:
-  - API documentation placement
-  - Internal documentation organization
-  - README file distribution" : 
-"Document where key file types are located in the project."}
-
-### 5. Naming and Organization Conventions
-Document the naming and organizational conventions observed across the project:
-
-- **File Naming Patterns**:
-  - Case conventions (PascalCase, camelCase, kebab-case)
-  - Prefix and suffix patterns
-  - Type indicators in filenames
-  
-- **Folder Naming Patterns**:
-  - Naming conventions for different folder types
-  - Hierarchical naming patterns
-  - Grouping and categorization conventions
-  
-- **Namespace/Module Patterns**:
-  - How namespaces/modules map to folder structure
-  - Import/using statement organization
-  - Internal vs. public API separation
-
-- **Organizational Patterns**:
-  - Code co-location strategies
-  - Feature encapsulation approaches
-  - Cross-cutting concern organization
-
-### 6. Navigation and Development Workflow
-Provide guidance for navigating and working with the codebase structure:
-
-- **Entry Points**:
-  - Main application entry points
-  - Key configuration starting points
-  - Initial files for understanding the project
-
-- **Common Development Tasks**:
-  - Where to add new features
-  - How to extend existing functionality
-  - Where to place new tests
-  - Configuration modification locations
-  
-- **Dependency Patterns**:
-  - How dependencies flow between folders
-  - Import/reference patterns
-  - Dependency injection registration locations
-
-${INCLUDE_FILE_COUNTS ? 
-"- **Content Statistics**:
-  - Files per directory analysis
-  - Code distribution metrics
-  - Complexity concentration areas" : ""}
-
-### 7. Build and Output Organization
-Document the build process and output organization:
-
-- **Build Configuration**:
-  - Build script locations and purposes
-  - Build pipeline organization
-  - Build task definitions
-  
-- **Output Structure**:
-  - Compiled/built output locations
-  - Output organization patterns
-  - Distribution package structure
-  
-- **Environment-Specific Builds**:
-  - Development vs. production differences
-  - Environment configuration strategies
-  - Build variant organization
-
-### 8. Technology-Specific Organization
-
-${(PROJECT_TYPE == ".NET" || PROJECT_TYPE == "Auto-detect") ? 
-"#### .NET-Specific Structure Patterns (if detected)
-
-- **Project File Organization**:
-  - Project file structure and patterns
-  - Target framework configuration
-  - Property group organization
-  - Item group patterns
-  
-- **Assembly Organization**:
-  - Assembly naming patterns
-  - Multi-assembly architecture
-  - Assembly reference patterns
-  
-- **Resource Organization**:
-  - Embedded resource patterns
-  - Localization file structure
-  - Static web asset organization
-  
-- **Package Management**:
-  - NuGet configuration locations
-  - Package reference organization
-  - Package version management" : ""}
-
-${(PROJECT_TYPE == "Java" || PROJECT_TYPE == "Auto-detect") ? 
-"#### Java-Specific Structure Patterns (if detected)
-
-- **Package Hierarchy**:
-  - Package naming and nesting conventions
-  - Domain vs. technical packages
-  - Visibility and access patterns
-  
-- **Build Tool Organization**:
-  - Maven/Gradle structure patterns
-  - Module organization
-  - Plugin configuration patterns
-  
-- **Resource Organization**:
-  - Resource folder structures
-  - Environment-specific resources
-  - Properties file organization" : ""}
-
-${(PROJECT_TYPE == "Node.js" || PROJECT_TYPE == "Auto-detect") ? 
-"#### Node.js-Specific Structure Patterns (if detected)
-
-- **Module Organization**:
-  - CommonJS vs. ESM organization
-  - Internal module patterns
-  - Third-party dependency management
-  
-- **Script Organization**:
-  - npm/yarn script definition patterns
-  - Utility script locations
-  - Development tool scripts
-  
-- **Configuration Management**:
-  - Configuration file locations
-  - Environment variable management
-  - Secret management approaches" : ""}
-
-### 9. Extension and Evolution
-Document how the project structure is designed to be extended:
-
-- **Extension Points**:
-  - How to add new modules/features while maintaining conventions
-  - Plugin/extension folder patterns
-  - Customization directory structures
-  
-- **Scalability Patterns**:
-  - How the structure scales for larger features
-  - Approach for breaking down large modules
-  - Code splitting strategies
-  
-- **Refactoring Patterns**:
-  - Common refactoring approaches observed
-  - How structural changes are managed
-  - Incremental reorganization patterns
-
-${INCLUDE_TEMPLATES ? 
-"### 10. Structure Templates
-
-Provide templates for creating new components that follow project conventions:
-
-- **New Feature Template**:
-  - Folder structure for adding a complete feature
-  - Required file types and their locations
-  - Naming patterns to follow
-  
-- **New Component Template**:
-  - Directory structure for a typical component
-  - Essential files to include
-  - Integration points with existing structure
-  
-- **New Service Template**:
-  - Structure for adding a new service
-  - Interface and implementation placement
-  - Configuration and registration patterns
-  
-- **New Test Structure**:
-  - Folder structure for test projects/files
-  - Test file organization templates
-  - Test resource organization" : ""}
-
-### ${INCLUDE_TEMPLATES ? "11" : "10"}. Structure Enforcement
-
-Document how the project structure is maintained and enforced:
-
-- **Structure Validation**:
-  - Tools/scripts that enforce structure
-  - Build checks for structural compliance
-  - Linting rules related to structure
-  
-- **Documentation Practices**:
-  - How structural changes are documented
-  - Where architectural decisions are recorded
-  - Structure evolution history
-
-Include a section at the end about maintaining this blueprint and when it was last updated.
+${IS_MONOREPO == "自動偵測" ?
+"如果偵測為 monorepo，解釋 monorepo 的組織方式以及專案之間的關係。" :
+IS_MONOREPO ? "解釋 monorepo 的組織方式以及專案之間的關係。" : ""}
+
+${INCLUDES_MICROSERVICES == "自動偵測" ?
+"如果偵測到微服務，描述它們的結構和組織方式。" :
+INCLUDES_MICROSERVICES ? "描述微服務的結構和組織方式。" : ""}
+
+### 2. 目錄視覺化
+
+${VISUALIZATION_STYLE == "ASCII" ?
+"建立資料夾層級結構的 ASCII 樹狀表示，深度為 ${DEPTH_LEVEL} 層級。" : ""}
+
+${VISUALIZATION_STYLE == "Markdown 清單" ?
+"使用巢狀 markdown 清單表示資料夾層級結構，深度為 ${DEPTH_LEVEL} 層級。" : ""}
+
+${VISUALIZATION_STYLE == "表格" ?
+"建立包含路徑、目的、內容類型和慣例欄位的表格。" : ""}
+
+${INCLUDE_GENERATED_FOLDERS ?
+"包含所有資料夾，包括產生的資料夾。" :
+"排除自動產生的資料夾，如 bin/、obj/、node_modules/ 等。"}
+
+### 3. 關鍵目錄分析
+
+記錄每個重要目錄的目的、內容和模式：
+
+${PROJECT_TYPE == "自動偵測" ?
+"針對每個偵測到的技術，根據觀察到的使用模式分析目錄結構：" : ""}
+
+${(PROJECT_TYPE == ".NET" || PROJECT_TYPE == "自動偵測") ?
+"#### .NET 專案結構（如果偵測到）
+
+- **解決方案組織**：
+  - 專案如何分組和關聯
+  - 解決方案資料夾組織模式
+  - 多目標專案模式
+
+- **專案組織**：
+  - 內部資料夾結構模式
+  - 原始碼組織方法
+  - 資源組織
+  - 專案相依性和參考
+
+- **領域/功能組織**：
+  - 業務領域或功能如何分離
+  - 領域邊界強制模式
+
+- **層級組織**：
+  - 關注點分離（控制器、服務、儲存庫等）
+  - 層級互動和相依性模式
+
+- **設定管理**：
+  - 設定檔位置和目的
+  - 環境特定設定
+  - 機密管理方法
+
+- **測試專案組織**：
+  - 測試專案結構和命名
+  - 測試類別和組織
+  - 測試資料和模擬位置" : ""}
+
+${(PROJECT_TYPE == "React" || PROJECT_TYPE == "Angular" || PROJECT_TYPE == "自動偵測") ?
+"#### UI 專案結構（如果偵測到）
+
+- **元件組織**：
+  - 元件資料夾結構模式
+  - 分組策略（按功能、類型等）
+  - 共享元件 vs. 功能特定元件
+
+- **狀態管理**：
+  - 狀態相關檔案組織
+  - 全域狀態的 Store 結構
+  - 本地狀態管理模式
+
+- **路由組織**：
+  - 路由定義位置
+  - 頁面/檢視元件組織
+  - 路由參數處理
+
+- **API 整合**：
+  - API 客戶端組織
+  - 服務層結構
+  - 資料擷取模式
+
+- **資源管理**：
+  - 靜態資源組織
+  - 圖片/媒體檔案結構
+  - 字型和圖示組織
+
+- **樣式組織**：
+  - CSS/SCSS 檔案結構
+  - 主題組織
+  - 樣式模組模式" : ""}
+
+### 4. 檔案放置模式
+
+${INCLUDE_FILE_PATTERNS ?
+"記錄決定不同類型檔案應放置位置的模式：
+
+- **設定檔**：
+  - 不同類型設定的位置
+  - 環境特定設定模式
+
+- **模型/實體定義**：
+  - 領域模型定義位置
+  - 資料傳輸物件（DTO）位置
+  - 架構定義位置
+
+- **業務邏輯**：
+  - 服務實作位置
+  - 業務規則組織
+  - 工具和輔助函數放置
+
+- **介面定義**：
+  - 介面和抽象定義位置
+  - 介面如何分組和組織
+
+- **測試檔案**：
+  - 單元測試位置模式
+  - 整合測試放置
+  - 測試工具和模擬位置
+
+- **文件檔案**：
+  - API 文件放置
+  - 內部文件組織
+  - README 檔案分布" :
+"記錄關鍵檔案類型在專案中的位置。"}
+
+### 5. 命名和組織慣例
+記錄在整個專案中觀察到的命名和組織慣例：
+
+- **檔案命名模式**：
+  - 大小寫慣例（PascalCase、camelCase、kebab-case）
+  - 前綴和後綴模式
+  - 檔案名稱中的類型指標
+
+- **資料夾命名模式**：
+  - 不同資料夾類型的命名慣例
+  - 階層式命名模式
+  - 分組和分類慣例
+
+- **命名空間/模組模式**：
+  - 命名空間/模組如何對應到資料夾結構
+  - 匯入/using 陳述式組織
+  - 內部 vs. 公開 API 分離
+
+- **組織模式**：
+  - 程式碼共置策略
+  - 功能封裝方法
+  - 橫切關注點組織
+
+### 6. 導覽和開發工作流程
+提供導覽和使用程式碼庫結構的指引：
+
+- **進入點**：
+  - 主要應用程式進入點
+  - 關鍵設定起始點
+  - 理解專案的初始檔案
+
+- **常見開發任務**：
+  - 在哪裡新增新功能
+  - 如何擴充現有功能
+  - 在哪裡放置新測試
+  - 設定修改位置
+
+- **相依性模式**：
+  - 相依性如何在資料夾之間流動
+  - 匯入/參考模式
+  - 相依性注入註冊位置
+
+${INCLUDE_FILE_COUNTS ?
+"- **內容統計**：
+  - 每個目錄的檔案分析
+  - 程式碼分布指標
+  - 複雜度集中區域" : ""}
+
+### 7. 建置和輸出組織
+記錄建置過程和輸出組織：
+
+- **建置設定**：
+  - 建置腳本位置和目的
+  - 建置管線組織
+  - 建置任務定義
+
+- **輸出結構**：
+  - 編譯/建置輸出位置
+  - 輸出組織模式
+  - 發布套件結構
+
+- **環境特定建置**：
+  - 開發 vs. 生產環境差異
+  - 環境設定策略
+  - 建置變體組織
+
+### 8. 技術特定組織
+
+${(PROJECT_TYPE == ".NET" || PROJECT_TYPE == "自動偵測") ?
+"#### .NET 特定結構模式（如果偵測到）
+
+- **專案檔案組織**：
+  - 專案檔案結構和模式
+  - 目標框架設定
+  - 屬性群組組織
+  - 項目群組模式
+
+- **組件組織**：
+  - 組件命名模式
+  - 多組件架構
+  - 組件參考模式
+
+- **資源組織**：
+  - 嵌入式資源模式
+  - 本地化檔案結構
+  - 靜態 Web 資源組織
+
+- **套件管理**：
+  - NuGet 設定位置
+  - 套件參考組織
+  - 套件版本管理" : ""}
+
+${(PROJECT_TYPE == "Java" || PROJECT_TYPE == "自動偵測") ?
+"#### Java 特定結構模式（如果偵測到）
+
+- **套件層級結構**：
+  - 套件命名和巢狀慣例
+  - 領域 vs. 技術套件
+  - 可見性和存取模式
+
+- **建置工具組織**：
+  - Maven/Gradle 結構模式
+  - 模組組織
+  - 外掛設定模式
+
+- **資源組織**：
+  - 資源資料夾結構
+  - 環境特定資源
+  - 屬性檔案組織" : ""}
+
+${(PROJECT_TYPE == "Node.js" || PROJECT_TYPE == "自動偵測") ?
+"#### Node.js 特定結構模式（如果偵測到）
+
+- **模組組織**：
+  - CommonJS vs. ESM 組織
+  - 內部模組模式
+  - 第三方相依性管理
+
+- **腳本組織**：
+  - npm/yarn 腳本定義模式
+  - 工具腳本位置
+  - 開發工具腳本
+
+- **設定管理**：
+  - 設定檔位置
+  - 環境變數管理
+  - 機密管理方法" : ""}
+
+### 9. 擴充和演進
+記錄專案結構如何設計以進行擴充：
+
+- **擴充點**：
+  - 如何在維護慣例的同時新增新模組/功能
+  - 外掛/擴充資料夾模式
+  - 自訂目錄結構
+
+- **可擴展性模式**：
+  - 結構如何針對較大功能進行擴展
+  - 拆分大型模組的方法
+  - 程式碼分割策略
+
+- **重構模式**：
+  - 觀察到的常見重構方法
+  - 如何管理結構變更
+  - 漸進式重組模式
+
+${INCLUDE_TEMPLATES ?
+"### 10. 結構範本
+
+提供用於建立遵循專案慣例的新元件的範本：
+
+- **新功能範本**：
+  - 新增完整功能的資料夾結構
+  - 所需的檔案類型及其位置
+  - 要遵循的命名模式
+
+- **新元件範本**：
+  - 典型元件的目錄結構
+  - 要包含的基本檔案
+  - 與現有結構的整合點
+
+- **新服務範本**：
+  - 新增新服務的結構
+  - 介面和實作放置
+  - 設定和註冊模式
+
+- **新測試結構**：
+  - 測試專案/檔案的資料夾結構
+  - 測試檔案組織範本
+  - 測試資源組織" : ""}
+
+### ${INCLUDE_TEMPLATES ? "11" : "10"}. 結構強制執行
+
+記錄如何維護和強制執行專案結構：
+
+- **結構驗證**：
+  - 強制執行結構的工具/腳本
+  - 結構合規性的建置檢查
+  - 與結構相關的 Lint 規則
+
+- **文件化實踐**：
+  - 如何記錄結構變更
+  - 架構決策記錄位置
+  - 結構演進歷史
+
+在最後包含一個關於維護此藍圖以及最後更新時間的部分。
 "

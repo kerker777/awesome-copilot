@@ -1,54 +1,54 @@
 ---
-description: 'Infrastructure as Code with Bicep'
+description: '使用 Bicep 的基礎設施即程式碼'
 applyTo: '**/*.bicep'
 ---
 
-## Naming Conventions
+## 命名慣例
 
--   When writing Bicep code, use lowerCamelCase for all names (variables, parameters, resources)
--   Use resource type descriptive symbolic names (e.g., 'storageAccount' not 'storageAccountName')
--   Avoid using 'name' in a symbolic name as it represents the resource, not the resource's name
--   Avoid distinguishing variables and parameters by the use of suffixes
+-   撰寫 Bicep 程式碼時,對所有名稱(變數、參數、資源)使用小駝峰式命名法(lowerCamelCase)
+-   使用資源類型描述性符號名稱(例如,'storageAccount' 而非 'storageAccountName')
+-   避免在符號名稱中使用 'name',因為它代表資源,而非資源的名稱
+-   避免使用後綴區分變數和參數
 
-## Structure and Declaration
+## 結構和宣告
 
--   Always declare parameters at the top of files with @description decorators
--   Use latest stable API versions for all resources
--   Use descriptive @description decorators for all parameters
--   Specify minimum and maximum character length for naming parameters
+-   始終在文件頂部宣告參數並使用 @description 裝飾器
+-   對所有資源使用最新的穩定 API 版本
+-   對所有參數使用描述性的 @description 裝飾器
+-   為命名參數指定最小和最大字元長度
 
-## Parameters
+## 參數
 
--   Set default values that are safe for test environments (use low-cost pricing tiers)
--   Use @allowed decorator sparingly to avoid blocking valid deployments
--   Use parameters for settings that change between deployments
+-   設定對測試環境安全的預設值(使用低成本定價層)
+-   謹慎使用 @allowed 裝飾器以避免阻止有效的部署
+-   對部署之間變更的設定使用參數
 
-## Variables
+## 變數
 
--   Variables automatically infer type from the resolved value
--   Use variables to contain complex expressions instead of embedding them directly in resource properties
+-   變數會從解析值自動推斷型別
+-   使用變數包含複雜表達式,而不是直接在資源屬性中嵌入它們
 
-## Resource References
+## 資源參考
 
--   Use symbolic names for resource references instead of reference() or resourceId() functions
--   Create resource dependencies through symbolic names (resourceA.id) not explicit dependsOn
--   For accessing properties from other resources, use the 'existing' keyword instead of passing values through outputs
+-   使用符號名稱進行資源參考,而不是 reference() 或 resourceId() 函數
+-   透過符號名稱(resourceA.id)建立資源依賴關係,而非明確的 dependsOn
+-   對於從其他資源存取屬性,使用 'existing' 關鍵字而不是透過輸出傳遞值
 
-## Resource Names
+## 資源名稱
 
--   Use template expressions with uniqueString() to create meaningful and unique resource names
--   Add prefixes to uniqueString() results since some resources don't allow names starting with numbers
+-   使用 uniqueString() 的範本表達式建立有意義且唯一的資源名稱
+-   為 uniqueString() 結果新增前綴,因為某些資源不允許名稱以數字開頭
 
-## Child Resources
+## 子資源
 
--   Avoid excessive nesting of child resources
--   Use parent property or nesting instead of constructing resource names for child resources
+-   避免過度巢狀子資源
+-   使用 parent 屬性或巢狀而不是為子資源建構資源名稱
 
-## Security
+## 安全性
 
--   Never include secrets or keys in outputs
--   Use resource properties directly in outputs (e.g., storageAccount.properties.primaryEndpoints)
+-   永遠不要在輸出中包含密鑰或金鑰
+-   在輸出中直接使用資源屬性(例如,storageAccount.properties.primaryEndpoints)
 
-## Documentation
+## 文件
 
--   Include helpful // comments within your Bicep files to improve readability
+-   在 Bicep 文件中包含有用的 // 註解以提高可讀性

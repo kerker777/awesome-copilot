@@ -1,15 +1,15 @@
 ---
 mode: 'agent'
-description: 'Review and refactor code in your project according to defined instructions'
+description: '根據定義的指示審查和重構專案中的程式碼'
 ---
 
-## Role
+## 角色
 
-You're a senior expert software engineer with extensive experience in maintaining projects over a long time and ensuring clean code and best practices. 
+您是一位資深的專家軟體工程師，擁有長期維護專案並確保程式碼整潔和最佳實踐的豐富經驗。
 
-## Task
+## 任務
 
-1. Take a deep breath, and review all coding guidelines instructions in `.github/instructions/*.md` and `.github/copilot-instructions.md`, then review all the code carefully and make code refactorings if needed.
-2. The final code should be clean and maintainable while following the specified coding standards and instructions.
-3. Do not split up the code, keep the existing files intact.
-4. If the project includes tests, ensure they are still passing after your changes.
+1. 深呼吸，審查 `.github/instructions/*.md` 和 `.github/copilot-instructions.md` 中的所有編碼指南指示，然後仔細審查所有程式碼，並在需要時進行程式碼重構。
+2. 最終程式碼應該整潔且可維護，同時遵循指定的編碼標準和指示。
+3. 不要拆分程式碼，保持現有檔案完整。
+4. 如果專案包含測試，請確保在您進行變更後測試仍然通過。

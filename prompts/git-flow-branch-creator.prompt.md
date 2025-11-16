@@ -1,91 +1,91 @@
 ---
-description: 'Intelligent Git Flow branch creator that analyzes git status/diff and creates appropriate branches following the nvie Git Flow branching model.'
+description: '智慧 Git Flow 分支建立器,分析 git status/diff 並根據 nvie Git Flow 分支模型建立適當的分支。'
 tools: ['runCommands/runInTerminal', 'runCommands/getTerminalOutput']
 mode: 'agent'
 ---
 
-### Instructions
+### 指令
 
 ```xml
 <instructions>
-	<title>Git Flow Branch Creator</title>
-	<description>This prompt analyzes your current git changes using git status and git diff (or git diff --cached), then intelligently determines the appropriate branch type according to the Git Flow branching model and creates a semantic branch name.</description>
+	<title>Git Flow 分支建立器</title>
+	<description>此提示詞使用 git status 和 git diff（或 git diff --cached）分析您目前的 git 變更,然後根據 Git Flow 分支模型智慧地判斷適當的分支類型並建立語意化的分支名稱。</description>
 	<note>
-		Just run this prompt and Copilot will analyze your changes and create the appropriate Git Flow branch for you.
+		只需執行此提示詞,Copilot 將分析您的變更並為您建立適當的 Git Flow 分支。
 	</note>
 </instructions>
 ```
 
-### Workflow
+### 工作流程
 
-**Follow these steps:**
+**遵循以下步驟：**
 
-1. Run `git status` to review the current repository state and changed files.
-2. Run `git diff` (for unstaged changes) or `git diff --cached` (for staged changes) to analyze the nature of changes.
-3. Analyze the changes using the Git Flow Branch Analysis Framework below.
-4. Determine the appropriate branch type based on the analysis.
-5. Generate a semantic branch name following Git Flow conventions.
-6. Create the branch and switch to it automatically.
-7. Provide a summary of the analysis and next steps.
+1. 執行 `git status` 以審查目前的儲存庫狀態和已變更的檔案。
+2. 執行 `git diff`（對於未暫存的變更）或 `git diff --cached`（對於已暫存的變更）以分析變更的性質。
+3. 使用下方的 Git Flow 分支分析框架分析變更。
+4. 根據分析判斷適當的分支類型。
+5. 產生遵循 Git Flow 慣例的語意化分支名稱。
+6. 自動建立分支並切換到該分支。
+7. 提供分析摘要和後續步驟。
 
-### Git Flow Branch Analysis Framework
+### Git Flow 分支分析框架
 
 ```xml
 <analysis-framework>
 	<branch-types>
 		<feature>
-			<purpose>New features, enhancements, non-critical improvements</purpose>
+			<purpose>新功能、增強功能、非關鍵性改進</purpose>
 			<branch-from>develop</branch-from>
 			<merge-to>develop</merge-to>
-			<naming>feature/descriptive-name or feature/ticket-number-description</naming>
+			<naming>feature/描述性名稱 或 feature/票證編號-描述</naming>
 			<indicators>
-				<indicator>New functionality being added</indicator>
-				<indicator>UI/UX improvements</indicator>
-				<indicator>New API endpoints or methods</indicator>
-				<indicator>Database schema additions (non-breaking)</indicator>
-				<indicator>New configuration options</indicator>
-				<indicator>Performance improvements (non-critical)</indicator>
+				<indicator>正在新增新功能</indicator>
+				<indicator>UI/UX 改進</indicator>
+				<indicator>新的 API 端點或方法</indicator>
+				<indicator>資料庫架構新增（非破壞性）</indicator>
+				<indicator>新的設定選項</indicator>
+				<indicator>效能改進（非關鍵）</indicator>
 			</indicators>
 		</feature>
 
 		<release>
-			<purpose>Release preparation, version bumps, final testing</purpose>
+			<purpose>發行準備、版本遞增、最終測試</purpose>
 			<branch-from>develop</branch-from>
-			<merge-to>develop AND master</merge-to>
+			<merge-to>develop 和 master</merge-to>
 			<naming>release-X.Y.Z</naming>
 			<indicators>
-				<indicator>Version number changes</indicator>
-				<indicator>Build configuration updates</indicator>
-				<indicator>Documentation finalization</indicator>
-				<indicator>Minor bug fixes before release</indicator>
-				<indicator>Release notes updates</indicator>
-				<indicator>Dependency version locks</indicator>
+				<indicator>版本號變更</indicator>
+				<indicator>建置設定更新</indicator>
+				<indicator>文件最終化</indicator>
+				<indicator>發行前的小錯誤修復</indicator>
+				<indicator>發行說明更新</indicator>
+				<indicator>相依性版本鎖定</indicator>
 			</indicators>
 		</release>
 
 		<hotfix>
-			<purpose>Critical production bug fixes requiring immediate deployment</purpose>
+			<purpose>需要立即部署的關鍵生產錯誤修復</purpose>
 			<branch-from>master</branch-from>
-			<merge-to>develop AND master</merge-to>
-			<naming>hotfix-X.Y.Z or hotfix/critical-issue-description</naming>
+			<merge-to>develop 和 master</merge-to>
+			<naming>hotfix-X.Y.Z 或 hotfix/關鍵問題描述</naming>
 			<indicators>
-				<indicator>Security vulnerability fixes</indicator>
-				<indicator>Critical production bugs</indicator>
-				<indicator>Data corruption fixes</indicator>
-				<indicator>Service outage resolution</indicator>
-				<indicator>Emergency configuration changes</indicator>
+				<indicator>安全性漏洞修復</indicator>
+				<indicator>關鍵生產錯誤</indicator>
+				<indicator>資料損毀修復</indicator>
+				<indicator>服務中斷解決</indicator>
+				<indicator>緊急設定變更</indicator>
 			</indicators>
 		</hotfix>
 	</branch-types>
 </analysis-framework>
 ```
 
-### Branch Naming Conventions
+### 分支命名慣例
 
 ```xml
 <naming-conventions>
 	<feature-branches>
-		<format>feature/[ticket-number-]descriptive-name</format>
+		<format>feature/[票證編號-]描述性名稱</format>
 		<examples>
 			<example>feature/user-authentication</example>
 			<example>feature/PROJ-123-shopping-cart</example>
@@ -104,7 +104,7 @@ mode: 'agent'
 	</release-branches>
 
 	<hotfix-branches>
-		<format>hotfix-X.Y.Z OR hotfix/critical-description</format>
+		<format>hotfix-X.Y.Z 或 hotfix/關鍵描述</format>
 		<examples>
 			<example>hotfix-1.2.1</example>
 			<example>hotfix/security-patch</example>
@@ -115,104 +115,104 @@ mode: 'agent'
 </naming-conventions>
 ```
 
-### Analysis Process
+### 分析流程
 
 ```xml
 <analysis-process>
 	<step-1>
-		<title>Change Nature Analysis</title>
-		<description>Examine the types of files modified and the nature of changes</description>
+		<title>變更性質分析</title>
+		<description>檢查修改的檔案類型和變更的性質</description>
 		<criteria>
-			<files-modified>Look at file extensions, directory structure, and purpose</files-modified>
-			<change-scope>Determine if changes are additive, corrective, or preparatory</change-scope>
-			<urgency-level>Assess if changes address critical issues or are developmental</urgency-level>
+			<files-modified>查看副檔名、目錄結構和目的</files-modified>
+			<change-scope>判斷變更是新增性、修正性還是準備性</change-scope>
+			<urgency-level>評估變更是否處理關鍵問題或為開發性質</urgency-level>
 		</criteria>
 	</step-1>
 
 	<step-2>
-		<title>Git Flow Classification</title>
-		<description>Map the changes to appropriate Git Flow branch type</description>
+		<title>Git Flow 分類</title>
+		<description>將變更對應到適當的 Git Flow 分支類型</description>
 		<decision-tree>
-			<question>Are these critical fixes for production issues?</question>
-			<if-yes>Consider hotfix branch</if-yes>
+			<question>這些是生產問題的關鍵修復嗎？</question>
+			<if-yes>考慮 hotfix 分支</if-yes>
 			<if-no>
-				<question>Are these release preparation changes (version bumps, final tweaks)?</question>
-				<if-yes>Consider release branch</if-yes>
-				<if-no>Default to feature branch</if-no>
+				<question>這些是發行準備變更（版本遞增、最終調整）嗎？</question>
+				<if-yes>考慮 release 分支</if-yes>
+				<if-no>預設為 feature 分支</if-no>
 			</if-no>
 		</decision-tree>
 	</step-2>
 
 	<step-3>
-		<title>Branch Name Generation</title>
-		<description>Create semantic, descriptive branch name</description>
+		<title>分支名稱產生</title>
+		<description>建立語意化、描述性的分支名稱</description>
 		<guidelines>
-			<use-kebab-case>Use lowercase with hyphens</use-kebab-case>
-			<be-descriptive>Name should clearly indicate the purpose</be-descriptive>
-			<include-context>Add ticket numbers or project context when available</include-context>
-			<keep-concise>Avoid overly long names</keep-concise>
+			<use-kebab-case>使用小寫加連字號</use-kebab-case>
+			<be-descriptive>名稱應清楚指示目的</be-descriptive>
+			<include-context>可用時加入票證編號或專案情境</include-context>
+			<keep-concise>避免過長的名稱</keep-concise>
 		</guidelines>
 	</step-3>
 </analysis-process>
 ```
 
-### Edge Cases and Validation
+### 邊緣案例和驗證
 
 ```xml
 <edge-cases>
 	<mixed-changes>
-		<scenario>Changes include both features and bug fixes</scenario>
-		<resolution>Prioritize the most significant change type or suggest splitting into multiple branches</resolution>
+		<scenario>變更同時包含功能和錯誤修復</scenario>
+		<resolution>優先處理最重要的變更類型或建議拆分為多個分支</resolution>
 	</mixed-changes>
 
 	<no-changes>
-		<scenario>No changes detected in git status/diff</scenario>
-		<resolution>Inform user and suggest checking git status or making changes first</resolution>
+		<scenario>git status/diff 中未偵測到變更</scenario>
+		<resolution>通知使用者並建議先檢查 git status 或進行變更</resolution>
 	</no-changes>
 
 	<existing-branch>
-		<scenario>Already on a feature/hotfix/release branch</scenario>
-		<resolution>Analyze if new branch is needed or if current branch is appropriate</resolution>
+		<scenario>已經在 feature/hotfix/release 分支上</scenario>
+		<resolution>分析是否需要新分支或當前分支是否適當</resolution>
 	</existing-branch>
 
 	<conflicting-names>
-		<scenario>Suggested branch name already exists</scenario>
-		<resolution>Append incremental suffix or suggest alternative name</resolution>
+		<scenario>建議的分支名稱已存在</scenario>
+		<resolution>附加遞增後綴或建議替代名稱</resolution>
 	</conflicting-names>
 </edge-cases>
 ```
 
-### Examples
+### 範例
 
 ```xml
 <examples>
 	<example-1>
-		<scenario>Added new user registration API endpoint</scenario>
-		<analysis>New functionality, additive changes, not critical</analysis>
+		<scenario>新增新的使用者註冊 API 端點</scenario>
+		<analysis>新功能、新增性變更、非關鍵</analysis>
 		<branch-type>feature</branch-type>
 		<branch-name>feature/user-registration-api</branch-name>
 		<command>git checkout -b feature/user-registration-api develop</command>
 	</example-1>
 
 	<example-2>
-		<scenario>Fixed critical security vulnerability in authentication</scenario>
-		<analysis>Security fix, critical for production, immediate deployment needed</analysis>
+		<scenario>修復驗證中的關鍵安全性漏洞</scenario>
+		<analysis>安全性修復、對生產環境關鍵、需要立即部署</analysis>
 		<branch-type>hotfix</branch-type>
 		<branch-name>hotfix/auth-security-patch</branch-name>
 		<command>git checkout -b hotfix/auth-security-patch master</command>
 	</example-2>
 
 	<example-3>
-		<scenario>Updated version to 2.1.0 and finalized release notes</scenario>
-		<analysis>Release preparation, version bump, documentation</analysis>
+		<scenario>將版本更新至 2.1.0 並最終化發行說明</scenario>
+		<analysis>發行準備、版本遞增、文件</analysis>
 		<branch-type>release</branch-type>
 		<branch-name>release-2.1.0</branch-name>
 		<command>git checkout -b release-2.1.0 develop</command>
 	</example-3>
 
 	<example-4>
-		<scenario>Improved database query performance and updated caching</scenario>
-		<analysis>Performance improvement, non-critical enhancement</analysis>
+		<scenario>改進資料庫查詢效能並更新快取</scenario>
+		<analysis>效能改進、非關鍵增強</analysis>
 		<branch-type>feature</branch-type>
 		<branch-name>feature/database-performance-optimization</branch-name>
 		<command>git checkout -b feature/database-performance-optimization develop</command>
@@ -220,74 +220,74 @@ mode: 'agent'
 </examples>
 ```
 
-### Validation Checklist
+### 驗證檢查清單
 
 ```xml
 <validation>
 	<pre-analysis>
-		<check>Repository is in a clean state (no uncommitted changes that would conflict)</check>
-		<check>Current branch is appropriate starting point (develop for features/releases, master for hotfixes)</check>
-		<check>Remote repository is up to date</check>
+		<check>儲存庫處於乾淨狀態（沒有會衝突的未提交變更）</check>
+		<check>當前分支是適當的起點（feature/release 用 develop，hotfix 用 master）</check>
+		<check>遠端儲存庫是最新的</check>
 	</pre-analysis>
 
 	<analysis-quality>
-		<check>Change analysis covers all modified files</check>
-		<check>Branch type selection follows Git Flow principles</check>
-		<check>Branch name is semantic and follows conventions</check>
-		<check>Edge cases are considered and handled</check>
+		<check>變更分析涵蓋所有修改的檔案</check>
+		<check>分支類型選擇遵循 Git Flow 原則</check>
+		<check>分支名稱具有語意且遵循慣例</check>
+		<check>考慮並處理邊緣案例</check>
 	</analysis-quality>
 
 	<execution-safety>
-		<check>Target branch (develop/master) exists and is accessible</check>
-		<check>Proposed branch name doesn't conflict with existing branches</check>
-		<check>User has appropriate permissions to create branches</check>
+		<check>目標分支（develop/master）存在且可存取</check>
+		<check>建議的分支名稱不與現有分支衝突</check>
+		<check>使用者具有建立分支的適當權限</check>
 	</execution-safety>
 </validation>
 ```
 
-### Final Execution
+### 最終執行
 
 ```xml
 <execution-protocol>
 	<analysis-summary>
-		<git-status>Output of git status command</git-status>
-		<git-diff>Relevant portions of git diff output</git-diff>
-		<change-analysis>Detailed analysis of what changes represent</change-analysis>
-		<branch-decision>Explanation of why specific branch type was chosen</branch-decision>
+		<git-status>git status 命令的輸出</git-status>
+		<git-diff>git diff 輸出的相關部分</git-diff>
+		<change-analysis>變更代表什麼的詳細分析</change-analysis>
+		<branch-decision>為何選擇特定分支類型的說明</branch-decision>
 	</analysis-summary>
 
 	<branch-creation>
-		<command>git checkout -b [branch-name] [source-branch]</command>
-		<confirmation>Verify branch creation and current branch status</confirmation>
-		<next-steps>Provide guidance on next actions (commit changes, push branch, etc.)</next-steps>
+		<command>git checkout -b [分支名稱] [來源分支]</command>
+		<confirmation>驗證分支建立和當前分支狀態</confirmation>
+		<next-steps>提供後續動作的指引（提交變更、推送分支等）</next-steps>
 	</branch-creation>
 
 	<fallback-options>
-		<alternative-names>Suggest 2-3 alternative branch names if primary suggestion isn't suitable</alternative-names>
-		<manual-override>Allow user to specify different branch type if analysis seems incorrect</manual-override>
+		<alternative-names>如果主要建議不合適,建議 2-3 個替代分支名稱</alternative-names>
+		<manual-override>如果分析似乎不正確,允許使用者指定不同的分支類型</manual-override>
 	</fallback-options>
 </execution-protocol>
 ```
 
-### Git Flow Reference
+### Git Flow 參考
 
 ```xml
 <gitflow-reference>
 	<main-branches>
-		<master>Production-ready code, every commit is a release</master>
-		<develop>Integration branch for features, latest development changes</develop>
+		<master>可用於生產環境的程式碼,每次提交都是一個發行版本</master>
+		<develop>功能的整合分支,最新的開發變更</develop>
 	</main-branches>
 
 	<supporting-branches>
-		<feature>Branch from develop, merge back to develop</feature>
-		<release>Branch from develop, merge to both develop and master</release>
-		<hotfix>Branch from master, merge to both develop and master</hotfix>
+		<feature>從 develop 分支,合併回 develop</feature>
+		<release>從 develop 分支,合併到 develop 和 master</release>
+		<hotfix>從 master 分支,合併到 develop 和 master</hotfix>
 	</supporting-branches>
 
 	<merge-strategy>
-		<flag>Always use --no-ff flag to preserve branch history</flag>
-		<tagging>Tag releases on master branch</tagging>
-		<cleanup>Delete branches after successful merge</cleanup>
+		<flag>始終使用 --no-ff 旗標以保留分支歷史記錄</flag>
+		<tagging>在 master 分支上標記發行版本</tagging>
+		<cleanup>成功合併後刪除分支</cleanup>
 	</merge-strategy>
 </gitflow-reference>
 ```

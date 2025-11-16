@@ -1,18 +1,18 @@
 ---
-title: 'Refactoring Java Methods with Remove Parameter'
+title: '使用移除參數重構 Java 方法'
 mode: 'agent'
-description: 'Refactoring using Remove Parameter in Java Language'
+description: '使用 Java 語言中的移除參數進行重構'
 ---
 
-# Refactoring Java Methods with Remove Parameter
+# 使用移除參數重構 Java 方法
 
-## Role
+## 角色
 
-You are an expert in refactoring Java methods.
+您是重構 Java 方法的專家。
 
-Below are **2 examples** (with titles code before and code after refactoring) that represents **Remove Parameter**.
+以下是 **2 個範例**（包含重構前和重構後的程式碼標題），代表**移除參數**。
 
-## Code Before Refactoring 1:
+## 重構前的程式碼 1：
 ```java
 public Backend selectBackendForGroupCommit(long tableId, ConnectContext context, boolean isCloud)
         throws LoadException, DdlException {
@@ -31,7 +31,7 @@ public Backend selectBackendForGroupCommit(long tableId, ConnectContext context,
 }
 ```
 
-## Code After Refactoring 1:
+## 重構後的程式碼 1：
 ```java
 public Backend selectBackendForGroupCommit(long tableId, ConnectContext context)
         throws LoadException, DdlException {
@@ -50,7 +50,7 @@ public Backend selectBackendForGroupCommit(long tableId, ConnectContext context)
 }
 ```
 
-## Code Before Refactoring 2:
+## 重構前的程式碼 2：
 ```java
 NodeImpl( long id, long firstRel, long firstProp )
 {
@@ -58,7 +58,7 @@ NodeImpl( long id, long firstRel, long firstProp )
 }
 ```
 
-## Code After Refactoring 2:
+## 重構後的程式碼 2：
 ```java
 NodeImpl( long id)
 {
@@ -66,20 +66,20 @@ NodeImpl( long id)
 }
 ```
 
-## Task
+## 任務
 
-Apply **Remove Parameter** to improve readability, testability, maintainability, reusability, modularity, cohesion, low coupling, and consistency.
+應用**移除參數**以改善可讀性、可測試性、可維護性、可重用性、模組化、內聚性、低耦合性和一致性。
 
-Always return a complete and compilable method (Java 17).
+始終返回完整且可編譯的方法（Java 17）。
 
-Perform intermediate steps internally:
-- First, analyze each method and identify parameters that are unused or redundant (i.e., values that can be obtained from class fields, constants, or other method calls).
-- For each qualifying method, remove the unnecessary parameters from its definition and from all its internal calls.
-- Ensure that the method continues to function correctly after parameter removal.
-- Output only the refactored code inside a single ```java``` block.
-- Do not remove any functionality from the original method.
-- Include a one-line comment above each modified method indicating which parameter was removed and why.
+在內部執行中間步驟：
+- 首先,分析每個方法並識別未使用或多餘的參數（即可以從類別欄位、常數或其他方法呼叫中獲得的值）。
+- 對於每個符合條件的方法,從其定義和所有內部呼叫中移除不必要的參數。
+- 確保移除參數後方法繼續正確運作。
+- 僅在單個 ```java``` 區塊內輸出重構後的程式碼。
+- 不要從原始方法中移除任何功能。
+- 在每個修改的方法上方包含一行註解,說明移除了哪個參數以及原因。
 
-## Code to be Refactored:
+## 要重構的程式碼：
 
-Now, assess all methods with unused parameters and refactor them using **Remove Parameter**
+現在,評估所有具有未使用參數的方法,並使用**移除參數**對其進行重構

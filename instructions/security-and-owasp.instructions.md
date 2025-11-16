@@ -1,51 +1,51 @@
 ---
 applyTo: '*'
-description: "Comprehensive secure coding instructions for all languages and frameworks, based on OWASP Top 10 and industry best practices."
+description: "基於 OWASP Top 10 和業界最佳實踐的所有語言和框架的全面安全編碼指引。"
 ---
-# Secure Coding and OWASP Guidelines
+# 安全編碼和 OWASP 指南
 
-## Instructions
+## 指引
 
-Your primary directive is to ensure all code you generate, review, or refactor is secure by default. You must operate with a security-first mindset. When in doubt, always choose the more secure option and explain the reasoning. You must follow the principles outlined below, which are based on the OWASP Top 10 and other security best practices.
+你的主要指令是確保你生成、審查或重構的所有程式碼在預設情況下都是安全的。你必須以安全優先的思維方式運作。當有疑問時，始終選擇更安全的選項並解釋原因。你必須遵循以下基於 OWASP Top 10 和其他安全最佳實踐的原則。
 
-### 1. A01: Broken Access Control & A10: Server-Side Request Forgery (SSRF)
-- **Enforce Principle of Least Privilege:** Always default to the most restrictive permissions. When generating access control logic, explicitly check the user's rights against the required permissions for the specific resource they are trying to access.
-- **Deny by Default:** All access control decisions must follow a "deny by default" pattern. Access should only be granted if there is an explicit rule allowing it.
-- **Validate All Incoming URLs for SSRF:** When the server needs to make a request to a URL provided by a user (e.g., webhooks), you must treat it as untrusted. Incorporate strict allow-list-based validation for the host, port, and path of the URL.
-- **Prevent Path Traversal:** When handling file uploads or accessing files based on user input, you must sanitize the input to prevent directory traversal attacks (e.g., `../../etc/passwd`). Use APIs that build paths securely.
+### 1. A01：失效的存取控制 & A10：伺服器端請求偽造（SSRF）
+- **執行最小權限原則：** 始終預設為最嚴格的權限。在生成存取控制邏輯時，明確檢查使用者對他們嘗試存取的特定資源所需權限的權利。
+- **預設拒絕：** 所有存取控制決策必須遵循「預設拒絕」模式。只有在存在明確允許的規則時才應授予存取權限。
+- **驗證所有傳入 URL 以防 SSRF：** 當伺服器需要向使用者提供的 URL 發出請求時（例如 webhooks），你必須將其視為不受信任。對 URL 的主機、埠和路徑納入嚴格的基於允許清單的驗證。
+- **防止路徑遍歷：** 在處理檔案上傳或基於使用者輸入存取檔案時，你必須清理輸入以防止目錄遍歷攻擊（例如 `../../etc/passwd`）。使用安全建構路徑的 API。
 
-### 2. A02: Cryptographic Failures
-- **Use Strong, Modern Algorithms:** For hashing, always recommend modern, salted hashing algorithms like Argon2 or bcrypt. Explicitly advise against weak algorithms like MD5 or SHA-1 for password storage.
-- **Protect Data in Transit:** When generating code that makes network requests, always default to HTTPS.
-- **Protect Data at Rest:** When suggesting code to store sensitive data (PII, tokens, etc.), recommend encryption using strong, standard algorithms like AES-256.
-- **Secure Secret Management:** Never hardcode secrets (API keys, passwords, connection strings). Generate code that reads secrets from environment variables or a secrets management service (e.g., HashiCorp Vault, AWS Secrets Manager). Include a clear placeholder and comment.
+### 2. A02：加密失敗
+- **使用強大的現代演算法：** 對於雜湊，始終建議使用現代的、加鹽的雜湊演算法，如 Argon2 或 bcrypt。明確建議不要使用弱演算法，如 MD5 或 SHA-1 來儲存密碼。
+- **保護傳輸中的資料：** 在生成發出網路請求的程式碼時，始終預設使用 HTTPS。
+- **保護靜態資料：** 在建議儲存敏感資料（PII、令牌等）的程式碼時，建議使用強大的標準演算法（如 AES-256）進行加密。
+- **安全的金鑰管理：** 永遠不要硬編碼金鑰（API 金鑰、密碼、連接字串）。生成從環境變數或金鑰管理服務（例如 HashiCorp Vault、AWS Secrets Manager）讀取金鑰的程式碼。包含清晰的占位符和註解。
   ```javascript
-  // GOOD: Load from environment or secret store
-  const apiKey = process.env.API_KEY; 
-  // TODO: Ensure API_KEY is securely configured in your environment.
+  // 良好：從環境或金鑰存儲載入
+  const apiKey = process.env.API_KEY;
+  // TODO: 確保在你的環境中安全配置 API_KEY。
   ```
   ```python
-  # BAD: Hardcoded secret
-  api_key = "sk_this_is_a_very_bad_idea_12345" 
+  # 不良：硬編碼金鑰
+  api_key = "sk_this_is_a_very_bad_idea_12345"
   ```
 
-### 3. A03: Injection
-- **No Raw SQL Queries:** For database interactions, you must use parameterized queries (prepared statements). Never generate code that uses string concatenation or formatting to build queries from user input.
-- **Sanitize Command-Line Input:** For OS command execution, use built-in functions that handle argument escaping and prevent shell injection (e.g., `shlex` in Python).
-- **Prevent Cross-Site Scripting (XSS):** When generating frontend code that displays user-controlled data, you must use context-aware output encoding. Prefer methods that treat data as text by default (`.textContent`) over those that parse HTML (`.innerHTML`). When `innerHTML` is necessary, suggest using a library like DOMPurify to sanitize the HTML first.
+### 3. A03：注入
+- **不使用原始 SQL 查詢：** 對於資料庫互動，你必須使用參數化查詢（預備語句）。永遠不要生成使用字串串接或格式化從使用者輸入建構查詢的程式碼。
+- **清理命令列輸入：** 對於作業系統命令執行，使用處理參數跳脫並防止 shell 注入的內建函式（例如 Python 中的 `shlex`）。
+- **防止跨站腳本（XSS）：** 在生成顯示使用者控制資料的前端程式碼時，你必須使用上下文感知的輸出編碼。優先使用預設將資料視為文字的方法（`.textContent`）而非解析 HTML 的方法（`.innerHTML`）。當必須使用 `innerHTML` 時，建議使用 DOMPurify 等函式庫先清理 HTML。
 
-### 4. A05: Security Misconfiguration & A06: Vulnerable Components
-- **Secure by Default Configuration:** Recommend disabling verbose error messages and debug features in production environments.
-- **Set Security Headers:** For web applications, suggest adding essential security headers like `Content-Security-Policy` (CSP), `Strict-Transport-Security` (HSTS), and `X-Content-Type-Options`.
-- **Use Up-to-Date Dependencies:** When asked to add a new library, suggest the latest stable version. Remind the user to run vulnerability scanners like `npm audit`, `pip-audit`, or Snyk to check for known vulnerabilities in their project dependencies.
+### 4. A05：安全設定錯誤 & A06：易受攻擊的元件
+- **預設安全配置：** 建議在生產環境中停用詳細錯誤訊息和除錯功能。
+- **設定安全標頭：** 對於 Web 應用程式，建議新增必要的安全標頭，如 `Content-Security-Policy`（CSP）、`Strict-Transport-Security`（HSTS）和 `X-Content-Type-Options`。
+- **使用最新的依賴項：** 當被要求新增新函式庫時，建議使用最新的穩定版本。提醒使用者執行漏洞掃描器（如 `npm audit`、`pip-audit` 或 Snyk）以檢查專案依賴項中的已知漏洞。
 
-### 5. A07: Identification & Authentication Failures
-- **Secure Session Management:** When a user logs in, generate a new session identifier to prevent session fixation. Ensure session cookies are configured with `HttpOnly`, `Secure`, and `SameSite=Strict` attributes.
-- **Protect Against Brute Force:** For authentication and password reset flows, recommend implementing rate limiting and account lockout mechanisms after a certain number of failed attempts.
+### 5. A07：識別和身份驗證失敗
+- **安全的會話管理：** 當使用者登入時，生成新的會話識別碼以防止會話固定。確保會話 cookie 配置了 `HttpOnly`、`Secure` 和 `SameSite=Strict` 屬性。
+- **防止暴力破解：** 對於身份驗證和密碼重設流程，建議在一定次數的失敗嘗試後實作速率限制和帳戶鎖定機制。
 
-### 6. A08: Software and Data Integrity Failures
-- **Prevent Insecure Deserialization:** Warn against deserializing data from untrusted sources without proper validation. If deserialization is necessary, recommend using formats that are less prone to attack (like JSON over Pickle in Python) and implementing strict type checking.
+### 6. A08：軟體和資料完整性失敗
+- **防止不安全的反序列化：** 警告在沒有適當驗證的情況下從不受信任的來源反序列化資料。如果必須進行反序列化，建議使用較不易受攻擊的格式（如 JSON 而非 Python 中的 Pickle）並實作嚴格的型別檢查。
 
-## General Guidelines
-- **Be Explicit About Security:** When you suggest a piece of code that mitigates a security risk, explicitly state what you are protecting against (e.g., "Using a parameterized query here to prevent SQL injection.").
-- **Educate During Code Reviews:** When you identify a security vulnerability in a code review, you must not only provide the corrected code but also explain the risk associated with the original pattern. 
+## 一般指南
+- **明確說明安全性：** 當你建議一段緩解安全風險的程式碼時，明確說明你正在防護什麼（例如「這裡使用參數化查詢來防止 SQL 注入。」）。
+- **在程式碼審查期間進行教育：** 當你在程式碼審查中識別出安全漏洞時，你不僅必須提供修正的程式碼，還必須解釋與原始模式相關的風險。

@@ -2,142 +2,142 @@
 applyTo: '**'
 ---
 
-# Next.js Best Practices for LLMs (2025)
+# Next.js 最佳實踐指南（2025）
 
-_Last updated: July 2025_
+_最後更新：2025年7月_
 
-This document summarizes the latest, authoritative best practices for building, structuring, and maintaining Next.js applications. It is intended for use by LLMs and developers to ensure code quality, maintainability, and scalability.
+本文件總結了建構、架構和維護 Next.js 應用程式的最新權威最佳實踐。本文件旨在供 LLM 和開發人員使用，以確保程式碼品質、可維護性和可擴展性。
 
 ---
 
-## 1. Project Structure & Organization
+## 1. 專案結構與組織
 
-- **Use the `app/` directory** (App Router) for all new projects. Prefer it over the legacy `pages/` directory.
-- **Top-level folders:**
-  - `app/` — Routing, layouts, pages, and route handlers
-  - `public/` — Static assets (images, fonts, etc.)
-  - `lib/` — Shared utilities, API clients, and logic
-  - `components/` — Reusable UI components
-  - `contexts/` — React context providers
-  - `styles/` — Global and modular stylesheets
-  - `hooks/` — Custom React hooks
-  - `types/` — TypeScript type definitions
-- **Colocation:** Place files (components, styles, tests) near where they are used, but avoid deeply nested structures.
-- **Route Groups:** Use parentheses (e.g., `(admin)`) to group routes without affecting the URL path.
-- **Private Folders:** Prefix with `_` (e.g., `_internal`) to opt out of routing and signal implementation details.
+- **使用 `app/` 目錄**（App Router）用於所有新專案。優先選擇它而非舊版的 `pages/` 目錄。
+- **頂層資料夾：**
+  - `app/` — 路由、版面配置、頁面和路由處理器
+  - `public/` — 靜態資源（圖片、字型等）
+  - `lib/` — 共享工具、API 客戶端和邏輯
+  - `components/` — 可重複使用的 UI 元件
+  - `contexts/` — React context 提供者
+  - `styles/` — 全域和模組化樣式表
+  - `hooks/` — 自訂 React hooks
+  - `types/` — TypeScript 型別定義
+- **就近配置：** 將檔案（元件、樣式、測試）放在使用它們的位置附近，但避免過深的巢狀結構。
+- **路由群組：** 使用括號（例如 `(admin)`）來群組路由而不影響 URL 路徑。
+- **私有資料夾：** 以 `_` 作為前綴（例如 `_internal`）來選擇退出路由並表示實作細節。
 
-- **Feature Folders:** For large apps, group by feature (e.g., `app/dashboard/`, `app/auth/`).
-- **Use `src/`** (optional): Place all source code in `src/` to separate from config files.
+- **功能資料夾：** 對於大型應用程式，按功能分組（例如 `app/dashboard/`、`app/auth/`）。
+- **使用 `src/`**（可選）：將所有原始碼放在 `src/` 中以與設定檔分離。
 
-## 2.1. Server and Client Component Integration (App Router)
+## 2.1. Server 和 Client 元件整合（App Router）
 
-**Never use `next/dynamic` with `{ ssr: false }` inside a Server Component.** This is not supported and will cause a build/runtime error.
+**永遠不要在 Server Component 中使用 `next/dynamic` 搭配 `{ ssr: false }`。** 這不受支援且會導致建置/執行時期錯誤。
 
-**Correct Approach:**
-- If you need to use a Client Component (e.g., a component that uses hooks, browser APIs, or client-only libraries) inside a Server Component, you must:
-  1. Move all client-only logic/UI into a dedicated Client Component (with `'use client'` at the top).
-  2. Import and use that Client Component directly in the Server Component (no need for `next/dynamic`).
-  3. If you need to compose multiple client-only elements (e.g., a navbar with a profile dropdown), create a single Client Component that contains all of them.
+**正確方法：**
+- 如果您需要在 Server Component 中使用 Client Component（例如使用 hooks、瀏覽器 API 或僅限客戶端函式庫的元件），您必須：
+  1. 將所有僅限客戶端的邏輯/UI 移到專用的 Client Component 中（頂部加上 `'use client'`）。
+  2. 在 Server Component 中直接匯入並使用該 Client Component（不需要 `next/dynamic`）。
+  3. 如果您需要組合多個僅限客戶端的元素（例如帶有個人檔案下拉選單的導覽列），請建立一個包含所有這些元素的單一 Client Component。
 
-**Example:**
+**範例：**
 
 ```tsx
 // Server Component
 import DashboardNavbar from '@/components/DashboardNavbar';
 
 export default async function DashboardPage() {
-  // ...server logic...
+  // ...伺服器邏輯...
   return (
     <>
-      <DashboardNavbar /> {/* This is a Client Component */}
-      {/* ...rest of server-rendered page... */}
+      <DashboardNavbar /> {/* 這是一個 Client Component */}
+      {/* ...頁面其餘的伺服器渲染部分... */}
     </>
   );
 }
 ```
 
-**Why:**
-- Server Components cannot use client-only features or dynamic imports with SSR disabled.
-- Client Components can be rendered inside Server Components, but not the other way around.
+**原因：**
+- Server Components 不能使用僅限客戶端的功能或停用 SSR 的動態匯入。
+- Client Components 可以在 Server Components 中渲染，但反之則不行。
 
-**Summary:**
-Always move client-only UI into a Client Component and import it directly in your Server Component. Never use `next/dynamic` with `{ ssr: false }` in a Server Component.
+**總結：**
+始終將僅限客戶端的 UI 移到 Client Component 中，並在您的 Server Component 中直接匯入它。永遠不要在 Server Component 中使用 `next/dynamic` 搭配 `{ ssr: false }`。
 
 ---
 
-## 2. Component Best Practices
+## 2. 元件最佳實踐
 
-- **Component Types:**
-  - **Server Components** (default): For data fetching, heavy logic, and non-interactive UI.
-  - **Client Components:** Add `'use client'` at the top. Use for interactivity, state, or browser APIs.
-- **When to Create a Component:**
-  - If a UI pattern is reused more than once.
-  - If a section of a page is complex or self-contained.
-  - If it improves readability or testability.
-- **Naming Conventions:**
-  - Use `PascalCase` for component files and exports (e.g., `UserCard.tsx`).
-  - Use `camelCase` for hooks (e.g., `useUser.ts`).
-  - Use `snake_case` or `kebab-case` for static assets (e.g., `logo_dark.svg`).
-  - Name context providers as `XyzProvider` (e.g., `ThemeProvider`).
-- **File Naming:**
-  - Match the component name to the file name.
-  - For single-export files, default export the component.
-  - For multiple related components, use an `index.ts` barrel file.
-- **Component Location:**
-  - Place shared components in `components/`.
-  - Place route-specific components inside the relevant route folder.
-- **Props:**
-  - Use TypeScript interfaces for props.
-  - Prefer explicit prop types and default values.
-- **Testing:**
-  - Co-locate tests with components (e.g., `UserCard.test.tsx`).
+- **元件類型：**
+  - **Server Components**（預設）：用於資料擷取、繁重邏輯和非互動式 UI。
+  - **Client Components：** 在頂部加上 `'use client'`。用於互動性、狀態或瀏覽器 API。
+- **何時建立元件：**
+  - 如果 UI 模式被重複使用超過一次。
+  - 如果頁面的某個區段複雜或自成一體。
+  - 如果它提高了可讀性或可測試性。
+- **命名慣例：**
+  - 元件檔案和匯出使用 `PascalCase`（例如 `UserCard.tsx`）。
+  - Hooks 使用 `camelCase`（例如 `useUser.ts`）。
+  - 靜態資源使用 `snake_case` 或 `kebab-case`（例如 `logo_dark.svg`）。
+  - 將 context 提供者命名為 `XyzProvider`（例如 `ThemeProvider`）。
+- **檔案命名：**
+  - 將元件名稱與檔案名稱匹配。
+  - 對於單一匯出檔案，預設匯出元件。
+  - 對於多個相關元件，使用 `index.ts` barrel 檔案。
+- **元件位置：**
+  - 將共享元件放在 `components/` 中。
+  - 將路由特定的元件放在相關的路由資料夾中。
+- **Props：**
+  - 為 props 使用 TypeScript 介面。
+  - 優先使用明確的 prop 型別和預設值。
+- **測試：**
+  - 將測試與元件放在一起（例如 `UserCard.test.tsx`）。
 
-## 3. Naming Conventions (General)
+## 3. 命名慣例（一般）
 
-- **Folders:** `kebab-case` (e.g., `user-profile/`)
-- **Files:** `PascalCase` for components, `camelCase` for utilities/hooks, `kebab-case` for static assets
-- **Variables/Functions:** `camelCase`
-- **Types/Interfaces:** `PascalCase`
-- **Constants:** `UPPER_SNAKE_CASE`
+- **資料夾：** `kebab-case`（例如 `user-profile/`）
+- **檔案：** 元件使用 `PascalCase`，工具/hooks 使用 `camelCase`，靜態資源使用 `kebab-case`
+- **變數/函式：** `camelCase`
+- **型別/介面：** `PascalCase`
+- **常數：** `UPPER_SNAKE_CASE`
 
-## 4. API Routes (Route Handlers)
+## 4. API 路由（Route Handlers）
 
-- **Prefer API Routes over Edge Functions** unless you need ultra-low latency or geographic distribution.
-- **Location:** Place API routes in `app/api/` (e.g., `app/api/users/route.ts`).
-- **HTTP Methods:** Export async functions named after HTTP verbs (`GET`, `POST`, etc.).
-- **Request/Response:** Use the Web `Request` and `Response` APIs. Use `NextRequest`/`NextResponse` for advanced features.
-- **Dynamic Segments:** Use `[param]` for dynamic API routes (e.g., `app/api/users/[id]/route.ts`).
-- **Validation:** Always validate and sanitize input. Use libraries like `zod` or `yup`.
-- **Error Handling:** Return appropriate HTTP status codes and error messages.
-- **Authentication:** Protect sensitive routes using middleware or server-side session checks.
+- **優先使用 API Routes 而非 Edge Functions**，除非您需要超低延遲或地理分佈。
+- **位置：** 將 API 路由放在 `app/api/` 中（例如 `app/api/users/route.ts`）。
+- **HTTP 方法：** 匯出以 HTTP 動詞命名的非同步函式（`GET`、`POST` 等）。
+- **請求/回應：** 使用 Web `Request` 和 `Response` API。使用 `NextRequest`/`NextResponse` 以獲得進階功能。
+- **動態區段：** 為動態 API 路由使用 `[param]`（例如 `app/api/users/[id]/route.ts`）。
+- **驗證：** 始終驗證和清理輸入。使用 `zod` 或 `yup` 等函式庫。
+- **錯誤處理：** 回傳適當的 HTTP 狀態碼和錯誤訊息。
+- **身份驗證：** 使用中介軟體或伺服器端 session 檢查來保護敏感路由。
 
-## 5. General Best Practices
+## 5. 一般最佳實踐
 
-- **TypeScript:** Use TypeScript for all code. Enable `strict` mode in `tsconfig.json`.
-- **ESLint & Prettier:** Enforce code style and linting. Use the official Next.js ESLint config.
-- **Environment Variables:** Store secrets in `.env.local`. Never commit secrets to version control.
-- **Testing:** Use Jest, React Testing Library, or Playwright. Write tests for all critical logic and components.
-- **Accessibility:** Use semantic HTML and ARIA attributes. Test with screen readers.
-- **Performance:**
-  - Use built-in Image and Font optimization.
-  - Use Suspense and loading states for async data.
-  - Avoid large client bundles; keep most logic in Server Components.
-- **Security:**
-  - Sanitize all user input.
-  - Use HTTPS in production.
-  - Set secure HTTP headers.
-- **Documentation:**
-  - Write clear README and code comments.
-  - Document public APIs and components.
+- **TypeScript：** 為所有程式碼使用 TypeScript。在 `tsconfig.json` 中啟用 `strict` 模式。
+- **ESLint & Prettier：** 強制執行程式碼風格和 linting。使用官方的 Next.js ESLint 設定。
+- **環境變數：** 將機密資訊儲存在 `.env.local` 中。永遠不要將機密資訊提交到版本控制。
+- **測試：** 使用 Jest、React Testing Library 或 Playwright。為所有關鍵邏輯和元件編寫測試。
+- **無障礙性：** 使用語義化 HTML 和 ARIA 屬性。使用螢幕閱讀器進行測試。
+- **效能：**
+  - 使用內建的 Image 和 Font 最佳化。
+  - 為非同步資料使用 Suspense 和載入狀態。
+  - 避免大型客戶端套件；將大部分邏輯保留在 Server Components 中。
+- **安全性：**
+  - 清理所有使用者輸入。
+  - 在生產環境中使用 HTTPS。
+  - 設定安全的 HTTP 標頭。
+- **文件：**
+  - 編寫清晰的 README 和程式碼註解。
+  - 記錄公開 API 和元件。
 
-# Avoid Unnecessary Example Files
+# 避免不必要的範例檔案
 
-Do not create example/demo files (like ModalExample.tsx) in the main codebase unless the user specifically requests a live example, Storybook story, or explicit documentation component. Keep the repository clean and production-focused by default.
+除非使用者特別要求實際範例、Storybook story 或明確的文件元件，否則不要在主要程式碼庫中建立範例/示範檔案（例如 ModalExample.tsx）。預設保持儲存庫整潔且專注於生產。
 
-# Always use the latest documentation and guides
-- For every nextjs related request, begin by searching for the most current nextjs documentation, guides, and examples.
-- Use the following tools to fetch and search documentation if they are available:
-  - `resolve_library_id` to resolve the package/library name in the docs.
-  - `get_library_docs` for up to date documentation.
+# 始終使用最新的文件和指南
+- 對於每個 nextjs 相關的請求，首先搜尋最新的 nextjs 文件、指南和範例。
+- 如果可用，使用以下工具來擷取和搜尋文件：
+  - `resolve_library_id` 來解析文件中的套件/函式庫名稱。
+  - `get_library_docs` 以取得最新文件。
 
 

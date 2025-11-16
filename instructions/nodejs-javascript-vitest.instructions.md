@@ -3,28 +3,28 @@ description: "Guidelines for writing Node.js and JavaScript code with Vitest tes
 applyTo: '**/*.js, **/*.mjs, **/*.cjs'
 ---
 
-# Code Generation Guidelines
+# 程式碼生成指南
 
-## Coding standards
-- Use JavaScript with ES2022 features and Node.js (20+) ESM modules
-- Use Node.js built-in modules and avoid external dependencies where possible
-- Ask the user if you require any additional dependencies before adding them
-- Always use async/await for asynchronous code, and use 'node:util' promisify function to avoid callbacks
-- Keep the code simple and maintainable
-- Use descriptive variable and function names
-- Do not add comments unless absolutely necessary, the code should be self-explanatory
-- Never use `null`, always use `undefined` for optional values
-- Prefer functions over classes
+## 編碼標準
+- 使用具有 ES2022 功能和 Node.js (20+) ESM 模組的 JavaScript
+- 盡可能使用 Node.js 內建模組並避免外部依賴項
+- 在新增任何額外的依賴項之前先詢問使用者
+- 始終對非同步程式碼使用 async/await，並使用 'node:util' promisify 函式來避免回呼
+- 保持程式碼簡單且易於維護
+- 使用具描述性的變數和函式名稱
+- 除非絕對必要，否則不要添加註解，程式碼應該要能自我說明
+- 永遠不要使用 `null`，對於可選值始終使用 `undefined`
+- 優先使用函式而非類別
 
-## Testing
-- Use Vitest for testing
-- Write tests for all new features and bug fixes
-- Ensure tests cover edge cases and error handling
-- NEVER change the original code to make it easier to test, instead, write tests that cover the original code as it is
+## 測試
+- 使用 Vitest 進行測試
+- 為所有新功能和錯誤修復編寫測試
+- 確保測試涵蓋邊緣情況和錯誤處理
+- 永遠不要更改原始程式碼以使其更容易測試，相反地，編寫涵蓋原始程式碼的測試
 
-## Documentation
-- When adding new features or making significant changes, update the README.md file where necessary
+## 文件
+- 在新增新功能或進行重大變更時，必要時更新 README.md 檔案
 
-## User interactions
-- Ask questions if you are unsure about the implementation details, design choices, or need clarification on the requirements
-- Always answer in the same language as the question, but use english for the generated content like code, comments or docs
+## 使用者互動
+- 如果您對實作細節、設計選擇不確定，或需要澄清需求，請提出問題
+- 始終使用與問題相同的語言回答，但對於生成的內容（如程式碼、註解或文件）使用英文

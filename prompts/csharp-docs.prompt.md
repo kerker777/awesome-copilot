@@ -1,63 +1,63 @@
 ---
 mode: 'agent'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'problems']
-description: 'Ensure that C# types are documented with XML comments and follow best practices for documentation.'
+description: '確保 C# 類型使用 XML 註解進行文件化，並遵循文件的最佳實踐。'
 ---
 
-# C# Documentation Best Practices
+# C# 文件化最佳實踐
 
-- Public members should be documented with XML comments.
-- It is encouraged to document internal members as well, especially if they are complex or not self-explanatory.
+- 公共成員應使用 XML 註解進行文件化。
+- 也鼓勵對內部成員進行文件化，特別是當它們複雜或不易理解時。
 
-## Guidance for all APIs
+## 所有 API 的指南
 
-- Use `<summary>` to provide a brief, one sentence, description of what the type or member does. Start the summary with a present-tense, third-person verb.
-- Use `<remarks>` for additional information, which can include implementation details, usage notes, or any other relevant context.
-- Use `<see langword>` for language-specific keywords like `null`, `true`, `false`, `int`, `bool`, etc.
-- Use `<c>` for inline code snippets.
-- Use `<example>` for usage examples on how to use the member.
-  - Use `<code>` for code blocks. `<code>` tags should be placed within an `<example>` tag. Add the language of the code example using the `language` attribute, for example, `<code language="csharp">`.
-- Use `<see cref>` to reference other types or members inline (in a sentence).
-- Use `<seealso>` for standalone (not in a sentence) references to other types or members in the "See also" section of the online docs.
-- Use `<inheritdoc/>` to inherit documentation from base classes or interfaces.
-  - Unless there is major behavior change, in which case you should document the differences.
+- 使用 `<summary>` 提供簡短的單句描述，說明類型或成員的作用。摘要應以現在式第三人稱動詞開頭。
+- 使用 `<remarks>` 提供額外資訊，可包括實作細節、使用說明或其他相關內容。
+- 使用 `<see langword>` 表示特定語言的關鍵字，如 `null`、`true`、`false`、`int`、`bool` 等。
+- 使用 `<c>` 表示行內程式碼片段。
+- 使用 `<example>` 提供如何使用成員的使用範例。
+  - 使用 `<code>` 表示程式碼區塊。`<code>` 標籤應放在 `<example>` 標籤內。使用 `language` 屬性添加程式碼範例的語言，例如 `<code language="csharp">`。
+- 使用 `<see cref>` 在句子中行內引用其他類型或成員。
+- 使用 `<seealso>` 在線上文件的「另請參閱」部分中獨立（不在句子中）引用其他類型或成員。
+- 使用 `<inheritdoc/>` 從基底類別或介面繼承文件。
+  - 除非有重大行為變更，在這種情況下應記錄差異。
 
-## Methods
+## 方法
 
-- Use `<param>` to describe method parameters.
-  - The description should be a noun phrase that doesn't specify the data type.
-  - Begin with an introductory article.
-  - If the parameter is a flag enum, start the description with "A bitwise combination of the enumeration values that specifies...".
-  - If the parameter is a non-flag enum, start the description with "One of the enumeration values that specifies...".
-  - If the parameter is a Boolean, the wording should be of the form "`<see langword="true" />` to ...; otherwise, `<see langword="false" />`.".
-  - If the parameter is an "out" parameter, the wording should be of the form "When this method returns, contains .... This parameter is treated as uninitialized.".
-- Use `<paramref>` to reference parameter names in documentation.
-- Use `<typeparam>` to describe type parameters in generic types or methods.
-- Use `<typeparamref>` to reference type parameters in documentation.
-- Use `<returns>` to describe what the method returns.
-  - The description should be a noun phrase that doesn't specify the data type.
-  - Begin with an introductory article.
-  - If the return type is Boolean, the wording should be of the form "`<see langword="true" />` if ...; otherwise, `<see langword="false" />`.".
+- 使用 `<param>` 描述方法參數。
+  - 描述應為不指定資料類型的名詞片語。
+  - 以引導冠詞開頭。
+  - 如果參數是旗標列舉，描述應以「指定...的列舉值的位元組合」開頭。
+  - 如果參數是非旗標列舉，描述應以「指定...的列舉值之一」開頭。
+  - 如果參數是布林值，措辭應為「`<see langword="true" />` 表示...；否則為 `<see langword="false" />`」的形式。
+  - 如果參數是「out」參數，措辭應為「當此方法返回時，包含...。此參數被視為未初始化」的形式。
+- 使用 `<paramref>` 在文件中引用參數名稱。
+- 使用 `<typeparam>` 描述泛型類型或方法中的類型參數。
+- 使用 `<typeparamref>` 在文件中引用類型參數。
+- 使用 `<returns>` 描述方法返回的內容。
+  - 描述應為不指定資料類型的名詞片語。
+  - 以引導冠詞開頭。
+  - 如果返回類型是布林值，措辭應為「如果...則為 `<see langword="true" />`；否則為 `<see langword="false" />`」的形式。
 
-## Constructors
+## 建構函式
 
-- The summary wording should be "Initializes a new instance of the <Class> class [or struct].".
+- 摘要措辭應為「初始化 <類別> 類別 [或結構] 的新執行個體」。
 
-## Properties
+## 屬性
 
-- The `<summary>` should start with:
-  - "Gets or sets..." for a read-write property.
-  - "Gets..." for a read-only property.
-  - "Gets [or sets] a value that indicates whether..." for properties that return a Boolean value.
-- Use `<value>` to describe the value of the property.
-  - The description should be a noun phrase that doesn't specify the data type.
-  - If the property has a default value, add it in a separate sentence, for example, "The default is `<see langword="false" />`".
-  - If the value type is Boolean, the wording should be of the form "`<see langword="true" />` if ...; otherwise, `<see langword="false" />`. The default is ...".
+- `<summary>` 應以以下開頭：
+  - 對於讀寫屬性使用「取得或設定...」。
+  - 對於唯讀屬性使用「取得...」。
+  - 對於返回布林值的屬性使用「取得 [或設定] 指示是否...的值」。
+- 使用 `<value>` 描述屬性的值。
+  - 描述應為不指定資料類型的名詞片語。
+  - 如果屬性有預設值，請在單獨的句子中添加，例如「預設值為 `<see langword="false" />`」。
+  - 如果值類型是布林值，措辭應為「如果...則為 `<see langword="true" />`；否則為 `<see langword="false" />`。預設值為...」的形式。
 
-## Exceptions
+## 例外
 
-- Use `<exception cref>` to document exceptions thrown by constructors, properties, indexers, methods, operators, and events.
-- Document all exceptions thrown directly by the member.
-- For exceptions thrown by nested members, document only the exceptions users are most likely to encounter.
-- The description of the exception describes the condition under which it's thrown.
-  - Omit "Thrown if ..." or "If ..." at the beginning of the sentence. Just state the condition directly, for example "An error occurred when accessing a Message Queuing API."
+- 使用 `<exception cref>` 記錄建構函式、屬性、索引子、方法、運算子和事件拋出的例外。
+- 記錄成員直接拋出的所有例外。
+- 對於巢狀成員拋出的例外，僅記錄使用者最可能遇到的例外。
+- 例外的描述說明拋出例外的條件。
+  - 省略句子開頭的「如果...則拋出」或「如果...」。直接陳述條件，例如「存取訊息佇列 API 時發生錯誤」。

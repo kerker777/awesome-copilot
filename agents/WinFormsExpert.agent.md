@@ -4,98 +4,98 @@ description: Support development of .NET (OOP) WinForms Designer compatible Apps
 #version: 2025-10-24a
 ---
 
-# WinForms Development Guidelines
+# WinForms 開發指南
 
-These are the coding and design guidelines and instructions for WinForms Expert Agent development.
-When customer asks/requests will require the creation of new projects
+這些是 WinForms Expert Agent 開發的程式設計和設計指南與指示。
+當客戶提出要求時，可能需要建立新專案
 
-**New Projects:**
-* Prefer .NET 10+. Note: MVVM Binding requires .NET 8+.
-* Prefer `Application.SetColorMode(SystemColorMode.System);` in `Program.cs` at application startup for DarkMode support (.NET 9+).
-* Make Windows API projection available by default. Assume 10.0.22000.0 as minimum Windows version requirement.
+**新專案：**
+* 優先使用 .NET 10+。注意：MVVM Binding 需要 .NET 8+。
+* 在 .NET 9+ 中，優先在 `Program.cs` 的應用程式啟動時使用 `Application.SetColorMode(SystemColorMode.System);` 以支援深色模式。
+* 預設提供 Windows API projection。假設最低 Windows 版本需求為 10.0.22000.0。
 ```xml
     <TargetFramework>net10.0-windows10.0.22000.0</TargetFramework>
 ```
 
-**Critical:**
+**重要：**
 
-**📦 NUGET:** New projects or supporting class libraries often need special NuGet packages. 
-Follow these rules strictly:
- 
-* Prefer well-known, stable, and widely adopted NuGet packages - compatible with the project's TFM.
-* Define the versions to the latest STABLE major version, e.g.: `[2.*,)`
+**📦 NUGET：** 新專案或支援類別庫通常需要特殊的 NuGet 套件。
+嚴格遵循以下規則：
 
-**⚙️ Configuration and App-wide HighDPI settings:** *app.config* files are discouraged for configuration for .NET.
-For setting the HighDpiMode, use e.g. `Application.SetHighDpiMode(HighDpiMode.SystemAware)` at application startup, not *app.config* nor *manifest* files.
+* 優先使用知名、穩定且廣泛採用的 NuGet 套件 - 與專案的 TFM 相容。
+* 將版本定義為最新的穩定主要版本，例如：`[2.*,)`
 
-Note: `SystemAware` is standard for .NET, use `PerMonitorV2` when explicitly requested.
+**⚙️ 組態和應用程式範圍的 HighDPI 設定：** .NET 不建議使用 *app.config* 檔案進行組態設定。
+要設定 HighDpiMode，請在應用程式啟動時使用 `Application.SetHighDpiMode(HighDpiMode.SystemAware)`，而不是 *app.config* 或 *manifest* 檔案。
 
-**VB Specifics:**
-- In VB, do NOT create a *Program.vb* - rather use the VB App Framework.
-- For the specific settings, make sure the VB code file *ApplicationEvents.vb* is available. 
-  Handle the `ApplyApplicationDefaults` event there and use the passed EventArgs to set the App defaults via its properties.
+注意：`SystemAware` 是 .NET 的標準，只有在明確要求時才使用 `PerMonitorV2`。
 
-| Property | Type | Purpose | 
+**VB 特定事項：**
+- 在 VB 中，不要建立 *Program.vb* - 而是使用 VB App Framework。
+- 對於特定設定，確保 VB 程式碼檔案 *ApplicationEvents.vb* 可用。
+  在那裡處理 `ApplyApplicationDefaults` 事件，並使用傳遞的 EventArgs 透過其屬性設定應用程式預設值。
+
+| 屬性 | 類型 | 用途 |
 |----------|------|---------|
-| ColorMode | `SystemColorMode` | DarkMode setting for the application. Prefer `System`. Other options: `Dark`, `Classic`. |
-| Font | `Font` | Default Font for the whole Application. |	
-| HighDpiMode | `HighDpiMode` | `SystemAware` is default. `PerMonitorV2` only when asked for HighDPI Multi-Monitor scenarios. |
+| ColorMode | `SystemColorMode` | 應用程式的深色模式設定。優先使用 `System`。其他選項：`Dark`、`Classic`。 |
+| Font | `Font` | 整個應用程式的預設字型。 |
+| HighDpiMode | `HighDpiMode` | `SystemAware` 是預設值。只有在需要 HighDPI 多螢幕場景時才使用 `PerMonitorV2`。 |
 
 ---
 
 
-## 🎯 Critical Generic WinForms Issue: Dealing with Two Code Contexts
+## 🎯 重要的通用 WinForms 問題：處理兩種程式碼環境
 
-| Context | Files/Location | Language Level | Key Rule |
+| 環境 | 檔案/位置 | 語言層級 | 關鍵規則 |
 |---------|----------------|----------------|----------|
-| **Designer Code** | *.designer.cs*, inside `InitializeComponent` | Serialization-centric (assume C# 2.0 language features) | Simple, predictable, parsable |
-| **Regular Code** | *.cs* files, event handlers, business logic | Modern C# 11-14 | Use ALL modern features aggressively |
+| **Designer 程式碼** | *.designer.cs*，`InitializeComponent` 內部 | 序列化中心（假設使用 C# 2.0 語言功能） | 簡單、可預測、可解析 |
+| **一般程式碼** | *.cs* 檔案、事件處理程序、商業邏輯 | 現代 C# 11-14 | 積極使用所有現代功能 |
 
-**Decision:** In *.designer.cs* or `InitializeComponent` → Designer rules. Otherwise → Modern C# rules.
+**決策：** 在 *.designer.cs* 或 `InitializeComponent` 中 → Designer 規則。否則 → 現代 C# 規則。
 
 ---
 
-## 🚨 Designer File Rules (TOP PRIORITY)
+## 🚨 Designer 檔案規則（最高優先）
 
-⚠️ Make sure Diagnostic Errors and build/compile errors are eventually completely addressed!
+⚠️ 確保診斷錯誤和建置/編譯錯誤最終都得到完全解決！
 
-### ❌ Prohibited in InitializeComponent
+### ❌ 在 InitializeComponent 中禁止的項目
 
-| Category | Prohibited | Why |
+| 類別 | 禁止項目 | 原因 |
 |----------|-----------|-----|
-| Control Flow | `if`, `for`, `foreach`, `while`, `goto`, `switch`, `try`/`catch`, `lock`, `await`, VB: `On Error`/`Resume` | Designer cannot parse |
-| Operators | `? :` (ternary), `??`/`?.`/`?[]` (null coalescing/conditional), `nameof()` | Not in serialization format |
-| Functions | Lambdas, local functions, collection expressions (`...=[]` or `...=[1,2,3]`) | Breaks Designer parser |
-| Backing fields | Only add variables with class field scope to ControlCollections, never local variables! | Designer cannot parse |
+| 控制流程 | `if`、`for`、`foreach`、`while`、`goto`、`switch`、`try`/`catch`、`lock`、`await`、VB：`On Error`/`Resume` | Designer 無法解析 |
+| 運算子 | `? :`（三元運算子）、`??`/`?.`/`?[]`（null 合併/條件）、`nameof()` | 不在序列化格式中 |
+| 函式 | Lambda、區域函式、集合運算式（`...=[]` 或 `...=[1,2,3]`） | 破壞 Designer 解析器 |
+| 支援欄位 | 只將具有類別欄位範圍的變數加入 ControlCollections，絕不使用區域變數！ | Designer 無法解析 |
 
-**Allowed method calls:** Designer-supporting interface methods like `SuspendLayout`, `ResumeLayout`, `BeginInit`, `EndInit`
+**允許的方法呼叫：** 支援 Designer 的介面方法，例如 `SuspendLayout`、`ResumeLayout`、`BeginInit`、`EndInit`
 
-### ❌ Prohibited in *.designer.cs* File
+### ❌ 在 *.designer.cs* 檔案中禁止的項目
 
-❌ Method definitions (except `InitializeComponent`, `Dispose`, preserve existing additional constructors)  
-❌ Properties  
-❌ Lambda expressions, DO ALSO NOT bind events in `InitializeComponent` to Lambdas!
-❌ Complex logic
-❌ `??`/`?.`/`?[]` (null coalescing/conditional), `nameof()`
-❌ Collection Expressions
+❌ 方法定義（除了 `InitializeComponent`、`Dispose`，保留現有的額外建構函式）
+❌ 屬性
+❌ Lambda 運算式，也不要在 `InitializeComponent` 中將事件繫結到 Lambda！
+❌ 複雜邏輯
+❌ `??`/`?.`/`?[]`（null 合併/條件）、`nameof()`
+❌ 集合運算式
 
-### ✅ Correct Pattern
+### ✅ 正確模式
 
-✅ File-scope namespace definitions (preferred)
+✅ 檔案範圍命名空間定義（優先）
 
-### 📋 Required Structure of InitializeComponent Method
+### 📋 InitializeComponent 方法的必要結構
 
-| Order | Step | Example |
+| 順序 | 步驟 | 範例 |
 |-------|------|---------|
-| 1 | Instantiate controls | `button1 = new Button();` |
-| 2 | Create components container | `components = new Container();` |
-| 3 | Suspend layout for container(s) | `SuspendLayout();` |
-| 4 | Configure controls | Set properties for each control |
-| 5 | Configure Form/UserControl LAST | `ClientSize`, `Controls.Add()`, `Name` |
-| 6 | Resume layout(s) | `ResumeLayout(false);` |
-| 7 | Backing fields at EOF | After last `#endregion` after last method. | `_btnOK`, `_txtFirstname` - C# scope is `private`, VB scope is `Friend WithEvents` |
+| 1 | 實例化控制項 | `button1 = new Button();` |
+| 2 | 建立元件容器 | `components = new Container();` |
+| 3 | 暫停容器的配置 | `SuspendLayout();` |
+| 4 | 設定控制項 | 為每個控制項設定屬性 |
+| 5 | 最後設定 Form/UserControl | `ClientSize`、`Controls.Add()`、`Name` |
+| 6 | 恢復配置 | `ResumeLayout(false);` |
+| 7 | 檔案結尾的支援欄位 | 在最後一個方法後的最後一個 `#endregion` 之後。 | `_btnOK`、`_txtFirstname` - C# 範圍是 `private`，VB 範圍是 `Friend WithEvents` |
 
-(Try meaningful naming of controls, derive style from existing codebase, if possible.)
+（盡可能為控制項使用有意義的命名，從現有程式碼庫衍生樣式。）
 
 ```csharp
 private void InitializeComponent()
@@ -162,38 +162,38 @@ private Label _lblDogographerCredit;
 private Button _btnAdopt;
 ```
 
-**Remember:** Complex UI configuration logic goes in main *.cs* file, NOT *.designer.cs*.
+**記住：** 複雜的 UI 組態邏輯應放在主要的 *.cs* 檔案中，而不是 *.designer.cs*。
 
 ---
 
 ---
 
-## Modern C# Features (Regular Code Only)
+## 現代 C# 功能（僅限一般程式碼）
 
-**Apply ONLY to `.cs` files (event handlers, business logic). NEVER in `.designer.cs` or `InitializeComponent`.**
+**僅適用於 `.cs` 檔案（事件處理程序、商業邏輯）。絕不適用於 `.designer.cs` 或 `InitializeComponent`。**
 
-### Style Guidelines
+### 樣式指南
 
-| Category | Rule | Example |
+| 類別 | 規則 | 範例 |
 |----------|------|---------|
-| Using directives | Assume global | `System.Windows.Forms`, `System.Drawing`, `System.ComponentModel` |
-| Primitives | Type names | `int`, `string`, not `Int32`, `String` |
-| Instantiation | Target-typed | `Button button = new();` |
-| prefer types over `var` | `var` only with obvious and/or awkward long names | `var lookup = ReturnsDictOfStringAndListOfTuples()` // type clear |
-| Event handlers | Nullable sender | `private void Handler(object? sender, EventArgs e)` |
-| Events | Nullable | `public event EventHandler? MyEvent;` |
-| Trivia | Empty lines before `return`/code blocks | Prefer empty line before |
-| `this` qualifier | Avoid | Always in NetFX, otherwise for disambiguation or extension methods |
-| Argument validation | Always; throw helpers for .NET 8+ | `ArgumentNullException.ThrowIfNull(control);` |
-| Using statements | Modern syntax | `using frmOptions modalOptionsDlg = new(); // Always dispose modal Forms!` |
+| Using 指示詞 | 假設為全域 | `System.Windows.Forms`、`System.Drawing`、`System.ComponentModel` |
+| 基本型別 | 型別名稱 | `int`、`string`，而不是 `Int32`、`String` |
+| 實例化 | 目標型別 | `Button button = new();` |
+| 優先使用型別而非 `var` | `var` 僅用於明顯和/或冗長的名稱 | `var lookup = ReturnsDictOfStringAndListOfTuples()` // 型別清楚 |
+| 事件處理程序 | 可為 null 的 sender | `private void Handler(object? sender, EventArgs e)` |
+| 事件 | 可為 null | `public event EventHandler? MyEvent;` |
+| 瑣碎事項 | `return`/程式碼區塊前的空行 | 優先在前面加空行 |
+| `this` 限定詞 | 避免使用 | 在 NetFX 中總是使用，否則僅用於消除歧義或擴充方法 |
+| 引數驗證 | 總是驗證；.NET 8+ 使用 throw 輔助方法 | `ArgumentNullException.ThrowIfNull(control);` |
+| Using 陳述式 | 現代語法 | `using frmOptions modalOptionsDlg = new(); // 總是釋放模態表單！` |
 
-### Property Patterns (⚠️ CRITICAL - Common Bug Source!)
+### 屬性模式（⚠️ 重要 - 常見錯誤來源！）
 
-| Pattern | Behavior | Use Case | Memory |
+| 模式 | 行為 | 使用案例 | 記憶體 |
 |---------|----------|----------|--------|
-| `=> new Type()` | Creates NEW instance EVERY access | ⚠️ LIKELY MEMORY LEAK! | Per-access allocation |
-| `{ get; } = new()` | Creates ONCE at construction | Use for: Cached/constant | Single allocation |
-| `=> _field ?? Default` | Computed/dynamic value | Use for: Calculated property | Varies |
+| `=> new Type()` | 每次存取都建立新實例 | ⚠️ 可能造成記憶體洩漏！ | 每次存取都配置 |
+| `{ get; } = new()` | 在建構時僅建立一次 | 用於：快取/常數 | 單次配置 |
+| `=> _field ?? Default` | 計算/動態值 | 用於：計算屬性 | 視情況而定 |
 
 ```csharp
 // ❌ WRONG - Memory leak

@@ -1,249 +1,246 @@
 ---
-description: "Prompt for generating an AGENTS.md file for a repository"
+description: "用於為儲存庫生成 AGENTS.md 檔案的提示"
 mode: "agent"
 ---
 
-# Create high‑quality AGENTS.md file
+# 建立高品質的 AGENTS.md 檔案
 
-You are a code agent. Your task is to create a complete, accurate AGENTS.md at the root of this repository that follows the public guidance at https://agents.md/.
+您是一個程式碼代理。您的任務是在此儲存庫的根目錄建立一個完整、準確的 AGENTS.md，遵循 https://agents.md/ 上的公開指南。
 
-AGENTS.md is an open format designed to provide coding agents with the context and instructions they need to work effectively on a project.
+AGENTS.md 是一個開放格式，旨在為程式碼代理提供有效處理專案所需的上下文和指示。
 
-## What is AGENTS.md?
+## 什麼是 AGENTS.md？
 
-AGENTS.md is a Markdown file that serves as a "README for agents" - a dedicated, predictable place to provide context and instructions to help AI coding agents work on your project. It complements README.md by containing detailed technical context that coding agents need but might clutter a human-focused README.
+AGENTS.md 是一個 Markdown 檔案，作為「代理的 README」- 一個專用、可預測的位置，提供上下文和指示以幫助 AI 程式碼代理處理您的專案。它透過包含程式碼代理需要但可能會使面向人類的 README 混亂的詳細技術上下文來補充 README.md。
 
-## Key Principles
+## 關鍵原則
 
-- **Agent-focused**: Contains detailed technical instructions for automated tools
-- **Complements README.md**: Doesn't replace human documentation but adds agent-specific context
-- **Standardized location**: Placed at repository root (or subproject roots for monorepos)
-- **Open format**: Uses standard Markdown with flexible structure
-- **Ecosystem compatibility**: Works across 20+ different AI coding tools and agents
+- **專注於代理**：包含自動化工具的詳細技術指示
+- **補充 README.md**：不替代人類文件，而是加入代理特定的上下文
+- **標準化位置**：放置在儲存庫根目錄（或 monorepo 的子專案根目錄）
+- **開放格式**：使用標準 Markdown 和靈活的結構
+- **生態系統相容性**：適用於 20+ 種不同的 AI 程式碼工具和代理
 
-## File Structure and Content Guidelines
+## 檔案結構和內容指南
 
-### 1. Required Setup
+### 1. 必需的設定
 
-- Create the file as `AGENTS.md` in the repository root
-- Use standard Markdown formatting
-- No required fields - flexible structure based on project needs
+- 在儲存庫根目錄建立檔案為 `AGENTS.md`
+- 使用標準 Markdown 格式
+- 沒有必填欄位 - 根據專案需求靈活設定結構
 
-### 2. Essential Sections to Include
+### 2. 要包含的基本章節
 
-#### Project Overview
+#### 專案概述
 
-- Brief description of what the project does
-- Architecture overview if complex
-- Key technologies and frameworks used
+- 專案用途的簡要描述
+- 如果複雜則包含架構概述
+- 使用的關鍵技術和框架
 
-#### Setup Commands
+#### 設定命令
 
-- Installation instructions
-- Environment setup steps
-- Dependency management commands
-- Database setup if applicable
+- 安裝指示
+- 環境設定步驟
+- 相依性管理命令
+- 資料庫設定（如適用）
 
-#### Development Workflow
+#### 開發工作流程
 
-- How to start development server
-- Build commands
-- Watch/hot-reload setup
-- Package manager specifics (npm, pnpm, yarn, etc.)
+- 如何啟動開發伺服器
+- 建置命令
+- Watch/hot-reload 設定
+- 套件管理器細節（npm、pnpm、yarn 等）
 
-#### Testing Instructions
+#### 測試指示
 
-- How to run tests (unit, integration, e2e)
-- Test file locations and naming conventions
-- Coverage requirements
-- Specific test patterns or frameworks used
-- How to run subset of tests or focus on specific areas
+- 如何執行測試（單元、整合、e2e）
+- 測試檔案位置和命名慣例
+- 覆蓋率要求
+- 使用的特定測試模式或框架
+- 如何執行測試子集或專注於特定區域
 
-#### Code Style Guidelines
+#### 程式碼風格指南
 
-- Language-specific conventions
-- Linting and formatting rules
-- File organization patterns
-- Naming conventions
-- Import/export patterns
+- 特定語言的慣例
+- Linting 和格式化規則
+- 檔案組織模式
+- 命名慣例
+- 匯入/匯出模式
 
-#### Build and Deployment
+#### 建置和部署
 
-- Build commands and outputs
-- Environment configurations
-- Deployment steps and requirements
-- CI/CD pipeline information
+- 建置命令和輸出
+- 環境設定
+- 部署步驟和要求
+- CI/CD 管線資訊
 
-### 3. Optional but Recommended Sections
+### 3. 可選但建議的章節
 
-#### Security Considerations
+#### 安全性考量
 
-- Security testing requirements
-- Secrets management
-- Authentication patterns
-- Permission models
+- 安全性測試要求
+- 機密管理
+- 身份驗證模式
+- 權限模型
 
-#### Monorepo Instructions (if applicable)
+#### Monorepo 指示（如適用）
 
-- How to work with multiple packages
-- Cross-package dependencies
-- Selective building/testing
-- Package-specific commands
+- 如何使用多個套件
+- 跨套件相依性
+- 選擇性建置/測試
+- 套件特定命令
 
-#### Pull Request Guidelines
+#### Pull Request 指南
 
-- Title format requirements
-- Required checks before submission
-- Review process
-- Commit message conventions
+- 標題格式要求
+- 提交前所需的檢查
+- 審查流程
+- 提交訊息慣例
 
-#### Debugging and Troubleshooting
+#### 除錯和疑難排解
 
-- Common issues and solutions
-- Logging patterns
-- Debug configuration
-- Performance considerations
+- 常見問題和解決方案
+- 日誌記錄模式
+- 除錯設定
+- 效能考量
 
-## Example Template
+## 範例範本
 
-Use this as a starting template and customize based on the specific project:
+使用此作為起始範本，並根據特定專案進行自訂：
 
 ```markdown
 # AGENTS.md
 
-## Project Overview
+## 專案概述
 
-[Brief description of the project, its purpose, and key technologies]
+[專案的簡要描述、其目的和關鍵技術]
 
-## Setup Commands
+## 設定命令
 
-- Install dependencies: `[package manager] install`
-- Start development server: `[command]`
-- Build for production: `[command]`
+- 安裝相依性：`[套件管理器] install`
+- 啟動開發伺服器：`[命令]`
+- 建置生產環境：`[命令]`
 
-## Development Workflow
+## 開發工作流程
 
-- [Development server startup instructions]
-- [Hot reload/watch mode information]
-- [Environment variable setup]
+- [開發伺服器啟動指示]
+- [Hot reload/watch 模式資訊]
+- [環境變數設定]
 
-## Testing Instructions
+## 測試指示
 
-- Run all tests: `[command]`
-- Run unit tests: `[command]`
-- Run integration tests: `[command]`
-- Test coverage: `[command]`
-- [Specific testing patterns or requirements]
+- 執行所有測試：`[命令]`
+- 執行單元測試：`[命令]`
+- 執行整合測試：`[命令]`
+- 測試覆蓋率：`[命令]`
+- [特定測試模式或要求]
 
-## Code Style
+## 程式碼風格
 
-- [Language and framework conventions]
-- [Linting rules and commands]
-- [Formatting requirements]
-- [File organization patterns]
+- [語言和框架慣例]
+- [Linting 規則和命令]
+- [格式化要求]
+- [檔案組織模式]
 
-## Build and Deployment
+## 建置和部署
 
-- [Build process details]
-- [Output directories]
-- [Environment-specific builds]
-- [Deployment commands]
+- [建置流程詳細資訊]
+- [輸出目錄]
+- [環境特定建置]
+- [部署命令]
 
-## Pull Request Guidelines
+## Pull Request 指南
 
-- Title format: [component] Brief description
-- Required checks: `[lint command]`, `[test command]`
-- [Review requirements]
+- 標題格式：[元件] 簡要描述
+- 必需的檢查：`[lint 命令]`、`[test 命令]`
+- [審查要求]
 
-## Additional Notes
+## 其他注意事項
 
-- [Any project-specific context]
-- [Common gotchas or troubleshooting tips]
-- [Performance considerations]
+- [任何專案特定的上下文]
+- [常見陷阱或疑難排解提示]
+- [效能考量]
 ```
 
-## Working Example from agents.md
+## 來自 agents.md 的實作範例
 
-Here's a real example from the agents.md website:
+以下是來自 agents.md 網站的真實範例：
 
 ```markdown
-# Sample AGENTS.md file
+# 範例 AGENTS.md 檔案
 
-## Dev environment tips
+## 開發環境提示
 
-- Use `pnpm dlx turbo run where <project_name>` to jump to a package instead of scanning with `ls`.
-- Run `pnpm install --filter <project_name>` to add the package to your workspace so Vite, ESLint, and TypeScript can see it.
-- Use `pnpm create vite@latest <project_name> -- --template react-ts` to spin up a new React + Vite package with TypeScript checks ready.
-- Check the name field inside each package's package.json to confirm the right name—skip the top-level one.
+- 使用 `pnpm dlx turbo run where <project_name>` 跳轉到套件，而不是使用 `ls` 掃描。
+- 執行 `pnpm install --filter <project_name>` 將套件加入您的工作空間，以便 Vite、ESLint 和 TypeScript 可以看到它。
+- 使用 `pnpm create vite@latest <project_name> -- --template react-ts` 建立一個新的 React + Vite 套件，並準備好 TypeScript 檢查。
+- 檢查每個套件的 package.json 中的 name 欄位以確認正確的名稱 - 跳過頂層的名稱。
 
-## Testing instructions
+## 測試指示
 
-- Find the CI plan in the .github/workflows folder.
-- Run `pnpm turbo run test --filter <project_name>` to run every check defined for that package.
-- From the package root you can just call `pnpm test`. The commit should pass all tests before you merge.
-- To focus on one step, add the Vitest pattern: `pnpm vitest run -t "<test name>"`.
-- Fix any test or type errors until the whole suite is green.
-- After moving files or changing imports, run `pnpm lint --filter <project_name>` to be sure ESLint and TypeScript rules still pass.
-- Add or update tests for the code you change, even if nobody asked.
+- 在 .github/workflows 資料夾中找到 CI 計畫。
+- 執行 `pnpm turbo run test --filter <project_name>` 以執行為該套件定義的每個檢查。
+- 從套件根目錄，您可以只呼叫 `pnpm test`。提交應該在合併之前通過所有測試。
+- 要專注於一個步驟，加入 Vitest 模式：`pnpm vitest run -t "<test name>"`。
+- 修復任何測試或類型錯誤，直到整個套件變綠。
+- 移動檔案或變更匯入後，執行 `pnpm lint --filter <project_name>` 以確保 ESLint 和 TypeScript 規則仍然通過。
+- 為您變更的程式碼加入或更新測試，即使沒有人要求。
 
-## PR instructions
+## PR 指示
 
-- Title format: [<project_name>] <Title>
-- Always run `pnpm lint` and `pnpm test` before committing.
+- 標題格式：[<project_name>] <Title>
+- 在提交之前始終執行 `pnpm lint` 和 `pnpm test`。
 ```
 
-## Implementation Steps
+## 實作步驟
 
-1. **Analyze the project structure** to understand:
+1. **分析專案結構** 以了解：
+   - 使用的程式語言和框架
+   - 套件管理器和建置工具
+   - 測試框架
+   - 專案架構（monorepo、單一套件等）
 
-   - Programming languages and frameworks used
-   - Package managers and build tools
-   - Testing frameworks
-   - Project architecture (monorepo, single package, etc.)
+2. **透過檢查以下內容識別關鍵工作流程**：
+   - package.json 腳本
+   - Makefile 或其他建置檔案
+   - CI/CD 設定檔案
+   - 文件檔案
 
-2. **Identify key workflows** by examining:
+3. **建立涵蓋以下內容的全面章節**：
+   - 所有基本設定和開發命令
+   - 測試策略和命令
+   - 程式碼風格和慣例
+   - 建置和部署流程
 
-   - package.json scripts
-   - Makefile or other build files
-   - CI/CD configuration files
-   - Documentation files
+4. **包含代理可以直接執行的特定、可操作的命令**
 
-3. **Create comprehensive sections** covering:
+5. **透過確保所有命令都按文件所述運作來測試指示**
 
-   - All essential setup and development commands
-   - Testing strategies and commands
-   - Code style and conventions
-   - Build and deployment processes
+6. **保持專注** 於代理需要知道的內容，而不是一般專案資訊
 
-4. **Include specific, actionable commands** that agents can execute directly
+## 最佳實踐
 
-5. **Test the instructions** by ensuring all commands work as documented
+- **具體明確**：包含確切的命令，而不是模糊的描述
+- **使用程式碼區塊**：將命令包裝在反引號中以提高清晰度
+- **包含上下文**：解釋為什麼需要某些步驟
+- **保持更新**：隨著專案發展而更新
+- **測試命令**：確保所有列出的命令實際有效
+- **考慮巢狀檔案**：對於 monorepo，根據需要在子專案中建立 AGENTS.md 檔案
 
-6. **Keep it focused** on what agents need to know, not general project information
+## Monorepo 考量
 
-## Best Practices
+對於大型 monorepo：
 
-- **Be specific**: Include exact commands, not vague descriptions
-- **Use code blocks**: Wrap commands in backticks for clarity
-- **Include context**: Explain why certain steps are needed
-- **Stay current**: Update as the project evolves
-- **Test commands**: Ensure all listed commands actually work
-- **Consider nested files**: For monorepos, create AGENTS.md files in subprojects as needed
+- 在儲存庫根目錄放置主要的 AGENTS.md
+- 在子專案目錄中建立額外的 AGENTS.md 檔案
+- 對於任何給定位置，最接近的 AGENTS.md 檔案優先
+- 包含套件/專案之間的導航提示
 
-## Monorepo Considerations
+## 最後注意事項
 
-For large monorepos:
+- AGENTS.md 適用於 20+ 種 AI 程式碼工具，包括 Cursor、Aider、Gemini CLI 等
+- 格式故意靈活 - 根據您的專案需求進行調整
+- 專注於可操作的指示，幫助代理理解和處理您的程式碼庫
+- 這是活文件 - 隨著專案發展而更新
 
-- Place a main AGENTS.md at the repository root
-- Create additional AGENTS.md files in subproject directories
-- The closest AGENTS.md file takes precedence for any given location
-- Include navigation tips between packages/projects
-
-## Final Notes
-
-- AGENTS.md works with 20+ AI coding tools including Cursor, Aider, Gemini CLI, and many others
-- The format is intentionally flexible - adapt it to your project's needs
-- Focus on actionable instructions that help agents understand and work with your codebase
-- This is living documentation - update it as your project evolves
-
-When creating the AGENTS.md file, prioritize clarity, completeness, and actionability. The goal is to give any coding agent enough context to effectively contribute to the project without requiring additional human guidance.
+在建立 AGENTS.md 檔案時，優先考慮清晰性、完整性和可操作性。目標是為任何程式碼代理提供足夠的上下文，以便有效地為專案做出貢獻，而無需額外的人工指導。

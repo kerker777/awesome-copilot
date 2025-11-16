@@ -1,165 +1,165 @@
 ---
-description: 'This workflow guides you through a systematic approach to identify missing features, prioritize them, and create detailed specifications for implementation.'
+description: '此工作流程引導您透過系統化方法來識別缺失的功能、排定優先順序，並建立詳細的實作規格。'
 mode: 'agent'
 ---
 
-# Product Manager Assistant: Feature Identification and Specification
+# 產品經理助理：功能識別與規格
 
-This workflow guides you through a systematic approach to identify missing features, prioritize them, and create detailed specifications for implementation.
+此工作流程引導您透過系統化方法來識別缺失的功能、排定優先順序，並建立詳細的實作規格。
 
-## 1. Project Understanding Phase
+## 1. 專案理解階段
 
-- Review the project structure to understand its organization
-- Read the README.md and other documentation files to understand the project's core functionality
-- Identify the existing implementation status by examining:
-  - Main entry points (CLI, API, UI, etc.)
-  - Core modules and their functionality
-  - Tests to understand expected behavior
-  - Any placeholder implementations
+- 審查專案結構以了解其組織方式
+- 閱讀 README.md 和其他文件檔案以了解專案的核心功能
+- 透過檢查以下內容來識別現有的實作狀態：
+  - 主要進入點（CLI、API、UI 等）
+  - 核心模組及其功能
+  - 測試以了解預期行為
+  - 任何佔位符實作
 
-**Guiding Questions:**
-- What is the primary purpose of this project?
-- What user problems does it solve?
-- What patterns exist in the current implementation?
-- Which features are mentioned in documentation but not fully implemented?
+**指導問題：**
+- 這個專案的主要目的是什麼？
+- 它解決了使用者的哪些問題？
+- 當前實作中存在哪些模式？
+- 哪些功能在文件中提到但未完全實作？
 
-## 2. Gap Analysis Phase
+## 2. 差距分析階段
 
-- Compare the documented capabilities ONLY against the actual implementation
-- Identify "placeholder" code that lacks real functionality
-- Look for features mentioned in documentation but missing robust implementation
-- Consider the user journey and identify broken or missing steps
-- Focus on core functionality first (not nice-to-have features)
+- 僅將已記錄的功能與實際實作進行比較
+- 識別缺乏實際功能的「佔位符」程式碼
+- 尋找文件中提到但缺少強健實作的功能
+- 考慮使用者旅程並識別中斷或缺失的步驟
+- 首先關注核心功能（而非錦上添花的功能）
 
-**Output Creation:**
-- Create a list of potential missing features (5-7 items)
-- For each feature, note:
-  - Current implementation status
-  - References in documentation
-  - Impact on user experience if missing
+**輸出建立：**
+- 建立潛在缺失功能的清單（5-7 項）
+- 對於每個功能，記錄：
+  - 當前實作狀態
+  - 文件中的參考
+  - 如果缺失對使用者體驗的影響
 
-## 3. Prioritization Phase
+## 3. 優先順序排定階段
 
-- Apply a score to each identified gap:
+- 為每個識別的差距評分：
 
-**Scoring Matrix (1-5 scale):**
-- User Impact: How many users benefit?
-- Strategic Alignment: Fits core mission?
-- Implementation Feasibility: Technical complexity?
-- Resource Requirements: Development effort needed?
-- Risk Level: Potential negative impacts?
+**評分矩陣（1-5 分制）：**
+- 使用者影響：多少使用者受益？
+- 策略一致性：符合核心使命嗎？
+- 實作可行性：技術複雜度？
+- 資源需求：所需的開發工作量？
+- 風險等級：潛在的負面影響？
 
-**Priority = (User Impact × Strategic Alignment) / (Implementation Effort × Risk Level)**
+**優先順序 = (使用者影響 × 策略一致性) / (實作工作量 × 風險等級)**
 
-**Output Creation:**
-- Present the top 3 highest-priority missing features based on the scoring
-- For each, provide:
-  - Feature name
-  - Current status
-  - Impact if not implemented
-  - Dependencies on other features
+**輸出建立：**
+- 根據評分呈現前 3 個最高優先順序的缺失功能
+- 對於每個功能，提供：
+  - 功能名稱
+  - 當前狀態
+  - 如果不實作的影響
+  - 對其他功能的相依性
 
-## 4. Specification Development Phase
+## 4. 規格開發階段
 
-- For each prioritized feature, develop a detailed but practical specification:
-  - Begin with the philosophical approach: simplicity over complexity
-  - Focus on MVP functionality first
-  - Consider the developer experience
-  - Keep the specification implementation-friendly
+- 對於每個優先順序功能，開發詳細但實用的規格：
+  - 從哲學方法開始：簡單優於複雜
+  - 首先關注 MVP 功能
+  - 考慮開發者體驗
+  - 保持規格便於實作
 
-**For Each Feature Specification:**
-1. **Overview & Scope**
-   - What problem does it solve?
-   - What's included and what's explicitly excluded?
+**對於每個功能規格：**
+1. **概覽與範圍**
+   - 它解決什麼問題？
+   - 包含什麼以及明確排除什麼？
 
-2. **Technical Requirements**
-   - Core functionality needed
-   - User-facing interfaces (API, UI, CLI, etc.)
-   - Integration points with existing code
+2. **技術需求**
+   - 所需的核心功能
+   - 面向使用者的介面（API、UI、CLI 等）
+   - 與現有程式碼的整合點
 
-3. **Implementation Plan**
-   - Key modules/files to create or modify
-   - Simple code examples showing the approach
-   - Clear data structures and interfaces
+3. **實作計畫**
+   - 要建立或修改的關鍵模組/檔案
+   - 顯示方法的簡單程式碼範例
+   - 清晰的資料結構和介面
 
-4. **Acceptance Criteria**
-   - How will we know when it's done?
-   - What specific functionality must work?
-   - What tests should pass?
+4. **驗收標準**
+   - 我們如何知道何時完成？
+   - 必須運作的具體功能是什麼？
+   - 應該通過哪些測試？
 
-## 5. GitHub Issue Creation Phase
+## 5. GitHub Issue 建立階段
 
-- For each specification, create a GitHub issue:
-  - Clear, descriptive title
-  - Comprehensive specification in the body
-  - Appropriate labels (enhancement, high-priority, etc.)
-  - Explicitly mention MVP philosophy where relevant
+- 對於每個規格，建立一個 GitHub issue：
+  - 清晰、描述性的標題
+  - 正文中的全面規格
+  - 適當的標籤（enhancement、high-priority 等）
+  - 在相關地方明確提及 MVP 哲學
 
-**Issue Template Structure:**
+**Issue 範本結構：**
 
-# [Feature Name]
+# [功能名稱]
 
-## Overview
-[Brief description of the feature and its purpose]
+## 概覽
+[功能及其目的的簡要描述]
 
-## Scope
-[What's included and what's explicitly excluded]
+## 範圍
+[包含什麼以及明確排除什麼]
 
-## Technical Requirements
-[Specific technical needs and constraints]
+## 技術需求
+[具體的技術需求和限制]
 
-## Implementation Plan
-[Step-by-step approach with simple code examples]
+## 實作計畫
+[具有簡單程式碼範例的逐步方法]
 
-## Acceptance Criteria
-[Clear list of requirements to consider the feature complete]
+## 驗收標準
+[清晰的需求清單，用於判斷功能是否完成]
 
-## Priority
-[Justification for prioritization]
+## 優先順序
+[優先順序排定的理由]
 
-## Dependencies
-- **Blocks:** [List of issues blocked by this one]
-- **Blocked by:** [List of issues this one depends on]
+## 相依性
+- **阻擋：** [此功能阻擋的 issue 清單]
+- **被阻擋：** [此功能依賴的 issue 清單]
 
-## Implementation Size
-- **Estimated effort:** [Small/Medium/Large]
-- **Sub-issues:** [Links to sub-issues if this is a parent issue]
+## 實作規模
+- **預估工作量：** [小/中/大]
+- **子 issue：** [如果這是父 issue，連結到子 issue]
 
 
-## 5.5 Work Distribution Optimization
+## 5.5 工作分配最佳化
 
-- **Independence Analysis**
-  - Review each specification to identify truly independent components
-  - Refactor specifications to maximize independent work streams
-  - Create clear boundaries between interdependent components
+- **獨立性分析**
+  - 審查每個規格以識別真正獨立的元件
+  - 重構規格以最大化獨立的工作流
+  - 在相互依賴的元件之間建立清晰的界限
 
-- **Dependency Mapping**
-  - For features with unavoidable dependencies, establish clear issue hierarchies
-  - Create parent issues for the overall feature with sub-issues for components
-  - Explicitly document "blocked by" and "blocks" relationships
+- **相依性映射**
+  - 對於具有不可避免相依性的功能，建立清晰的 issue 層級結構
+  - 為整體功能建立父 issue，為元件建立子 issue
+  - 明確記錄「被阻擋」和「阻擋」關係
 
-- **Workload Balancing**
-  - Break down large specifications into smaller, manageable sub-issues
-  - Ensure each sub-issue represents 1-3 days of development work
-  - Include sub-issue specific acceptance criteria
+- **工作量平衡**
+  - 將大型規格拆解為較小、可管理的子 issue
+  - 確保每個子 issue 代表 1-3 天的開發工作
+  - 包含子 issue 特定的驗收標準
 
-**Implementation Guidelines:**
-- Use GitHub issue linking syntax to create explicit relationships
-- Add labels to indicate dependency status (e.g., "blocked", "prerequisite")
-- Include estimated complexity/effort for each issue to aid sprint planning
+**實作指南：**
+- 使用 GitHub issue 連結語法建立明確的關係
+- 新增標籤以指示相依性狀態（例如「blocked」、「prerequisite」）
+- 包含每個 issue 的預估複雜度/工作量以協助衝刺規劃
 
-## 6. Final Review Phase
+## 6. 最終審查階段
 
-- Summarize all created specifications
-- Highlight implementation dependencies between features
-- Suggest a logical implementation order
-- Note any potential challenges or considerations
+- 總結所有建立的規格
+- 強調功能之間的實作相依性
+- 建議合理的實作順序
+- 記錄任何潛在的挑戰或考量
 
-Remember throughout this process:
-- Favor simplicity over complexity
-- Start with minimal viable implementations that work
-- Focus on developer experience
-- Build a foundation that can be extended later
-- Consider the open-source community and contribution model
+在整個過程中記住：
+- 偏好簡單而非複雜
+- 從可運作的最小可行實作開始
+- 關注開發者體驗
+- 建立可以日後擴充的基礎
+- 考慮開源社群和貢獻模式
 
-This workflow embodiment of our approach should help maintain consistency in how features are specified and prioritized, ensuring that software projects evolve in a thoughtful, user-centered way.
+此工作流程體現了我們的方法，應該有助於維護功能規格和優先順序排定的一致性，確保軟體專案以周到、以使用者為中心的方式演進。

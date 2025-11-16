@@ -1,97 +1,97 @@
 ---
 mode: 'agent'
-description: 'Create an Architectural Decision Record (ADR) document for AI-optimized decision documentation.'
+description: '為 AI 優化的決策文件建立架構決策記錄 (ADR) 文件。'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'extensions', 'fetch', 'githubRepo', 'openSimpleBrowser', 'problems', 'runTasks', 'search', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
 ---
-# Create Architectural Decision Record
+# 建立架構決策記錄
 
-Create an ADR document for `${input:DecisionTitle}` using structured formatting optimized for AI consumption and human readability.
+為 `${input:DecisionTitle}` 建立 ADR 文件，使用針對 AI 處理和人類可讀性優化的結構化格式。
 
-## Inputs
+## 輸入
 
 - **Context**: `${input:Context}`
 - **Decision**: `${input:Decision}`
 - **Alternatives**: `${input:Alternatives}`
 - **Stakeholders**: `${input:Stakeholders}`
 
-## Input Validation
-If any of the required inputs are not provided or cannot be determined from the conversation history, ask the user to provide the missing information before proceeding with ADR generation.
+## 輸入驗證
+如果未提供任何必需的輸入或無法從對話記錄中確定，請在繼續生成 ADR 之前要求使用者提供缺失的資訊。
 
-## Requirements
+## 要求
 
-- Use precise, unambiguous language
-- Follow standardized ADR format with front matter
-- Include both positive and negative consequences
-- Document alternatives with rejection rationale
-- Structure for machine parsing and human reference
-- Use coded bullet points (3-4 letter codes + 3-digit numbers) for multi-item sections
+- 使用精確、明確的語言
+- 遵循帶有前言的標準化 ADR 格式
+- 包括正面和負面的後果
+- 記錄備選方案及拒絕理由
+- 為機器解析和人工參考建立結構
+- 對多項目章節使用編碼項目符號（3-4 字母代碼 + 3 位數字）
 
-The ADR must be saved in the `/docs/adr/` directory using the naming convention: `adr-NNNN-[title-slug].md`, where NNNN is the next sequential 4-digit number (e.g., `adr-0001-database-selection.md`).
+ADR 必須使用命名慣例儲存在 `/docs/adr/` 目錄中：`adr-NNNN-[title-slug].md`，其中 NNNN 是下一個順序的 4 位數字（例如 `adr-0001-database-selection.md`）。
 
-## Required Documentation Structure
+## 必需的文件結構
 
-The documentation file must follow the template below, ensuring that all sections are filled out appropriately. The front matter for the markdown should be structured correctly as per the example following:
+文件檔案必須遵循以下範本，確保所有章節都正確填寫。markdown 的前言應該按照以下範例正確結構化：
 
 ```md
 ---
-title: "ADR-NNNN: [Decision Title]"
+title: "ADR-NNNN: [決策標題]"
 status: "Proposed"
 date: "YYYY-MM-DD"
-authors: "[Stakeholder Names/Roles]"
+authors: "[利害關係人姓名/角色]"
 tags: ["architecture", "decision"]
 supersedes: ""
 superseded_by: ""
 ---
 
-# ADR-NNNN: [Decision Title]
+# ADR-NNNN: [決策標題]
 
-## Status
+## 狀態
 
 **Proposed** | Accepted | Rejected | Superseded | Deprecated
 
-## Context
+## 背景
 
-[Problem statement, technical constraints, business requirements, and environmental factors requiring this decision.]
+[問題陳述、技術限制、業務需求以及需要此決策的環境因素。]
 
-## Decision
+## 決策
 
-[Chosen solution with clear rationale for selection.]
+[所選解決方案及明確的選擇理由。]
 
-## Consequences
+## 後果
 
-### Positive
+### 正面
 
-- **POS-001**: [Beneficial outcomes and advantages]
-- **POS-002**: [Performance, maintainability, scalability improvements]
-- **POS-003**: [Alignment with architectural principles]
+- **POS-001**: [有益的結果和優勢]
+- **POS-002**: [效能、可維護性、可擴展性的改進]
+- **POS-003**: [與架構原則的一致性]
 
-### Negative
+### 負面
 
-- **NEG-001**: [Trade-offs, limitations, drawbacks]
-- **NEG-002**: [Technical debt or complexity introduced]
-- **NEG-003**: [Risks and future challenges]
+- **NEG-001**: [取捨、限制、缺點]
+- **NEG-002**: [引入的技術債務或複雜性]
+- **NEG-003**: [風險和未來挑戰]
 
-## Alternatives Considered
+## 考慮的備選方案
 
-### [Alternative 1 Name]
+### [備選方案 1 名稱]
 
-- **ALT-001**: **Description**: [Brief technical description]
-- **ALT-002**: **Rejection Reason**: [Why this option was not selected]
+- **ALT-001**: **描述**: [簡要的技術描述]
+- **ALT-002**: **拒絕原因**: [為什麼未選擇此選項]
 
-### [Alternative 2 Name]
+### [備選方案 2 名稱]
 
-- **ALT-003**: **Description**: [Brief technical description]
-- **ALT-004**: **Rejection Reason**: [Why this option was not selected]
+- **ALT-003**: **描述**: [簡要的技術描述]
+- **ALT-004**: **拒絕原因**: [為什麼未選擇此選項]
 
-## Implementation Notes
+## 實作注意事項
 
-- **IMP-001**: [Key implementation considerations]
-- **IMP-002**: [Migration or rollout strategy if applicable]
-- **IMP-003**: [Monitoring and success criteria]
+- **IMP-001**: [關鍵實作考量]
+- **IMP-002**: [遷移或推出策略（如適用）]
+- **IMP-003**: [監控和成功標準]
 
-## References
+## 參考資料
 
-- **REF-001**: [Related ADRs]
-- **REF-002**: [External documentation]
-- **REF-003**: [Standards or frameworks referenced]
+- **REF-001**: [相關 ADR]
+- **REF-002**: [外部文件]
+- **REF-003**: [引用的標準或框架]
 ```

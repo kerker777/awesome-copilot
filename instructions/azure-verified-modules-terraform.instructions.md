@@ -1,17 +1,17 @@
 ---
-description: ' Azure Verified Modules (AVM) and Terraform'
+description: 'Azure 驗證模組 (AVM) 和 Terraform'
 applyTo: '**/*.terraform, **/*.tf, **/*.tfvars, **/*.tfstate, **/*.tflint.hcl, **/*.tf.json, **/*.tfvars.json'
 ---
 
-# Azure Verified Modules (AVM) Terraform
+# Azure 驗證模組 (AVM) Terraform
 
-## Overview
+## 概觀
 
-Azure Verified Modules (AVM) are pre-built, tested, and validated Terraform and Bicep modules that follow Azure best practices. Use these modules to create, update, or review Azure Infrastructure as Code (IaC) with confidence.
+Azure 驗證模組 (AVM) 是預先建立、測試並驗證的 Terraform 和 Bicep 模組,遵循 Azure 最佳實踐。使用這些模組可以自信地建立、更新或檢閱 Azure 基礎架構即程式碼 (IaC)。
 
-## Custom Instructions for GitHub Copilot Agents
+## GitHub Copilot 代理程式的自訂指令
 
-**IMPORTANT**: When GitHub Copilot Agent or GitHub Copilot Coding Agent is working on this repository, the following local unit tests MUST be executed to comply with PR checks. Failure to run these tests will cause PR validation failures:
+**重要**: 當 GitHub Copilot 代理程式或 GitHub Copilot 編碼代理程式在此儲存庫上工作時,必須執行以下本機單元測試以符合 PR 檢查要求。未執行這些測試將導致 PR 驗證失敗:
 
 ```bash
 ./avm pre-commit
@@ -19,45 +19,45 @@ Azure Verified Modules (AVM) are pre-built, tested, and validated Terraform and 
 ./avm pr-check
 ```
 
-These commands must be run before any pull request is created or updated to ensure compliance with the Azure Verified Modules standards and prevent CI/CD pipeline failures.
-More details on the AVM process can be found in the [Azure Verified Modules Contribution documentation](https://azure.github.io/Azure-Verified-Modules/contributing/terraform/testing/).
+在建立或更新任何 pull request 之前,必須執行這些命令,以確保符合 Azure 驗證模組標準並防止 CI/CD 管道失敗。
+有關 AVM 流程的更多詳細資訊,請參閱 [Azure 驗證模組貢獻文件](https://azure.github.io/Azure-Verified-Modules/contributing/terraform/testing/)。
 
-**Failure to run these tests will cause PR validation failures and prevent successful merges.**
+**未執行這些測試將導致 PR 驗證失敗並阻止成功合併。**
 
-## Module Discovery
+## 模組探索
 
 ### Terraform Registry
 
-- Search for "avm" + resource name
-- Filter by "Partner" tag to find official AVM modules
-- Example: Search "avm storage account" → filter by Partner
+- 搜尋 "avm" + 資源名稱
+- 使用 "Partner" 標籤篩選以找到官方 AVM 模組
+- 範例: 搜尋 "avm storage account" → 按 Partner 篩選
 
-### Official AVM Index
+### 官方 AVM 索引
 
-> **Note:** The following links always point to the latest version of the CSV files on the main branch. As intended, this means the files may change over time. If you require a point-in-time version, consider using a specific release tag in the URL.
+> **注意:** 以下連結始終指向主分支上 CSV 檔案的最新版本。如預期,這意味著檔案可能會隨時間變化。如果需要特定時間點的版本,請考慮在 URL 中使用特定的發行標籤。
 
-- **Terraform Resource Modules**: `https://raw.githubusercontent.com/Azure/Azure-Verified-Modules/refs/heads/main/docs/static/module-indexes/TerraformResourceModules.csv`
-- **Terraform Pattern Modules**: `https://raw.githubusercontent.com/Azure/Azure-Verified-Modules/refs/heads/main/docs/static/module-indexes/TerraformPatternModules.csv`
-- **Terraform Utility Modules**: `https://raw.githubusercontent.com/Azure/Azure-Verified-Modules/refs/heads/main/docs/static/module-indexes/TerraformUtilityModules.csv`
+- **Terraform 資源模組**: `https://raw.githubusercontent.com/Azure/Azure-Verified-Modules/refs/heads/main/docs/static/module-indexes/TerraformResourceModules.csv`
+- **Terraform 模式模組**: `https://raw.githubusercontent.com/Azure/Azure-Verified-Modules/refs/heads/main/docs/static/module-indexes/TerraformPatternModules.csv`
+- **Terraform 工具模組**: `https://raw.githubusercontent.com/Azure/Azure-Verified-Modules/refs/heads/main/docs/static/module-indexes/TerraformUtilityModules.csv`
 
 
-## Terraform Module Usage
+## Terraform 模組使用
 
-### From Examples
+### 從範例開始
 
-1. Copy the example code from the module documentation
-2. Replace `source = "../../"` with `source = "Azure/avm-res-{service}-{resource}/azurerm"`
-3. Add `version = "~> 1.0"` (use latest available)
-4. Set `enable_telemetry = true`
+1. 從模組文件中複製範例程式碼
+2. 將 `source = "../../"` 替換為 `source = "Azure/avm-res-{service}-{resource}/azurerm"`
+3. 新增 `version = "~> 1.0"` (使用最新可用版本)
+4. 設定 `enable_telemetry = true`
 
-### From Scratch
+### 從頭開始
 
-1. Copy the Provision Instructions from module documentation
-2. Configure required and optional inputs
-3. Pin the module version
-4. Enable telemetry
+1. 從模組文件中複製佈建指令
+2. 設定必要和選用輸入
+3. 固定模組版本
+4. 啟用遙測
 
-### Example Usage
+### 使用範例
 
 ```hcl
 module "storage_account" {
@@ -69,109 +69,109 @@ module "storage_account" {
   name                = "mystorageaccount"
   resource_group_name = "my-rg"
 
-  # Additional configuration...
+  # 其他設定...
 }
 ```
 
-## Naming Conventions
+## 命名慣例
 
-### Module Types
+### 模組類型
 
-- **Resource Modules**: `Azure/avm-res-{service}-{resource}/azurerm`
-  - Example: `Azure/avm-res-storage-storageaccount/azurerm`
-- **Pattern Modules**: `Azure/avm-ptn-{pattern}/azurerm`
-  - Example: `Azure/avm-ptn-aks-enterprise/azurerm`
-- **Utility Modules**: `Azure/avm-utl-{utility}/azurerm`
-  - Example: `Azure/avm-utl-regions/azurerm`
+- **資源模組**: `Azure/avm-res-{service}-{resource}/azurerm`
+  - 範例: `Azure/avm-res-storage-storageaccount/azurerm`
+- **模式模組**: `Azure/avm-ptn-{pattern}/azurerm`
+  - 範例: `Azure/avm-ptn-aks-enterprise/azurerm`
+- **工具模組**: `Azure/avm-utl-{utility}/azurerm`
+  - 範例: `Azure/avm-utl-regions/azurerm`
 
-### Service Naming
+### 服務命名
 
-- Use kebab-case for services and resources
-- Follow Azure service names (e.g., `storage-storageaccount`, `network-virtualnetwork`)
+- 對服務和資源使用 kebab-case
+- 遵循 Azure 服務名稱 (例如, `storage-storageaccount`, `network-virtualnetwork`)
 
-## Version Management
+## 版本管理
 
-### Check Available Versions
+### 檢查可用版本
 
-- Endpoint: `https://registry.terraform.io/v1/modules/Azure/{module}/azurerm/versions`
-- Example: `https://registry.terraform.io/v1/modules/Azure/avm-res-storage-storageaccount/azurerm/versions`
+- 端點: `https://registry.terraform.io/v1/modules/Azure/{module}/azurerm/versions`
+- 範例: `https://registry.terraform.io/v1/modules/Azure/avm-res-storage-storageaccount/azurerm/versions`
 
-### Version Pinning Best Practices
+### 版本固定最佳實踐
 
-- Use pessimistic version constraints: `version = "~> 1.0"`
-- Pin to specific versions for production: `version = "1.2.3"`
-- Always review changelog before upgrading
+- 使用悲觀版本約束: `version = "~> 1.0"`
+- 生產環境固定到特定版本: `version = "1.2.3"`
+- 升級前務必檢閱變更日誌
 
-## Module Sources
+## 模組來源
 
 ### Terraform Registry
 
-- **URL Pattern**: `https://registry.terraform.io/modules/Azure/{module}/azurerm/latest`
-- **Example**: `https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest`
+- **URL 模式**: `https://registry.terraform.io/modules/Azure/{module}/azurerm/latest`
+- **範例**: `https://registry.terraform.io/modules/Azure/avm-res-storage-storageaccount/azurerm/latest`
 
-### GitHub Repository
+### GitHub 儲存庫
 
-- **URL Pattern**: `https://github.com/Azure/terraform-azurerm-avm-{type}-{service}-{resource}`
-- **Examples**:
-  - Resource: `https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount`
-  - Pattern: `https://github.com/Azure/terraform-azurerm-avm-ptn-aks-enterprise`
+- **URL 模式**: `https://github.com/Azure/terraform-azurerm-avm-{type}-{service}-{resource}`
+- **範例**:
+  - 資源: `https://github.com/Azure/terraform-azurerm-avm-res-storage-storageaccount`
+  - 模式: `https://github.com/Azure/terraform-azurerm-avm-ptn-aks-enterprise`
 
-## Development Best Practices
+## 開發最佳實踐
 
-### Module Usage
+### 模組使用
 
-- ✅ **Always** pin module and provider versions
-- ✅ **Start** with official examples from module documentation
-- ✅ **Review** all inputs and outputs before implementation
-- ✅ **Enable** telemetry: `enable_telemetry = true`
-- ✅ **Use** AVM utility modules for common patterns
-- ✅ **Follow** AzureRM provider requirements and constraints
+- ✅ **務必**固定模組和提供者版本
+- ✅ **從**模組文件中的官方範例開始
+- ✅ **在實作前檢閱**所有輸入和輸出
+- ✅ **啟用**遙測: `enable_telemetry = true`
+- ✅ **使用** AVM 工具模組處理常見模式
+- ✅ **遵循** AzureRM 提供者需求和約束
 
-### Code Quality
+### 程式碼品質
 
-- ✅ **Always** run `terraform fmt` after making changes
-- ✅ **Always** run `terraform validate` after making changes
-- ✅ **Use** meaningful variable names and descriptions
-- ✅ **Add** proper tags and metadata
-- ✅ **Document** complex configurations
+- ✅ **務必**在變更後執行 `terraform fmt`
+- ✅ **務必**在變更後執行 `terraform validate`
+- ✅ **使用**有意義的變數名稱和描述
+- ✅ **新增**適當的標籤和中繼資料
+- ✅ **記錄**複雜的設定
 
-### Validation Requirements
+### 驗證需求
 
-Before creating or updating any pull request:
+在建立或更新任何 pull request 之前:
 
 ```bash
-# Format code
+# 格式化程式碼
 terraform fmt -recursive
 
-# Validate syntax
+# 驗證語法
 terraform validate
 
-# AVM-specific validation (MANDATORY)
+# AVM 特定驗證 (必要)
 ./avm pre-commit
 ./avm tflint
 ./avm pr-check
 ```
 
-## Tool Integration
+## 工具整合
 
-### Use Available Tools
+### 使用可用工具
 
-- **Deployment Guidance**: Use `azure_get_deployment_best_practices` tool
-- **Service Documentation**: Use `microsoft.docs.mcp` tool for Azure service-specific guidance
-- **Schema Information**: Use `azure_get_schema_for_Bicep` for Bicep resources
+- **部署指南**: 使用 `azure_get_deployment_best_practices` 工具
+- **服務文件**: 使用 `microsoft.docs.mcp` 工具獲取 Azure 服務特定指南
+- **結構描述資訊**: 使用 `azure_get_schema_for_Bicep` 獲取 Bicep 資源資訊
 
-### GitHub Copilot Integration
+### GitHub Copilot 整合
 
-When working with AVM repositories:
+在處理 AVM 儲存庫時:
 
-1. Always check for existing modules before creating new resources
-2. Use the official examples as starting points
-3. Run all validation tests before committing
-4. Document any customizations or deviations from examples
+1. 在建立新資源之前務必檢查現有模組
+2. 使用官方範例作為起點
+3. 提交前執行所有驗證測試
+4. 記錄任何自訂或與範例的偏離
 
-## Common Patterns
+## 常見模式
 
-### Resource Group Module
+### 資源群組模組
 
 ```hcl
 module "resource_group" {
@@ -184,7 +184,7 @@ module "resource_group" {
 }
 ```
 
-### Virtual Network Module
+### 虛擬網路模組
 
 ```hcl
 module "virtual_network" {
@@ -199,31 +199,31 @@ module "virtual_network" {
 }
 ```
 
-## Troubleshooting
+## 疑難排解
 
-### Common Issues
+### 常見問題
 
-1. **Version Conflicts**: Always check compatibility between module and provider versions
-2. **Missing Dependencies**: Ensure all required resources are created first
-3. **Validation Failures**: Run AVM validation tools before committing
-4. **Documentation**: Always refer to the latest module documentation
+1. **版本衝突**: 務必檢查模組和提供者版本之間的相容性
+2. **缺少相依性**: 確保首先建立所有必要資源
+3. **驗證失敗**: 提交前執行 AVM 驗證工具
+4. **文件**: 務必參考最新的模組文件
 
-### Support Resources
+### 支援資源
 
-- **AVM Documentation**: `https://azure.github.io/Azure-Verified-Modules/`
-- **GitHub Issues**: Report issues in the specific module's GitHub repository
-- **Community**: Azure Terraform Provider GitHub discussions
+- **AVM 文件**: `https://azure.github.io/Azure-Verified-Modules/`
+- **GitHub Issues**: 在特定模組的 GitHub 儲存庫中回報問題
+- **社群**: Azure Terraform Provider GitHub 討論區
 
-## Compliance Checklist
+## 合規檢查清單
 
-Before submitting any AVM-related code:
+提交任何 AVM 相關程式碼前:
 
-- [ ] Module version is pinned
-- [ ] Telemetry is enabled
-- [ ] Code is formatted (`terraform fmt`)
-- [ ] Code is validated (`terraform validate`)
-- [ ] AVM pre-commit checks pass (`./avm pre-commit`)
-- [ ] TFLint checks pass (`./avm tflint`)
-- [ ] AVM PR checks pass (`./avm pr-check`)
-- [ ] Documentation is updated
-- [ ] Examples are tested and working
+- [ ] 模組版本已固定
+- [ ] 遙測已啟用
+- [ ] 程式碼已格式化 (`terraform fmt`)
+- [ ] 程式碼已驗證 (`terraform validate`)
+- [ ] AVM pre-commit 檢查通過 (`./avm pre-commit`)
+- [ ] TFLint 檢查通過 (`./avm tflint`)
+- [ ] AVM PR 檢查通過 (`./avm pr-check`)
+- [ ] 文件已更新
+- [ ] 範例已測試且正常運作

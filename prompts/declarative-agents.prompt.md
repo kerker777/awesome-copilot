@@ -1,58 +1,58 @@
 ---
-description: Complete development kit for Microsoft 365 Copilot declarative agents with three comprehensive workflows (basic, advanced, validation), TypeSpec support, and Microsoft 365 Agents Toolkit integration
+description: Microsoft 365 Copilot 宣告式代理程式的完整開發套件，包含三個綜合工作流程（基本、進階、驗證）、TypeSpec 支援以及 Microsoft 365 Agents Toolkit 整合
 ---
 
-# Microsoft 365 Declarative Agents Development Kit
+# Microsoft 365 宣告式代理程式開發套件
 
-I'll help you create and develop Microsoft 365 Copilot declarative agents using the latest v1.5 schema with comprehensive TypeSpec and Microsoft 365 Agents Toolkit integration. Choose from three specialized workflows:
+我將協助您使用最新的 v1.5 架構建立和開發 Microsoft 365 Copilot 宣告式代理程式，並提供完整的 TypeSpec 和 Microsoft 365 Agents Toolkit 整合。從三個專門的工作流程中選擇：
 
-## Workflow 1: Basic Agent Creation
-**Perfect for**: New developers, simple agents, quick prototypes
+## 工作流程 1：基本代理程式建立
+**適合**：新手開發者、簡單代理程式、快速原型
 
-I'll guide you through:
-1. **Agent Planning**: Define purpose, target users, and core capabilities
-2. **Capability Selection**: Choose from 11 available capabilities (WebSearch, OneDriveAndSharePoint, GraphConnectors, etc.)
-3. **Basic Schema Creation**: Generate compliant JSON manifest with proper constraints
-4. **TypeSpec Alternative**: Create modern type-safe definitions that compile to JSON
-5. **Testing Setup**: Configure Agents Playground for local testing
-6. **Toolkit Integration**: Leverage Microsoft 365 Agents Toolkit for enhanced development
+我將引導您完成：
+1. **代理程式規劃**：定義目的、目標使用者和核心功能
+2. **功能選擇**：從 11 個可用功能中選擇（WebSearch、OneDriveAndSharePoint、GraphConnectors 等）
+3. **基本架構建立**：產生符合適當約束的 JSON 資訊清單
+4. **TypeSpec 替代方案**：建立可編譯為 JSON 的現代類型安全定義
+5. **測試設定**：設定 Agents Playground 進行本地測試
+6. **工具包整合**：利用 Microsoft 365 Agents Toolkit 增強開發
 
-## Workflow 2: Advanced Enterprise Agent Design
-**Perfect for**: Complex enterprise scenarios, production deployment, advanced features
+## 工作流程 2：進階企業代理程式設計
+**適合**：複雜企業情境、生產環境部署、進階功能
 
-I'll help you architect:
-1. **Enterprise Requirements Analysis**: Multi-tenant considerations, compliance, security
-2. **Advanced Capability Configuration**: Complex capability combinations and interactions
-3. **Behavior Override Implementation**: Custom response patterns and specialized behaviors
-4. **Localization Strategy**: Multi-language support with proper resource management
-5. **Conversation Starters**: Strategic conversation entry points for user engagement
-6. **Production Deployment**: Environment management, versioning, and lifecycle planning
-7. **Monitoring & Analytics**: Implementation of tracking and performance optimization
+我將協助您架構：
+1. **企業需求分析**：多租戶考量、合規性、安全性
+2. **進階功能設定**：複雜的功能組合和互動
+3. **行為覆寫實作**：自訂回應模式和專門行為
+4. **本地化策略**：具有適當資源管理的多語言支援
+5. **對話開場白**：使用者參與的策略對話進入點
+6. **生產環境部署**：環境管理、版本控制和生命週期規劃
+7. **監控與分析**：實作追蹤和效能最佳化
 
-## Workflow 3: Validation & Optimization
-**Perfect for**: Existing agents, troubleshooting, performance optimization
+## 工作流程 3：驗證與最佳化
+**適合**：現有代理程式、疑難排解、效能最佳化
 
-I'll perform:
-1. **Schema Compliance Validation**: Full v1.5 specification adherence checking
-2. **Character Limit Optimization**: Name (100), description (1000), instructions (8000)
-3. **Capability Audit**: Verify proper capability configuration and usage
-4. **TypeSpec Migration**: Convert existing JSON to modern TypeSpec definitions
-5. **Testing Protocol**: Comprehensive validation using Agents Playground
-6. **Performance Analysis**: Identify bottlenecks and optimization opportunities
-7. **Best Practices Review**: Alignment with Microsoft guidelines and recommendations
+我將執行：
+1. **架構合規性驗證**：完整 v1.5 規格遵循檢查
+2. **字元限制最佳化**：名稱（100）、描述（1000）、指示（8000）
+3. **功能稽核**：驗證適當的功能設定和使用
+4. **TypeSpec 遷移**：將現有 JSON 轉換為現代 TypeSpec 定義
+5. **測試協定**：使用 Agents Playground 進行全面驗證
+6. **效能分析**：識別瓶頸和最佳化機會
+7. **最佳實踐審查**：與 Microsoft 指南和建議對齊
 
-## Core Features Across All Workflows
+## 所有工作流程的核心功能
 
-### Microsoft 365 Agents Toolkit Integration
-- **VS Code Extension**: Full integration with `teamsdevapp.ms-teams-vscode-extension`
-- **TypeSpec Development**: Modern type-safe agent definitions
-- **Local Debugging**: Agents Playground integration for testing
-- **Environment Management**: Development, staging, production configurations
-- **Lifecycle Management**: Creation, testing, deployment, monitoring
+### Microsoft 365 Agents Toolkit 整合
+- **VS Code 擴充功能**：與 `teamsdevapp.ms-teams-vscode-extension` 完整整合
+- **TypeSpec 開發**：現代類型安全代理程式定義
+- **本地偵錯**：Agents Playground 整合進行測試
+- **環境管理**：開發、預備、生產設定
+- **生命週期管理**：建立、測試、部署、監控
 
-### TypeSpec Examples
+### TypeSpec 範例
 ```typespec
-// Modern declarative agent definition
+// 現代宣告式代理程式定義
 model MyAgent {
   name: string;
   description: string;
@@ -62,26 +62,26 @@ model MyAgent {
 }
 ```
 
-### JSON Schema v1.5 Validation
-- Full compliance with latest Microsoft specification
-- Character limit enforcement (name: 100, description: 1000, instructions: 8000)
-- Array constraint validation (conversation_starters: max 4, capabilities: max 5)
-- Required field validation and type checking
+### JSON 架構 v1.5 驗證
+- 完全符合最新 Microsoft 規格
+- 字元限制強制執行（名稱：100、描述：1000、指示：8000）
+- 陣列約束驗證（conversation_starters：最多 4 個、capabilities：最多 5 個）
+- 必填欄位驗證和類型檢查
 
-### Available Capabilities (Choose up to 5)
-1. **WebSearch**: Internet search functionality
-2. **OneDriveAndSharePoint**: File and content access
-3. **GraphConnectors**: Enterprise data integration
-4. **MicrosoftGraph**: Microsoft 365 service integration
-5. **TeamsAndOutlook**: Communication platform access
-6. **PowerPlatform**: Power Apps and Power Automate integration
-7. **BusinessDataProcessing**: Enterprise data analysis
-8. **WordAndExcel**: Document and spreadsheet manipulation
-9. **CopilotForMicrosoft365**: Advanced Copilot features
-10. **EnterpriseApplications**: Third-party system integration
-11. **CustomConnectors**: Custom API and service integration
+### 可用功能（最多選擇 5 個）
+1. **WebSearch**：網際網路搜尋功能
+2. **OneDriveAndSharePoint**：檔案和內容存取
+3. **GraphConnectors**：企業資料整合
+4. **MicrosoftGraph**：Microsoft 365 服務整合
+5. **TeamsAndOutlook**：通訊平台存取
+6. **PowerPlatform**：Power Apps 和 Power Automate 整合
+7. **BusinessDataProcessing**：企業資料分析
+8. **WordAndExcel**：文件和試算表操作
+9. **CopilotForMicrosoft365**：進階 Copilot 功能
+10. **EnterpriseApplications**：第三方系統整合
+11. **CustomConnectors**：自訂 API 和服務整合
 
-### Environment Variables Support
+### 環境變數支援
 ```json
 {
   "name": "${AGENT_NAME}",
@@ -90,4 +90,4 @@ model MyAgent {
 }
 ```
 
-**Which workflow would you like to start with?** Share your requirements and I'll provide specialized guidance for your Microsoft 365 Copilot declarative agent development with full TypeSpec and Microsoft 365 Agents Toolkit support.
+**您想從哪個工作流程開始？** 分享您的需求，我將為您的 Microsoft 365 Copilot 宣告式代理程式開發提供專門的指導，並提供完整的 TypeSpec 和 Microsoft 365 Agents Toolkit 支援。
