@@ -3,80 +3,80 @@ description: 'Guidelines for generating modern Terraform code for Azure'
 applyTo: '**/*.tf'
 ---
 
-## 1. Use Latest Terraform and Providers
-Always target the latest stable Terraform version and Azure providers. In code, specify the required Terraform and provider versions to enforce this. Keep provider versions updated to get new features and fixes.
+## 1. 使用最新的 Terraform 和提供者
+始終採用最新穩定版的 Terraform 和 Azure 提供者。在程式碼中明確指定所需的 Terraform 和提供者版本，以確保版本管理。定期更新提供者版本，以取得新功能和安全性修補。
 
-## 2. Organize Code Cleanly
-Structure Terraform configurations with logical file separation:
+## 2. 程式碼結構清晰明確
+以邏輯檔案分離的方式組織 Terraform 設定：
 
-- Use `main.tf` for resources
-- Use `variables.tf` for inputs
-- Use `outputs.tf` for outputs
-- Follow consistent naming conventions and formatting (`terraform fmt`)
+- 使用 `main.tf` 定義資源
+- 使用 `variables.tf` 定義輸入變數
+- 使用 `outputs.tf` 定義輸出值
+- 遵循一致的命名慣例和程式碼格式（`terraform fmt`）
 
-This makes the code easy to navigate and maintain.
+這樣能讓程式碼易於導覽和維護。
 
-## 3. Encapsulate in Modules
+## 3. 使用模組進行封裝
 
-Use Terraform modules to group reusable infrastructure components. For any resource set that will be used in multiple contexts:
+透過 Terraform 模組來組織可重複使用的基礎設施元件。對於任何會在多個場景中使用的資源群組：
 
-- Create a module with its own variables/outputs
-- Reference it rather than duplicating code
-- This promotes reuse and consistency
+- 建立各自具有變數和輸出的模組
+- 參考模組而非複製程式碼
+- 這促進了程式碼重複使用和設定一致性
 
-## 4. Leverage Variables and Outputs
+## 4. 善用變數和輸出
 
-- **Parameterize** all configurable values using variables with types and descriptions
-- **Provide default values** where appropriate for optional variables
-- **Use outputs** to expose key resource attributes for other modules or user reference
-- **Mark sensitive values** accordingly to protect secrets
+- **參數化** 所有可配置的值，使用具有型別和說明的變數
+- **提供適當的預設值** 給可選的變數
+- **使用輸出** 向其他模組或使用者公開重要的資源屬性
+- **標記敏感值** 以適當方式保護機密資訊
 
-## 5. Provider Selection (AzureRM vs AzAPI)
+## 5. 提供者選擇（AzureRM vs AzAPI）
 
-- **Use `azurerm` provider** for most scenarios – it offers high stability and covers the majority of Azure services
-- **Use `azapi` provider** only for cases where you need:
-  - The very latest Azure features
-  - A resource not yet supported in `azurerm`
-- **Document the choice** in code comments
-- Both providers can be used together if needed, but prefer `azurerm` when in doubt
+- **優先使用 `azurerm` 提供者** 於大多數情境，它提供高度穩定性且涵蓋大多數 Azure 服務
+- **使用 `azapi` 提供者** 僅限於以下情況：
+  - 需要最新的 Azure 功能
+  - 所需資源在 `azurerm` 中尚未支援
+- **在程式碼註解中說明選擇的原因**
+- 如有必要，兩個提供者可同時使用，但在不確定時優先選擇 `azurerm`
 
-## 6. Minimal Dependencies
+## 6. 保持最小化的依賴
 
-- **Do not introduce** additional providers or modules beyond the project's scope without confirmation
-- If a special provider (e.g., `random`, `tls`) or external module is needed:
-  - Add a comment to explain
-  - Ensure the user approves it
-- Keep the infrastructure stack lean and avoid unnecessary complexity
+- **不要引入** 超出專案範圍的額外提供者或模組，除非經過確認
+- 若需要特殊提供者（例如 `random`、`tls`）或外部模組：
+  - 新增註解說明原因
+  - 確保使用者同意
+- 保持基礎設施堆疊精簡，避免不必要的複雜性
 
-## 7. Ensure Idempotency
+## 7. 確保冪等性
 
-- Write configurations that can be applied repeatedly with the same outcome
-- **Avoid non-idempotent actions**:
-  - Scripts that run on every apply
-  - Resources that might conflict if created twice
-- **Test by doing multiple `terraform apply` runs** and ensure the second run results in zero changes
-- Use resource lifecycle settings or conditional expressions to handle drift or external changes gracefully
+- 編寫可重複套用且結果一致的設定
+- **避免非冪等的操作**：
+  - 每次執行 apply 都會運行的指令碼
+  - 重複建立時可能產生衝突的資源
+- **透過執行多次 `terraform apply`** 進行測試，確認第二次執行不會產生任何變更
+- 使用資源的生命週期設定或條件運算式，優雅地處理設定漂移或外部變更
 
-## 8. State Management
+## 8. 狀態管理
 
-- **Use a remote backend** (like Azure Storage with state locking) to store Terraform state securely
-- Enable team collaboration
-- **Never commit state files** to source control
-- This prevents conflicts and keeps the infrastructure state consistent
+- **使用遠端後端**（例如具有狀態鎖定機制的 Azure 儲存體）安全地儲存 Terraform 狀態
+- 啟用團隊協作功能
+- **絕不提交狀態檔案** 到版本控制系統
+- 這能防止狀態衝突並保持基礎設施狀態的一致性
 
-## 9. Document and Diagram
+## 9. 文件和架構圖表
 
-- **Maintain up-to-date documentation**
-- **Update README.md** with any new variables, outputs, or usage instructions whenever the code changes
-- Consider using tools like `terraform-docs` for automation
-- **Update architecture diagrams** to reflect infrastructure changes after each significant update
-- Well-documented code and diagrams ensure the whole team understands the infrastructure
+- **保持文件的及時更新**
+- **更新 README.md** 記錄程式碼異動時新增的變數、輸出或使用說明
+- 考慮使用 `terraform-docs` 等工具進行自動化
+- **更新架構圖表** 在重大更新後反映基礎設施的變更
+- 完善的文件和圖表能確保全隊都理解基礎設施架構
 
-## 10. Validate and Test Changes
+## 10. 驗證和測試異動
 
-- **Run `terraform validate`** and review the `terraform plan` output before applying changes
-- Catch errors or unintended modifications early
-- **Consider implementing automated checks**:
-  - CI pipeline
-  - Pre-commit hooks
-  - Enforce formatting, linting, and basic validation
+- **執行 `terraform validate`** 並在套用異動前檢視 `terraform plan` 的輸出結果
+- 及早發現錯誤或意外的修改
+- **考慮實施自動化檢查**：
+  - CI 管道
+  - 預提交掛鉤
+  - 強制執行程式碼格式化、檢查和基本驗證

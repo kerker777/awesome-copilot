@@ -3,14 +3,14 @@ description: 'Comprehensive guide for Power BI DevOps, Application Lifecycle Man
 applyTo: '**/*.{yml,yaml,ps1,json,pbix,pbir}'
 ---
 
-# Power BI DevOps and Application Lifecycle Management Best Practices
+# Power BI DevOps 與應用程式生命週期管理最佳實踐
 
-## Overview
-This document provides comprehensive instructions for implementing DevOps practices, CI/CD pipelines, and Application Lifecycle Management (ALM) for Power BI solutions, based on Microsoft's recommended patterns and best practices.
+## 概觀
+本文件提供實現 Power BI 解決方案 DevOps 實踐、CI/CD 管道和應用程式生命週期管理 (ALM) 的全面指引，內容以 Microsoft 建議的模式與最佳實踐為基礎。
 
-## Power BI Project Structure and Version Control
+## Power BI 專案結構與版本控制
 
-### 1. PBIP (Power BI Project) Structure
+### 1. PBIP (Power BI 專案) 結構
 ```markdown
 // Power BI project file organization
 ├── Model/
@@ -33,7 +33,7 @@ This document provides comprehensive instructions for implementing DevOps practi
 └── .git/
 ```
 
-### 2. Git Integration Best Practices
+### 2. Git 整合最佳實踐
 ```powershell
 # Initialize Power BI project with Git
 git init
@@ -51,9 +51,9 @@ git merge feature/new-dashboard
 git tag -a v1.2.0 -m "Release version 1.2.0"
 ```
 
-## Deployment Pipelines and Automation
+## 部署管道與自動化
 
-### 1. Power BI Deployment Pipelines API
+### 1. Power BI 部署管道 API
 ```powershell
 # Automated deployment using Power BI REST API
 $url = "pipelines/{0}/Deploy" -f "Insert your pipeline ID here"
@@ -91,7 +91,7 @@ while($operation.Status -eq "NotStarted" -or $operation.Status -eq "Executing")
 }
 ```
 
-### 2. Azure DevOps Integration
+### 2. Azure DevOps 整合
 ```yaml
 # Azure DevOps pipeline for Power BI deployment
 trigger:
@@ -148,7 +148,7 @@ steps:
   displayName: 'Deploy to Power BI Service'
 ```
 
-### 3. Fabric REST API Deployment
+### 3. Fabric REST API 部署
 ```powershell
 # Complete PowerShell deployment script
 # Parameters 
@@ -183,9 +183,9 @@ $semanticModelImport = Import-FabricItem -workspaceId $workspaceId -path $pbipSe
 $reportImport = Import-FabricItem -workspaceId $workspaceId -path $pbipReportPath -itemProperties @{"semanticModelId" = $semanticModelImport.Id}
 ```
 
-## Environment Management
+## 環境管理
 
-### 1. Multi-Environment Strategy
+### 1. 多環境策略
 ```json
 {
   "environments": {
@@ -211,7 +211,7 @@ $reportImport = Import-FabricItem -workspaceId $workspaceId -path $pbipReportPat
 }
 ```
 
-### 2. Parameter-Driven Deployment
+### 2. 參數驅動部署
 ```powershell
 # Environment-specific parameter management
 param(
@@ -239,9 +239,9 @@ Write-Host "Workspace: $($config.workspaceId)"
 Write-Host "Data Source: $($config.dataSourceUrl)"
 ```
 
-## Automated Testing Framework
+## 自動化測試框架
 
-### 1. Data Quality Tests
+### 1. 資料品質測試
 ```powershell
 # Automated data quality validation
 function Test-PowerBIDataQuality {
@@ -282,7 +282,7 @@ function Test-PowerBIDataQuality {
 }
 ```
 
-### 2. Performance Regression Tests
+### 2. 效能迴歸測試
 ```powershell
 # Performance benchmark testing
 function Test-PowerBIPerformance {
@@ -323,9 +323,9 @@ function Test-PowerBIPerformance {
 }
 ```
 
-## Configuration Management
+## 設定管理
 
-### 1. Infrastructure as Code
+### 1. 基礎設施即程式碼
 ```json
 {
   "workspace": {
@@ -366,7 +366,7 @@ function Test-PowerBIPerformance {
 }
 ```
 
-### 2. Secret Management
+### 2. 秘密管理
 ```powershell
 # Azure Key Vault integration for secrets
 function Get-PowerBICredentials {
@@ -394,9 +394,9 @@ $credential = New-Object System.Management.Automation.PSCredential($credentials.
 Connect-PowerBIServiceAccount -ServicePrincipal -Credential $credential -TenantId $credentials.TenantId
 ```
 
-## Release Management
+## 發行管理
 
-### 1. Release Pipeline
+### 1. 發行管道
 ```yaml
 # Multi-stage release pipeline
 stages:
@@ -458,7 +458,7 @@ stages:
               workspaceName: '$(ProdWorkspaceName)'
 ```
 
-### 2. Rollback Strategy
+### 2. 回滾策略
 ```powershell
 # Automated rollback mechanism
 function Invoke-PowerBIRollback {
@@ -488,9 +488,9 @@ function Invoke-PowerBIRollback {
 }
 ```
 
-## Monitoring and Alerting
+## 監控與告警
 
-### 1. Deployment Health Checks
+### 1. 部署健康檢查
 ```powershell
 # Post-deployment validation
 function Test-DeploymentHealth {
@@ -532,7 +532,7 @@ function Test-DeploymentHealth {
 }
 ```
 
-### 2. Automated Alerting
+### 2. 自動告警
 ```powershell
 # Teams notification for deployment status
 function Send-DeploymentNotification {
@@ -579,45 +579,45 @@ function Send-DeploymentNotification {
 }
 ```
 
-## Best Practices Summary
+## 最佳實踐摘要
 
-### ✅ DevOps Best Practices
+### ✅ DevOps 最佳實踐
 
-1. **Version Control Everything**
-   - Use PBIP format for source control
-   - Include model, reports, and configuration
-   - Implement branching strategies (GitFlow)
+1. **版本控制一切**
+   - 使用 PBIP 格式進行版本控制
+   - 包含模型、報表和設定
+   - 實施分支策略 (GitFlow)
 
-2. **Automated Testing**
-   - Data quality validation
-   - Performance regression tests
-   - Security compliance checks
+2. **自動化測試**
+   - 資料品質驗證
+   - 效能迴歸測試
+   - 安全合規性檢查
 
-3. **Environment Isolation**
-   - Separate dev/test/prod environments
-   - Environment-specific configurations
-   - Automated promotion pipelines
+3. **環境隔離**
+   - 分離開發/測試/生產環境
+   - 環境特定的設定
+   - 自動化升級管道
 
-4. **Security Integration**
-   - Service principal authentication
-   - Secret management with Key Vault
-   - Role-based access controls
+4. **安全整合**
+   - 服務主體驗證
+   - 使用 Key Vault 管理秘密
+   - 角色型存取控制
 
-### ❌ Anti-Patterns to Avoid
+### ❌ 應避免的反模式
 
-1. **Manual Deployments**
-   - Direct publishing from Desktop
-   - Manual configuration changes
-   - No rollback strategy
+1. **手動部署**
+   - 直接從 Desktop 發佈
+   - 手動設定變更
+   - 沒有回滾策略
 
-2. **Environment Coupling**
-   - Hardcoded connection strings
-   - Environment-specific reports
-   - Manual testing only
+2. **環境耦合**
+   - 硬編碼連線字串
+   - 環境特定的報表
+   - 僅手動測試
 
-3. **Poor Change Management**
-   - No version control
-   - Direct production changes
-   - Missing audit trails
+3. **差劣的變更管理**
+   - 無版本控制
+   - 直接修改生產環境
+   - 缺少稽核紀錄
 
-Remember: DevOps for Power BI requires a combination of proper tooling, automated processes, and organizational discipline. Start with basic CI/CD and gradually mature your practices based on organizational needs and compliance requirements.
+記住：Power BI 的 DevOps 需要適當的工具、自動化流程和組織紀律的組合。從基本 CI/CD 開始，根據組織需求和合規要求逐步提升你的實踐成熟度。

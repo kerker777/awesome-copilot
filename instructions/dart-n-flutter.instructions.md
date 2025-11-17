@@ -3,445 +3,418 @@ description: 'Instructions for writing Dart and Flutter code following the offic
 applyTo: '**/*.dart'
 ---
 
-# Dart and Flutter
+# Dart 和 Flutter
 
-Best practices recommended by the Dart and Flutter teams. These instructions were taken from [Effective Dart](https://dart.dev/effective-dart) and [Architecture Recommendations](https://docs.flutter.dev/app-architecture/recommendations).
+由 Dart 和 Flutter 團隊推薦的最佳實踐。這些指導文件取自 [Effective Dart](https://dart.dev/effective-dart) 和 [架構建議](https://docs.flutter.dev/app-architecture/recommendations)。
 
-## Effective Dart
+## 有效的 Dart
 
-Over the past several years, we've written a ton of Dart code and learned a lot about what works well and what doesn't. We're sharing this with you so you can write consistent, robust, fast code too. There are two overarching themes:
+在過去幾年，我們撰寫了大量的 Dart 程式碼，學到了許多關於什麼有效、什麼無效的知識。我們想與你分享，讓你也能寫出一致、穩健且快速的程式碼。有兩個核心主題：
 
-1.  **Be consistent.** When it comes to things like formatting, and casing, arguments about which is better are subjective and impossible to resolve. What we do know is that being *consistent* is objectively helpful.
+1.  **保持一致。** 對於格式設定和大小寫等事項，哪個更好的爭論是主觀的，無法解決。我們知道的是 *一致性* 在客觀上是有幫助的。
 
-    If two pieces of code look different it should be because they *are* different in some meaningful way. When a bit of code stands out and catches your eye, it should do so for a useful reason.
+    如果兩段程式碼看起來不同，那應該是因為它們在某種有意義的方式上 *確實* 不同。當程式碼片段引起你的注意時，應該是出於有用的原因。
 
-2.  **Be brief.** Dart was designed to be familiar, so it inherits many of the same statements and expressions as C, Java, JavaScript and other languages. But we created Dart because there is a lot of room to improve on what those languages offer. We added a bunch of features, from string interpolation to initializing formals, to help you express your intent more simply and easily.
+2.  **簡潔扼要。** Dart 的設計初衷是熟悉易用，因此繼承了許多與 C、Java、JavaScript 和其他語言相同的陳述式和運算式。但我們建立 Dart 是因為在這些語言所提供的基礎上有很大的改進空間。我們新增了許多功能，從字串插補到初始化形式參數，幫助你更簡單、更容易地表達你的意圖。
 
-    If there are multiple ways to say something, you should generally pick the most concise one. This is not to say you should `code golf` yourself into cramming a whole program into a single line. The goal is code that is *economical*, not *dense*.
+    如果有多種方式表達某個概念，你通常應該選擇最簡潔的方式。這不是說你應該把整個程式 `code golf` 到單一行。目標是 *經濟* 的程式碼，而不是 *密集* 的程式碼。
 
-### The topics
+### 主題
 
-We split the guidelines into a few separate topics for easy digestion:
+我們將指導方針分為幾個單獨的主題，便於消化吸收：
 
-*   **Style** – This defines the rules for laying out and organizing code, or at least the parts that `dart format` doesn't handle for you. The style topic also specifies how identifiers are formatted: `camelCase`, `using_underscores`, etc.
+*   **風格** – 這定義了代碼佈局和組織的規則，或至少是 `dart format` 不會為你處理的部分。風格主題也規定了識別符的格式化方式：`camelCase`、`using_underscores` 等。
 
-*   **Documentation** – This tells you everything you need to know about what goes inside comments. Both doc comments and regular, run-of-the-mill code comments.
+*   **文件** – 這告訴你關於註解內部內容的一切。包括文件註解和常規程式碼註解。
 
-*   **Usage** – This teaches you how to make the best use of language features to implement behavior. If it's in a statement or expression, it's covered here.
+*   **使用** – 這教你如何充分利用語言功能來實現行為。如果它在陳述式或運算式中，這裡就會涵蓋。
 
-*   **Design** – This is the softest topic, but the one with the widest scope. It covers what we've learned about designing consistent, usable APIs for libraries. If it's in a type signature or declaration, this goes over it.
+*   **設計** – 這是最柔軟的主題，但範圍最廣。它涵蓋了我們在設計一致、易用的函式庫 API 時所學到的內容。如果它在類型簽章或宣告中，這部分就會討論。
 
-### How to read the topics
+### 如何閱讀主題
 
-Each topic is broken into a few sections. Sections contain a list of guidelines. Each guideline starts with one of these words:
+每個主題都分為幾個小節。小節包含一列指導方針。每個指導方針都以這些字之一開頭：
 
-*   **DO** guidelines describe practices that should always be followed. There will almost never be a valid reason to stray from them.
+*   **應該（DO）** 指導方針描述了應該始終遵循的做法。幾乎不會有正當理由偏離它們。
 
-*   **DON'T** guidelines are the converse: things that are almost never a good idea. Hopefully, we don't have as many of these as other languages do because we have less historical baggage.
+*   **不應該（DON'T）** 指導方針相反：幾乎從不是好主意的事情。希望我們的數量不會像其他語言一樣多，因為我們歷史包袱較少。
 
-*   **PREFER** guidelines are practices that you *should* follow. However, there may be circumstances where it makes sense to do otherwise. Just make sure you understand the full implications of ignoring the guideline when you do.
+*   **建議（PREFER）** 指導方針是你 *應該* 遵循的做法。然而，在某些情況下，做別的事情可能是有意義的。只要確保你理解了當你忽視指導方針時的完整含義。
 
-*   **AVOID** guidelines are the dual to "prefer": stuff you shouldn't do but where there may be good reasons to on rare occasions.
+*   **避免（AVOID）** 指導方針與「建議」相對：你不應該做的事情，但在罕見情況下可能有充分理由這樣做。
 
-*   **CONSIDER** guidelines are practices that you might or might not want to follow, depending on circumstances, precedents, and your own preference.
+*   **考慮（CONSIDER）** 指導方針是你可能想也可能不想遵循的做法，這取決於情況、先例和你自己的偏好。
 
-Some guidelines describe an **exception** where the rule does *not* apply. When listed, the exceptions may not be exhaustive—you might still need to use your judgement on other cases.
+某些指導方針描述了規則 *不適用* 的 **例外情況**。列出時，例外情況可能並不詳盡——你在其他情況下仍可能需要發揮判斷力。
 
-This sounds like the police are going to beat down your door if you don't have your laces tied correctly. Things aren't that bad. Most of the guidelines here are common sense and we're all reasonable people. The goal, as always, is nice, readable and maintainable code.
+這聽起來像是如果你沒有正確繫鞋帶，警察就會來敲你的門。事實並非如此。這裡大多數指導方針都是常識，我們都是理性的人。目標始終是漂亮、可讀且可維護的程式碼。
 
-### Rules
+### 規則
 
-#### Style
+#### 風格
 
-##### Identifiers
+##### 識別符
 
-*   DO name types using `UpperCamelCase`.
-*   DO name extensions using `UpperCamelCase`.
-*   DO name packages, directories, and source files using `lowercase_with_underscores`.
-*   DO name import prefixes using `lowercase_with_underscores`.
-*   DO name other identifiers using `lowerCamelCase`.
-*   PREFER using `lowerCamelCase` for constant names.
-*   DO capitalize acronyms and abbreviations longer than two letters like words.
-*   PREFER using wildcards for unused callback parameters.
-*   DON'T use a leading underscore for identifiers that aren't private.
-*   DON'T use prefix letters.
-*   DON'T explicitly name libraries.
+*   應該使用 `UpperCamelCase` 命名類型。
+*   應該使用 `UpperCamelCase` 命名擴充套件。
+*   應該使用 `lowercase_with_underscores` 命名套件、目錄和原始程式碼檔案。
+*   應該使用 `lowercase_with_underscores` 命名匯入前綴。
+*   應該使用 `lowerCamelCase` 命名其他識別符。
+*   建議對常數名稱使用 `lowerCamelCase`。
+*   應該將長於兩個字母的縮寫和首字母縮寫詞大寫，就像單字一樣。
+*   建議對未使用的回呼參數使用萬用字元。
+*   不應該在非私有識別符上使用前導底線。
+*   不應該使用前綴字母。
+*   不應該明確命名函式庫。
 
-##### Ordering
+##### 順序
 
-*   DO place `dart:` imports before other imports.
-*   DO place `package:` imports before relative imports.
-*   DO specify exports in a separate section after all imports.
-*   DO sort sections alphabetically.
+*   應該在其他匯入之前放置 `dart:` 匯入。
+*   應該在相對匯入之前放置 `package:` 匯入。
+*   應該在所有匯入之後的單獨部分中指定匯出。
+*   應該按字母順序排序部分。
 
-##### Formatting
+##### 格式化
 
-*   DO format your code using `dart format`.
-*   CONSIDER changing your code to make it more formatter-friendly.
-*   PREFER lines 80 characters or fewer.
-*   DO use curly braces for all flow control statements.
+*   應該使用 `dart format` 格式化你的程式碼。
+*   考慮修改你的程式碼以使其更便於格式化工具處理。
+*   建議採用 80 個字元或更少的行長。
+*   應該對所有控制流陳述式使用大括號。
 
-#### Documentation
+#### 文件
 
-##### Comments
+##### 註解
 
-*   DO format comments like sentences.
-*   DON'T use block comments for documentation.
+*   應該將註解格式化為句子。
+*   不應該使用區塊註解來進行文件。
 
-##### Doc comments
+##### 文件註解
 
-*   DO use `///` doc comments to document members and types.
-*   PREFER writing doc comments for public APIs.
-*   CONSIDER writing a library-level doc comment.
-*   CONSIDER writing doc comments for private APIs.
-*   DO start doc comments with a single-sentence summary.
-*   DO separate the first sentence of a doc comment into its own paragraph.
-*   AVOID redundancy with the surrounding context.
-*   PREFER starting comments of a function or method with third-person verbs if its main purpose is a side effect.
-*   PREFER starting a non-boolean variable or property comment with a noun phrase.
-*   PREFER starting a boolean variable or property comment with "Whether" followed by a noun or gerund phrase.
-*   PREFER a noun phrase or non-imperative verb phrase for a function or method if returning a value is its primary purpose.
-*   DON'T write documentation for both the getter and setter of a property.
-*   PREFER starting library or type comments with noun phrases.
-*   CONSIDER including code samples in doc comments.
-*   DO use square brackets in doc comments to refer to in-scope identifiers.
-*   DO use prose to explain parameters, return values, and exceptions.
-*   DO put doc comments before metadata annotations.
+*   應該使用 `///` 文件註解來記錄成員和類型。
+*   建議為公開 API 撰寫文件註解。
+*   考慮撰寫函式庫級別的文件註解。
+*   考慮為私有 API 撰寫文件註解。
+*   應該以單一句子摘要開始文件註解。
+*   應該將文件註解的第一句分離到自己的段落中。
+*   避免與周圍內容重複。
+*   如果函式或方法的主要目的是副作用，建議以第三人稱動詞開始註解。
+*   建議以名詞片語開始非布林變數或屬性註解。
+*   建議以「是否」（Whether）開始布林變數或屬性註解，後跟名詞或現在分詞片語。
+*   如果函式或方法的主要目的是傳回值，建議使用名詞片語或非命令式動詞片語。
+*   不應該同時為屬性的取得方法和設定方法撰寫文件。
+*   建議以名詞片語開始函式庫或類型註解。
+*   考慮在文件註解中包括程式碼範例。
+*   應該在文件註解中使用方括號來參考範圍內的識別符。
+*   應該使用散文來解釋參數、傳回值和例外。
+*   應該將文件註解放在中繼資料註釋之前。
 
 ##### Markdown
 
-*   AVOID using markdown excessively.
-*   AVOID using HTML for formatting.
-*   PREFER backtick fences for code blocks.
+*   避免過度使用 markdown。
+*   避免使用 HTML 進行格式化。
+*   建議對程式碼區塊使用反引號柵欄。
 
-##### Writing
+##### 撰寫
 
-*   PREFER brevity.
-*   AVOID abbreviations and acronyms unless they are obvious.
-*   PREFER using "this" instead of "the" to refer to a member's instance.
+*   建議簡潔扼要。
+*   避免使用縮寫和首字母縮寫詞，除非它們很明顯。
+*   建議使用「this」而不是「the」來指代成員的實例。
 
-#### Usage
+#### 使用
 
-##### Libraries
+##### 函式庫
 
-*   DO use strings in `part of` directives.
-*   DON'T import libraries that are inside the `src` directory of another package.
-*   DON'T allow an import path to reach into or out of `lib`.
-*   PREFER relative import paths.
+*   應該在 `part of` 指令中使用字串。
+*   不應該匯入位於另一個套件的 `src` 目錄內的函式庫。
+*   不應該允許匯入路徑到達或超出 `lib`。
+*   建議使用相對匯入路徑。
 
-##### Null
+##### 空值
 
-*   DON'T explicitly initialize variables to `null`.
-*   DON'T use an explicit default value of `null`.
-*   DON'T use `true` or `false` in equality operations.
-*   AVOID `late` variables if you need to check whether they are initialized.
-*   CONSIDER type promotion or null-check patterns for using nullable types.
+*   不應該明確地將變數初始化為 `null`。
+*   不應該使用明確的 `null` 預設值。
+*   不應該在相等比較中使用 `true` 或 `false`。
+*   如果需要檢查變數是否已初始化，避免使用 `late` 變數。
+*   考慮使用類型提升或空值檢查模式來使用可為空的類型。
 
-##### Strings
+##### 字串
 
-*   DO use adjacent strings to concatenate string literals.
-*   PREFER using interpolation to compose strings and values.
-*   AVOID using curly braces in interpolation when not needed.
+*   應該使用相鄰的字串來連接字串字面值。
+*   建議使用插補來組成字串和值。
+*   避免在不需要時在插補中使用大括號。
 
-##### Collections
+##### 集合
 
-*   DO use collection literals when possible.
-*   DON'T use `.length` to see if a collection is empty.
-*   AVOID using `Iterable.forEach()` with a function literal.
-*   DON'T use `List.from()` unless you intend to change the type of the result.
-*   DO use `whereType()` to filter a collection by type.
-*   DON'T use `cast()` when a nearby operation will do.
-*   AVOID using `cast()`.
+*   應該盡可能使用集合字面值。
+*   不應該使用 `.length` 來檢查集合是否為空。
+*   避免使用帶有函式字面值的 `Iterable.forEach()`。
+*   不應該使用 `List.from()`，除非你打算改變結果的類型。
+*   應該使用 `whereType()` 按類型篩選集合。
+*   不應該在附近的操作可行時使用 `cast()`。
+*   避免使用 `cast()`。
 
-##### Functions
+##### 函式
 
-*   DO use a function declaration to bind a function to a name.
-*   DON'T create a lambda when a tear-off will do.
+*   應該使用函式宣告將函式綁定到名稱。
+*   不應該在淚脫關閉可行時建立 lambda。
 
-##### Variables
+##### 變數
 
-*   DO follow a consistent rule for `var` and `final` on local variables.
-*   AVOID storing what you can calculate.
+*   應該在區域變數上為 `var` 和 `final` 遵循一致的規則。
+*   避免存儲可以計算的內容。
 
-##### Members
+##### 成員
 
-*   DON'T wrap a field in a getter and setter unnecessarily.
-*   PREFER using a `final` field to make a read-only property.
-*   CONSIDER using `=>` for simple members.
-*   DON'T use `this.` except to redirect to a named constructor or to avoid shadowing.
-*   DO initialize fields at their declaration when possible.
+*   不應該不必要地將欄位包裝在取得方法和設定方法中。
+*   建議使用 `final` 欄位來建立唯讀屬性。
+*   考慮對簡單成員使用 `=>`。
+*   不應該使用 `this.`，除非重新導向到具名建構函式或避免遮蔽。
+*   應該盡可能在欄位宣告時初始化欄位。
 
-##### Constructors
+##### 建構函式
 
-*   DO use initializing formals when possible.
-*   DON'T use `late` when a constructor initializer list will do.
-*   DO use `;` instead of `{}` for empty constructor bodies.
-*   DON'T use `new`.
-*   DON'T use `const` redundantly.
+*   應該盡可能使用初始化形式參數。
+*   不應該在建構函式初始化程式清單可行時使用 `late`。
+*   應該對空建構函式主體使用 `;` 而不是 `{}`。
+*   不應該使用 `new`。
+*   不應該冗餘地使用 `const`。
 
-##### Error handling
+##### 錯誤處理
 
-*   AVOID catches without `on` clauses.
-*   DON'T discard errors from catches without `on` clauses.
-*   DO throw objects that implement `Error` only for programmatic errors.
-*   DON'T explicitly catch `Error` or types that implement it.
-*   DO use `rethrow` to rethrow a caught exception.
+*   避免沒有 `on` 子句的捕捉。
+*   不應該從沒有 `on` 子句的捕捉中丟棄錯誤。
+*   應該只為程式設計錯誤拋出實現 `Error` 的物件。
+*   不應該明確地捕捉 `Error` 或實現它的類型。
+*   應該使用 `rethrow` 重新拋出捕獲的例外。
 
-##### Asynchrony
+##### 非同步
 
-*   PREFER async/await over using raw futures.
-*   DON'T use `async` when it has no useful effect.
-*   CONSIDER using higher-order methods to transform a stream.
-*   AVOID using Completer directly.
-*   DO test for `Future<T>` when disambiguating a `FutureOr<T>` whose type argument could be `Object`.
+*   建議使用 async/await 而不是原始期貨。
+*   不應該在 `async` 無有用效果時使用它。
+*   考慮使用高階方法來轉換串流。
+*   避免直接使用 Completer。
+*   應該在消除類型引數可能為 `Object` 的 `FutureOr<T>` 時測試 `Future<T>`。
 
-#### Design
+#### 設計
 
-##### Names
+##### 名稱
 
-*   DO use terms consistently.
-*   AVOID abbreviations.
-*   PREFER putting the most descriptive noun last.
-*   CONSIDER making the code read like a sentence.
-*   PREFER a noun phrase for a non-boolean property or variable.
-*   PREFER a non-imperative verb phrase for a boolean property or variable.
-*   CONSIDER omitting the verb for a named boolean parameter.
-*   PREFER the "positive" name for a boolean property or variable.
-*   PREFER an imperative verb phrase for a function or method whose main purpose is a side effect.
-*   PREFER a noun phrase or non-imperative verb phrase for a function or method if returning a value is its primary purpose.
-*   CONSIDER an imperative verb phrase for a function or method if you want to draw attention to the work it performs.
-*   AVOID starting a method name with `get`.
-*   PREFER naming a method `to...()` if it copies the object's state to a new object.
-*   PREFER naming a method `as...()` if it returns a different representation backed by the original object.
-*   AVOID describing the parameters in the function's or method's name.
-*   DO follow existing mnemonic conventions when naming type parameters.
+*   應該一致地使用術語。
+*   避免使用縮寫。
+*   建議將最具描述性的名詞放在最後。
+*   考慮讓程式碼像句子一樣讀取。
+*   建議對非布林屬性或變數使用名詞片語。
+*   建議對布林屬性或變數使用非命令式動詞片語。
+*   考慮省略具名布林參數的動詞。
+*   建議對布林屬性或變數使用「正面」名稱。
+*   建議對其主要目的是副作用的函式或方法使用命令式動詞片語。
+*   如果函式或方法的主要目的是傳回值，建議使用名詞片語或非命令式動詞片語。
+*   如果你想吸引注意它執行的工作，考慮對函式或方法使用命令式動詞片語。
+*   避免使用 `get` 開始方法名稱。
+*   如果將物件的狀態複製到新物件，建議將方法命名為 `to...()`。
+*   如果方法傳回由原始物件支援的不同表示，建議將方法命名為 `as...()`。
+*   避免在函式或方法的名稱中描述參數。
+*   應該在命名類型參數時遵循現有的助記符慣例。
 
-##### Libraries
+##### 函式庫
 
-*   PREFER making declarations private.
-*   CONSIDER declaring multiple classes in the same library.
+*   建議將宣告設為私有。
+*   考慮在同一函式庫中宣告多個類別。
 
-##### Classes and mixins
+##### 類別和 mixin
 
-*   AVOID defining a one-member abstract class when a simple function will do.
-*   AVOID defining a class that contains only static members.
-*   AVOID extending a class that isn't intended to be subclassed.
-*   DO use class modifiers to control if your class can be extended.
-*   AVOID implementing a class that isn't intended to be an interface.
-*   DO use class modifiers to control if your class can be an interface.
-*   PREFER defining a pure `mixin` or pure `class` to a `mixin class`.
+*   避免在簡單函式可行時定義單一成員的抽象類別。
+*   避免定義只包含靜態成員的類別。
+*   避免擴充不打算被子類別化的類別。
+*   應該使用類別修飾符來控制你的類別是否可以被擴充。
+*   避免實現不打算用作介面的類別。
+*   應該使用類別修飾符來控制你的類別是否可以用作介面。
+*   建議定義純 `mixin` 或純 `class` 而不是 `mixin class`。
 
-##### Constructors
+##### 建構函式
 
-*   CONSIDER making your constructor `const` if the class supports it.
+*   考慮在類別支援時將建構函式設為 `const`。
 
-##### Members
+##### 成員
 
-*   PREFER making fields and top-level variables `final`.
-*   DO use getters for operations that conceptually access properties.
-*   DO use setters for operations that conceptually change properties.
-*   DON'T define a setter without a corresponding getter.
-*   AVOID using runtime type tests to fake overloading.
-*   AVOID public `late final` fields without initializers.
-*   AVOID returning nullable `Future`, `Stream`, and collection types.
-*   AVOID returning `this` from methods just to enable a fluent interface.
+*   建議將欄位和頂層變數設為 `final`。
+*   應該對概念上存取屬性的操作使用取得方法。
+*   應該對概念上改變屬性的操作使用設定方法。
+*   不應該在沒有對應取得方法的情況下定義設定方法。
+*   避免使用執行時類型測試來偽造多載。
+*   避免公開的 `late final` 欄位而不初始化。
+*   避免傳回可為空的 `Future`、`Stream` 和集合類型。
+*   避免從方法傳回 `this` 只是為了啟用流暢介面。
 
-##### Types
+##### 類型
 
-*   DO type annotate variables without initializers.
-*   DO type annotate fields and top-level variables if the type isn't obvious.
-*   DON'T redundantly type annotate initialized local variables.
-*   DO annotate return types on function declarations.
-*   DO annotate parameter types on function declarations.
-*   DON'T annotate inferred parameter types on function expressions.
-*   DON'T type annotate initializing formals.
-*   DO write type arguments on generic invocations that aren't inferred.
-*   DON'T write type arguments on generic invocations that are inferred.
-*   AVOID writing incomplete generic types.
-*   DO annotate with `dynamic` instead of letting inference fail.
-*   PREFER signatures in function type annotations.
-*   DON'T specify a return type for a setter.
-*   DON'T use the legacy typedef syntax.
-*   PREFER inline function types over typedefs.
-*   PREFER using function type syntax for parameters.
-*   AVOID using `dynamic` unless you want to disable static checking.
-*   DO use `Future<void>` as the return type of asynchronous members that do not produce values.
-*   AVOID using `FutureOr<T>` as a return type.
+*   應該對沒有初始化程式的變數進行類型註解。
+*   如果類型不明顯，應該對欄位和頂層變數進行類型註解。
+*   不應該冗餘地對初始化的區域變數進行類型註解。
+*   應該在函式宣告上註解傳回類型。
+*   應該在函式宣告上註解參數類型。
+*   不應該在函式運算式上註解推斷的參數類型。
+*   不應該對初始化形式參數進行類型註解。
+*   應該對未推斷的泛型呼叫寫入類型引數。
+*   不應該對推斷的泛型呼叫寫入類型引數。
+*   避免撰寫不完整的泛型類型。
+*   應該使用 `dynamic` 進行註解，而不是讓推斷失敗。
+*   建議在函式類型註解中使用簽章。
+*   不應該為設定方法指定傳回類型。
+*   不應該使用舊版 typedef 語法。
+*   建議使用內嵌函式類型而不是 typedef。
+*   建議對參數使用函式類型語法。
+*   避免使用 `dynamic`，除非你想停用靜態檢查。
+*   應該將 `Future<void>` 用作不產生值的非同步成員的傳回類型。
+*   避免使用 `FutureOr<T>` 作為傳回類型。
 
-##### Parameters
+##### 參數
 
-*   AVOID positional boolean parameters.
-*   AVOID optional positional parameters if the user may want to omit earlier parameters.
-*   AVOID mandatory parameters that accept a special "no argument" value.
-*   DO use inclusive start and exclusive end parameters to accept a range.
+*   避免位置布林參數。
+*   如果使用者可能想省略較早的參數，避免使用選用位置參數。
+*   避免接受特殊「無引數」值的強制參數。
+*   應該使用涵蓋開始和排除結束的參數來接受範圍。
 
-##### Equality
+##### 相等
 
-*   DO override `hashCode` if you override `==`.
-*   DO make your `==` operator obey the mathematical rules of equality.
-*   AVOID defining custom equality for mutable classes.
-*   DON'T make the parameter to `==` nullable.
+*   如果你覆寫 `==`，應該覆寫 `hashCode`。
+*   應該讓你的 `==` 運算子遵循相等的數學規則。
+*   避免為可變類別定義自訂相等。
+*   不應該讓 `==` 的參數可為空。
 
 ---
 
-## Flutter Architecture Recommendations
+## Flutter 架構建議
 
-This page presents architecture best practices, why they matter, and
-whether we recommend them for your Flutter application.
-You should treat these recommendations as recommendations,
-and not steadfast rules, and you should
-adapt them to your app's unique requirements.
+本頁面呈現架構最佳實踐、為什麼它們很重要，
+以及我們是否建議它們用於你的 Flutter 應用程式。
+你應該將這些建議視為建議，
+而不是堅定的規則，你應該
+根據你應用程式的獨特需求調整它們。
 
-The best practices on this page have a priority,
-which reflects how strongly the Flutter team recommends it.
+本頁面上的最佳實踐有優先級，
+這反映了 Flutter 團隊推薦它的強度。
 
-* **Strongly recommend:** You should always implement this recommendation if
-  you're starting to build a new application. You should strongly consider
-  refactoring an existing app to implement this practice unless doing so would
-  fundamentally clash with your current approach.
-* **Recommend**: This practice will likely improve your app.
-* **Conditional**: This practice can improve your app in certain circumstances.
+* **強烈建議：** 如果你正在開始建立新應用程式，你應該始終實現此建議。你應該強烈考慮重構現有應用程式以實現此做法，除非這樣做會與你當前的方法根本衝突。
+* **建議**：此做法可能會改進你的應用程式。
+* **有條件**：此做法可以在特定情況下改進你的應用程式。
 
-### Separation of concerns
+### 關注點分離
 
-You should separate your app into a UI layer and a data layer. Within those layers, you should further separate logic into classes by responsibility.
+你應該將應用程式分離為 UI 層和資料層。在這些層內，你應該進一步按責任將邏輯分離到類別中。
 
-#### Use clearly defined data and UI layers.
-**Strongly recommend**
+#### 使用清楚定義的資料和 UI 層。
+**強烈建議**
 
-Separation of concerns is the most important architectural principle.
-The data layer exposes application data to the rest of the app, and contains most of the business logic in your application.
-The UI layer displays application data and listens for user events from users. The UI layer contains separate classes for UI logic and widgets.
+關注點分離是最重要的架構原則。資料層向應用程式的其餘部分公開應用程式資料，並包含應用程式中大部分業務邏輯。UI 層顯示應用程式資料並監聽來自使用者的使用者事件。UI 層包含 UI 邏輯和小工具的單獨類別。
 
-#### Use the repository pattern in the data layer.
-**Strongly recommend**
+#### 在資料層中使用存放庫模式。
+**強烈建議**
 
-The repository pattern is a software design pattern that isolates the data access logic from the rest of the application.
-It creates an abstraction layer between the application's business logic and the underlying data storage mechanisms (databases, APIs, file systems, etc.).
-In practice, this means creating Repository classes and Service classes.
+存放庫模式是一種軟體設計模式，它將資料存取邏輯與應用程式的其餘部分隔離。它在應用程式的業務邏輯和基礎資料儲存機制（資料庫、API、檔案系統等）之間建立抽象層。實際上，這意味著建立存放庫類別和服務類別。
 
-#### Use ViewModels and Views in the UI layer. (MVVM)
-**Strongly recommend**
+#### 在 UI 層中使用 ViewModel 和 View。(MVVM)
+**強烈建議**
 
-Separation of concerns is the most important architectural principle.
-This particular separation makes your code much less error prone because your widgets remain "dumb".
+關注點分離是最重要的架構原則。這種特定的分離使你的程式碼更不容易出錯，因為你的小工具保持「啞」。
 
-#### Use `ChangeNotifiers` and `Listenables` to handle widget updates.
-**Conditional**
+#### 使用 `ChangeNotifiers` 和 `Listenables` 來處理小工具更新。
+**有條件**
 
-> There are many options to handle state-management, and ultimately the decision comes down to personal preference.
+> 有許多選項可以處理狀態管理，最終決定取決於個人偏好。
 
-The `ChangeNotifier` API is part of the Flutter SDK, and is a convenient way to have your widgets observe changes in your ViewModels.
+`ChangeNotifier` API 是 Flutter SDK 的一部分，是一種方便的方式來讓你的小工具觀察 ViewModel 中的更改。
 
-#### Do not put logic in widgets.
-**Strongly recommend**
+#### 不要在小工具中放置邏輯。
+**強烈建議**
 
-Logic should be encapsulated in methods on the ViewModel. The only logic a view should contain is:
-* Simple if-statements to show and hide widgets based on a flag or nullable field in the ViewModel
-* Animation logic that relies on the widget to calculate
-* Layout logic based on device information, like screen size or orientation.
-* Simple routing logic
+邏輯應該封裝在 ViewModel 上的方法中。檢視應該只包含的邏輯是：
+* 簡單的 if 陳述式，根據 ViewModel 中的旗標或可為空欄位來顯示和隱藏小工具
+* 依賴小工具計算的動畫邏輯
+* 基於裝置資訊的佈局邏輯，如螢幕大小或方向。
+* 簡單的路由邏輯
 
-#### Use a domain layer.
-**Conditional**
+#### 使用領域層。
+**有條件**
 
-> Use in apps with complex logic requirements.
+> 在具有複雜邏輯需求的應用程式中使用。
 
-A domain layer is only needed if your application has exceeding complex logic that crowds your ViewModels,
-or if you find yourself repeating logic in ViewModels.
-In very large apps, use-cases are useful, but in most apps they add unnecessary overhead.
+只有在你的應用程式具有超出複雜邏輯的情況下，才需要領域層，這些邏輯擁擠你的 ViewModel，或者你發現自己在 ViewModel 中重複邏輯。在非常大的應用程式中，使用案例很有用，但在大多數應用程式中，它們會增加不必要的開銷。
 
-### Handling data
+### 處理資料
 
-Handling data with care makes your code easier to understand, less error prone, and
-prevents malformed or unexpected data from being created.
+小心處理資料使你的程式碼更容易理解、更不容易出錯，並
+防止建立格式不正確或意外的資料。
 
-#### Use unidirectional data flow.
-**Strongly recommend**
+#### 使用單向資料流。
+**強烈建議**
 
-Data updates should only flow from the data layer to the UI layer.
-Interactions in the UI layer are sent to the data layer where they're processed.
+資料更新應該只從資料層流向 UI 層。UI 層中的互動被發送到資料層，在那裡進行處理。
 
-#### Use `Commands` to handle events from user interaction.
-**Recommend**
+#### 使用 `Commands` 來處理來自使用者互動的事件。
+**建議**
 
-Commands prevent rendering errors in your app, and standardize how the UI layer sends events to the data layer.
+Commands 防止應用程式中的呈現錯誤，並標準化 UI 層如何將事件發送到資料層。
 
-#### Use immutable data models.
-**Strongly recommend**
+#### 使用不可變資料模型。
+**強烈建議**
 
-Immutable data is crucial in ensuring that any necessary changes occur only in the proper place, usually the data or domain layer.
-Because immutable objects can't be modified after creation, you must create a new instance to reflect changes.
-This process prevents accidental updates in the UI layer and supports a clear, unidirectional data flow.
+不可變資料對於確保任何必要的更改只在適當的位置（通常是資料層或領域層）進行至關重要。由於不可變物件在建立後無法修改，你必須建立新實例以反映更改。此過程防止了 UI 層中的意外更新，並支援清楚的單向資料流。
 
-#### Use freezed or built_value to generate immutable data models.
-**Recommend**
+#### 使用 freezed 或 built_value 產生不可變資料模型。
+**建議**
 
-You can use packages to help generate useful functionality in your data models, `freezed` or `built_value`.
-These can generate common model methods like JSON ser/des, deep equality checking and copy methods.
-These code generation packages can add significant build time to your applications if you have a lot of models.
+你可以使用套件來幫助在資料模型中產生有用的功能，`freezed` 或 `built_value`。這些可以產生常見的模型方法，如 JSON 序列化/反序列化、深度相等檢查和複製方法。如果你有很多模型，這些程式碼產生套件可以為應用程式增加顯著的建置時間。
 
-#### Create separate API models and domain models.
-**Conditional**
+#### 建立單獨的 API 模型和領域模型。
+**有條件**
 
-> Use in large apps.
+> 在大型應用程式中使用。
 
-Using separate models adds verbosity, but prevents complexity in ViewModels and use-cases.
+使用單獨的模型會增加冗長性，但防止了 ViewModel 和使用案例中的複雜性。
 
-### App structure
+### 應用程式結構
 
-Well organized code benefits both the health of the app itself, and the team working on the code.
+組織良好的程式碼對應用程式本身的健康和處理程式碼的團隊都有益。
 
-#### Use dependency injection.
-**Strongly recommend**
+#### 使用相依性注入。
+**強烈建議**
 
-Dependency injection prevents your app from having globally accessible objects, which makes your code less error prone.
-We recommend you use the `provider` package to handle dependency injection.
+相依性注入防止應用程式具有全域可存取的物件，這使你的程式碼更不容易出錯。我們建議你使用 `provider` 套件來處理相依性注入。
 
-#### Use `go_router` for navigation.
-**Recommend**
+#### 使用 `go_router` 進行導航。
+**建議**
 
-Go_router is the preferred way to write 90% of Flutter applications.
-There are some specific use-cases that go_router doesn't solve,
-in which case you can use the `Flutter Navigator API` directly or try other packages found on `pub.dev`.
+Go_router 是編寫 90% Flutter 應用程式的首選方式。有一些 go_router 不解決的特定使用案例，在這種情況下，你可以直接使用 `Flutter Navigator API` 或嘗試在 `pub.dev` 上找到的其他套件。
 
-#### Use standardized naming conventions for classes, files and directories.
-**Recommend**
+#### 為類別、檔案和目錄使用標準化的命名慣例。
+**建議**
 
-We recommend naming classes for the architectural component they represent.
-For example, you may have the following classes:
+我們建議根據類別代表的架構元件來命名類別。例如，你可能具有以下類別：
 
 * HomeViewModel
 * HomeScreen
 * UserRepository
 * ClientApiService
 
-For clarity, we do not recommend using names that can be confused with objects from the Flutter SDK.
-For example, you should put your shared widgets in a directory called `ui/core/`,
-rather than a directory called `/widgets`.
+為清晰起見，我們不建議使用可能與 Flutter SDK 中的物件混淆的名稱。例如，你應該將共用的小工具放在名為 `ui/core/` 的目錄中，而不是名為 `/widgets` 的目錄。
 
-#### Use abstract repository classes
-**Strongly recommend**
+#### 使用抽象存放庫類別
+**強烈建議**
 
-Repository classes are the sources of truth for all data in your app,
-and facilitate communication with external APIs.
-Creating abstract repository classes allows you to create different implementations,
-which can be used for different app environments, such as "development" and "staging".
+存放庫類別是應用程式中所有資料的真實來源，並促進與外部 API 的通訊。建立抽象存放庫類別使你可以建立不同的實現，這些實現可用於不同的應用程式環境，例如「開發」和「暫存」。
 
-### Testing
+### 測試
 
-Good testing practices makes your app flexible.
-It also makes it straightforward and low risk to add new logic and new UI.
+良好的測試做法使應用程式更靈活。它也使新增邏輯和新增 UI 變得簡單和低風險。
 
-#### Test architectural components separately, and together.
-**Strongly recommend**
+#### 分別和一起測試架構元件。
+**強烈建議**
 
-* Write unit tests for every service, repository and ViewModel class. These tests should test the logic of every method individually.
-* Write widget tests for views. Testing routing and dependency injection are particularly important.
+* 為每個服務、存放庫和 ViewModel 類別編寫單位測試。這些測試應該分別測試每個方法的邏輯。
+* 為檢視編寫小工具測試。測試路由和相依性注入特別重要。
 
-#### Make fakes for testing (and write code that takes advantage of fakes.)
-**Strongly recommend**
+#### 製作用於測試的假檢查對象（並編寫利用假檢查對象的程式碼。）
+**強烈建議**
 
-Fakes aren't concerned with the inner workings of any given method as much
-as they're concerned with inputs and outputs. If you have this in mind while writing application code,
-you're forced to write modular, lightweight functions and classes with well defined inputs and outputs.
+假檢查對象不如關注輸入和輸出那麼關注任何給定方法的內部工作原理。如果你在編寫應用程式程式碼時牢記這一點，你將被迫編寫具有明確定義的輸入和輸出的模組化、輕量級函式和類別。

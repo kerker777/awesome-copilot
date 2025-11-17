@@ -3,155 +3,155 @@ mode: 'agent'
 description: 'Create a new implementation plan file for new features, refactoring existing code or upgrading packages, design, architecture or infrastructure.'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'extensions', 'fetch', 'githubRepo', 'openSimpleBrowser', 'problems', 'runTasks', 'search', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
 ---
-# Create Implementation Plan
+# 建立實作計畫
 
-## Primary Directive
+## 主要指示
 
-Your goal is to create a new implementation plan file for `${input:PlanPurpose}`. Your output must be machine-readable, deterministic, and structured for autonomous execution by other AI systems or humans.
+您的目標是為 `${input:PlanPurpose}` 建立新的實作計畫檔案。您的輸出必須是機器可讀的、確定性的，並結構化以供其他 AI 系統或人類自主執行。
 
-## Execution Context
+## 執行背景
 
-This prompt is designed for AI-to-AI communication and automated processing. All instructions must be interpreted literally and executed systematically without human interpretation or clarification.
+此提示設計用於 AI 到 AI 的通信和自動化處理。所有指示必須按字面意思解釋，並系統地執行，毋需人類解釋或澄清。
 
-## Core Requirements
+## 核心要求
 
-- Generate implementation plans that are fully executable by AI agents or humans
-- Use deterministic language with zero ambiguity
-- Structure all content for automated parsing and execution
-- Ensure complete self-containment with no external dependencies for understanding
+- 生成完全可由 AI 代理或人類執行的實作計畫
+- 使用確定性語言，零歧義
+- 將所有內容結構化以供自動化解析和執行
+- 確保完整的自包含性，無需外部相依性以理解
 
-## Plan Structure Requirements
+## 計畫結構要求
 
-Plans must consist of discrete, atomic phases containing executable tasks. Each phase must be independently processable by AI agents or humans without cross-phase dependencies unless explicitly declared.
+計畫必須由包含可執行任務的離散、原子性階段組成。每個階段必須由 AI 代理或人類獨立處理，除非明確聲明跨階段相依性。
 
-## Phase Architecture
+## 階段架構
 
-- Each phase must have measurable completion criteria
-- Tasks within phases must be executable in parallel unless dependencies are specified
-- All task descriptions must include specific file paths, function names, and exact implementation details
-- No task should require human interpretation or decision-making
+- 每個階段必須有可衡量的完成標準
+- 階段內的任務必須可並行執行，除非指定了相依性
+- 所有任務描述必須包含特定的檔案路徑、函數名稱和精確實作詳情
+- 任何任務都不應需要人類解釋或決策
 
-## AI-Optimized Implementation Standards
+## AI 最佳化的實作標準
 
-- Use explicit, unambiguous language with zero interpretation required
-- Structure all content as machine-parseable formats (tables, lists, structured data)
-- Include specific file paths, line numbers, and exact code references where applicable
-- Define all variables, constants, and configuration values explicitly
-- Provide complete context within each task description
-- Use standardized prefixes for all identifiers (REQ-, TASK-, etc.)
-- Include validation criteria that can be automatically verified
+- 使用明確、無歧義的語言，毋需解釋
+- 將所有內容結構化為機器可解析的格式（表格、列表、結構化資料）
+- 包含特定的檔案路徑、行號和精確代碼參考（適用時）
+- 明確定義所有變數、常數和配置值
+- 在每個任務描述中提供完整的背景資訊
+- 為所有識別符號使用標準化前綴（REQ-、TASK-等）
+- 包含可以自動驗證的驗證標準
 
-## Output File Specifications
+## 輸出檔案規範
 
-- Save implementation plan files in `/plan/` directory
-- Use naming convention: `[purpose]-[component]-[version].md`
-- Purpose prefixes: `upgrade|refactor|feature|data|infrastructure|process|architecture|design`
-- Example: `upgrade-system-command-4.md`, `feature-auth-module-1.md`
-- File must be valid Markdown with proper front matter structure
+- 將實作計畫檔案儲存在 `/plan/` 目錄
+- 使用命名慣例：`[purpose]-[component]-[version].md`
+- 目的前綴：`upgrade|refactor|feature|data|infrastructure|process|architecture|design`
+- 範例：`upgrade-system-command-4.md`、`feature-auth-module-1.md`
+- 檔案必須是有效的 Markdown，並具有正確的前置資訊結構
 
-## Mandatory Template Structure
+## 強制性模板結構
 
-All implementation plans must strictly adhere to the following template. Each section is required and must be populated with specific, actionable content. AI agents must validate template compliance before execution.
+所有實作計畫必須嚴格遵守以下模板。每個部分都是必需的，必須填入特定、可執行的內容。AI 代理必須在執行前驗證模板合規性。
 
-## Template Validation Rules
+## 模板驗證規則
 
-- All front matter fields must be present and properly formatted
-- All section headers must match exactly (case-sensitive)
-- All identifier prefixes must follow the specified format
-- Tables must include all required columns
-- No placeholder text may remain in the final output
+- 所有前置資訊欄位必須存在且格式正確
+- 所有部分標題必須完全匹配（區分大小寫）
+- 所有識別符號前綴必須遵循指定的格式
+- 表格必須包含所有必需的欄位
+- 最終輸出中不得保留任何佔位符文字
 
-## Status
+## 狀態
 
-The status of the implementation plan must be clearly defined in the front matter and must reflect the current state of the plan. The status can be one of the following (status_color in brackets): `Completed` (bright green badge), `In progress` (yellow badge), `Planned` (blue badge), `Deprecated` (red badge), or `On Hold` (orange badge). It should also be displayed as a badge in the introduction section.
+實作計畫的狀態必須在前置資訊中清楚定義，並且必須反映計畫的當前狀態。狀態可以是下列之一（括號中的 status_color）：`Completed`（亮綠色徽章）、`In progress`（黃色徽章）、`Planned`（藍色徽章）、`Deprecated`（紅色徽章）或 `On Hold`（橙色徽章）。它也應在介紹部分顯示為徽章。
 
 ```md
 ---
-goal: [Concise Title Describing the Package Implementation Plan's Goal]
-version: [Optional: e.g., 1.0, Date]
+goal: [簡潔的標題，描述套件實作計畫的目標]
+version: [選用：例如 1.0、日期]
 date_created: [YYYY-MM-DD]
-last_updated: [Optional: YYYY-MM-DD]
-owner: [Optional: Team/Individual responsible for this spec]
+last_updated: [選用：YYYY-MM-DD]
+owner: [選用：負責此規格的團隊/個人]
 status: 'Completed'|'In progress'|'Planned'|'Deprecated'|'On Hold'
-tags: [Optional: List of relevant tags or categories, e.g., `feature`, `upgrade`, `chore`, `architecture`, `migration`, `bug` etc]
+tags: [選用：相關標籤或類別列表，例如 `feature`、`upgrade`、`chore`、`architecture`、`migration`、`bug` 等]
 ---
 
-# Introduction
+# 介紹
 
 ![Status: <status>](https://img.shields.io/badge/status-<status>-<status_color>)
 
-[A short concise introduction to the plan and the goal it is intended to achieve.]
+[計畫的簡短而簡潔的介紹及其旨在達成的目標。]
 
-## 1. Requirements & Constraints
+## 1. 要求與限制
 
-[Explicitly list all requirements & constraints that affect the plan and constrain how it is implemented. Use bullet points or tables for clarity.]
+[明確列出影響計畫且限制其實作方式的所有要求和限制。使用項目符號或表格以清楚呈現。]
 
-- **REQ-001**: Requirement 1
-- **SEC-001**: Security Requirement 1
-- **[3 LETTERS]-001**: Other Requirement 1
-- **CON-001**: Constraint 1
-- **GUD-001**: Guideline 1
-- **PAT-001**: Pattern to follow 1
+- **REQ-001**: 要求 1
+- **SEC-001**: 安全要求 1
+- **[3 LETTERS]-001**: 其他要求 1
+- **CON-001**: 限制 1
+- **GUD-001**: 指南 1
+- **PAT-001**: 要遵循的模式 1
 
-## 2. Implementation Steps
+## 2. 實作步驟
 
-### Implementation Phase 1
+### 實作階段 1
 
-- GOAL-001: [Describe the goal of this phase, e.g., "Implement feature X", "Refactor module Y", etc.]
+- GOAL-001: [描述此階段的目標，例如「實作功能 X」、「重構模組 Y」等。]
 
-| Task | Description | Completed | Date |
-|------|-------------|-----------|------|
-| TASK-001 | Description of task 1 | ✅ | 2025-04-25 |
-| TASK-002 | Description of task 2 | |  |
-| TASK-003 | Description of task 3 | |  |
+| 任務 | 描述 | 已完成 | 日期 |
+|------|------|--------|------|
+| TASK-001 | 任務 1 的描述 | ✅ | 2025-04-25 |
+| TASK-002 | 任務 2 的描述 | |  |
+| TASK-003 | 任務 3 的描述 | |  |
 
-### Implementation Phase 2
+### 實作階段 2
 
-- GOAL-002: [Describe the goal of this phase, e.g., "Implement feature X", "Refactor module Y", etc.]
+- GOAL-002: [描述此階段的目標，例如「實作功能 X」、「重構模組 Y」等。]
 
-| Task | Description | Completed | Date |
-|------|-------------|-----------|------|
-| TASK-004 | Description of task 4 | |  |
-| TASK-005 | Description of task 5 | |  |
-| TASK-006 | Description of task 6 | |  |
+| 任務 | 描述 | 已完成 | 日期 |
+|------|------|--------|------|
+| TASK-004 | 任務 4 的描述 | |  |
+| TASK-005 | 任務 5 的描述 | |  |
+| TASK-006 | 任務 6 的描述 | |  |
 
-## 3. Alternatives
+## 3. 替代方案
 
-[A bullet point list of any alternative approaches that were considered and why they were not chosen. This helps to provide context and rationale for the chosen approach.]
+[所考慮的任何替代方法的項目符號列表，以及為什麼未選擇它們。這有助於為所選方法提供背景和基本理由。]
 
-- **ALT-001**: Alternative approach 1
-- **ALT-002**: Alternative approach 2
+- **ALT-001**: 替代方法 1
+- **ALT-002**: 替代方法 2
 
-## 4. Dependencies
+## 4. 相依性
 
-[List any dependencies that need to be addressed, such as libraries, frameworks, or other components that the plan relies on.]
+[列出需要處理的任何相依性，例如計畫所依賴的程式庫、架構或其他元件。]
 
-- **DEP-001**: Dependency 1
-- **DEP-002**: Dependency 2
+- **DEP-001**: 相依性 1
+- **DEP-002**: 相依性 2
 
-## 5. Files
+## 5. 檔案
 
-[List the files that will be affected by the feature or refactoring task.]
+[列出將受功能或重構任務影響的檔案。]
 
-- **FILE-001**: Description of file 1
-- **FILE-002**: Description of file 2
+- **FILE-001**: 檔案 1 的描述
+- **FILE-002**: 檔案 2 的描述
 
-## 6. Testing
+## 6. 測試
 
-[List the tests that need to be implemented to verify the feature or refactoring task.]
+[列出需要實作的測試，以驗證功能或重構任務。]
 
-- **TEST-001**: Description of test 1
-- **TEST-002**: Description of test 2
+- **TEST-001**: 測試 1 的描述
+- **TEST-002**: 測試 2 的描述
 
-## 7. Risks & Assumptions
+## 7. 風險與假設
 
-[List any risks or assumptions related to the implementation of the plan.]
+[列出與計畫實作相關的任何風險或假設。]
 
-- **RISK-001**: Risk 1
-- **ASSUMPTION-001**: Assumption 1
+- **RISK-001**: 風險 1
+- **ASSUMPTION-001**: 假設 1
 
-## 8. Related Specifications / Further Reading
+## 8. 相關規格 / 進階閱讀
 
-[Link to related spec 1]
-[Link to relevant external documentation]
+[相關規格 1 的連結]
+[相關外部文件的連結]
 ```

@@ -1,15 +1,15 @@
 ---
-description: 'Generate a complete Model Context Protocol server project in Java using the official MCP Java SDK with reactive streams and optional Spring Boot integration.'
+description: '使用官方 MCP Java SDK 生成完整的 Model Context Protocol 伺服器專案，支援 Reactive Streams 和可選的 Spring Boot 整合。'
 mode: agent
 ---
 
-# Java MCP Server Generator
+# Java MCP 伺服器產生器
 
-Generate a complete, production-ready MCP server in Java using the official Java SDK with Maven or Gradle.
+使用官方 Java SDK 搭配 Maven 或 Gradle，產生完整的、可用於正式環境的 MCP 伺服器。
 
-## Project Generation
+## 專案產生
 
-When asked to create a Java MCP server, generate a complete project with this structure:
+當要求建立 Java MCP 伺服器時，產生包含以下結構的完整專案：
 
 ```
 my-mcp-server/
@@ -39,7 +39,7 @@ my-mcp-server/
 └── README.md
 ```
 
-## Maven pom.xml Template
+## Maven pom.xml 模板
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -139,7 +139,7 @@ my-mcp-server/
 </project>
 ```
 
-## Gradle build.gradle.kts Template
+## Gradle build.gradle.kts 模板
 
 ```kotlin
 plugins {
@@ -181,7 +181,7 @@ tasks.test {
 }
 ```
 
-## McpServerApplication.java Template
+## McpServerApplication.java 模板
 
 ```java
 package com.example.mcp;
@@ -247,7 +247,7 @@ public class McpServerApplication {
 }
 ```
 
-## ToolDefinitions.java Template
+## ToolDefinitions.java 模板
 
 ```java
 package com.example.mcp.tools;
@@ -297,7 +297,7 @@ public class ToolDefinitions {
 }
 ```
 
-## ToolHandlers.java Template
+## ToolHandlers.java 模板
 
 ```java
 package com.example.mcp.tools;
@@ -393,7 +393,7 @@ public class ToolHandlers {
 }
 ```
 
-## ResourceDefinitions.java Template
+## ResourceDefinitions.java 模板
 
 ```java
 package com.example.mcp.resources;
@@ -423,7 +423,7 @@ public class ResourceDefinitions {
 }
 ```
 
-## ResourceHandlers.java Template
+## ResourceHandlers.java 模板
 
 ```java
 package com.example.mcp.resources;
@@ -495,7 +495,7 @@ public class ResourceHandlers {
 }
 ```
 
-## PromptDefinitions.java Template
+## PromptDefinitions.java 模板
 
 ```java
 package com.example.mcp.prompts;
@@ -528,7 +528,7 @@ public class PromptDefinitions {
 }
 ```
 
-## PromptHandlers.java Template
+## PromptHandlers.java 模板
 
 ```java
 package com.example.mcp.prompts;
@@ -586,7 +586,7 @@ public class PromptHandlers {
 }
 ```
 
-## McpServerTest.java Template
+## McpServerTest.java 模板
 
 ```java
 package com.example.mcp;
@@ -665,28 +665,28 @@ class McpServerTest {
 }
 ```
 
-## README.md Template
+## README.md 模板
 
 ```markdown
-# My MCP Server
+# 我的 MCP 伺服器
 
-A Model Context Protocol server built with Java and the official MCP Java SDK.
+使用 Java 和官方 MCP Java SDK 建構的 Model Context Protocol 伺服器。
 
-## Features
+## 功能特性
 
-- ✅ Tools: greet, calculate
-- ✅ Resources: example data, configuration
-- ✅ Prompts: code-review
-- ✅ Reactive Streams with Project Reactor
-- ✅ Structured logging with SLF4J
-- ✅ Full test coverage
+- ✅ 工具：greeting、計算
+- ✅ 資源：範例資料、設定
+- ✅ 提示：程式碼審查
+- ✅ 使用 Project Reactor 的 Reactive Streams
+- ✅ 使用 SLF4J 的結構化日誌
+- ✅ 完整的測試涵蓋範圍
 
-## Requirements
+## 系統需求
 
-- Java 17 or later
-- Maven 3.6+ or Gradle 7+
+- Java 17 或更新版本
+- Maven 3.6+ 或 Gradle 7+
 
-## Build
+## 建置
 
 ### Maven
 ```bash
@@ -698,7 +698,7 @@ mvn clean package
 ./gradlew build
 ```
 
-## Run
+## 執行
 
 ### Maven
 ```bash
@@ -710,7 +710,7 @@ java -jar target/my-mcp-server-1.0.0.jar
 ./gradlew run
 ```
 
-## Testing
+## 測試
 
 ### Maven
 ```bash
@@ -722,9 +722,9 @@ mvn test
 ./gradlew test
 ```
 
-## Integration with Claude Desktop
+## 與 Claude Desktop 整合
 
-Add to `claude_desktop_config.json`:
+新增到 `claude_desktop_config.json`：
 
 ```json
 {
@@ -737,20 +737,20 @@ Add to `claude_desktop_config.json`:
 }
 ```
 
-## License
+## 授權條款
 
 MIT
 ```
 
-## Generation Instructions
+## 產生指令
 
-1. **Ask for project name and package**
-2. **Choose build tool** (Maven or Gradle)
-3. **Generate all files** with proper package structure
-4. **Use Reactive Streams** for async handlers
-5. **Include comprehensive logging** with SLF4J
-6. **Add tests** for all handlers
-7. **Follow Java conventions** (camelCase, PascalCase)
-8. **Include error handling** with proper responses
-9. **Document public APIs** with Javadoc
-10. **Provide both sync and async** examples
+1. **詢問專案名稱和套件名稱**
+2. **選擇建置工具**（Maven 或 Gradle）
+3. **產生所有檔案**，具備適當的套件結構
+4. **使用 Reactive Streams** 來處理非同步處理程式
+5. **包含完整的日誌記錄**，使用 SLF4J
+6. **為所有處理程式新增測試**
+7. **遵循 Java 命名慣例**（camelCase、PascalCase）
+8. **包含錯誤處理**及適當的回應
+9. **使用 Javadoc 記錄公開 API**
+10. **提供同步和非同步範例**

@@ -3,240 +3,240 @@ description: 'Comprehensive technology stack blueprint generator that analyzes c
 mode: 'agent'
 ---
 
-# Comprehensive Technology Stack Blueprint Generator
+# 全面的技術堆疊藍圖產生器
 
-## Configuration Variables
-${PROJECT_TYPE="Auto-detect|.NET|Java|JavaScript|React.js|React Native|Angular|Python|Other"} <!-- Primary technology -->
-${DEPTH_LEVEL="Basic|Standard|Comprehensive|Implementation-Ready"} <!-- Analysis depth -->
-${INCLUDE_VERSIONS=true|false} <!-- Include version information -->
-${INCLUDE_LICENSES=true|false} <!-- Include license information -->
-${INCLUDE_DIAGRAMS=true|false} <!-- Generate architecture diagrams -->
-${INCLUDE_USAGE_PATTERNS=true|false} <!-- Include code usage patterns -->
-${INCLUDE_CONVENTIONS=true|false} <!-- Document coding conventions -->
-${OUTPUT_FORMAT="Markdown|JSON|YAML|HTML"} <!-- Select output format -->
-${CATEGORIZATION="Technology Type|Layer|Purpose"} <!-- Organization method -->
+## 設定變數
+${PROJECT_TYPE="Auto-detect|.NET|Java|JavaScript|React.js|React Native|Angular|Python|Other"} <!-- 主要技術 -->
+${DEPTH_LEVEL="Basic|Standard|Comprehensive|Implementation-Ready"} <!-- 分析深度 -->
+${INCLUDE_VERSIONS=true|false} <!-- 包含版本資訊 -->
+${INCLUDE_LICENSES=true|false} <!-- 包含授權資訊 -->
+${INCLUDE_DIAGRAMS=true|false} <!-- 產生架構圖 -->
+${INCLUDE_USAGE_PATTERNS=true|false} <!-- 包含程式碼使用案例 -->
+${INCLUDE_CONVENTIONS=true|false} <!-- 記錄編碼慣例 -->
+${OUTPUT_FORMAT="Markdown|JSON|YAML|HTML"} <!-- 選擇輸出格式 -->
+${CATEGORIZATION="Technology Type|Layer|Purpose"} <!-- 組織方法 -->
 
-## Generated Prompt
+## 產生的提示詞
 
-"Analyze the codebase and generate a ${DEPTH_LEVEL} technology stack blueprint that thoroughly documents technologies and implementation patterns to facilitate consistent code generation. Use the following approach:
+「分析代碼庫，並產生 ${DEPTH_LEVEL} 技術堆疊藍圖，全面記錄技術與實作模式，以便於一致的程式碼產生。請按照以下方式進行：
 
-### 1. Technology Identification Phase
-- ${PROJECT_TYPE == "Auto-detect" ? "Scan the codebase for project files, configuration files, and dependencies to determine all technology stacks in use" : "Focus on ${PROJECT_TYPE} technologies"}
-- Identify all programming languages by examining file extensions and content
-- Analyze configuration files (package.json, .csproj, pom.xml, etc.) to extract dependencies
-- Examine build scripts and pipeline definitions for tooling information
-- ${INCLUDE_VERSIONS ? "Extract precise version information from package files and configuration" : "Skip version details"}
-- ${INCLUDE_LICENSES ? "Document license information for all dependencies" : ""}
+### 1. 技術識別階段
+- ${PROJECT_TYPE == "Auto-detect" ? "掃描代碼庫的專案檔案、設定檔與相依性，以判斷所使用的所有技術堆疊" : "專注於 ${PROJECT_TYPE} 技術"}
+- 透過檢查副檔名與檔案內容來識別所有程式設計語言
+- 分析設定檔（package.json、.csproj、pom.xml 等）以提取相依性
+- 檢查建置指令稿與管道定義，以取得工具資訊
+- ${INCLUDE_VERSIONS ? "從套件檔案與設定中提取精確的版本資訊" : "略過版本詳細資訊"}
+- ${INCLUDE_LICENSES ? "記錄所有相依性的授權資訊" : ""}
 
-### 2. Core Technologies Analysis
+### 2. 核心技術分析
 
-${PROJECT_TYPE == ".NET" || PROJECT_TYPE == "Auto-detect" ? "#### .NET Stack Analysis (if detected)
-- Target frameworks and language versions (detect from project files)
-- All NuGet package references with versions and purpose comments
-- Project structure and organization patterns
-- Configuration approach (appsettings.json, IOptions, etc.)
-- Authentication mechanisms (Identity, JWT, etc.)
-- API design patterns (REST, GraphQL, minimal APIs, etc.)
-- Data access approaches (EF Core, Dapper, etc.)
-- Dependency injection patterns
-- Middleware pipeline components" : ""}
+${PROJECT_TYPE == ".NET" || PROJECT_TYPE == "Auto-detect" ? "#### .NET 堆疊分析（若偵測到）
+- 目標架構與語言版本（從專案檔案中偵測）
+- 所有 NuGet 套件參考、版本與目的註解
+- 專案結構與組織模式
+- 設定方式（appsettings.json、IOptions 等）
+- 認證機制（Identity、JWT 等）
+- API 設計模式（REST、GraphQL、最小化 API 等）
+- 資料存取方式（EF Core、Dapper 等）
+- 相依性注入模式
+- 中介軟體管道元件" : ""}
 
-${PROJECT_TYPE == "Java" || PROJECT_TYPE == "Auto-detect" ? "#### Java Stack Analysis (if detected)
-- JDK version and core frameworks
-- All Maven/Gradle dependencies with versions and purpose
-- Package structure organization
-- Spring Boot usage and configurations
-- Annotation patterns
-- Dependency injection approach
-- Data access technologies (JPA, JDBC, etc.)
-- API design (Spring MVC, JAX-RS, etc.)" : ""}
+${PROJECT_TYPE == "Java" || PROJECT_TYPE == "Auto-detect" ? "#### Java 堆疊分析（若偵測到）
+- JDK 版本與核心架構
+- 所有 Maven/Gradle 相依性、版本與目的
+- 套件結構組織
+- Spring Boot 使用與設定
+- 註解模式
+- 相依性注入方式
+- 資料存取技術（JPA、JDBC 等）
+- API 設計（Spring MVC、JAX-RS 等）" : ""}
 
-${PROJECT_TYPE == "JavaScript" || PROJECT_TYPE == "Auto-detect" ? "#### JavaScript Stack Analysis (if detected)
-- ECMAScript version and transpiler settings
-- All npm dependencies categorized by purpose
-- Module system (ESM, CommonJS)
-- Build tooling (webpack, Vite, etc.) with configuration
-- TypeScript usage and configuration
-- Testing frameworks and patterns" : ""}
+${PROJECT_TYPE == "JavaScript" || PROJECT_TYPE == "Auto-detect" ? "#### JavaScript 堆疊分析（若偵測到）
+- ECMAScript 版本與轉譯器設定
+- 所有 npm 相依性，按目的分類
+- 模組系統（ESM、CommonJS）
+- 建置工具（webpack、Vite 等）及其設定
+- TypeScript 使用與設定
+- 測試架構與模式" : ""}
 
-${PROJECT_TYPE == "React.js" || PROJECT_TYPE == "Auto-detect" ? "#### React Analysis (if detected)
-- React version and key patterns (hooks vs class components)
-- State management approach (Context, Redux, Zustand, etc.)
-- Component library usage (Material-UI, Chakra, etc.)
-- Routing implementation
-- Form handling strategies
-- API integration patterns
-- Testing approach for components" : ""}
+${PROJECT_TYPE == "React.js" || PROJECT_TYPE == "Auto-detect" ? "#### React 分析（若偵測到）
+- React 版本與關鍵模式（hooks vs class components）
+- 狀態管理方式（Context、Redux、Zustand 等）
+- 元件庫使用（Material-UI、Chakra 等）
+- 路由實作
+- 表單處理策略
+- API 整合模式
+- 元件測試方式" : ""}
 
-${PROJECT_TYPE == "Python" || PROJECT_TYPE == "Auto-detect" ? "#### Python Analysis (if detected)
-- Python version and key language features used
-- Package dependencies and virtual environment setup
-- Web framework details (Django, Flask, FastAPI)
-- ORM usage patterns
-- Project structure organization
-- API design patterns" : ""}
+${PROJECT_TYPE == "Python" || PROJECT_TYPE == "Auto-detect" ? "#### Python 分析（若偵測到）
+- Python 版本與使用的關鍵語言特性
+- 套件相依性與虛擬環境設定
+- Web 架構詳細資訊（Django、Flask、FastAPI）
+- ORM 使用模式
+- 專案結構組織
+- API 設計模式" : ""}
 
-### 3. Implementation Patterns & Conventions
-${INCLUDE_CONVENTIONS ? 
-"Document coding conventions and patterns for each technology area:
+### 3. 實作模式與慣例
+${INCLUDE_CONVENTIONS ?
+"記錄每個技術領域的編碼慣例與模式：
 
-#### Naming Conventions
-- Class/type naming patterns
-- Method/function naming patterns
-- Variable naming conventions
-- File naming and organization conventions
-- Interface/abstract class patterns
+#### 命名慣例
+- 類別/類型命名模式
+- 方法/函式命名模式
+- 變數命名慣例
+- 檔案命名與組織慣例
+- 介面/抽象類別模式
 
-#### Code Organization
-- File structure and organization
-- Folder hierarchy patterns
-- Component/module boundaries
-- Code separation and responsibility patterns
+#### 程式碼組織
+- 檔案結構與組織
+- 資料夾階層結構模式
+- 元件/模組邊界
+- 程式碼分離與責任模式
 
-#### Common Patterns
-- Error handling approaches
-- Logging patterns
-- Configuration access
-- Authentication/authorization implementation
-- Validation strategies
-- Testing patterns" : ""}
+#### 常見模式
+- 錯誤處理方式
+- 日誌記錄模式
+- 設定存取
+- 認證/授權實作
+- 驗證策略
+- 測試模式" : ""}
 
-### 4. Usage Examples
-${INCLUDE_USAGE_PATTERNS ? 
-"Extract representative code examples showing standard implementation patterns:
+### 4. 使用案例
+${INCLUDE_USAGE_PATTERNS ?
+"提取代表性程式碼範例，展示標準實作模式：
 
-#### API Implementation Examples
-- Standard controller/endpoint implementation
-- Request DTO pattern
-- Response formatting
-- Validation approach
-- Error handling
+#### API 實作範例
+- 標準控制器/端點實作
+- 請求 DTO 模式
+- 回應格式化
+- 驗證方式
+- 錯誤處理
 
-#### Data Access Examples
-- Repository pattern implementation
-- Entity/model definitions
-- Query patterns
-- Transaction handling
+#### 資料存取範例
+- Repository 模式實作
+- 實體/模型定義
+- 查詢模式
+- 交易處理
 
-#### Service Layer Examples
-- Service class implementation
-- Business logic organization
-- Cross-cutting concerns integration
-- Dependency injection usage
+#### 服務層範例
+- 服務類別實作
+- 商業邏輯組織
+- 跨域關注點整合
+- 相依性注入使用
 
-#### UI Component Examples (if applicable)
-- Component structure
-- State management pattern
-- Event handling
-- API integration pattern" : ""}
+#### UI 元件範例（如適用）
+- 元件結構
+- 狀態管理模式
+- 事件處理
+- API 整合模式" : ""}
 
-### 5. Technology Stack Map
-${DEPTH_LEVEL == "Comprehensive" || DEPTH_LEVEL == "Implementation-Ready" ? 
-"Create a comprehensive technology map including:
+### 5. 技術堆疊地圖
+${DEPTH_LEVEL == "Comprehensive" || DEPTH_LEVEL == "Implementation-Ready" ?
+"建立全面的技術地圖，包括：
 
-#### Core Framework Usage
-- Primary frameworks and their specific usage in the project
-- Framework-specific configurations and customizations
-- Extension points and customizations
+#### 核心架構使用
+- 專案中的主要架構及其具體使用方式
+- 架構特定的設定與自訂
+- 擴充點與自訂項目
 
-#### Integration Points
-- How different technology components integrate
-- Authentication flow between components
-- Data flow between frontend and backend
-- Third-party service integration patterns
+#### 整合點
+- 不同技術元件的整合方式
+- 元件間的認證流程
+- 前端與後端的資料流
+- 第三方服務整合模式
 
-#### Development Tooling
-- IDE settings and conventions
-- Code analysis tools
-- Linters and formatters with configuration
-- Build and deployment pipeline
-- Testing frameworks and approaches
+#### 開發工具
+- IDE 設定與慣例
+- 程式碼分析工具
+- Linters 與格式化工具及其設定
+- 建置與部署管道
+- 測試架構與方式
 
-#### Infrastructure
-- Deployment environment details
-- Container technologies
-- Cloud services utilized
-- Monitoring and logging infrastructure" : ""}
+#### 基礎設施
+- 部署環境詳細資訊
+- 容器技術
+- 所使用的雲端服務
+- 監控與日誌基礎設施" : ""}
 
-### 6. Technology-Specific Implementation Details
+### 6. 技術特定的實作詳細資訊
 
-${PROJECT_TYPE == ".NET" || PROJECT_TYPE == "Auto-detect" ? 
-"#### .NET Implementation Details (if detected)
-- **Dependency Injection Pattern**:
-  - Service registration approach (Scoped/Singleton/Transient patterns)
-  - Configuration binding patterns
-  
-- **Controller Patterns**:
-  - Base controller usage
-  - Action result types and patterns
-  - Route attribute conventions
-  - Filter usage (authorization, validation, etc.)
-  
-- **Data Access Patterns**:
-  - ORM configuration and usage
-  - Entity configuration approach
-  - Relationship definitions
-  - Query patterns and optimization approaches
-  
-- **API Design Patterns** (if used):
-  - Endpoint organization
-  - Parameter binding approaches
-  - Response type handling
-  
-- **Language Features Used**:
-  - Detect specific language features from code
-  - Identify common patterns and idioms
-  - Note any specific version-dependent features" : ""}
+${PROJECT_TYPE == ".NET" || PROJECT_TYPE == "Auto-detect" ?
+"#### .NET 實作詳細資訊（若偵測到）
+- **相依性注入模式**：
+  - 服務註冊方式（Scoped/Singleton/Transient 模式）
+  - 設定綁定模式
 
-${PROJECT_TYPE == "React.js" || PROJECT_TYPE == "Auto-detect" ? 
-"#### React Implementation Details (if detected)
-- **Component Structure**:
-  - Function vs class components
-  - Props interface definitions
-  - Component composition patterns
-  
-- **Hook Usage Patterns**:
-  - Custom hook implementation style
-  - useState patterns
-  - useEffect cleanup approaches
-  - Context usage patterns
-  
-- **State Management**:
-  - Local vs global state decisions
-  - State management library patterns
-  - Store configuration
-  - Selector patterns
-  
-- **Styling Approach**:
-  - CSS methodology (CSS modules, styled-components, etc.)
-  - Theme implementation
-  - Responsive design patterns" : ""}
+- **控制器模式**：
+  - 基礎控制器使用
+  - Action 結果類型與模式
+  - 路由屬性慣例
+  - 篩選器使用（授權、驗證等）
 
-### 7. Blueprint for New Code Implementation
-${DEPTH_LEVEL == "Implementation-Ready" ? 
-"Based on the analysis, provide a detailed blueprint for implementing new features:
+- **資料存取模式**：
+  - ORM 設定與使用
+  - 實體設定方式
+  - 關聯性定義
+  - 查詢模式與最佳化方式
 
-- **File/Class Templates**: Standard structure for common component types
-- **Code Snippets**: Ready-to-use code patterns for common operations
-- **Implementation Checklist**: Standard steps for implementing features end-to-end
-- **Integration Points**: How to connect new code with existing systems
-- **Testing Requirements**: Standard test patterns for different component types
-- **Documentation Requirements**: Standard doc patterns for new features" : ""}
+- **API 設計模式**（如使用）：
+  - 端點組織
+  - 參數綁定方式
+  - 回應類型處理
 
-${INCLUDE_DIAGRAMS ? 
-"### 8. Technology Relationship Diagrams
-- **Stack Diagram**: Visual representation of the complete technology stack
-- **Dependency Flow**: How different technologies interact
-- **Component Relationships**: How major components depend on each other
-- **Data Flow**: How data flows through the technology stack" : ""}
+- **語言特性使用**：
+  - 從程式碼偵測特定語言特性
+  - 識別常見模式與慣用法
+  - 注意任何特定版本相依的特性" : ""}
 
-### ${INCLUDE_DIAGRAMS ? "9" : "8"}. Technology Decision Context
-- Document apparent reasons for technology choices
-- Note any legacy or deprecated technologies marked for replacement
-- Identify technology constraints and boundaries
-- Document technology upgrade paths and compatibility considerations
+${PROJECT_TYPE == "React.js" || PROJECT_TYPE == "Auto-detect" ?
+"#### React 實作詳細資訊（若偵測到）
+- **元件結構**：
+  - 函式式 vs class 元件
+  - Props 介面定義
+  - 元件組合模式
 
-Format the output as ${OUTPUT_FORMAT} and categorize technologies by ${CATEGORIZATION}.
+- **Hook 使用模式**：
+  - 自訂 Hook 實作風格
+  - useState 模式
+  - useEffect 清理方式
+  - Context 使用模式
 
-Save the output as 'Technology_Stack_Blueprint.${OUTPUT_FORMAT == "Markdown" ? "md" : OUTPUT_FORMAT.toLowerCase()}'
-"
+- **狀態管理**：
+  - 本地 vs 全域狀態決策
+  - 狀態管理庫模式
+  - Store 設定
+  - 選擇器模式
+
+- **樣式方式**：
+  - CSS 方法論（CSS modules、styled-components 等）
+  - 佈景主題實作
+  - 響應式設計模式" : ""}
+
+### 7. 新程式碼實作藍圖
+${DEPTH_LEVEL == "Implementation-Ready" ?
+"根據分析提供詳細的新功能實作藍圖：
+
+- **檔案/類別範本**：常見元件類型的標準結構
+- **程式碼片段**：常見操作的可立即使用程式碼模式
+- **實作檢查清單**：端對端實作功能的標準步驟
+- **整合點**：如何將新程式碼與現有系統連接
+- **測試需求**：不同元件類型的標準測試模式
+- **文件需求**：新功能的標準文件模式" : ""}
+
+${INCLUDE_DIAGRAMS ?
+"### 8. 技術關係圖
+- **堆疊圖**：完整技術堆疊的視覺化表示
+- **相依性流**：不同技術的互動方式
+- **元件關係**：主要元件的相依性
+- **資料流**：資料流經技術堆疊的方式" : ""}
+
+### ${INCLUDE_DIAGRAMS ? "9" : "8"}. 技術決策背景
+- 記錄技術選擇的明顯原因
+- 注意標記為取代的舊版或已棄用技術
+- 識別技術限制與邊界
+- 記錄技術升級路徑與相容性考量
+
+將輸出格式化為 ${OUTPUT_FORMAT}，並按 ${CATEGORIZATION} 分類技術。
+
+將輸出保存為 'Technology_Stack_Blueprint.${OUTPUT_FORMAT == "Markdown" ? "md" : OUTPUT_FORMAT.toLowerCase()}'
+」

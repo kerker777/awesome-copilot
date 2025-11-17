@@ -1,162 +1,162 @@
 ---
 mode: 'agent'
-description: 'Update existing object-oriented component documentation following industry best practices and architectural documentation standards.'
+description: '依循業界最佳實踐與架構文件標準，更新現有物件導向元件的技術文件。'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'extensions', 'fetch', 'githubRepo', 'openSimpleBrowser', 'problems', 'runTasks', 'search', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
 ---
-# Update Standard OO Component Documentation
+# 更新標準 OO 元件文件
 
-Update the existing documentation file at: `${file}` by analyzing the corresponding component code.
+透過分析對應的元件程式碼，更新位於 `${file}` 的現有文件。
 
-Extract the component path from the existing documentation's front matter (`component_path` field) or infer it from the documentation content. Analyze the current component implementation and update the documentation accordingly.
+從現有文件的前置資訊（`component_path` 欄位）提取元件路徑，或從文件內容推斷。分析目前的元件實作，並據此更新文件。
 
-**Documentation Standards:**
+**文件標準：**
 
-- DOC-001: Follow C4 Model documentation levels (Context, Containers, Components, Code)
-- DOC-002: Align with Arc42 software architecture documentation template
-- DOC-003: Comply with IEEE 1016 Software Design Description standard
-- DOC-004: Use Agile Documentation principles (just enough documentation that adds value)
-- DOC-005: Target developers and maintainers as primary audience
+- DOC-001：遵循 C4 模型文件層級（背景、容器、元件、程式碼）
+- DOC-002：與 Arc42 軟體架構文件範本保持一致
+- DOC-003：遵守 IEEE 1016 軟體設計說明標準
+- DOC-004：採用敏捷文件原則（只記錄具有價值的內容）
+- DOC-005：以開發人員與維護人員為主要受眾
 
-**Analysis Instructions:**
+**分析指示：**
 
-- ANA-001: Read existing documentation to understand component context and structure
-- ANA-002: Identify component path from front matter or content analysis
-- ANA-003: Examine current source code files for class structures and inheritance
-- ANA-004: Compare existing documentation with current implementation
-- ANA-005: Identify design patterns and architectural changes
-- ANA-006: Update public APIs, interfaces, and dependencies
-- ANA-007: Recognize new/changed creational/structural/behavioral patterns
-- ANA-008: Update method parameters, return values, exceptions
-- ANA-009: Reassess performance, security, reliability, maintainability
-- ANA-010: Update integration patterns and data flow
+- ANA-001：閱讀現有文件以瞭解元件背景與結構
+- ANA-002：從前置資訊或內容分析識別元件路徑
+- ANA-003：檢查目前原始程式碼檔案的類別結構與繼承關係
+- ANA-004：比較現有文件與目前的實作
+- ANA-005：識別設計模式與架構變更
+- ANA-006：更新公開的 API、介面與依賴項
+- ANA-007：識別新增或變更的創建型、結構型、行為型設計模式
+- ANA-008：更新方法參數、傳回值與例外狀況
+- ANA-009：重新評估效能、安全性、可靠性與可維護性
+- ANA-010：更新整合模式與資料流
 
-**Language-Specific Optimizations:**
+**特定語言的最佳化：**
 
-- LNG-001: **C#/.NET** - async/await, dependency injection, configuration, disposal
-- LNG-002: **Java** - Spring framework, annotations, exception handling, packaging
-- LNG-003: **TypeScript/JavaScript** - modules, async patterns, types, npm
-- LNG-004: **Python** - packages, virtual environments, type hints, testing
+- LNG-001：**C#/.NET** - async/await、依賴注入、組態、資源釋放
+- LNG-002：**Java** - Spring 框架、註解、例外狀況處理、套件結構
+- LNG-003：**TypeScript/JavaScript** - 模組、非同步模式、型別、npm
+- LNG-004：**Python** - 套件、虛擬環境、型別提示、測試
 
-**Update Strategy:**
+**更新策略：**
 
-- UPD-001: Preserve existing documentation structure and format
-- UPD-002: Update `last_updated` field to current date
-- UPD-003: Maintain version history in front matter if present
-- UPD-004: Add new sections if component has significantly expanded
-- UPD-005: Mark deprecated features or breaking changes
-- UPD-006: Update examples to reflect current API
-- UPD-007: Refresh dependency lists and versions
-- UPD-008: Update mermaid diagrams to reflect current architecture
+- UPD-001：保留現有文件結構與格式
+- UPD-002：將 `last_updated` 欄位更新為目前日期
+- UPD-003：如有版本歷史記錄，保留在前置資訊中
+- UPD-004：若元件已大幅擴展，則新增相關章節
+- UPD-005：標記已棄用功能或重大變更
+- UPD-006：更新範例以反映目前的 API
+- UPD-007：重新整理依賴項清單與版本資訊
+- UPD-008：更新 mermaid 圖表以反映目前的架構
 
-**Error Handling:**
+**錯誤處理：**
 
-- ERR-001: Documentation file doesn't exist - provide guidance on file location
-- ERR-002: Component path not found in documentation - request clarification
-- ERR-003: Source code has moved - suggest updated paths
-- ERR-004: Major architectural changes - highlight breaking changes
-- ERR-005: Insufficient access to source - document limitations
+- ERR-001：文件不存在 - 提供檔案位置的指導
+- ERR-002：文件中找不到元件路徑 - 要求澄清
+- ERR-003：原始程式碼已移動 - 建議更新路徑
+- ERR-004：架構發生重大變更 - 醒目提示重大變更
+- ERR-005：原始程式碼存取不足 - 記錄限制
 
-**Output Format:**
+**輸出格式：**
 
-Update the existing Markdown file maintaining its structure while refreshing content to match current implementation. Preserve formatting, heading hierarchy, and existing organizational decisions.
+更新現有 Markdown 檔案，保持其結構，同時重新整理內容以符合目前的實作。保留格式設定、標題階層與現有的組織決策。
 
-**Required Documentation Structure:**
+**必要的文件結構：**
 
-Update the existing documentation following the same template structure, ensuring all sections reflect current implementation:
+使用相同的範本結構更新現有文件，確保所有章節都反映目前的實作：
 
 ```md
 ---
-title: [Component Name] - Technical Documentation
-component_path: [Current component path]
-version: [Updated version if applicable]
-date_created: [Original creation date - preserve]
-last_updated: [YYYY-MM-DD - update to current date]
-owner: [Preserve existing or update if changed]
-tags: [Update tags as needed based on current functionality]
+title: [元件名稱] - 技術文件
+component_path: [目前元件路徑]
+version: [如適用則更新版本]
+date_created: [原始建立日期 - 保留]
+last_updated: [YYYY-MM-DD - 更新為目前日期]
+owner: [保留現有或如有變更則更新]
+tags: [根據目前功能按需更新標籤]
 ---
 
-# [Component Name] Documentation
+# [元件名稱] 文件
 
-[Update introduction to reflect current component purpose and capabilities]
+[更新簡介以反映目前元件的用途與功能]
 
-## 1. Component Overview
+## 1. 元件概述
 
-### Purpose/Responsibility
-- OVR-001: Update component's primary responsibility
-- OVR-002: Refresh scope (included/excluded functionality)
-- OVR-003: Update system context and relationships
+### 用途與責任
+- OVR-001：更新元件的主要責任
+- OVR-002：重新整理範圍（包含/排除的功能）
+- OVR-003：更新系統背景與關係
 
-## 2. Architecture Section
+## 2. 架構章節
 
-- ARC-001: Update design patterns used (Repository, Factory, Observer, etc.)
-- ARC-002: Refresh internal and external dependencies with current purposes
-- ARC-003: Update component interactions and relationships
-- ARC-004: Update visual diagrams (UML class, sequence, component)
-- ARC-005: Refresh mermaid diagram showing current component structure, relationships, and dependencies
+- ARC-001：更新使用的設計模式（資源庫、工廠、觀察器等）
+- ARC-002：重新整理內部與外部依賴項及其目前用途
+- ARC-003：更新元件互動與關係
+- ARC-004：更新視覺化圖表（UML 類別、序列、元件）
+- ARC-005：重新整理 mermaid 圖表，顯示目前的元件結構、關係與依賴項
 
-### Component Structure and Dependencies Diagram
+### 元件結構與依賴項圖表
 
-Update the mermaid diagram to show current:
-- **Component structure** - Current classes, interfaces, and their relationships
-- **Internal dependencies** - How components currently interact within the system
-- **External dependencies** - Current external libraries, services, databases, APIs
-- **Data flow** - Current direction of dependencies and interactions
-- **Inheritance/composition** - Current class hierarchies and composition relationships
+更新 mermaid 圖表以顯示目前的：
+- **元件結構** - 目前的類別、介面與其關係
+- **內部依賴項** - 元件目前在系統內如何互動
+- **外部依賴項** - 目前的外部程式庫、服務、資料庫、API
+- **資料流** - 目前的依賴項與互動方向
+- **繼承與組成** - 目前的類別階層與組成關係
 
 ```mermaid
-[Update diagram to reflect current architecture]
+[更新圖表以反映目前的架構]
 ```
 
-## 3. Interface Documentation
+## 3. 介面文件
 
-- INT-001: Update all public interfaces and current usage patterns
-- INT-002: Refresh method/property reference table with current API
-- INT-003: Update events/callbacks/notification mechanisms
+- INT-001：更新所有公開介面與目前的使用模式
+- INT-002：重新整理包含目前 API 的方法/屬性參考表
+- INT-003：更新事件、回呼與通知機制
 
-| Method/Property | Purpose | Parameters | Return Type | Usage Notes |
-|-----------------|---------|------------|-------------|-------------|
-| [Update table with current API] | | | | |
+| 方法/屬性 | 用途 | 參數 | 傳回類型 | 使用說明 |
+|-----------|------|------|---------|---------|
+| [使用目前 API 更新表格] | | | | |
 
-## 4. Implementation Details
+## 4. 實作詳細資料
 
-- IMP-001: Update main implementation classes and current responsibilities
-- IMP-002: Refresh configuration requirements and initialization patterns
-- IMP-003: Update key algorithms and business logic
-- IMP-004: Update performance characteristics and bottlenecks
+- IMP-001：更新主要實作類別與目前的責任
+- IMP-002：重新整理組態需求與初始化模式
+- IMP-003：更新關鍵演算法與商業邏輯
+- IMP-004：更新效能特性與瓶頸
 
-## 5. Usage Examples
+## 5. 使用範例
 
-### Basic Usage
+### 基本使用
 
 ```csharp
-// Update basic usage example to current API
+// 更新基本使用範例以符合目前 API
 ```
 
-### Advanced Usage
+### 進階使用
 
 ```csharp
-// Update advanced configuration patterns to current implementation
+// 更新進階組態模式以符合目前實作
 ```
 
-- USE-001: Update basic usage examples
-- USE-002: Refresh advanced configuration patterns
-- USE-003: Update best practices and recommended patterns
+- USE-001：更新基本使用範例
+- USE-002：重新整理進階組態模式
+- USE-003：更新最佳實踐與建議的模式
 
-## 6. Quality Attributes
+## 6. 品質屬性
 
-- QUA-001: Update security (authentication, authorization, data protection)
-- QUA-002: Refresh performance (characteristics, scalability, resource usage)
-- QUA-003: Update reliability (error handling, fault tolerance, recovery)
-- QUA-004: Refresh maintainability (standards, testing, documentation)
-- QUA-005: Update extensibility (extension points, customization options)
+- QUA-001：更新安全性（驗證、授權、資料保護）
+- QUA-002：重新整理效能（特性、可擴充性、資源使用）
+- QUA-003：更新可靠性（錯誤處理、容錯、復原）
+- QUA-004：重新整理可維護性（標準、測試、文件）
+- QUA-005：更新擴充性（擴充點、自訂選項）
 
-## 7. Reference Information
+## 7. 參考資訊
 
-- REF-001: Update dependencies with current versions and purposes
-- REF-002: Refresh configuration options reference
-- REF-003: Update testing guidelines and mock setup
-- REF-004: Refresh troubleshooting (common issues, error messages)
-- REF-005: Update related documentation links
-- REF-006: Add change history and migration notes for this update
+- REF-001：使用目前版本與用途更新依賴項
+- REF-002：重新整理組態選項參考
+- REF-003：更新測試指導方針與模擬設定
+- REF-004：重新整理疑難排解（常見問題、錯誤訊息）
+- REF-005：更新相關文件連結
+- REF-006：為本次更新新增變更歷史與遷移說明
 
 ```

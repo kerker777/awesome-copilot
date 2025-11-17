@@ -3,23 +3,23 @@ mode: 'agent'
 description: 'Create a formal specification for an existing GitHub Actions CI/CD workflow, optimized for AI consumption and workflow maintenance.'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'extensions', 'fetch', 'findTestFiles', 'githubRepo', 'new', 'openSimpleBrowser', 'problems', 'runCommands', 'runInTerminal2', 'runNotebooks', 'runTasks', 'runTests', 'search', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection', 'testFailure', 'usages', 'vscodeAPI', 'microsoft.docs.mcp', 'github', 'Microsoft Docs']
 ---
-# Create GitHub Actions Workflow Specification
+# 建立 GitHub Actions 工作流程規格說明書
 
-Create a comprehensive specification for the GitHub Actions workflow: `${input:WorkflowFile}`.
+為 GitHub Actions 工作流程建立完整規格說明書：`${input:WorkflowFile}`。
 
-This specification serves as a specification for the workflow's behavior, requirements, and constraints. It must be implementation-agnostic, focusing on **what** the workflow accomplishes rather than **how** it's implemented.
+此規格說明書用於記錄工作流程的行為、需求和限制。規格說明必須與實作無關，著重於工作流程**達成什麼目標**而非**如何**實作。
 
-## AI-Optimized Requirements
+## AI 最佳化需求
 
-- **Token Efficiency**: Use concise language without sacrificing clarity
-- **Structured Data**: Leverage tables, lists, and diagrams for dense information
-- **Semantic Clarity**: Use precise terminology consistently throughout
-- **Implementation Abstraction**: Avoid specific syntax, commands, or tool versions
-- **Maintainability**: Design for easy updates as workflow evolves
+- **Token 效率**：使用簡潔的語言而不犧牲清晰度
+- **結構化資料**：利用表格、清單和圖表來呈現密集資訊
+- **語意清晰**：全文一致地使用精確的術語
+- **實作抽象化**：避免特定的語法、指令或工具版本
+- **可維護性**：設計以便工作流程演進時易於更新
 
-## Specification Template
+## 規格說明範本
 
-Save as: `/spec/spec-process-cicd-[workflow-name].md`
+另存為：`/spec/spec-process-cicd-[workflow-name].md`
 
 ```md
 ---
@@ -31,13 +31,13 @@ owner: DevOps Team
 tags: [process, cicd, github-actions, automation, [domain-specific-tags]]
 ---
 
-## Workflow Overview
+## 工作流程概述
 
-**Purpose**: [One sentence describing workflow's primary goal]
-**Trigger Events**: [List trigger conditions]
-**Target Environments**: [Environment scope]
+**用途**：[一句話描述工作流程的主要目標]
+**觸發事件**：[列出觸發條件]
+**目標環境**：[環境範圍]
 
-## Execution Flow Diagram
+## 執行流程圖
 
 ```mermaid
 graph TD
@@ -53,198 +53,198 @@ graph TD
     style E fill:#e8f5e8
 ```
 
-## Jobs & Dependencies
+## 工作與相依性
 
-| Job Name | Purpose | Dependencies | Execution Context |
+| 工作名稱 | 用途 | 相依性 | 執行環境 |
 |----------|---------|--------------|-------------------|
-| job-1 | [Purpose] | [Prerequisites] | [Runner/Environment] |
-| job-2 | [Purpose] | job-1 | [Runner/Environment] |
+| job-1 | [用途] | [前置條件] | [Runner/環境] |
+| job-2 | [用途] | job-1 | [Runner/環境] |
 
-## Requirements Matrix
+## 需求矩陣
 
-### Functional Requirements
-| ID | Requirement | Priority | Acceptance Criteria |
+### 功能需求
+| ID | 需求 | 優先度 | 驗收準則 |
 |----|-------------|----------|-------------------|
-| REQ-001 | [Requirement] | High | [Testable criteria] |
-| REQ-002 | [Requirement] | Medium | [Testable criteria] |
+| REQ-001 | [需求] | 高 | [可測試的準則] |
+| REQ-002 | [需求] | 中 | [可測試的準則] |
 
-### Security Requirements
-| ID | Requirement | Implementation Constraint |
+### 安全需求
+| ID | 需求 | 實作限制 |
 |----|-------------|---------------------------|
-| SEC-001 | [Security requirement] | [Constraint description] |
+| SEC-001 | [安全需求] | [限制說明] |
 
-### Performance Requirements
-| ID | Metric | Target | Measurement Method |
+### 效能需求
+| ID | 指標 | 目標 | 測量方法 |
 |----|-------|--------|-------------------|
-| PERF-001 | [Metric] | [Target value] | [How measured] |
+| PERF-001 | [指標] | [目標值] | [如何測量] |
 
-## Input/Output Contracts
+## 輸入/輸出合約
 
-### Inputs
-
-```yaml
-# Environment Variables
-ENV_VAR_1: string  # Purpose: [description]
-ENV_VAR_2: secret  # Purpose: [description]
-
-# Repository Triggers
-paths: [list of path filters]
-branches: [list of branch patterns]
-```
-
-### Outputs
+### 輸入
 
 ```yaml
-# Job Outputs
-job_1_output: string  # Description: [purpose]
-build_artifact: file  # Description: [content type]
+# 環境變數
+ENV_VAR_1: string  # 用途：[說明]
+ENV_VAR_2: secret  # 用途：[說明]
+
+# Repository 觸發器
+paths: [路徑篩選清單]
+branches: [分支模式清單]
 ```
 
-### Secrets & Variables
+### 輸出
 
-| Type | Name | Purpose | Scope |
+```yaml
+# 工作輸出
+job_1_output: string  # 說明：[用途]
+build_artifact: file  # 說明：[內容類型]
+```
+
+### 機密與變數
+
+| 類型 | 名稱 | 用途 | 範圍 |
 |------|------|---------|-------|
-| Secret | SECRET_1 | [Purpose] | Workflow |
-| Variable | VAR_1 | [Purpose] | Repository |
+| Secret | SECRET_1 | [用途] | Workflow |
+| Variable | VAR_1 | [用途] | Repository |
 
-## Execution Constraints
+## 執行限制
 
-### Runtime Constraints
+### 執行時限制
 
-- **Timeout**: [Maximum execution time]
-- **Concurrency**: [Parallel execution limits]
-- **Resource Limits**: [Memory/CPU constraints]
+- **逾時**：[最大執行時間]
+- **並行執行**：[平行執行限制]
+- **資源限制**：[記憶體/CPU 限制]
 
-### Environmental Constraints
+### 環境限制
 
-- **Runner Requirements**: [OS/hardware needs]
-- **Network Access**: [External connectivity needs]
-- **Permissions**: [Required access levels]
+- **Runner 需求**：[OS/硬體需求]
+- **網路存取**：[外部連線需求]
+- **權限**：[所需存取等級]
 
-## Error Handling Strategy
+## 錯誤處理策略
 
-| Error Type | Response | Recovery Action |
+| 錯誤類型 | 回應 | 恢復步驟 |
 |------------|----------|-----------------|
-| Build Failure | [Response] | [Recovery steps] |
-| Test Failure | [Response] | [Recovery steps] |
-| Deployment Failure | [Response] | [Recovery steps] |
+| 構建失敗 | [回應] | [恢復步驟] |
+| 測試失敗 | [回應] | [恢復步驟] |
+| 部署失敗 | [回應] | [恢復步驟] |
 
-## Quality Gates
+## 品質關卡
 
-### Gate Definitions
+### 關卡定義
 
-| Gate | Criteria | Bypass Conditions |
+| 關卡 | 準則 | 略過條件 |
 |------|----------|-------------------|
-| Code Quality | [Standards] | [When allowed] |
-| Security Scan | [Thresholds] | [When allowed] |
-| Test Coverage | [Percentage] | [When allowed] |
+| 程式碼品質 | [標準] | [允許的條件] |
+| 安全掃描 | [閾值] | [允許的條件] |
+| 測試涵蓋率 | [百分比] | [允許的條件] |
 
-## Monitoring & Observability
+## 監測與可觀測性
 
-### Key Metrics
+### 關鍵指標
 
-- **Success Rate**: [Target percentage]
-- **Execution Time**: [Target duration]
-- **Resource Usage**: [Monitoring approach]
+- **成功率**：[目標百分比]
+- **執行時間**：[目標期間]
+- **資源使用**：[監測方式]
 
-### Alerting
+### 警報
 
-| Condition | Severity | Notification Target |
+| 條件 | 嚴重度 | 通知目標 |
 |-----------|----------|-------------------|
-| [Condition] | [Level] | [Who/Where] |
+| [條件] | [等級] | [對象/位置] |
 
-## Integration Points
+## 整合點
 
-### External Systems
+### 外部系統
 
-| System | Integration Type | Data Exchange | SLA Requirements |
+| 系統 | 整合類型 | 資料交換 | SLA 需求 |
 |--------|------------------|---------------|------------------|
-| [System] | [Type] | [Data format] | [Requirements] |
+| [系統] | [類型] | [資料格式] | [需求] |
 
-### Dependent Workflows
+### 相依工作流程
 
-| Workflow | Relationship | Trigger Mechanism |
+| 工作流程 | 關係 | 觸發機制 |
 |----------|--------------|-------------------|
-| [Workflow] | [Type] | [How triggered] |
+| [工作流程] | [類型] | [如何觸發] |
 
-## Compliance & Governance
+## 合規與治理
 
-### Audit Requirements
+### 稽核需求
 
-- **Execution Logs**: [Retention policy]
-- **Approval Gates**: [Required approvals]
-- **Change Control**: [Update process]
+- **執行日誌**：[保留政策]
+- **核准關卡**：[所需核准]
+- **變更控制**：[更新流程]
 
-### Security Controls
+### 安全控制
 
-- **Access Control**: [Permission model]
-- **Secret Management**: [Rotation policy]
-- **Vulnerability Scanning**: [Scan frequency]
+- **存取控制**：[權限模型]
+- **機密管理**：[輪換政策]
+- **弱點掃描**：[掃描頻率]
 
-## Edge Cases & Exceptions
+## 邊界情況與例外
 
-### Scenario Matrix
+### 情境矩陣
 
-| Scenario | Expected Behavior | Validation Method |
+| 情境 | 預期行為 | 驗證方法 |
 |----------|-------------------|-------------------|
-| [Edge case] | [Behavior] | [How to verify] |
+| [邊界情況] | [行為] | [如何驗證] |
 
-## Validation Criteria
+## 驗證準則
 
-### Workflow Validation
+### 工作流程驗證
 
-- **VLD-001**: [Validation rule]
-- **VLD-002**: [Validation rule]
+- **VLD-001**：[驗證規則]
+- **VLD-002**：[驗證規則]
 
-### Performance Benchmarks
+### 效能基準
 
-- **PERF-001**: [Benchmark criteria]
-- **PERF-002**: [Benchmark criteria]
+- **PERF-001**：[基準準則]
+- **PERF-002**：[基準準則]
 
-## Change Management
+## 變更管理
 
-### Update Process
+### 更新流程
 
-1. **Specification Update**: Modify this document first
-2. **Review & Approval**: [Approval process]
-3. **Implementation**: Apply changes to workflow
-4. **Testing**: [Validation approach]
-5. **Deployment**: [Release process]
+1. **規格說明更新**：先修改此文件
+2. **審查與核准**：[核准流程]
+3. **實作**：將變更套用至工作流程
+4. **測試**：[驗證方式]
+5. **部署**：[發行流程]
 
-### Version History
+### 版本歷程
 
-| Version | Date | Changes | Author |
+| 版本 | 日期 | 變更 | 作者 |
 |---------|------|---------|--------|
-| 1.0 | [Date] | Initial specification | [Author] |
+| 1.0 | [日期] | 初始規格說明 | [作者] |
 
-## Related Specifications
+## 相關規格說明
 
-- [Link to related workflow specs]
-- [Link to infrastructure specs]
-- [Link to deployment specs]
+- [相關工作流程規格說明的連結]
+- [基礎設施規格說明的連結]
+- [部署規格說明的連結]
 
 ```
 
-## Analysis Instructions
+## 分析說明
 
-When analyzing the workflow file:
+分析工作流程檔案時：
 
-1. **Extract Core Purpose**: Identify the primary business objective
-2. **Map Job Flow**: Create dependency graph showing execution order
-3. **Identify Contracts**: Document inputs, outputs, and interfaces
-4. **Capture Constraints**: Extract timeouts, permissions, and limits
-5. **Define Quality Gates**: Identify validation and approval points
-6. **Document Error Paths**: Map failure scenarios and recovery
-7. **Abstract Implementation**: Focus on behavior, not syntax
+1. **萃取核心目的**：識別主要商業目標
+2. **對映工作流**：建立顯示執行順序的相依性圖表
+3. **識別合約**：記錄輸入、輸出和介面
+4. **擷取限制**：提取逾時、權限和限制
+5. **定義品質關卡**：識別驗證和核准點
+6. **記錄錯誤路徑**：對映失敗情境和恢復方式
+7. **抽象實作**：著重於行為而非語法
 
-## Mermaid Diagram Guidelines
+## Mermaid 圖表指南
 
-### Flow Types
-- **Sequential**: `A --> B --> C`
-- **Parallel**: `A --> B & A --> C; B --> D & C --> D`
-- **Conditional**: `A --> B{Decision}; B -->|Yes| C; B -->|No| D`
+### 流程類型
+- **順序性**：`A --> B --> C`
+- **平行**：`A --> B & A --> C; B --> D & C --> D`
+- **條件式**：`A --> B{Decision}; B -->|Yes| C; B -->|No| D`
 
-### Styling
+### 樣式
 ```mermaid
 style TriggerNode fill:#e1f5fe
 style SuccessNode fill:#e8f5e8
@@ -252,25 +252,25 @@ style FailureNode fill:#ffebee
 style ProcessNode fill:#f3e5f5
 ```
 
-### Complex Workflows
-For workflows with 5+ jobs, use subgraphs:
+### 複雜工作流程
+針對有 5 個以上工作的工作流程，使用子圖：
 ```mermaid
 graph TD
     subgraph "Build Phase"
         A[Lint] --> B[Test] --> C[Build]
     end
-    subgraph "Deploy Phase"  
+    subgraph "Deploy Phase"
         D[Staging] --> E[Production]
     end
     C --> D
 ```
 
-## Token Optimization Strategies
+## Token 最佳化策略
 
-1. **Use Tables**: Dense information in structured format
-2. **Abbreviate Consistently**: Define once, use throughout
-3. **Bullet Points**: Avoid prose paragraphs
-4. **Code Blocks**: Structured data over narrative
-5. **Cross-Reference**: Link instead of repeat information
+1. **使用表格**：結構化格式中的密集資訊
+2. **一致地縮寫**：定義一次，全文使用
+3. **項目符號**：避免散文段落
+4. **程式碼區塊**：結構化資料而非敘述
+5. **交叉參考**：連結而非重複資訊
 
-Focus on creating a specification that serves as both documentation and a template for workflow updates.
+著重於建立既作為文件又可作為工作流程更新範本的規格說明。

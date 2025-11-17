@@ -3,54 +3,54 @@ description: 'Instructions for building Model Context Protocol (MCP) servers usi
 applyTo: '**/*.ts, **/*.js, **/package.json'
 ---
 
-# TypeScript MCP Server Development
+# TypeScript MCP 伺服器開發
 
-## Instructions
+## 開發指南
 
-- Use the **@modelcontextprotocol/sdk** npm package: `npm install @modelcontextprotocol/sdk`
-- Import from specific paths: `@modelcontextprotocol/sdk/server/mcp.js`, `@modelcontextprotocol/sdk/server/stdio.js`, etc.
-- Use `McpServer` class for high-level server implementation with automatic protocol handling
-- Use `Server` class for low-level control with manual request handlers
-- Use **zod** for input/output schema validation: `npm install zod@3`
-- Always provide `title` field for tools, resources, and prompts for better UI display
-- Use `registerTool()`, `registerResource()`, and `registerPrompt()` methods (recommended over older APIs)
-- Define schemas using zod: `{ inputSchema: { param: z.string() }, outputSchema: { result: z.string() } }`
-- Return both `content` (for display) and `structuredContent` (for structured data) from tools
-- For HTTP servers, use `StreamableHTTPServerTransport` with Express or similar frameworks
-- For local integrations, use `StdioServerTransport` for stdio-based communication
-- Create new transport instances per request to prevent request ID collisions (stateless mode)
-- Use session management with `sessionIdGenerator` for stateful servers
-- Enable DNS rebinding protection for local servers: `enableDnsRebindingProtection: true`
-- Configure CORS headers and expose `Mcp-Session-Id` for browser-based clients
-- Use `ResourceTemplate` for dynamic resources with URI parameters: `new ResourceTemplate('resource://{param}', { list: undefined })`
-- Support completions for better UX using `completable()` wrapper from `@modelcontextprotocol/sdk/server/completable.js`
-- Implement sampling with `server.server.createMessage()` to request LLM completions from clients
-- Use `server.server.elicitInput()` to request additional user input during tool execution
-- Enable notification debouncing for bulk updates: `debouncedNotificationMethods: ['notifications/tools/list_changed']`
-- Dynamic updates: call `.enable()`, `.disable()`, `.update()`, or `.remove()` on registered items to emit `listChanged` notifications
-- Use `getDisplayName()` from `@modelcontextprotocol/sdk/shared/metadataUtils.js` for UI display names
-- Test servers with MCP Inspector: `npx @modelcontextprotocol/inspector`
+- 使用 **@modelcontextprotocol/sdk** npm 套件：`npm install @modelcontextprotocol/sdk`
+- 從特定路徑匯入：`@modelcontextprotocol/sdk/server/mcp.js`、`@modelcontextprotocol/sdk/server/stdio.js` 等
+- 使用 `McpServer` 類別進行高階伺服器實作，具備自動協議處理
+- 使用 `Server` 類別進行低階控制，搭配手動請求處理器
+- 使用 **zod** 進行輸入/輸出結構描述驗證：`npm install zod@3`
+- 務必為工具、資源和提示詞提供 `title` 欄位，以改善 UI 顯示效果
+- 使用 `registerTool()`、`registerResource()` 和 `registerPrompt()` 方法（建議優先使用，勝於舊版 API）
+- 使用 zod 定義結構描述：`{ inputSchema: { param: z.string() }, outputSchema: { result: z.string() } }`
+- 從工具返回 `content`（用於顯示）和 `structuredContent`（用於結構化資料）
+- HTTP 伺服器使用 `StreamableHTTPServerTransport` 搭配 Express 或類似框架
+- 本機整合使用 `StdioServerTransport` 進行標準輸入/輸出通訊
+- 為每個請求建立新的傳輸實例以防止請求 ID 衝突（無狀態模式）
+- 對於有狀態伺服器，使用搭配 `sessionIdGenerator` 的工作階段管理
+- 為本機伺服器啟用 DNS 重新繫結保護：`enableDnsRebindingProtection: true`
+- 設定 CORS 標頭並公開 `Mcp-Session-Id` 供瀏覽器型客戶端使用
+- 使用 `ResourceTemplate` 處理帶 URI 參數的動態資源：`new ResourceTemplate('resource://{param}', { list: undefined })`
+- 使用來自 `@modelcontextprotocol/sdk/server/completable.js` 的 `completable()` 包裝器支援自動完成，以提升使用者體驗
+- 使用 `server.server.createMessage()` 實作取樣以向客戶端請求 LLM 完成
+- 使用 `server.server.elicitInput()` 在工具執行期間請求額外的使用者輸入
+- 為批量更新啟用通知去抖動：`debouncedNotificationMethods: ['notifications/tools/list_changed']`
+- 動態更新：在註冊項目上呼叫 `.enable()`、`.disable()`、`.update()` 或 `.remove()` 以發出 `listChanged` 通知
+- 使用來自 `@modelcontextprotocol/sdk/shared/metadataUtils.js` 的 `getDisplayName()` 以取得 UI 顯示名稱
+- 使用 MCP Inspector 測試伺服器：`npx @modelcontextprotocol/inspector`
 
-## Best Practices
+## 最佳實踐
 
-- Keep tool implementations focused on single responsibilities
-- Provide clear, descriptive titles and descriptions for LLM understanding
-- Use proper TypeScript types for all parameters and return values
-- Implement comprehensive error handling with try-catch blocks
-- Return `isError: true` in tool results for error conditions
-- Use async/await for all asynchronous operations
-- Close database connections and clean up resources properly
-- Validate input parameters before processing
-- Use structured logging for debugging without polluting stdout/stderr
-- Consider security implications when exposing file system or network access
-- Implement proper resource cleanup on transport close events
-- Use environment variables for configuration (ports, API keys, etc.)
-- Document tool capabilities and limitations clearly
-- Test with multiple clients to ensure compatibility
+- 保持工具實作聚焦於單一職責
+- 為 LLM 理解提供清晰、描述性的標題和說明
+- 為所有參數和傳回值使用適當的 TypeScript 型別
+- 使用 try-catch 區塊實作全面的錯誤處理
+- 在工具結果中返回 `isError: true` 以表示錯誤條件
+- 對所有非同步操作使用 async/await
+- 正確關閉資料庫連接並清理資源
+- 在處理之前驗證輸入參數
+- 使用結構化日誌進行偵錯，而不污染標準輸出/標準錯誤
+- 在公開檔案系統或網路存取時考慮安全性含義
+- 在傳輸關閉事件時實作適當的資源清理
+- 使用環境變數進行設定（連接埠、API 金鑰等）
+- 清楚地記錄工具功能和限制
+- 使用多個客戶端進行測試以確保相容性
 
-## Common Patterns
+## 常見模式
 
-### Basic Server Setup (HTTP)
+### 基礎伺服器設定 (HTTP)
 ```typescript
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
@@ -79,7 +79,7 @@ app.post('/mcp', async (req, res) => {
 app.listen(3000);
 ```
 
-### Basic Server Setup (stdio)
+### 基礎伺服器設定 (stdio)
 ```typescript
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -95,7 +95,7 @@ const transport = new StdioServerTransport();
 await server.connect(transport);
 ```
 
-### Simple Tool
+### 簡單的工具
 ```typescript
 import { z } from 'zod';
 
@@ -119,7 +119,7 @@ server.registerTool(
 );
 ```
 
-### Dynamic Resource
+### 動態資源
 ```typescript
 import { ResourceTemplate } from '@modelcontextprotocol/sdk/server/mcp.js';
 
@@ -139,7 +139,7 @@ server.registerResource(
 );
 ```
 
-### Tool with Sampling
+### 具有取樣功能的工具
 ```typescript
 server.registerTool(
     'summarize',
@@ -169,7 +169,7 @@ server.registerTool(
 );
 ```
 
-### Prompt with Completion
+### 具有自動完成的提示詞
 ```typescript
 import { completable } from '@modelcontextprotocol/sdk/server/completable.js';
 
@@ -198,7 +198,7 @@ server.registerPrompt(
 );
 ```
 
-### Error Handling
+### 錯誤處理
 ```typescript
 server.registerTool(
     'risky-operation',

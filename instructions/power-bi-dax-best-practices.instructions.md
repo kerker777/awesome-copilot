@@ -1,17 +1,17 @@
 ---
-description: 'Comprehensive Power BI DAX best practices and patterns based on Microsoft guidance for creating efficient, maintainable, and performant DAX formulas.'
+description: '根據 Microsoft 指導的全面 Power BI DAX 最佳實踐與模式，用於建立有效率、易於維護且效能優良的 DAX 公式。'
 applyTo: '**/*.{pbix,dax,md,txt}'
 ---
 
-# Power BI DAX Best Practices
+# Power BI DAX 最佳實踐
 
-## Overview
-This document provides comprehensive instructions for writing efficient, maintainable, and performant DAX (Data Analysis Expressions) formulas in Power BI, based on Microsoft's official guidance and best practices.
+## 概述
+本文件根據 Microsoft 官方指導與最佳實踐，提供在 Power BI 中撰寫有效率、易於維護且效能優良的 DAX (資料分析運算式) 公式的全面指引。
 
-## Core DAX Principles
+## DAX 核心原則
 
-### 1. Formula Structure and Variables
-Always use variables to improve performance, readability, and debugging:
+### 1. 公式結構與變數
+始終使用變數以提升效能、可讀性與偵錯能力：
 
 ```dax
 // ✅ PREFERRED: Using variables for clarity and performance
@@ -33,14 +33,14 @@ DIVIDE(
 )
 ```
 
-**Key Benefits of Variables:**
-- **Performance**: Calculations are evaluated once and cached
-- **Readability**: Complex formulas become self-documenting
-- **Debugging**: Can temporarily return variable values for testing
-- **Maintainability**: Changes need to be made in only one place
+**變數的主要優點：**
+- **效能**：計算只評估一次並快取
+- **可讀性**：複雜公式變得自我說明
+- **偵錯**：可暫時傳回變數值進行測試
+- **可維護性**：修改只需在一個地方進行
 
-### 2. Proper Reference Syntax
-Follow Microsoft's recommended patterns for column and measure references:
+### 2. 正確的參考語法
+遵循 Microsoft 推薦的欄位與量值參考模式：
 
 ```dax
 // ✅ ALWAYS fully qualify column references
@@ -64,8 +64,8 @@ Customer Count = DISTINCTCOUNT([CustomerID])  // Ambiguous
 Growth Rate = DIVIDE(Sales[Total Sales] - Sales[Total Sales PY], Sales[Total Sales PY])  // Breaks if measure moves
 ```
 
-### 3. Error Handling Strategies
-Implement robust error handling using appropriate patterns:
+### 3. 錯誤處理策略
+使用適當的模式實現穩健的錯誤處理：
 
 ```dax
 // ✅ PREFERRED: Use DIVIDE function for safe division
@@ -95,13 +95,13 @@ IF(
 )
 ```
 
-## DAX Function Categories and Best Practices
+## DAX 函式類別與最佳實踐
 
-### Aggregation Functions
+### 聚合函式
 ```dax
 // Use appropriate aggregation functions for performance
 Customer Count = DISTINCTCOUNT(Sales[CustomerID])  // ✅ For unique counts
-Order Count = COUNTROWS(Orders)                    // ✅ For row counts  
+Order Count = COUNTROWS(Orders)                    // ✅ For row counts
 Average Deal Size = AVERAGE(Sales[DealValue])      // ✅ For averages
 
 // Avoid COUNT when COUNTROWS is more appropriate
@@ -109,7 +109,7 @@ Average Deal Size = AVERAGE(Sales[DealValue])      // ✅ For averages
 // ✅ COUNTROWS(Sales) - faster and more explicit
 ```
 
-### Filter and Context Functions
+### 篩選與內容函式
 ```dax
 // Efficient use of CALCULATE with multiple filters
 High Value Customers = 
@@ -142,7 +142,7 @@ CALCULATE(
 )
 ```
 
-### Time Intelligence Patterns
+### 時間智能模式
 ```dax
 // Standard time intelligence measures
 YTD Sales = 
@@ -183,7 +183,7 @@ RETURN
     DIVIDE(CurrentQuarter - PreviousQuarter, PreviousQuarter)
 ```
 
-### Advanced DAX Patterns
+### 進階 DAX 模式
 ```dax
 // Ranking with proper context
 Product Rank = 
@@ -227,9 +227,9 @@ RETURN
     )
 ```
 
-## Performance Optimization Techniques
+## 效能最佳化技巧
 
-### 1. Efficient Variable Usage
+### 1. 有效率的變數使用
 ```dax
 // ✅ Store expensive calculations in variables
 Complex Measure = 
@@ -250,10 +250,10 @@ RETURN
     DIVIDE(BaseCalculation - PreviousYear, PreviousYear)
 ```
 
-### 2. Context Transition Optimization
+### 2. 內容轉換最佳化
 ```dax
 // ✅ Minimize context transitions in iterator functions
-Total Product Profit = 
+Total Product Profit =
 SUMX(
     Product,
     Product[UnitPrice] - Product[UnitCost]
@@ -263,7 +263,7 @@ SUMX(
 // Create in Power Query instead when possible
 ```
 
-### 3. Efficient Filtering Patterns
+### 3. 有效率的篩選模式
 ```dax
 // ✅ Use table expressions efficiently
 Top 10 Customers = 
@@ -287,9 +287,9 @@ CALCULATE(
 )
 ```
 
-## Common DAX Anti-Patterns to Avoid
+## 常見要避免的 DAX 反模式
 
-### 1. Performance Anti-Patterns
+### 1. 效能反模式
 ```dax
 // ❌ AVOID: Nested CALCULATE functions
 Inefficient Nested = 
@@ -317,7 +317,7 @@ IF(ISBLANK([Total Sales]), 0, [Total Sales])
 Sales = SUM(Sales[Amount])
 ```
 
-### 2. Readability Anti-Patterns
+### 2. 可讀性反模式
 ```dax
 // ❌ AVOID: Complex nested expressions without variables
 Complex Without Variables = 
@@ -344,9 +344,9 @@ RETURN
     DIVIDE(CurrentYear - PreviousYear, PreviousYear)
 ```
 
-## DAX Debugging and Testing Strategies
+## DAX 偵錯與測試策略
 
-### 1. Variable-Based Debugging
+### 1. 基於變數的偵錯
 ```dax
 // Use this pattern for step-by-step debugging
 Debug Measure = 
@@ -362,22 +362,22 @@ RETURN
     Step4     -- Final result
 ```
 
-### 2. Testing Patterns
+### 2. 測試模式
 ```dax
 // Include data validation in measures
-Validated Measure = 
+Validated Measure =
 VAR Result = [Complex Calculation]
-VAR IsValid = 
-    Result >= 0 && 
-    Result <= 1 && 
+VAR IsValid =
+    Result >= 0 &&
+    Result <= 1 &&
     NOT(ISBLANK(Result))
 RETURN
     IF(IsValid, Result, BLANK())
 ```
 
-## Measure Organization and Naming
+## 量值組織與命名
 
-### 1. Naming Conventions
+### 1. 命名慣例
 ```dax
 // Use descriptive, consistent naming
 Total Sales = SUM(Sales[Amount])
@@ -391,14 +391,14 @@ Calc - Days Since Last Order = DATEDIFF(MAX(Orders[OrderDate]), TODAY(), DAY)
 Base - Order Count = COUNTROWS(Orders)
 ```
 
-### 2. Measure Dependencies
+### 2. 量值相依性
 ```dax
 // Build measures hierarchically for reusability
 // Base measures
 Revenue = SUM(Sales[Revenue])
 Cost = SUM(Sales[Cost])
 
-// Derived measures  
+// Derived measures
 Profit = [Revenue] - [Cost]
 Margin % = DIVIDE([Profit], [Revenue])
 
@@ -407,9 +407,9 @@ Profit YTD = CALCULATE([Profit], DATESYTD('Date'[Date]))
 Margin Trend = [Margin %] - CALCULATE([Margin %], PREVIOUSMONTH('Date'[Date]))
 ```
 
-## Model Integration Best Practices
+## 模型整合最佳實踐
 
-### 1. Working with Star Schema
+### 1. 星狀結構的使用
 ```dax
 // Leverage proper relationships
 Sales by Category = 
@@ -426,10 +426,10 @@ CALCULATE(
 )
 ```
 
-### 2. Handle Missing Relationships
+### 2. 處理缺失的關聯
 ```dax
 // When direct relationships don't exist
-Cross Table Analysis = 
+Cross Table Analysis =
 VAR CustomerList = VALUES(Customer[CustomerID])
 RETURN
     CALCULATE(
@@ -441,9 +441,9 @@ RETURN
     )
 ```
 
-## Advanced DAX Concepts
+## 進階 DAX 概念
 
-### 1. Row Context vs Filter Context
+### 1. 列內容與篩選內容
 ```dax
 // Understanding context differences
 Row Context Example = 
@@ -459,17 +459,17 @@ CALCULATE(
 )
 ```
 
-### 2. Context Transition
+### 2. 內容轉換
 ```dax
 // When row context becomes filter context
-Sales Per Product = 
+Sales Per Product =
 SUMX(
     Product,
     CALCULATE([Total Sales])  // Context transition happens here
 )
 ```
 
-### 3. Extended Columns and Computed Tables
+### 3. 擴展欄位與計算表格
 ```dax
 // Use for complex analytical scenarios
 Product Analysis = 
@@ -484,7 +484,7 @@ ADDCOLUMNS(
 )
 ```
 
-### 4. Advanced Time Intelligence Patterns
+### 4. 進階時間智能模式
 ```dax
 // Multi-period comparisons with calculation groups
 // Example showing how to create dynamic time calculations
@@ -532,7 +532,7 @@ RETURN
     )
 ```
 
-### 5. Advanced Performance Optimization Techniques
+### 5. 進階效能最佳化技巧
 ```dax
 // Optimized running totals
 Running Total Optimized = 
@@ -587,7 +587,7 @@ RETURN
     )
 ```
 
-### 6. Complex Analytical Scenarios
+### 6. 複雜分析情景
 ```dax
 // Customer cohort analysis
 Cohort Retention Rate = 
@@ -646,7 +646,7 @@ RETURN
     DIVIDE(TransactionsWithBoth, TotalTransactions)
 ```
 
-### 7. Advanced Debugging and Profiling
+### 7. 進階偵錯與分析
 ```dax
 // Debug measure with detailed variable inspection
 Complex Measure Debug = 
@@ -691,7 +691,7 @@ RETURN
     )
 ```
 
-### 8. Working with Complex Data Types
+### 8. 使用複雜資料型別
 ```dax
 // JSON parsing and manipulation
 Extract JSON Value = 
@@ -719,9 +719,9 @@ RETURN
     )
 ```
 
-## DAX Formula Documentation
+## DAX 公式文件
 
-### 1. Commenting Best Practices
+### 1. 備註最佳實踐
 ```dax
 /* 
 Business Rule: Calculate customer lifetime value based on:
@@ -750,7 +750,7 @@ RETURN
     AvgOrderValue * OrdersPerYear * CustomerLifespanYears
 ```
 
-### 2. Version Control and Change Management
+### 2. 版本控制與變更管理
 ```dax
 // Include version history in measure descriptions
 /*
@@ -767,9 +767,9 @@ Business Logic:
 */
 ```
 
-## Testing and Validation Framework
+## 測試與驗證架構
 
-### 1. Unit Testing Patterns
+### 1. 單元測試模式
 ```dax
 // Create test measures for validation
 Test - Sales Sum = 
@@ -780,10 +780,10 @@ RETURN
     IF(Difference < 0.01, "PASS", "FAIL: " & Difference)
 ```
 
-### 2. Performance Testing
+### 2. 效能測試
 ```dax
 // Monitor execution time for complex measures
-Performance Monitor = 
+Performance Monitor =
 VAR StartTime = NOW()
 VAR Result = [Complex Calculation]
 VAR EndTime = NOW()
@@ -792,4 +792,4 @@ RETURN
     "Result: " & Result & " | Duration: " & Duration & "s"
 ```
 
-Remember: Always validate DAX formulas with business users to ensure calculations match business requirements and expectations. Use Power BI's Performance Analyzer and DAX Studio for performance optimization and debugging.
+記住：請務必與業務使用者驗證 DAX 公式，確保計算符合業務需求與期望。使用 Power BI 的效能分析工具與 DAX Studio 進行效能最佳化與偵錯。

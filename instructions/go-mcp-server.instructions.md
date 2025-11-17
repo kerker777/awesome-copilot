@@ -3,13 +3,13 @@ description: 'Best practices and patterns for building Model Context Protocol (M
 applyTo: "**/*.go, **/go.mod, **/go.sum"
 ---
 
-# Go MCP Server Development Guidelines
+# Go MCP 伺服器開發指南
 
-When building MCP servers in Go, follow these best practices and patterns using the official Go SDK.
+使用官方 Go SDK 在 Go 中建構 MCP 伺服器時，遵循這些最佳實踐和模式。
 
-## Server Setup
+## 伺服器設定
 
-Create an MCP server using `mcp.NewServer`:
+使用 `mcp.NewServer` 建立 MCP 伺服器：
 
 ```go
 import "github.com/modelcontextprotocol/go-sdk/mcp"
@@ -23,9 +23,9 @@ server := mcp.NewServer(
 )
 ```
 
-## Adding Tools
+## 新增工具
 
-Use `mcp.AddTool` with struct-based input and output for type safety:
+使用 `mcp.AddTool` 搭配基於結構體的輸入和輸出以獲得型別安全性：
 
 ```go
 type ToolInput struct {
@@ -62,9 +62,9 @@ mcp.AddTool(server,
 )
 ```
 
-## Adding Resources
+## 新增資源
 
-Use `mcp.AddResource` for providing accessible data:
+使用 `mcp.AddResource` 來提供可存取的資料：
 
 ```go
 func GetResource(ctx context.Context, req *mcp.ReadResourceRequest) (*mcp.ReadResourceResult, error) {
@@ -97,9 +97,9 @@ mcp.AddResource(server,
 )
 ```
 
-## Adding Prompts
+## 新增提示
 
-Use `mcp.AddPrompt` for reusable prompt templates:
+使用 `mcp.AddPrompt` 來建立可重複使用的提示範本：
 
 ```go
 type PromptInput struct {
@@ -139,11 +139,11 @@ mcp.AddPrompt(server,
 )
 ```
 
-## Transport Configuration
+## 傳輸配置
 
-### Stdio Transport
+### 標準輸入/輸出傳輸
 
-For communication over stdin/stdout (most common for desktop integrations):
+用於透過標準輸入/輸出進行通訊（最常用於桌面整合）：
 
 ```go
 if err := server.Run(ctx, &mcp.StdioTransport{}); err != nil {
@@ -151,9 +151,9 @@ if err := server.Run(ctx, &mcp.StdioTransport{}); err != nil {
 }
 ```
 
-### HTTP Transport
+### HTTP 傳輸
 
-For HTTP-based communication:
+用於基於 HTTP 的通訊：
 
 ```go
 import "github.com/modelcontextprotocol/go-sdk/mcp"
@@ -168,9 +168,9 @@ if err := server.Run(ctx, transport); err != nil {
 }
 ```
 
-## Error Handling
+## 錯誤處理
 
-Always return proper errors and use context for cancellation:
+始終傳回適當的錯誤並使用上下文進行取消：
 
 ```go
 func MyTool(ctx context.Context, req *mcp.CallToolRequest, input MyInput) (
@@ -198,9 +198,9 @@ func MyTool(ctx context.Context, req *mcp.CallToolRequest, input MyInput) (
 }
 ```
 
-## JSON Schema Tags
+## JSON Schema 標籤
 
-Use `jsonschema` tags to document your structs for better client integration:
+使用 `jsonschema` 標籤來記錄你的結構體以獲得更好的用戶端整合：
 
 ```go
 type Input struct {
@@ -212,9 +212,9 @@ type Input struct {
 }
 ```
 
-## Context Usage
+## 上下文用法
 
-Always respect context cancellation and deadlines:
+始終尊重上下文取消和截止期限：
 
 ```go
 func LongRunningTool(ctx context.Context, req *mcp.CallToolRequest, input Input) (
@@ -231,9 +231,9 @@ func LongRunningTool(ctx context.Context, req *mcp.CallToolRequest, input Input)
 }
 ```
 
-## Server Options
+## 伺服器選項
 
-Configure server behavior with options:
+使用選項配置伺服器行為：
 
 ```go
 options := &mcp.Options{
@@ -252,9 +252,9 @@ server := mcp.NewServer(
 )
 ```
 
-## Testing
+## 測試
 
-Test your MCP tools using standard Go testing patterns:
+使用標準的 Go 測試模式來測試你的 MCP 工具：
 
 ```go
 func TestSearchTool(t *testing.T) {
@@ -272,16 +272,16 @@ func TestSearchTool(t *testing.T) {
 }
 ```
 
-## Module Setup
+## 模組設定
 
-Initialize your Go module properly:
+正確初始化你的 Go 模組：
 
 ```bash
 go mod init github.com/yourusername/yourserver
 go get github.com/modelcontextprotocol/go-sdk@latest
 ```
 
-Your `go.mod` should include:
+你的 `go.mod` 應包含：
 
 ```go
 module github.com/yourusername/yourserver
@@ -291,11 +291,11 @@ go 1.23
 require github.com/modelcontextprotocol/go-sdk v1.0.0
 ```
 
-## Common Patterns
+## 常見模式
 
-### Logging
+### 日誌記錄
 
-Use structured logging:
+使用結構化日誌記錄：
 
 ```go
 import "log/slog"
@@ -304,9 +304,9 @@ logger := slog.Default()
 logger.Info("tool called", "name", req.Params.Name, "args", req.Params.Arguments)
 ```
 
-### Configuration
+### 配置
 
-Use environment variables or config files:
+使用環境變數或配置檔案：
 
 ```go
 type Config struct {
@@ -324,9 +324,9 @@ func LoadConfig() *Config {
 }
 ```
 
-### Graceful Shutdown
+### 優雅關閉
 
-Handle shutdown signals properly:
+正確處理關閉信號：
 
 ```go
 ctx, cancel := context.WithCancel(context.Background())

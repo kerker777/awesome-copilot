@@ -4,148 +4,148 @@ tools: ['search/codebase', 'edit/editFiles', 'terminalCommand']
 description: 'Containerize an ASP.NET Core project by creating Dockerfile and .dockerfile files customized for the project.'
 ---
 
-# ASP.NET Core Docker Containerization Prompt
+# ASP.NET Core Docker 容器化提示
 
-## Containerization Request
+## 容器化需求
 
-Containerize the ASP.NET Core (.NET) project specified in the settings below, focusing **exclusively** on changes required for the application to run in a Linux Docker container. Containerization should consider all settings specified here.
+將下方設定中指定的 ASP.NET Core (.NET) 專案進行容器化，專注於**僅進行**應用程式在 Linux Docker 容器中執行所需的變更。容器化應考慮此處指定的所有設定。
 
-Abide by best practices for containerizing .NET Core applications, ensuring that the container is optimized for performance, security, and maintainability.
+遵循 .NET Core 應用程式容器化的最佳實踐，確保容器在效能、安全性和可維護性方面都經過最佳化。
 
-## Containerization Settings
+## 容器化設定
 
-This section of the prompt contains the specific settings and configurations required for containerizing the ASP.NET Core application. Prior to running this prompt, ensure that the settings are filled out with the necessary information. Note that in many cases, only the first few settings are required. Later settings can be left as defaults if they do not apply to the project being containerized.
+本提示的此部分包含對 ASP.NET Core 應用程式進行容器化所需的特定設定和配置。在執行本提示之前，請確保使用必要資訊填寫設定。請注意，在許多情況下，只需要前幾個設定。如果不適用於您要容器化的專案，後續設定可以保持預設值。
 
-Any settings that are not specified will be set to default values. The default values are provided in `[square brackets]`.
+任何未指定的設定將被設定為預設值。預設值以 `[方括號]` 提供。
 
-### Basic Project Information
-1. Project to containerize: 
-   - `[ProjectName (provide path to .csproj file)]`
+### 基本專案資訊
+1. 要容器化的專案：
+   - `[ProjectName (提供 .csproj 檔案的路徑)]`
 
-2. .NET version to use:
-   - `[8.0 or 9.0 (Default 8.0)]`
+2. 要使用的 .NET 版本：
+   - `[8.0 或 9.0 (預設為 8.0)]`
 
-3. Linux distribution to use:
-   - `[debian, alpine, ubuntu, chiseled, or Azure Linux (mariner) (Default debian)]`
+3. 要使用的 Linux 發行版：
+   - `[debian、alpine、ubuntu、chiseled 或 Azure Linux (mariner)（預設為 debian）]`
 
-4. Custom base image for the build stage of the Docker image ("None" to use standard Microsoft base image):
-   - `[Specify base image to use for build stage (Default None)]`
+4. Docker 映像建置階段的自訂基礎映像（選擇「None」以使用標準 Microsoft 基礎映像）：
+   - `[指定建置階段要使用的基礎映像（預設為 None）]`
 
-5. Custom base image for the run stage of the Docker image ("None" to use standard Microsoft base image):
-   - `[Specify base image to use for run stage (Default None)]`   
+5. Docker 映像執行階段的自訂基礎映像（選擇「None」以使用標準 Microsoft 基礎映像）：
+   - `[指定執行階段要使用的基礎映像（預設為 None）]`   
 
-### Container Configuration
-1. Ports that must be exposed in the container image:
-   - Primary HTTP port: `[e.g., 8080]`
-   - Additional ports: `[List any additional ports, or "None"]`
+### 容器配置
+1. 必須在容器映像中公開的連接埠：
+   - 主要 HTTP 連接埠：`[例如 8080]`
+   - 其他連接埠：`[列出任何其他連接埠，或「None」]`
 
-2. User account the container should run as:
-   - `[User account, or default to "$APP_UID"]`
+2. 容器應執行的使用者帳戶：
+   - `[使用者帳戶，或預設為「$APP_UID」]`
 
-3. Application URL configuration:
-   - `[Specify ASPNETCORE_URLS, or default to "http://+:8080"]`
+3. 應用程式 URL 配置：
+   - `[指定 ASPNETCORE_URLS，或預設為「http://+:8080」]`
 
-### Build configuration
-1. Custom build steps that must be performed before building the container image:
-   - `[List any specific build steps, or "None"]`
+### 建置配置
+1. 必須在建置容器映像之前執行的自訂建置步驟：
+   - `[列出任何特定的建置步驟，或「None」]`
 
-2. Custom build steps that must be performed after building the container image:
-   - `[List any specific build steps, or "None"]`
+2. 必須在建置容器映像之後執行的自訂建置步驟：
+   - `[列出任何特定的建置步驟，或「None」]`
 
-3. NuGet package sources that must be configured:
-   - `[List any private NuGet feeds with authentication details, or "None"]`
+3. 必須配置的 NuGet 套件來源：
+   - `[列出任何具有驗證詳細資料的私有 NuGet 源，或「None」]`
 
-### Dependencies
-1. System packages that must be installed in the container image:
-   - `[Package names for the chosen Linux distribution, or "None"]`
+### 依賴項
+1. 必須在容器映像中安裝的系統套件：
+   - `[所選 Linux 發行版的套件名稱，或「None」]`
 
-2. Native libraries that must be copied to the container image:
-   - `[Library names and paths, or "None"]`
+2. 必須複製到容器映像的原生程式庫：
+   - `[程式庫名稱和路徑，或「None」]`
 
-3. Additional .NET tools that must be installed:
-   - `[Tool names and versions, or "None"]`
+3. 必須安裝的其他 .NET 工具：
+   - `[工具名稱和版本，或「None」]`
 
-### System Configuration
-1. Environment variables that must be set in the container image:
-   - `[Variable names and values, or "Use defaults"]`
+### 系統配置
+1. 必須在容器映像中設定的環境變數：
+   - `[變數名稱和值，或「Use defaults」]`
 
-### File System
-1. Files/directories that need to be copied to the container image:
-   - `[Paths relative to project root, or "None"]`
-   - Target location in container: `[Container paths, or "Not applicable"]`
+### 檔案系統
+1. 需要複製到容器映像的檔案/目錄：
+   - `[相對於專案根目錄的路徑，或「None」]`
+   - 容器中的目標位置：`[容器路徑，或「Not applicable」]`
 
-2. Files/directories to exclude from containerization:
-   - `[Paths to exclude, or "None"]`
+2. 要從容器化中排除的檔案/目錄：
+   - `[要排除的路徑，或「None」]`
 
-3. Volume mount points that should be configured:
-   - `[Volume paths for persistent data, or "None"]`
+3. 應該配置的磁碟區掛載點：
+   - `[永續資料的磁碟區路徑，或「None」]`
 
-### .dockerignore Configuration
-1. Patterns to include in the `.dockerignore` file (.dockerignore will already have common defaults; these are additional patterns):
-   - Additional patterns: `[List any additional patterns, or "None"]`
+### .dockerignore 配置
+1. 要包含在 `.dockerignore` 檔案中的模式（.dockerignore 已有常見預設值；這些是額外模式）：
+   - 額外模式：`[列出任何額外模式，或「None」]`
 
-### Health Check Configuration
-1. Health check endpoint:
-   - `[Health check URL path, or "None"]`
+### 健康檢查配置
+1. 健康檢查端點：
+   - `[健康檢查 URL 路徑，或「None」]`
 
-2. Health check interval and timeout:
-   - `[Interval and timeout values, or "Use defaults"]`
+2. 健康檢查間隔和超時：
+   - `[間隔和超時值，或「Use defaults」]`
 
-### Additional Instructions
-1. Other instructions that must be followed to containerize the project:
-   - `[Specific requirements, or "None"]`
+### 額外指示
+1. 必須遵循以容器化專案的其他指示：
+   - `[特定需求，或「None」]`
 
-2. Known issues to address:
-   - `[Describe any known issues, or "None"]`
+2. 要解決的已知問題：
+   - `[描述任何已知問題，或「None」]`
 
-## Scope
+## 範圍
 
-- ✅ App configuration modification to ensure application settings and connection strings can be read from environment variables
-- ✅ Dockerfile creation and configuration for an ASP.NET Core application
-- ✅ Specifying multiple stages in the Dockerfile to build/publish the application and copy the output to the final image
-- ✅ Configuration of Linux container platform compatibility (Alpine, Ubuntu, Chiseled, or Azure Linux (Mariner))
-- ✅ Proper handling of dependencies (system packages, native libraries, additional tools)
-- ❌ No infrastructure setup (assumed to be handled separately)
-- ❌ No code changes beyond those required for containerization
+- ✅ 應用程式配置修改，以確保可以從環境變數讀取應用程式設定和連線字串
+- ✅ 為 ASP.NET Core 應用程式建立和配置 Dockerfile
+- ✅ 在 Dockerfile 中指定多個階段以建置/發佈應用程式，並將輸出複製到最終映像
+- ✅ Linux 容器平台相容性配置（Alpine、Ubuntu、Chiseled 或 Azure Linux (Mariner)）
+- ✅ 依賴項的適當處理（系統套件、原生程式庫、其他工具）
+- ❌ 無基礎架構設置（假定由別處處理）
+- ❌ 除了容器化所需的變更外，無其他程式碼變更
 
-## Execution Process
+## 執行流程
 
-1. Review the containerization settings above to understand the containerization requirements
-2. Create a `progress.md` file to track changes with check marks
-3. Determine the .NET version from the project's .csproj file by checking the `TargetFramework` element
-4. Select the appropriate Linux container image based on:
-   - The .NET version detected from the project
-   - The Linux distribution specified in containerization settings (Alpine, Ubuntu, Chiseled, or Azure Linux (Mariner))
-   - If the user does not request specific base images in the containerization settings, then the base images MUST be valid mcr.microsoft.com/dotnet images with a tag as shown in the example Dockerfile, below, or in documentation
-   - Official Microsoft .NET images for build and runtime stages:
-      - SDK image tags (for build stage): https://github.com/dotnet/dotnet-docker/blob/main/README.sdk.md
-      - ASP.NET Core runtime image tags: https://github.com/dotnet/dotnet-docker/blob/main/README.aspnet.md
-      - .NET runtime image tags: https://github.com/dotnet/dotnet-docker/blob/main/README.runtime.md
-5. Create a Dockerfile in the root of the project directory to containerize the application
-   - The Dockerfile should use multiple stages:
-     - Build stage: Use a .NET SDK image to build the application
-       - Copy csproj file(s) first
-       - Copy NuGet.config if one exists and configure any private feeds
-       - Restore NuGet packages
-       - Then, copy the rest of the source code and build and publish the application to /app/publish
-     - Final stage: Use the selected .NET runtime image to run the application
-       - Set the working directory to /app
-       - Set the user as directed (by default, to a non-root user (e.g., `$APP_UID`))
-         - Unless directed otherwise in containerization settings, a new user does *not* need to be created. Use the `$APP_UID` variable to specify the user account.
-       - Copy the published output from the build stage to the final image
-   - Be sure to consider all requirements in the containerization settings:
-     - .NET version and Linux distribution
-     - Exposed ports
-     - User account for container
-     - ASPNETCORE_URLS configuration
-     - System package installation
-     - Native library dependencies
-     - Additional .NET tools
-     - Environment variables
-     - File/directory copying
-     - Volume mount points
-     - Health check configuration
-6. Create a `.dockerignore` file in the root of the project directory to exclude unnecessary files from the Docker image. The `.dockerignore` file **MUST** include at least the following elements as well as additional patterns as specified in the containerization settings:
+1. 檢閱上方的容器化設定，以了解容器化需求
+2. 建立 `progress.md` 檔案以使用核取標記追蹤變更
+3. 通過檢查 `TargetFramework` 元素，從專案的 .csproj 檔案確定 .NET 版本
+4. 根據以下因素選擇適當的 Linux 容器映像：
+   - 從專案偵測到的 .NET 版本
+   - 在容器化設定中指定的 Linux 發行版（Alpine、Ubuntu、Chiseled 或 Azure Linux (Mariner)）
+   - 如果使用者未在容器化設定中要求特定的基礎映像，則基礎映像必須是有效的 mcr.microsoft.com/dotnet 映像，其標籤如下方示例 Dockerfile 或文件中所示
+   - 用於建置和執行時階段的官方 Microsoft .NET 映像：
+      - SDK 映像標籤（用於建置階段）：https://github.com/dotnet/dotnet-docker/blob/main/README.sdk.md
+      - ASP.NET Core 執行時間映像標籤：https://github.com/dotnet/dotnet-docker/blob/main/README.aspnet.md
+      - .NET 執行時間映像標籤：https://github.com/dotnet/dotnet-docker/blob/main/README.runtime.md
+5. 在專案目錄的根目錄中建立 Dockerfile 以容器化應用程式
+   - Dockerfile 應使用多個階段：
+     - 建置階段：使用 .NET SDK 映像建置應用程式
+       - 先複製 csproj 檔案
+       - 如果存在 NuGet.config 則複製，並配置任何私有源
+       - 還原 NuGet 套件
+       - 然後複製其餘原始程式碼，並建置和發佈應用程式至 /app/publish
+     - 最終階段：使用選定的 .NET 執行時間映像執行應用程式
+       - 將工作目錄設定為 /app
+       - 按指示設定使用者（預設為非 root 使用者（例如 `$APP_UID`））
+         - 除非在容器化設定中另有指示，否則不需要建立新使用者。使用 `$APP_UID` 變數指定使用者帳戶。
+       - 從建置階段將已發佈的輸出複製到最終映像
+   - 務必考慮容器化設定中的所有需求：
+     - .NET 版本和 Linux 發行版
+     - 公開的連接埠
+     - 容器的使用者帳戶
+     - ASPNETCORE_URLS 配置
+     - 系統套件安裝
+     - 原生程式庫依賴項
+     - 其他 .NET 工具
+     - 環境變數
+     - 檔案/目錄複製
+     - 磁碟區掛載點
+     - 健康檢查配置
+6. 在專案目錄的根目錄中建立 `.dockerignore` 檔案以排除不必要的檔案。`.dockerignore` 檔案**必須**至少包含以下元素以及在容器化設定中指定的其他模式：
    - bin/
    - obj/
    - .dockerignore
@@ -159,61 +159,61 @@ Any settings that are not specified will be set to default values. The default v
    - *.suo
    - **/.DS_Store
    - **/Thumbs.db
-   - Any additional patterns specified in the containerization settings
-7. Configure health checks if specified in the containerization settings:
-   - Add HEALTHCHECK instruction to Dockerfile if health check endpoint is provided
-   - Use curl or wget to check the health endpoint
-8. Mark tasks as completed: [ ] → [✓]
-9. Continue until all tasks are complete and Docker build succeeds
+   - 在容器化設定中指定的任何額外模式
+7. 如果在容器化設定中指定，請配置健康檢查：
+   - 如果提供了健康檢查端點，請將 HEALTHCHECK 指示新增到 Dockerfile
+   - 使用 curl 或 wget 檢查健康端點
+8. 標記任務為已完成：[ ] → [✓]
+9. 繼續直到所有任務完成且 Docker 建置成功
 
-## Build and Runtime Verification
+## 建置和執行時間驗證
 
-Confirm that Docker build succeeds once the Dockerfile is completed. Use the following command to build the Docker image:
+一旦完成 Dockerfile，請確認 Docker 建置成功。使用以下命令建置 Docker 映像：
 
 ```bash
 docker build -t aspnetcore-app:latest .
 ```
 
-If the build fails, review the error messages and make necessary adjustments to the Dockerfile or project configuration. Report success/failure.
+如果建置失敗，請檢閱錯誤訊息並對 Dockerfile 或專案配置進行必要的調整。報告成功/失敗。
 
-## Progress Tracking
+## 進度追蹤
 
-Maintain a `progress.md` file with the following structure:
+維持 `progress.md` 檔案，結構如下：
 ```markdown
-# Containerization Progress
+# 容器化進度
 
-## Environment Detection
-- [ ] .NET version detection (version: ___)
-- [ ] Linux distribution selection (distribution: ___)
+## 環境偵測
+- [ ] .NET 版本偵測（版本：___）
+- [ ] Linux 發行版選擇（發行版：___）
 
-## Configuration Changes
-- [ ] Application configuration verification for environment variable support
-- [ ] NuGet package source configuration (if applicable)
+## 配置變更
+- [ ] 應用程式配置驗證以取得環境變數支援
+- [ ] NuGet 套件來源配置（如適用）
 
-## Containerization
-- [ ] Dockerfile creation
-- [ ] .dockerignore file creation
-- [ ] Build stage created with SDK image
-- [ ] csproj file(s) copied for package restore
-- [ ] NuGet.config copied if applicable
-- [ ] Runtime stage created with runtime image
-- [ ] Non-root user configuration
-- [ ] Dependency handling (system packages, native libraries, tools, etc.)
-- [ ] Health check configuration (if applicable)
-- [ ] Special requirements implementation
+## 容器化
+- [ ] Dockerfile 建立
+- [ ] .dockerignore 檔案建立
+- [ ] 使用 SDK 映像建立的建置階段
+- [ ] 為套件還原複製的 csproj 檔案
+- [ ] 如適用複製的 NuGet.config
+- [ ] 使用執行時間映像建立的執行時間階段
+- [ ] 非 root 使用者配置
+- [ ] 依賴項處理（系統套件、原生程式庫、工具等）
+- [ ] 健康檢查配置（如適用）
+- [ ] 特殊需求實施
 
-## Verification
-- [ ] Review containerization settings and make sure that all requirements are met
-- [ ] Docker build success
+## 驗證
+- [ ] 檢閱容器化設定並確保滿足所有需求
+- [ ] Docker 建置成功
 ```
 
-Do not pause for confirmation between steps. Continue methodically until the application has been containerized and Docker build succeeds.
+不要在步驟之間暫停等待確認。系統地繼續進行，直到應用程式已容器化且 Docker 建置成功。
 
-**YOU ARE NOT DONE UNTIL ALL CHECKBOXES ARE MARKED!** This includes building the Docker image successfully and addressing any issues that arise during the build process.
+**在所有核取方塊都被標記之前，您還沒有完成！** 這包括成功建置 Docker 映像以及解決建置流程中出現的任何問題。
 
-## Example Dockerfile
+## 範例 Dockerfile
 
-An example Dockerfile for an ASP.NET Core (.NET) application using a Linux base image.
+使用 Linux 基礎映像的 ASP.NET Core (.NET) 應用程式的範例 Dockerfile。
 
 ```dockerfile
 # ============================================================
@@ -333,23 +333,23 @@ USER $APP_UID
 ENTRYPOINT ["dotnet", "YourProject.dll"]
 ```
 
-## Adapting this Example
+## 調適此範例
 
-**Note:** Customize this template based on the specific requirements in containerization settings.
+**注意：** 根據容器化設定中的具體需求自訂此範本。
 
-When adapting this example Dockerfile:
+調適此範例 Dockerfile 時：
 
-1. Replace `YourProject.csproj`, `YourProject.dll`, etc. with your actual project names
-2. Adjust the .NET version and Linux distribution as needed
-3. Modify the dependency installation steps based on your requirements and remove any unnecessary ones
-4. Configure environment variables specific to your application
-5. Add or remove stages as needed for your specific workflow
-6. Update the health check endpoint to match your application's health check route
+1. 用您的實際專案名稱取代 `YourProject.csproj`、`YourProject.dll` 等
+2. 根據需要調整 .NET 版本和 Linux 發行版
+3. 根據您的需求修改依賴項安裝步驟，並移除任何不必要的步驟
+4. 配置應用程式特定的環境變數
+5. 根據您的特定工作流程需要新增或移除階段
+6. 更新健康檢查端點以符合您應用程式的健康檢查路徑
 
-## Linux Distribution Variations
+## Linux 發行版變化
 
 ### Alpine Linux
-For smaller image sizes, you can use Alpine Linux:
+對於較小的映像大小，您可以使用 Alpine Linux：
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
@@ -361,7 +361,7 @@ RUN apk update && apk add --no-cache curl ca-certificates
 ```
 
 ### Ubuntu Chiseled
-For minimal attack surface, consider using chiseled images:
+為了最小化攻擊表面，考慮使用 chiseled 映像：
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy-chiseled AS final
@@ -369,7 +369,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0-jammy-chiseled AS final
 ```
 
 ### Azure Linux (Mariner)
-For Azure-optimized containers:
+針對 Azure 最佳化的容器：
 
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-azurelinux3.0 AS final
@@ -377,17 +377,17 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0-azurelinux3.0 AS final
 RUN tdnf update -y && tdnf install -y curl ca-certificates && tdnf clean all
 ```
 
-## Notes on Stage Naming
+## 階段命名說明
 
-- The `AS stage-name` syntax gives each stage a name
-- Use `--from=stage-name` to copy files from a previous stage
-- You can have multiple intermediate stages that aren't used in the final image
-- The `final` stage is the one that becomes the final container image
+- `AS stage-name` 語法為每個階段指定名稱
+- 使用 `--from=stage-name` 從先前的階段複製檔案
+- 您可以有多個未在最終映像中使用的中間階段
+- `final` 階段是成為最終容器映像的階段
 
-## Security Best Practices
+## 安全最佳實踐
 
-- Always run as a non-root user in production
-- Use specific image tags instead of `latest`
-- Minimize the number of installed packages
-- Keep base images updated
-- Use multi-stage builds to exclude build dependencies from the final image
+- 在生產環境中始終以非 root 使用者執行
+- 使用特定的映像標籤而不是 `latest`
+- 最小化安裝的套件數量
+- 保持基礎映像更新
+- 使用多階段建置以排除最終映像中的建置依賴項

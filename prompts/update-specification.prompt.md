@@ -3,27 +3,27 @@ mode: 'agent'
 description: 'Update an existing specification file for the solution, optimized for Generative AI consumption based on new requirements or updates to any existing code.'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'extensions', 'fetch', 'githubRepo', 'openSimpleBrowser', 'problems', 'runTasks', 'search', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
 ---
-# Update Specification
+# 更新規格
 
-Your goal is to update the existing specification file `${file}` based on new requirements or updates to any existing code.
+你的目標是根據新需求或現有程式碼的更新來更新現有的規格檔案 `${file}`。
 
-The specification file must define the requirements, constraints, and interfaces for the solution components in a manner that is clear, unambiguous, and structured for effective use by Generative AIs. Follow established documentation standards and ensure the content is machine-readable and self-contained.
+規格檔案必須以清晰、明確和結構化的方式定義解決方案元件的需求、限制和介面，以供生成式 AI 有效使用。遵循既定的文件標準，並確保內容是機器可讀且自成一體的。
 
-## Best Practices for AI-Ready Specifications
+## AI 友善規格的最佳實踐
 
-- Use precise, explicit, and unambiguous language.
-- Clearly distinguish between requirements, constraints, and recommendations.
-- Use structured formatting (headings, lists, tables) for easy parsing.
-- Avoid idioms, metaphors, or context-dependent references.
-- Define all acronyms and domain-specific terms.
-- Include examples and edge cases where applicable.
-- Ensure the document is self-contained and does not rely on external context.
+- 使用精確、明確和清楚的語言。
+- 清楚地區分需求、限制和建議。
+- 使用結構化的格式（標題、清單、表格）以便解析。
+- 避免使用習語、隱喻或依賴上下文的參考。
+- 定義所有首字母縮略詞和特定領域的術語。
+- 在適當的地方包括範例和邊界情況。
+- 確保文件是自成一體的，不依賴外部上下文。
 
-The specification should be saved in the [/spec/](/spec/) directory and named according to the following convention: `[a-z0-9-]+.md`, where the name should be descriptive of the specification's content and starting with the highlevel purpose, which is one of [schema, tool, data, infrastructure, process, architecture, or design].
+規格應保存在 [/spec/](/spec/) 目錄中，並根據以下慣例命名：`[a-z0-9-]+.md`，名稱應描述規格的內容，並以高階目的開始，該目的是 [schema、tool、data、infrastructure、process、architecture 或 design] 之一。
 
-The specification file must be formatted in well formed Markdown.
+規格檔案必須採用格式良好的 Markdown 格式。
 
-Specification files must follow the template below, ensuring that all sections are filled out appropriately. The front matter for the markdown should be structured correctly as per the example following:
+規格檔案必須遵循以下範本，確保所有部分都已適當填寫。Markdown 的前置物質應根據以下範例進行正確結構化：
 
 ```md
 ---

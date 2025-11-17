@@ -1,44 +1,44 @@
 ---
-description: 'Best practices for writing JavaScript/TypeScript tests using Jest, including mocking strategies, test structure, and common patterns.'
+description: '使用 Jest 編寫 JavaScript/TypeScript 測試的最佳實踐，包括模擬策略、測試結構和常見的模式。'
 mode: 'agent'
 ---
 
-### Test Structure
-- Name test files with `.test.ts` or `.test.js` suffix
-- Place test files next to the code they test or in a dedicated `__tests__` directory
-- Use descriptive test names that explain the expected behavior
-- Use nested describe blocks to organize related tests
-- Follow the pattern: `describe('Component/Function/Class', () => { it('should do something', () => {}) })`
+### 測試結構
+- 測試檔案命名為 `.test.ts` 或 `.test.js` 後綴
+- 將測試檔案放在所測試程式碼旁邊，或在專用的 `__tests__` 目錄中
+- 使用描述性測試名稱，說明預期的行為
+- 使用巢狀 describe 區塊來組織相關的測試
+- 遵循模式：`describe('Component/Function/Class', () => { it('should do something', () => {}) })`
 
-### Effective Mocking
-- Mock external dependencies (APIs, databases, etc.) to isolate your tests
-- Use `jest.mock()` for module-level mocks
-- Use `jest.spyOn()` for specific function mocks
-- Use `mockImplementation()` or `mockReturnValue()` to define mock behavior
-- Reset mocks between tests with `jest.resetAllMocks()` in `afterEach`
+### 有效的模擬
+- 模擬外部依賴（API、資料庫等）以隔離測試
+- 使用 `jest.mock()` 進行模組級別的模擬
+- 使用 `jest.spyOn()` 進行特定函式的模擬
+- 使用 `mockImplementation()` 或 `mockReturnValue()` 定義模擬行為
+- 在 `afterEach` 中使用 `jest.resetAllMocks()` 重設模擬
 
-### Testing Async Code
-- Always return promises or use async/await syntax in tests
-- Use `resolves`/`rejects` matchers for promises
-- Set appropriate timeouts for slow tests with `jest.setTimeout()`
+### 測試非同步程式碼
+- 在測試中始終返回 Promise 或使用 async/await 語法
+- 使用 `resolves`/`rejects` 匹配器來處理 Promise
+- 使用 `jest.setTimeout()` 為較慢的測試設定適當的逾時
 
-### Snapshot Testing
-- Use snapshot tests for UI components or complex objects that change infrequently
-- Keep snapshots small and focused
-- Review snapshot changes carefully before committing
+### 快照測試
+- 對於較少變化的 UI 元件或複雜物件，使用快照測試
+- 保持快照小巧且專注
+- 在提交之前仔細檢查快照變化
 
-### Testing React Components
-- Use React Testing Library over Enzyme for testing components
-- Test user behavior and component accessibility
-- Query elements by accessibility roles, labels, or text content
-- Use `userEvent` over `fireEvent` for more realistic user interactions
+### 測試 React 元件
+- 在測試元件時使用 React Testing Library 而非 Enzyme
+- 測試使用者行為和元件的無障礙特性
+- 透過無障礙角色、標籤或文字內容查詢元素
+- 使用 `userEvent` 而非 `fireEvent` 以進行更逼真的使用者互動
 
-## Common Jest Matchers
-- Basic: `expect(value).toBe(expected)`, `expect(value).toEqual(expected)`
-- Truthiness: `expect(value).toBeTruthy()`, `expect(value).toBeFalsy()`
-- Numbers: `expect(value).toBeGreaterThan(3)`, `expect(value).toBeLessThanOrEqual(3)`
-- Strings: `expect(value).toMatch(/pattern/)`, `expect(value).toContain('substring')`
-- Arrays: `expect(array).toContain(item)`, `expect(array).toHaveLength(3)`
-- Objects: `expect(object).toHaveProperty('key', value)`
-- Exceptions: `expect(fn).toThrow()`, `expect(fn).toThrow(Error)`
-- Mock functions: `expect(mockFn).toHaveBeenCalled()`, `expect(mockFn).toHaveBeenCalledWith(arg1, arg2)`
+## 常見的 Jest 匹配器
+- 基礎：`expect(value).toBe(expected)`、`expect(value).toEqual(expected)`
+- 真假值：`expect(value).toBeTruthy()`、`expect(value).toBeFalsy()`
+- 數字：`expect(value).toBeGreaterThan(3)`、`expect(value).toBeLessThanOrEqual(3)`
+- 字串：`expect(value).toMatch(/pattern/)`、`expect(value).toContain('substring')`
+- 陣列：`expect(array).toContain(item)`、`expect(array).toHaveLength(3)`
+- 物件：`expect(object).toHaveProperty('key', value)`
+- 異常：`expect(fn).toThrow()`、`expect(fn).toThrow(Error)`
+- 模擬函式：`expect(mockFn).toHaveBeenCalled()`、`expect(mockFn).toHaveBeenCalledWith(arg1, arg2)`

@@ -3,17 +3,17 @@ applyTo: ["*"]
 description: "Comprehensive best practices for adopting new Java 17 features since the release of Java 11."
 ---
 
-# Java 11 to Java 17 Upgrade Guide
+# Java 11 至 Java 17 升級指南
 
-## Project Context
+## 專案背景
 
-This guide provides comprehensive GitHub Copilot instructions for upgrading Java projects from JDK 11 to JDK 17, covering major language features, API changes, and migration patterns based on 47 JEPs integrated between these versions.
+本指南提供全面的 GitHub Copilot 指示，用於升級 Java 專案從 JDK 11 至 JDK 17，涵蓋在這兩個版本間整合的 47 項 JEP 中的主要語言功能、API 變更和遷移模式。
 
-## Language Features and API Changes
+## 語言功能與 API 變更
 
-### JEP 395: Records (Java 16)
+### JEP 395：記錄類型（Java 16）
 
-**Migration Pattern**: Convert data classes to records
+**遷移模式**：將資料類別轉換為記錄類型
 
 ```java
 // Old: Traditional data class
@@ -51,9 +51,9 @@ public record Person(String name, int age) {
 }
 ```
 
-### JEP 409: Sealed Classes (Java 17)
+### JEP 409：密封類別（Java 17）
 
-**Migration Pattern**: Use sealed classes for restricted inheritance
+**遷移模式**：使用密封類別來限制繼承
 
 ```java
 // New: Sealed class hierarchy
@@ -106,9 +106,9 @@ public non-sealed class Triangle extends Shape {
 }
 ```
 
-### JEP 394: Pattern Matching for instanceof (Java 16)
+### JEP 394：instanceof 的型態匹配（Java 16）
 
-**Migration Pattern**: Simplify instanceof checks
+**遷移模式**：簡化 instanceof 檢查
 
 ```java
 // Old: Traditional instanceof with casting
@@ -151,9 +151,9 @@ public String describeShape(Shape shape) {
 }
 ```
 
-### JEP 361: Switch Expressions (Java 14)
+### JEP 361：switch 表達式（Java 14）
 
-**Migration Pattern**: Convert switch statements to expressions
+**遷移模式**：將 switch 陳述句轉換為表達式
 
 ```java
 // Old: Traditional switch statement
@@ -203,9 +203,9 @@ public int calculateScore(Grade grade) {
 }
 ```
 
-### JEP 406: Pattern Matching for switch (Preview in Java 17)
+### JEP 406：switch 的型態匹配（Java 17 預覽功能）
 
-**Migration Pattern**: Enhanced switch with patterns (Preview feature)
+**遷移模式**：強化的 switch 與型態匹配（預覽功能）
 
 ```java
 // Requires --enable-preview flag
@@ -232,9 +232,9 @@ public String categorizeNumber(Object obj) {
 }
 ```
 
-### JEP 378: Text Blocks (Java 15)
+### JEP 378：文字區塊（Java 15）
 
-**Migration Pattern**: Use text blocks for multi-line strings
+**遷移模式**：使用文字區塊處理多行字串
 
 ```java
 // Old: Concatenated strings
@@ -281,9 +281,9 @@ String json = """
               """.formatted(name, age, city);
 ```
 
-### JEP 358: Helpful NullPointerExceptions (Java 14)
+### JEP 358：有幫助的 NullPointerExceptions（Java 14）
 
-**Migration Guidance**: Better NPE debugging (enabled by default in Java 17)
+**遷移指導**：更好的 NPE 除錯（在 Java 17 中預設啟用）
 
 ```java
 // Old NPE message: "Exception in thread 'main' java.lang.NullPointerException"
@@ -309,9 +309,9 @@ public class PersonProcessor {
 }
 ```
 
-### JEP 371: Hidden Classes (Java 15)
+### JEP 371：隱藏類別（Java 15）
 
-**Migration Pattern**: Use for framework and proxy generation
+**遷移模式**：用於框架和代理生成
 
 ```java
 // For frameworks creating dynamic proxies
@@ -333,9 +333,9 @@ public class DynamicProxyExample {
 }
 ```
 
-### JEP 334: JVM Constants API (Java 12)
+### JEP 334：JVM 常數 API（Java 12）
 
-**Migration Pattern**: Use for compile-time constants
+**遷移模式**：用於編譯時期常數
 
 ```java
 import java.lang.constant.*;
@@ -357,9 +357,9 @@ public class ConstantExample {
 }
 ```
 
-### JEP 415: Context-Specific Deserialization Filters (Java 17)
+### JEP 415：上下文特定的反序列化篩選器（Java 17）
 
-**Migration Pattern**: Enhanced security for object deserialization
+**遷移模式**：加強物件反序列化的安全性
 
 ```java
 import java.io.*;
@@ -390,9 +390,9 @@ public class SecureDeserialization {
 }
 ```
 
-### JEP 356: Enhanced Pseudo-Random Number Generators (Java 17)
+### JEP 356：強化的虛擬亂數產生器（Java 17）
 
-**Migration Pattern**: Use new random generator interfaces
+**遷移模式**：使用新的亂數產生器介面
 
 ```java
 import java.util.random.*;
@@ -420,11 +420,11 @@ generator.ints(10, 1, 101)
     .forEach(System.out::println);
 ```
 
-## I/O and Networking Improvements
+## I/O 與網路改進
 
-### JEP 380: Unix-Domain Socket Channels (Java 16)
+### JEP 380：Unix 網域通訊端通道（Java 16）
 
-**Migration Pattern**: Use Unix domain sockets for local IPC
+**遷移模式**：使用 Unix 網域通訊端進行本機 IPC
 
 ```java
 import java.net.UnixDomainSocketAddress;
@@ -471,9 +471,9 @@ public class UnixSocketExample {
 }
 ```
 
-### JEP 352: Non-Volatile Mapped Byte Buffers (Java 14)
+### JEP 352：非揮發性映射位元組緩衝區（Java 14）
 
-**Migration Pattern**: Use for persistent memory operations
+**遷移模式**：用於持久性記憶體操作
 
 ```java
 import java.nio.MappedByteBuffer;
@@ -506,9 +506,9 @@ public class PersistentMemoryExample {
 }
 ```
 
-## Build System Configuration
+## 建構系統組態
 
-### Maven Configuration
+### Maven 組態
 
 ```xml
 <properties>
@@ -545,7 +545,7 @@ public class PersistentMemoryExample {
 </build>
 ```
 
-### Gradle Configuration
+### Gradle 組態
 
 ```kotlin
 java {
@@ -567,11 +567,11 @@ tasks.withType<Test> {
 }
 ```
 
-## Deprecations and Removals
+## 棄用與移除
 
-### JEP 411: Deprecate the Security Manager for Removal
+### JEP 411：棄用安全管理器以進行移除
 
-**Migration Pattern**: Remove Security Manager dependencies
+**遷移模式**：移除安全管理器的依賴
 
 ```java
 // Old: Using Security Manager
@@ -585,9 +585,9 @@ if (sm != null) {
 // Most applications don't need Security Manager functionality
 ```
 
-### JEP 398: Deprecate the Applet API for Removal
+### JEP 398：棄用小程式 API 以進行移除
 
-**Migration Pattern**: Migrate from Applets to modern web technologies
+**遷移模式**：從小程式遷移至現代網路技術
 
 ```java
 // Old: Java Applet (deprecated)
@@ -618,9 +618,9 @@ public class MyApplication extends JFrame {
 // 3. Convert to web application using modern frameworks
 ```
 
-### JEP 372: Remove the Nashorn JavaScript Engine
+### JEP 372：移除 Nashorn JavaScript 引擎
 
-**Migration Pattern**: Use alternative JavaScript engines
+**遷移模式**：使用替代的 JavaScript 引擎
 
 ```java
 // Old: Nashorn (removed in Java 17)
@@ -637,11 +637,11 @@ Process process = pb.start();
 // 3. Use web-based approach or embedded browser
 ```
 
-## JVM and Performance Improvements
+## JVM 與效能改進
 
-### JEP 377: ZGC - A Scalable Low-Latency Garbage Collector (Java 15)
+### JEP 377：ZGC - 可擴展的低延遲垃圾收集器（Java 15）
 
-**Migration Pattern**: Enable ZGC for low-latency applications
+**遷移模式**：為低延遲應用程式啟用 ZGC
 
 ```bash
 # Enable ZGC
@@ -653,9 +653,9 @@ Process process = pb.start();
 -XX:LogFile=gc.log
 ```
 
-### JEP 379: Shenandoah - A Low-Pause-Time Garbage Collector (Java 15)
+### JEP 379：Shenandoah - 低暫停時間垃圾收集器（Java 15）
 
-**Migration Pattern**: Enable Shenandoah for consistent latency
+**遷移模式**：啟用 Shenandoah 以獲得一致的延遲
 
 ```bash
 # Enable Shenandoah
@@ -666,9 +666,9 @@ Process process = pb.start();
 -XX:ShenandoahGCHeuristics=adaptive
 ```
 
-### JEP 341: Default CDS Archives (Java 12) & JEP 350: Dynamic CDS Archives (Java 13)
+### JEP 341：預設 CDS 檔案（Java 12）與 JEP 350：動態 CDS 檔案（Java 13）
 
-**Migration Pattern**: Improved startup performance
+**遷移模式**：改進啟動效能
 
 ```bash
 # CDS is enabled by default, but you can create custom archives
@@ -680,114 +680,114 @@ java -Xshare:dump -XX:SharedClassListFile=classes.lst -XX:SharedArchiveFile=myap
 java -XX:SharedArchiveFile=myapp.jsa -cp myapp.jar com.example.Main
 ```
 
-## Testing and Migration Strategy
+## 測試與遷移策略
 
-### Phase 1: Foundation (Weeks 1-2)
+### 第 1 階段：基礎（第 1-2 週）
 
-1. **Update build system**
+1. **更新建構系統**
 
-   - Modify Maven/Gradle configuration for Java 17
-   - Update CI/CD pipelines
-   - Verify dependency compatibility
+   - 修改 Maven/Gradle 組態以支援 Java 17
+   - 更新 CI/CD 管道
+   - 驗證依賴相容性
 
-2. **Address removals and deprecations**
-   - Remove Nashorn JavaScript engine usage
-   - Replace deprecated Applet APIs
-   - Update Security Manager usage
+2. **處理移除和棄用**
+   - 移除 Nashorn JavaScript 引擎的使用
+   - 取代已棄用的小程式 API
+   - 更新安全管理器的使用
 
-### Phase 2: Language Features (Weeks 3-4)
+### 第 2 階段：語言功能（第 3-4 週）
 
-1. **Implement Records**
+1. **實作記錄類型**
 
-   - Convert data classes to records
-   - Add validation in compact constructors
-   - Test serialization compatibility
+   - 將資料類別轉換為記錄類型
+   - 在緊縮建構函式中新增驗證
+   - 測試序列化相容性
 
-2. **Add Pattern Matching**
-   - Convert instanceof chains
-   - Implement type-safe casting patterns
+2. **新增型態匹配**
+   - 轉換 instanceof 連鎖
+   - 實作型別安全的轉型模式
 
-### Phase 3: Advanced Features (Weeks 5-6)
+### 第 3 階段：進階功能（第 5-6 週）
 
-1. **Switch Expressions**
+1. **Switch 表達式**
 
-   - Convert switch statements to expressions
-   - Use new arrow syntax
-   - Implement complex yield logic
+   - 將 switch 陳述句轉換為表達式
+   - 使用新的箭頭語法
+   - 實作複雜的 yield 邏輯
 
-2. **Text Blocks**
-   - Replace concatenated multi-line strings
-   - Update SQL and HTML generation
-   - Use formatting methods
+2. **文字區塊**
+   - 取代連接的多行字串
+   - 更新 SQL 和 HTML 生成
+   - 使用格式化方法
 
-### Phase 4: Sealed Classes (Weeks 7-8)
+### 第 4 階段：密封類別（第 7-8 週）
 
-1. **Design sealed hierarchies**
+1. **設計密封類別層級結構**
 
-   - Identify inheritance restrictions
-   - Implement sealed class patterns
-   - Combine with pattern matching
+   - 識別繼承限制
+   - 實作密封類別模式
+   - 與型態匹配結合
 
-2. **Testing and validation**
-   - Comprehensive test coverage
-   - Performance benchmarking
-   - Compatibility verification
+2. **測試與驗證**
+   - 全面的測試覆蓋
+   - 效能基準測試
+   - 相容性驗證
 
-## Performance Considerations
+## 效能考量
 
-### Records vs Traditional Classes
+### 記錄類型與傳統類別
 
-- Records are more memory efficient
-- Faster creation and equality checks
-- Automatic serialization support
-- Consider for data transfer objects
+- 記錄類型的記憶體效率更高
+- 建立和相等檢查速度更快
+- 自動序列化支援
+- 適合用於資料傳輸物件
 
-### Pattern Matching Performance
+### 型態匹配效能
 
-- Eliminates redundant type checks
-- Reduces casting overhead
-- Better JVM optimization opportunities
-- Use with sealed classes for exhaustiveness
+- 消除多餘的型別檢查
+- 減少轉型開銷
+- 為 JVM 優化提供更多機會
+- 與密封類別搭配以確保完整性
 
-### Switch Expressions Optimization
+### Switch 表達式優化
 
-- More efficient bytecode generation
-- Better constant folding
-- Improved branch prediction
-- Use for complex conditional logic
+- 產生更有效率的位元碼
+- 更好的常數折疊
+- 改進的分支預測
+- 用於複雜的條件邏輯
 
-## Best Practices
+## 最佳實踐
 
-1. **Use Records for Data Classes**
+1. **為資料類別使用記錄類型**
 
-   - Immutable data containers
-   - API data transfer objects
-   - Configuration objects
+   - 不可變資料容器
+   - API 資料傳輸物件
+   - 組態物件
 
-2. **Apply Pattern Matching Strategically**
+2. **戰略性地應用型態匹配**
 
-   - Replace instanceof chains
-   - Use with sealed classes
-   - Combine with switch expressions
+   - 取代 instanceof 連鎖
+   - 與密封類別搭配
+   - 與 switch 表達式結合
 
-3. **Adopt Text Blocks for Multi-line Content**
+3. **採用文字區塊處理多行內容**
 
-   - SQL queries
-   - JSON templates
-   - HTML content
-   - Configuration files
+   - SQL 查詢
+   - JSON 範本
+   - HTML 內容
+   - 組態檔案
 
-4. **Design with Sealed Classes**
+4. **以密封類別進行設計**
 
-   - Domain modeling
-   - State machines
-   - Algebraic data types
-   - API evolution control
+   - 領域建模
+   - 狀態機
+   - 代數資料型別
+   - API 演化控制
 
-5. **Leverage Enhanced Random Generators**
-   - Parallel processing scenarios
-   - High-quality random numbers
-   - Statistical applications
-   - Gaming and simulation
+5. **善用強化的亂數產生器**
+   - 平行處理情境
+   - 高品質亂數
+   - 統計應用
+   - 遊戲與模擬
 
-This comprehensive guide enables GitHub Copilot to provide contextually appropriate suggestions when upgrading Java 11 projects to Java 17, focusing on language enhancements, API improvements, and modern Java development practices.
+本全面指南使 GitHub Copilot 在升級 Java 11 專案至 Java 17 時，能夠提供適當的語境建議，重點關注語言增強、API 改進和現代 Java 開發實踐。

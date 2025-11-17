@@ -3,38 +3,37 @@ applyTo: '**/*.ps1,**/*.psm1'
 description: 'PowerShell cmdlet and scripting best practices based on Microsoft guidelines'
 ---
 
-# PowerShell Cmdlet Development Guidelines
+# PowerShell 指令程式開發指南
 
-This guide provides PowerShell-specific instructions to help GitHub Copilot generate idiomatic,
-safe, and maintainable scripts. It aligns with Microsoft’s PowerShell cmdlet development guidelines.
+本指南提供 PowerShell 特定的說明，協助 GitHub Copilot 產生習慣用法、安全且易於維護的指令碼。內容遵循 Microsoft 的 PowerShell 指令程式開發指南。
 
-## Naming Conventions
+## 命名慣例
 
-- **Verb-Noun Format:**
-  - Use approved PowerShell verbs (Get-Verb)
-  - Use singular nouns
-  - PascalCase for both verb and noun
-  - Avoid special characters and spaces
+- **動詞-名詞格式：**
+  - 使用已核准的 PowerShell 動詞（Get-Verb）
+  - 使用單數名詞
+  - 動詞和名詞都使用 PascalCase
+  - 避免特殊字元和空格
 
-- **Parameter Names:**
-  - Use PascalCase
-  - Choose clear, descriptive names
-  - Use singular form unless always multiple
-  - Follow PowerShell standard names
+- **參數名稱：**
+  - 使用 PascalCase
+  - 選擇清晰、具有描述性的名稱
+  - 使用單數形式，除非總是多個
+  - 遵循 PowerShell 標準命名
 
-- **Variable Names:**
-  - Use PascalCase for public variables
-  - Use camelCase for private variables
-  - Avoid abbreviations
-  - Use meaningful names
+- **變數名稱：**
+  - 公開變數使用 PascalCase
+  - 私有變數使用 camelCase
+  - 避免縮寫
+  - 使用有意義的名稱
 
-- **Alias Avoidance:**
-  - Use full cmdlet names
-  - Avoid using aliases in scripts (e.g., use Get-ChildItem instead of gci)
-  - Document any custom aliases
-  - Use full parameter names
+- **避免使用別名：**
+  - 使用完整的指令程式名稱
+  - 避免在指令碼中使用別名（例如，使用 Get-ChildItem 而不是 gci）
+  - 記錄任何自訂別名
+  - 使用完整的參數名稱
 
-### Example
+### 範例
 
 ```powershell
 function Get-UserProfile {
@@ -54,33 +53,33 @@ function Get-UserProfile {
 }
 ```
 
-## Parameter Design
+## 參數設計
 
-- **Standard Parameters:**
-  - Use common parameter names (`Path`, `Name`, `Force`)
-  - Follow built-in cmdlet conventions
-  - Use aliases for specialized terms
-  - Document parameter purpose
+- **標準參數：**
+  - 使用常見的參數名稱（`Path`、`Name`、`Force`）
+  - 遵循內建指令程式慣例
+  - 為專業術語使用別名
+  - 記錄參數用途
 
-- **Parameter Names:**
-  - Use singular form unless always multiple
-  - Choose clear, descriptive names
-  - Follow PowerShell conventions
-  - Use PascalCase formatting
+- **參數名稱：**
+  - 使用單數形式，除非總是多個
+  - 選擇清晰、具有描述性的名稱
+  - 遵循 PowerShell 慣例
+  - 使用 PascalCase 格式
 
-- **Type Selection:**
-  - Use common .NET types
-  - Implement proper validation
-  - Consider ValidateSet for limited options
-  - Enable tab completion where possible
+- **類型選擇：**
+  - 使用常見的 .NET 類型
+  - 實作適當的驗證
+  - 對於有限選項考慮使用 ValidateSet
+  - 在可能的地方啟用定位鍵完成
 
-- **Switch Parameters:**
-  - Use [switch] for boolean flags
-  - Avoid $true/$false parameters
-  - Default to $false when omitted
-  - Use clear action names
+- **切換參數：**
+  - 使用 [switch] 用於布林值旗標
+  - 避免 $true/$false 參數
+  - 省略時預設為 $false
+  - 使用清晰的動作名稱
 
-### Example
+### 範例
 
 ```powershell
 function Set-ResourceConfiguration {
@@ -107,33 +106,33 @@ function Set-ResourceConfiguration {
 }
 ```
 
-## Pipeline and Output
+## 管線與輸出
 
-- **Pipeline Input:**
-  - Use `ValueFromPipeline` for direct object input
-  - Use `ValueFromPipelineByPropertyName` for property mapping
-  - Implement Begin/Process/End blocks for pipeline handling
-  - Document pipeline input requirements
+- **管線輸入：**
+  - 對於直接物件輸入使用 `ValueFromPipeline`
+  - 對於屬性對應使用 `ValueFromPipelineByPropertyName`
+  - 實作 Begin/Process/End 區塊來處理管線
+  - 記錄管線輸入要求
 
-- **Output Objects:**
-  - Return rich objects, not formatted text
-  - Use PSCustomObject for structured data
-  - Avoid Write-Host for data output
-  - Enable downstream cmdlet processing
+- **輸出物件：**
+  - 傳回豐富的物件，而非格式化文字
+  - 使用 PSCustomObject 來處理結構化資料
+  - 避免使用 Write-Host 進行資料輸出
+  - 啟用下游指令程式處理
 
-- **Pipeline Streaming:**
-  - Output one object at a time
-  - Use process block for streaming
-  - Avoid collecting large arrays
-  - Enable immediate processing
+- **管線串流：**
+  - 一次輸出一個物件
+  - 使用 process 區塊進行串流
+  - 避免收集大型陣列
+  - 啟用立即處理
 
-- **PassThru Pattern:**
-  - Default to no output for action cmdlets
-  - Implement `-PassThru` switch for object return
-  - Return modified/created object with `-PassThru`
-  - Use verbose/warning for status updates
+- **PassThru 模式：**
+  - 動作指令程式預設不輸出
+  - 實作 `-PassThru` 切換參數來傳回物件
+  - 使用 `-PassThru` 傳回修改/建立的物件
+  - 使用 verbose/warning 進行狀態更新
 
-### Example
+### 範例
 
 ```powershell
 function Update-ResourceStatus {
@@ -178,38 +177,38 @@ function Update-ResourceStatus {
 }
 ```
 
-## Error Handling and Safety
+## 錯誤處理與安全性
 
-- **ShouldProcess Implementation:**
-  - Use `[CmdletBinding(SupportsShouldProcess = $true)]`
-  - Set appropriate `ConfirmImpact` level
-  - Call `$PSCmdlet.ShouldProcess()` for system changes
-  - Use `ShouldContinue()` for additional confirmations
+- **ShouldProcess 實作：**
+  - 使用 `[CmdletBinding(SupportsShouldProcess = $true)]`
+  - 設定適當的 `ConfirmImpact` 層級
+  - 對於系統變更呼叫 `$PSCmdlet.ShouldProcess()`
+  - 對於額外的確認使用 `ShouldContinue()`
 
-- **Message Streams:**
-  - `Write-Verbose` for operational details with `-Verbose`
-  - `Write-Warning` for warning conditions
-  - `Write-Error` for non-terminating errors
-  - `throw` for terminating errors
-  - Avoid `Write-Host` except for user interface text
+- **訊息串流：**
+  - `Write-Verbose` 用於使用 `-Verbose` 的操作詳細資訊
+  - `Write-Warning` 用於警告狀態
+  - `Write-Error` 用於非終止性錯誤
+  - `throw` 用於終止性錯誤
+  - 避免 `Write-Host`，除非用於使用者介面文字
 
-- **Error Handling Pattern:**
-  - Use try/catch blocks for error management
-  - Set appropriate ErrorAction preferences
-  - Return meaningful error messages
-  - Use ErrorVariable when needed
-  - Include proper terminating vs non-terminating error handling
-  - In advanced functions with `[CmdletBinding()]`, prefer `$PSCmdlet.WriteError()` over `Write-Error`
-  - In advanced functions with `[CmdletBinding()]`, prefer `$PSCmdlet.ThrowTerminatingError()` over `throw`
-  - Construct proper ErrorRecord objects with category, target, and exception details
+- **錯誤處理模式：**
+  - 使用 try/catch 區塊進行錯誤管理
+  - 設定適當的 ErrorAction 偏好設定
+  - 傳回有意義的錯誤訊息
+  - 需要時使用 ErrorVariable
+  - 包含適當的終止性與非終止性錯誤處理
+  - 在具有 `[CmdletBinding()]` 的進階函式中，偏好使用 `$PSCmdlet.WriteError()` 而不是 `Write-Error`
+  - 在具有 `[CmdletBinding()]` 的進階函式中，偏好使用 `$PSCmdlet.ThrowTerminatingError()` 而不是 `throw`
+  - 構建適當的 ErrorRecord 物件，包括分類、目標和例外詳細資訊
 
-- **Non-Interactive Design:**
-  - Accept input via parameters
-  - Avoid `Read-Host` in scripts
-  - Support automation scenarios
-  - Document all required inputs
+- **非互動式設計：**
+  - 透過參數接受輸入
+  - 避免在指令碼中使用 `Read-Host`
+  - 支援自動化案例
+  - 記錄所有必要的輸入
 
-### Example
+### 範例
 
 ```powershell
 function Remove-UserAccount {
@@ -276,38 +275,38 @@ function Remove-UserAccount {
 }
 ```
 
-## Documentation and Style
+## 文件與風格
 
-- **Comment-Based Help:** Include comment-based help for any public-facing function or cmdlet. Inside the function, add a `<# ... #>` help comment with at least:
-  - `.SYNOPSIS` Brief description
-  - `.DESCRIPTION` Detailed explanation
-  - `.EXAMPLE` sections with practical usage
-  - `.PARAMETER` descriptions
-  - `.OUTPUTS` Type of output returned
-  - `.NOTES` Additional information
+- **註解式說明：** 為任何公開的函式或指令程式包含註解式說明。在函式內，至少添加包含以下內容的 `<# ... #>` 說明註解：
+  - `.SYNOPSIS` 簡短說明
+  - `.DESCRIPTION` 詳細說明
+  - `.EXAMPLE` 包含實務用法的區段
+  - `.PARAMETER` 描述
+  - `.OUTPUTS` 傳回的輸出類型
+  - `.NOTES` 其他資訊
 
-- **Consistent Formatting:**
-  - Follow consistent PowerShell style
-  - Use proper indentation (4 spaces recommended)
-  - Opening braces on same line as statement
-  - Closing braces on new line
-  - Use line breaks after pipeline operators
-  - PascalCase for function and parameter names
-  - Avoid unnecessary whitespace
+- **一致的格式：**
+  - 遵循一致的 PowerShell 風格
+  - 使用適當的縮排（建議 4 個空格）
+  - 左大括號與陳述式在同一行
+  - 右大括號在新行
+  - 在管線運算子後使用換行
+  - 函式和參數名稱使用 PascalCase
+  - 避免不必要的空白
 
-- **Pipeline Support:**
-  - Implement Begin/Process/End blocks for pipeline functions
-  - Use ValueFromPipeline where appropriate
-  - Support pipeline input by property name
-  - Return proper objects, not formatted text
+- **管線支援：**
+  - 為管線函式實作 Begin/Process/End 區塊
+  - 在適當時使用 ValueFromPipeline
+  - 支援透過屬性名稱的管線輸入
+  - 傳回適當的物件，而非格式化文字
 
-- **Avoid Aliases:** Use full cmdlet names and parameters
-  - Avoid using aliases in scripts (e.g., use Get-ChildItem instead of gci); aliases are acceptable for interactive shell use.
-  - Use `Where-Object` instead of `?` or `where`
-  - Use `ForEach-Object` instead of `%`
-  - Use `Get-ChildItem` instead of `ls` or `dir`
+- **避免使用別名：** 使用完整的指令程式名稱和參數
+  - 避免在指令碼中使用別名（例如，使用 Get-ChildItem 而不是 gci）；別名可用於互動式 Shell 用法。
+  - 使用 `Where-Object` 而不是 `?` 或 `where`
+  - 使用 `ForEach-Object` 而不是 `%`
+  - 使用 `Get-ChildItem` 而不是 `ls` 或 `dir`
 
-## Full Example: End-to-End Cmdlet Pattern
+## 完整範例：端到端指令程式模式
 
 ```powershell
 function New-Resource {

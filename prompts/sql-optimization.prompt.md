@@ -5,13 +5,13 @@ description: 'Universal SQL performance optimization assistant for comprehensive
 tested_with: 'GitHub Copilot Chat (GPT-4o) - Validated July 20, 2025'
 ---
 
-# SQL Performance Optimization Assistant
+# SQL 效能最佳化助手
 
-Expert SQL performance optimization for ${selection} (or entire project if no selection). Focus on universal SQL optimization techniques that work across MySQL, PostgreSQL, SQL Server, Oracle, and other SQL databases.
+針對 ${selection}（或整個專案，如未進行選擇）提供專家級 SQL 效能最佳化。著重於能在 MySQL、PostgreSQL、SQL Server、Oracle 及其他 SQL 資料庫中通用的 SQL 最佳化技術。
 
-## 🎯 Core Optimization Areas
+## 🎯 核心最佳化領域
 
-### Query Performance Analysis
+### 查詢效能分析
 ```sql
 -- ❌ BAD: Inefficient query patterns
 SELECT * FROM orders o
@@ -34,7 +34,7 @@ WHERE o.created_at >= '2024-01-01'
 -- CREATE INDEX idx_orders_customer_id ON orders(customer_id);
 ```
 
-### Index Strategy Optimization
+### 索引策略最佳化
 ```sql
 -- ❌ BAD: Poor indexing strategy
 CREATE INDEX idx_user_data ON users(email, first_name, last_name, created_at);
@@ -51,7 +51,7 @@ CREATE INDEX idx_users_status_created ON users(status, created_at)
 WHERE status IS NOT NULL;
 ```
 
-### Subquery Optimization
+### 子查詢最佳化
 ```sql
 -- ❌ BAD: Correlated subquery
 SELECT p.product_name, p.price
@@ -72,9 +72,9 @@ FROM (
 WHERE price > avg_category_price;
 ```
 
-## 📊 Performance Tuning Techniques
+## 📊 效能調整技術
 
-### JOIN Optimization
+### JOIN 最佳化
 ```sql
 -- ❌ BAD: Inefficient JOIN order and conditions
 SELECT o.*, c.name, p.product_name
@@ -94,7 +94,7 @@ INNER JOIN products p ON oi.product_id = p.id
 WHERE o.created_at > '2024-01-01';
 ```
 
-### Pagination Optimization
+### 分頁最佳化
 ```sql
 -- ❌ BAD: OFFSET-based pagination (slow for large offsets)
 SELECT * FROM products 
@@ -114,7 +114,7 @@ ORDER BY id
 LIMIT 20;
 ```
 
-### Aggregation Optimization
+### 彙總最佳化
 ```sql
 -- ❌ BAD: Multiple separate aggregation queries
 SELECT COUNT(*) FROM orders WHERE status = 'pending';
@@ -129,9 +129,9 @@ SELECT
 FROM orders;
 ```
 
-## 🔍 Query Anti-Patterns
+## 🔍 查詢反模式
 
-### SELECT Performance Issues
+### SELECT 效能問題
 ```sql
 -- ❌ BAD: SELECT * anti-pattern
 SELECT * FROM large_table lt
@@ -143,7 +143,7 @@ FROM large_table lt
 JOIN another_table at ON lt.id = at.ref_id;
 ```
 
-### WHERE Clause Optimization
+### WHERE 條款最佳化
 ```sql
 -- ❌ BAD: Function calls in WHERE clause
 SELECT * FROM orders 
@@ -155,7 +155,7 @@ WHERE customer_email = 'john@example.com';
 -- Consider: CREATE INDEX idx_orders_email ON orders(LOWER(customer_email));
 ```
 
-### OR vs UNION Optimization
+### OR vs UNION 最佳化
 ```sql
 -- ❌ BAD: Complex OR conditions
 SELECT * FROM products 
@@ -168,9 +168,9 @@ UNION ALL
 SELECT * FROM products WHERE category = 'books' AND price < 50;
 ```
 
-## 📈 Database-Agnostic Optimization
+## 📈 資料庫無關的最佳化
 
-### Batch Operations
+### 批次操作
 ```sql
 -- ❌ BAD: Row-by-row operations
 INSERT INTO products (name, price) VALUES ('Product 1', 10.00);
@@ -184,7 +184,7 @@ INSERT INTO products (name, price) VALUES
 ('Product 3', 20.00);
 ```
 
-### Temporary Table Usage
+### 臨時表使用
 ```sql
 -- ✅ GOOD: Using temporary tables for complex operations
 CREATE TEMPORARY TABLE temp_calculations AS
@@ -202,9 +202,9 @@ JOIN customers c ON tc.customer_id = c.id
 WHERE tc.total_spent > 1000;
 ```
 
-## 🛠️ Index Management
+## 🛠️ 索引管理
 
-### Index Design Principles
+### 索引設計原則
 ```sql
 -- ✅ GOOD: Covering index design
 CREATE INDEX idx_orders_covering 
@@ -213,7 +213,7 @@ INCLUDE (total_amount, status);  -- SQL Server syntax
 -- Or: CREATE INDEX idx_orders_covering ON orders(customer_id, created_at, total_amount, status); -- Other databases
 ```
 
-### Partial Index Strategy
+### 部分索引策略
 ```sql
 -- ✅ GOOD: Partial indexes for specific conditions
 CREATE INDEX idx_orders_active 
@@ -221,9 +221,9 @@ ON orders(created_at)
 WHERE status IN ('pending', 'processing');
 ```
 
-## 📊 Performance Monitoring Queries
+## 📊 效能監控查詢
 
-### Query Performance Analysis
+### 查詢效能分析
 ```sql
 -- Generic approach to identify slow queries
 -- (Specific syntax varies by database)
@@ -250,49 +250,49 @@ CROSS APPLY sys.dm_exec_sql_text(qs.sql_handle) qt
 ORDER BY avg_elapsed_time DESC;
 ```
 
-## 🎯 Universal Optimization Checklist
+## 🎯 通用最佳化檢查表
 
-### Query Structure
-- [ ] Avoiding SELECT * in production queries
-- [ ] Using appropriate JOIN types (INNER vs LEFT/RIGHT)
-- [ ] Filtering early in WHERE clauses
-- [ ] Using EXISTS instead of IN for subqueries when appropriate
-- [ ] Avoiding functions in WHERE clauses that prevent index usage
+### 查詢結構
+- [ ] 避免在正式環境中使用 SELECT *
+- [ ] 使用適當的 JOIN 型別（INNER vs LEFT/RIGHT）
+- [ ] 在 WHERE 條款中盡早進行篩選
+- [ ] 在適當時機使用 EXISTS 而不是 IN 進行子查詢
+- [ ] 避免在 WHERE 條款中使用妨礙索引使用的函式
 
-### Index Strategy
-- [ ] Creating indexes on frequently queried columns
-- [ ] Using composite indexes in the right column order
-- [ ] Avoiding over-indexing (impacts INSERT/UPDATE performance)
-- [ ] Using covering indexes where beneficial
-- [ ] Creating partial indexes for specific query patterns
+### 索引策略
+- [ ] 在經常查詢的欄位上建立索引
+- [ ] 以正確的欄位順序使用複合索引
+- [ ] 避免過度索引（影響 INSERT/UPDATE 效能）
+- [ ] 在有益的地方使用涵蓋索引
+- [ ] 為特定查詢模式建立部分索引
 
-### Data Types and Schema
-- [ ] Using appropriate data types for storage efficiency
-- [ ] Normalizing appropriately (3NF for OLTP, denormalized for OLAP)
-- [ ] Using constraints to help query optimizer
-- [ ] Partitioning large tables when appropriate
+### 資料型別和結構描述
+- [ ] 使用適當的資料型別以提高儲存效率
+- [ ] 適當正規化（OLTP 使用 3NF，OLAP 使用非正規化）
+- [ ] 使用約束來協助查詢最佳化器
+- [ ] 在適當時機分割大型資料表
 
-### Query Patterns
-- [ ] Using LIMIT/TOP for result set control
-- [ ] Implementing efficient pagination strategies
-- [ ] Using batch operations for bulk data changes
-- [ ] Avoiding N+1 query problems
-- [ ] Using prepared statements for repeated queries
+### 查詢模式
+- [ ] 使用 LIMIT/TOP 控制結果集
+- [ ] 實施有效率的分頁策略
+- [ ] 使用批次操作進行大量資料變更
+- [ ] 避免 N+1 查詢問題
+- [ ] 對重複查詢使用預備陳述式
 
-### Performance Testing
-- [ ] Testing queries with realistic data volumes
-- [ ] Analyzing query execution plans
-- [ ] Monitoring query performance over time
-- [ ] Setting up alerts for slow queries
-- [ ] Regular index usage analysis
+### 效能測試
+- [ ] 使用實際資料量測試查詢
+- [ ] 分析查詢執行計畫
+- [ ] 持續監控查詢效能
+- [ ] 為緩慢查詢設定警示
+- [ ] 定期進行索引使用率分析
 
-## 📝 Optimization Methodology
+## 📝 最佳化方法論
 
-1. **Identify**: Use database-specific tools to find slow queries
-2. **Analyze**: Examine execution plans and identify bottlenecks
-3. **Optimize**: Apply appropriate optimization techniques
-4. **Test**: Verify performance improvements
-5. **Monitor**: Continuously track performance metrics
-6. **Iterate**: Regular performance review and optimization
+1. **識別**：使用資料庫特定工具尋找緩慢查詢
+2. **分析**：檢查執行計畫並識別效能瓶頸
+3. **最佳化**：應用適當的最佳化技術
+4. **測試**：驗證效能改進
+5. **監控**：持續追蹤效能指標
+6. **迭代**：定期進行效能檢查和最佳化
 
-Focus on measurable performance improvements and always test optimizations with realistic data volumes and query patterns.
+專注於可測量的效能改進，並且在測試最佳化時始終使用實際資料量和查詢模式。

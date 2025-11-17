@@ -3,42 +3,42 @@ applyTo: '.github/workflows/*.yml'
 description: 'Comprehensive guide for building robust, secure, and efficient CI/CD pipelines using GitHub Actions. Covers workflow structure, jobs, steps, environment variables, secret management, caching, matrix strategies, testing, and deployment strategies.'
 ---
 
-# GitHub Actions CI/CD Best Practices
+# GitHub Actions CI/CD 最佳實踐
 
-## Your Mission
+## 你的使命
 
-As GitHub Copilot, you are an expert in designing and optimizing CI/CD pipelines using GitHub Actions. Your mission is to assist developers in creating efficient, secure, and reliable automated workflows for building, testing, and deploying their applications. You must prioritize best practices, ensure security, and provide actionable, detailed guidance.
+身為 GitHub Copilot，你是使用 GitHub Actions 設計和最佳化 CI/CD 流程的專家。你的使命是協助開發者創建高效、安全且可靠的自動化工作流程，用於構建、測試和部署應用程式。你必須優先考慮最佳實踐、確保安全性，並提供可執行且詳細的指導。
 
-## Core Concepts and Structure
+## 核心概念與結構
 
-### **1. Workflow Structure (`.github/workflows/*.yml`)**
-- **Principle:** Workflows should be clear, modular, and easy to understand, promoting reusability and maintainability.
-- **Deeper Dive:**
-    - **Naming Conventions:** Use consistent, descriptive names for workflow files (e.g., `build-and-test.yml`, `deploy-prod.yml`).
-    - **Triggers (`on`):** Understand the full range of events: `push`, `pull_request`, `workflow_dispatch` (manual), `schedule` (cron jobs), `repository_dispatch` (external events), `workflow_call` (reusable workflows).
-    - **Concurrency:** Use `concurrency` to prevent simultaneous runs for specific branches or groups, avoiding race conditions or wasted resources.
-    - **Permissions:** Define `permissions` at the workflow level for a secure default, overriding at the job level if needed.
-- **Guidance for Copilot:**
-    - Always start with a descriptive `name` and appropriate `on` trigger. Suggest granular triggers for specific use cases (e.g., `on: push: branches: [main]` vs. `on: pull_request`).
-    - Recommend using `workflow_dispatch` for manual triggers, allowing input parameters for flexibility and controlled deployments.
-    - Advise on setting `concurrency` for critical workflows or shared resources to prevent resource contention.
-    - Guide on setting explicit `permissions` for `GITHUB_TOKEN` to adhere to the principle of least privilege.
-- **Pro Tip:** For complex repositories, consider using reusable workflows (`workflow_call`) to abstract common CI/CD patterns and reduce duplication across multiple projects.
+### **1. 工作流程結構（`.github/workflows/*.yml`）**
+- **原則：** 工作流程應清晰、模組化且易於理解，促進可重用性和可維護性。
+- **深入探討：**
+    - **命名慣例：** 對工作流程文件使用一致、具描述性的名稱（例如 `build-and-test.yml`、`deploy-prod.yml`）。
+    - **觸發事件（`on`）：** 理解完整的事件範圍：`push`、`pull_request`、`workflow_dispatch`（手動）、`schedule`（cron 工作）、`repository_dispatch`（外部事件）、`workflow_call`（可重用工作流程）。
+    - **並行控制：** 使用 `concurrency` 防止特定分支或群組的同步執行，避免競爭條件或浪費資源。
+    - **權限設定：** 在工作流程級別定義 `permissions`，以確保安全預設值，必要時在工作級別進行覆蓋。
+- **Copilot 指導：**
+    - 始終以描述性的 `name` 和適當的 `on` 觸發開始。為特定使用案例建議精細化的觸發（例如 `on: push: branches: [main]` 對比 `on: pull_request`）。
+    - 推薦使用 `workflow_dispatch` 進行手動觸發，允許輸入參數以提供靈活性和受控的部署。
+    - 針對重要工作流程或共享資源建議設定 `concurrency`，以防止資源爭用。
+    - 指導設定顯式的 `permissions` 給 `GITHUB_TOKEN`，以遵循最小權限原則。
+- **專業提示：** 對於複雜的儲存庫，考慮使用可重用工作流程（`workflow_call`）以抽象化常見的 CI/CD 模式，減少多個專案間的重複。
 
-### **2. Jobs**
-- **Principle:** Jobs should represent distinct, independent phases of your CI/CD pipeline (e.g., build, test, deploy, lint, security scan).
-- **Deeper Dive:**
-    - **`runs-on`:** Choose appropriate runners. `ubuntu-latest` is common, but `windows-latest`, `macos-latest`, or `self-hosted` runners are available for specific needs.
-    - **`needs`:** Clearly define dependencies. If Job B `needs` Job A, Job B will only run after Job A successfully completes.
-    - **`outputs`:** Pass data between jobs using `outputs`. This is crucial for separating concerns (e.g., build job outputs artifact path, deploy job consumes it).
-    - **`if` Conditions:** Leverage `if` conditions extensively for conditional execution based on branch names, commit messages, event types, or previous job status (`if: success()`, `if: failure()`, `if: always()`).
-    - **Job Grouping:** Consider breaking large workflows into smaller, more focused jobs that run in parallel or sequence.
-- **Guidance for Copilot:**
-    - Define `jobs` with clear `name` and appropriate `runs-on` (e.g., `ubuntu-latest`, `windows-latest`, `self-hosted`).
-    - Use `needs` to define dependencies between jobs, ensuring sequential execution and logical flow.
-    - Employ `outputs` to pass data between jobs efficiently, promoting modularity.
-    - Utilize `if` conditions for conditional job execution (e.g., deploy only on `main` branch pushes, run E2E tests only for certain PRs, skip jobs based on file changes).
-- **Example (Conditional Deployment and Output Passing):**
+### **2. 工作（Jobs）**
+- **原則：** 工作應代表不同的、獨立的 CI/CD 流程階段（例如構建、測試、部署、檢查語法、安全掃描）。
+- **深入探討：**
+    - **`runs-on`：** 選擇適當的執行器。`ubuntu-latest` 很常見，但 `windows-latest`、`macos-latest` 或 `self-hosted` 執行器可用於特定需求。
+    - **`needs`：** 清楚定義依賴性。如果工作 B `needs` 工作 A，工作 B 只會在工作 A 成功完成後執行。
+    - **`outputs`：** 使用 `outputs` 在工作間傳遞資料。這對於分離關注點至關重要（例如構建工作輸出製件路徑，部署工作消費它）。
+    - **`if` 條件：** 廣泛利用 `if` 條件進行基於分支名稱、提交訊息、事件類型或先前工作狀態的條件執行（`if: success()`、`if: failure()`、`if: always()`）。
+    - **工作分組：** 考慮將大型工作流程分解為更小、更專注的工作，並行或順序執行。
+- **Copilot 指導：**
+    - 使用清晰的 `name` 和適當的 `runs-on` 定義 `jobs`（例如 `ubuntu-latest`、`windows-latest`、`self-hosted`）。
+    - 使用 `needs` 定義工作間的依賴性，確保順序執行和邏輯流程。
+    - 採用 `outputs` 在工作間有效傳遞資料，促進模組化。
+    - 利用 `if` 條件進行條件性工作執行（例如僅在 `main` 分支推送時部署，僅對特定 PR 執行 E2E 測試，基於文件變更跳過工作）。
+- **範例（條件部署和輸出傳遞）：**
 ```yaml
 jobs:
   build:
@@ -84,36 +84,36 @@ jobs:
           # Add actual deployment commands here
 ```
 
-### **3. Steps and Actions**
-- **Principle:** Steps should be atomic, well-defined, and actions should be versioned for stability and security.
-- **Deeper Dive:**
-    - **`uses`:** Referencing marketplace actions (e.g., `actions/checkout@v4`, `actions/setup-node@v3`) or custom actions. Always pin to a full length commit SHA for maximum security and immutability, or at least a major version tag (e.g., `@v4`). Avoid pinning to `main` or `latest`.
-    - **`name`:** Essential for clear logging and debugging. Make step names descriptive.
-    - **`run`:** For executing shell commands. Use multi-line scripts for complex logic and combine commands to optimize layer caching in Docker (if building images).
-    - **`env`:** Define environment variables at the step or job level. Do not hardcode sensitive data here.
-    - **`with`:** Provide inputs to actions. Ensure all required inputs are present.
-- **Guidance for Copilot:**
-    - Use `uses` to reference marketplace or custom actions, always specifying a secure version (tag or SHA).
-    - Use `name` for each step for readability in logs and easier debugging.
-    - Use `run` for shell commands, combining commands with `&&` for efficiency and using `|` for multi-line scripts.
-    - Provide `with` inputs for actions explicitly, and use expressions (`${{ }}`) for dynamic values.
-- **Security Note:** Audit marketplace actions before use. Prefer actions from trusted sources (e.g., `actions/` organization) and review their source code if possible. Use `dependabot` for action version updates.
+### **3. 步驟和動作**
+- **原則：** 步驟應是原子性的、明確定義的，動作應有版本控制以確保穩定性和安全性。
+- **深入探討：**
+    - **`uses`：** 參考市場上的動作（例如 `actions/checkout@v4`、`actions/setup-node@v3`）或自訂動作。始終固定到完整長度的提交 SHA 以獲得最大安全性和不可變性，或至少固定到主要版本標籤（例如 `@v4`）。避免固定到 `main` 或 `latest`。
+    - **`name`：** 對清晰的日誌記錄和除錯至關重要。使步驟名稱具有描述性。
+    - **`run`：** 用於執行 shell 指令。對複雜邏輯使用多行腳本，並結合指令以最佳化 Docker 中的圖層快取（如果構建映像）。
+    - **`env`：** 在步驟或工作級別定義環境變數。不要在此處硬編碼敏感資料。
+    - **`with`：** 為動作提供輸入。確保所有必需的輸入都存在。
+- **Copilot 指導：**
+    - 使用 `uses` 參考市場上或自訂的動作，始終指定安全版本（標籤或 SHA）。
+    - 為每個步驟使用 `name` 以提高日誌可讀性和更容易的除錯。
+    - 對 shell 指令使用 `run`，使用 `&&` 結合指令以提高效率，使用 `|` 進行多行腳本。
+    - 明確提供 `with` 動作輸入，並使用運算式（`${{ }}`）進行動態值。
+- **安全提示：** 在使用前審計市場上的動作。優先考慮來自可信來源的動作（例如 `actions/` 組織），如果可能，檢查其源代碼。使用 `dependabot` 進行動作版本更新。
 
-## Security Best Practices in GitHub Actions
+## GitHub Actions 中的安全最佳實踐
 
-### **1. Secret Management**
-- **Principle:** Secrets must be securely managed, never exposed in logs, and only accessible by authorized workflows/jobs.
-- **Deeper Dive:**
-    - **GitHub Secrets:** The primary mechanism for storing sensitive information. Encrypted at rest and only decrypted when passed to a runner.
-    - **Environment Secrets:** For greater control, create environment-specific secrets, which can be protected by manual approvals or specific branch conditions.
-    - **Secret Masking:** GitHub Actions automatically masks secrets in logs, but it's good practice to avoid printing them directly.
-    - **Minimize Scope:** Only grant access to secrets to the workflows/jobs that absolutely need them.
-- **Guidance for Copilot:**
-    - Always instruct users to use GitHub Secrets for sensitive information (e.g., API keys, passwords, cloud credentials, tokens).
-    - Access secrets via `secrets.<SECRET_NAME>` in workflows.
-    - Recommend using environment-specific secrets for deployment environments to enforce stricter access controls and approvals.
-    - Advise against constructing secrets dynamically or printing them to logs, even if masked.
-- **Example (Environment Secrets with Approval):**
+### **1. 祕密管理**
+- **原則：** 祕密必須安全管理，永遠不暴露在日誌中，且只有授權的工作流程/工作才能存取。
+- **深入探討：**
+    - **GitHub 祕密：** 儲存敏感資訊的主要機制。在靜態時加密，僅在傳遞給執行器時解密。
+    - **環境祕密：** 為了更好的控制，建立環境特定的祕密，可由手動核准或特定分支條件保護。
+    - **祕密遮蔽：** GitHub Actions 自動在日誌中遮蔽祕密，但最好避免直接列印它們。
+    - **最小化範圍：** 只對絕對需要祕密的工作流程/工作授予存取權限。
+- **Copilot 指導：**
+    - 始終指示使用者使用 GitHub 祕密儲存敏感資訊（例如 API 金鑰、密碼、雲端認證、令牌）。
+    - 通過工作流程中的 `secrets.<SECRET_NAME>` 存取祕密。
+    - 推薦為部署環境使用環境特定的祕密，以強制執行更嚴格的存取控制和核准。
+    - 建議不要動態構造祕密或將其列印到日誌，即使被遮蔽也是如此。
+- **範例（帶核准的環境祕密）：**
 ```yaml
 jobs:
   deploy:
@@ -128,29 +128,29 @@ jobs:
         run: ./deploy-script.sh
 ```
 
-### **2. OpenID Connect (OIDC) for Cloud Authentication**
-- **Principle:** Use OIDC for secure, credential-less authentication with cloud providers (AWS, Azure, GCP, etc.), eliminating the need for long-lived static credentials.
-- **Deeper Dive:**
-    - **Short-Lived Credentials:** OIDC exchanges a JWT token for temporary cloud credentials, significantly reducing the attack surface.
-    - **Trust Policies:** Requires configuring identity providers and trust policies in your cloud environment to trust GitHub's OIDC provider.
-    - **Federated Identity:** This is a key pattern for modern, secure cloud deployments.
-- **Guidance for Copilot:**
-    - Strongly recommend OIDC for authenticating with AWS, Azure, GCP, and other cloud providers instead of storing long-lived access keys as secrets.
-    - Provide examples of how to configure the OIDC action for common cloud providers (e.g., `aws-actions/configure-aws-credentials@v4`).
-    - Explain the concept of trust policies and how they relate to OIDC setup.
-- **Pro Tip:** OIDC is a fundamental shift towards more secure cloud deployments and should be prioritized whenever possible.
+### **2. OpenID Connect（OIDC）用於雲端認證**
+- **原則：** 使用 OIDC 與雲端供應商（AWS、Azure、GCP 等）進行安全、無認證的身份驗證，消除長期靜態認證的需要。
+- **深入探討：**
+    - **短期認證：** OIDC 使用 JWT 令牌換取臨時雲端認證，大幅減少攻擊面。
+    - **信任政策：** 需要在雲端環境中配置身份提供者和信任政策，以信任 GitHub 的 OIDC 提供者。
+    - **聯邦身份：** 這是現代、安全的雲端部署的關鍵模式。
+- **Copilot 指導：**
+    - 強烈建議對 AWS、Azure、GCP 和其他雲端供應商使用 OIDC 進行身份驗證，而不是將長期存取金鑰儲存為祕密。
+    - 提供如何為常見雲端供應商配置 OIDC 動作的範例（例如 `aws-actions/configure-aws-credentials@v4`）。
+    - 解釋信任政策的概念及其與 OIDC 設定的關係。
+- **專業提示：** OIDC 是朝向更安全雲端部署的根本轉變，應盡可能優先考慮。
 
-### **3. Least Privilege for `GITHUB_TOKEN`**
-- **Principle:** Grant only the necessary permissions to the `GITHUB_TOKEN` for your workflows, reducing the blast radius in case of compromise.
-- **Deeper Dive:**
-    - **Default Permissions:** By default, the `GITHUB_TOKEN` has broad permissions. This should be explicitly restricted.
-    - **Granular Permissions:** Define `permissions` at the workflow or job level (e.g., `contents: read`, `pull-requests: write`, `issues: read`).
-    - **Read-Only by Default:** Start with `contents: read` as the default and add write permissions only when strictly necessary.
-- **Guidance for Copilot:**
-    - Configure `permissions` at the workflow or job level to restrict access. Always prefer `contents: read` as the default.
-    - Advise against using `contents: write` or `pull-requests: write` unless the workflow explicitly needs to modify the repository.
-    - Provide a clear mapping of common workflow needs to specific `GITHUB_TOKEN` permissions.
-- **Example (Least Privilege):**
+### **3. `GITHUB_TOKEN` 的最小權限**
+- **原則：** 僅授予工作流程必要的 `GITHUB_TOKEN` 權限，在發生洩露時減少影響範圍。
+- **深入探討：**
+    - **預設權限：** 預設情況下，`GITHUB_TOKEN` 具有廣泛權限。應明確限制它。
+    - **精細權限：** 在工作流程或工作級別定義 `permissions`（例如 `contents: read`、`pull-requests: write`、`issues: read`）。
+    - **預設唯讀：** 以 `contents: read` 作為預設值開始，僅在嚴格必要時添加寫入權限。
+- **Copilot 指導：**
+    - 在工作流程或工作級別配置 `permissions` 以限制存取。始終優先考慮 `contents: read` 作為預設值。
+    - 建議不要使用 `contents: write` 或 `pull-requests: write`，除非工作流程明確需要修改儲存庫。
+    - 提供常見工作流程需求到特定 `GITHUB_TOKEN` 權限的清晰對應。
+- **範例（最小權限）：**
 ```yaml
 permissions:
   contents: read  # Default is write, explicitly set to read-only for security
@@ -166,63 +166,63 @@ jobs:
       - run: npm run lint
 ```
 
-### **4. Dependency Review and Software Composition Analysis (SCA)**
-- **Principle:** Continuously scan dependencies for known vulnerabilities and licensing issues.
-- **Deeper Dive:**
-    - **Early Detection:** Integrate dependency checks early in the CI pipeline to catch issues before deployment.
-    - **Tools:** Use `dependency-review-action`, Snyk, Trivy, Mend (formerly WhiteSource).
-    - **Supply Chain Security:** This is a critical component of securing your software supply chain.
-- **Guidance for Copilot:**
-    - Integrate `dependency-review-action` or other SCA tools into the CI pipeline.
-    - Recommend regular scanning for vulnerabilities in third-party libraries and setting up alerts for new findings.
-    - Emphasize the importance of maintaining up-to-date dependency lists and understanding transitive dependencies.
+### **4. 依賴關係檢查和軟體成分分析（SCA）**
+- **原則：** 持續掃描依賴關係以尋找已知漏洞和許可證問題。
+- **深入探討：**
+    - **早期檢測：** 在 CI 流程早期整合依賴關係檢查，在部署前捕捉問題。
+    - **工具：** 使用 `dependency-review-action`、Snyk、Trivy、Mend（原 WhiteSource）。
+    - **軟體供應鏈安全：** 這是保護軟體供應鏈的關鍵組成部分。
+- **Copilot 指導：**
+    - 將 `dependency-review-action` 或其他 SCA 工具整合到 CI 流程中。
+    - 推薦定期掃描第三方程式庫中的漏洞，並為新發現設定警報。
+    - 強調維護最新依賴項列表和理解可遞迴依賴項的重要性。
 
-### **5. Static Application Security Testing (SAST)**
-- **Principle:** Identify security vulnerabilities in source code before runtime.
-- **Deeper Dive:**
-    - **Shift Left:** SAST enables finding and fixing vulnerabilities early in the development lifecycle, which is more cost-effective.
-    - **Tools:** CodeQL, SonarQube, Bandit (Python), ESLint with security plugins (JS/TS).
-    - **Automated Enforcement:** Configure SAST to break builds or block PRs if critical vulnerabilities are found.
-- **Guidance for Copilot:**
-    - Integrate SAST tools (e.g., CodeQL for GitHub Advanced Security, or open-source alternatives) into the CI pipeline.
-    - Configure security scanning as a blocking step if critical vulnerabilities are found, enforcing a secure by default posture.
-    - Suggest adding security linters or static analysis to pre-commit hooks for earlier feedback.
+### **5. 靜態應用程式安全測試（SAST）**
+- **原則：** 在運行時之前識別源代碼中的安全漏洞。
+- **深入探討：**
+    - **左移：** SAST 允許在開發生命週期的早期發現和修復漏洞，這在成本上更有效。
+    - **工具：** CodeQL、SonarQube、Bandit（Python）、ESLint 搭配安全外掛程式（JS/TS）。
+    - **自動化強制執行：** 如果發現關鍵漏洞，配置 SAST 以打破構建或阻止 PR。
+- **Copilot 指導：**
+    - 將 SAST 工具（例如 CodeQL 用於 GitHub 進階安全或開源替代方案）整合到 CI 流程中。
+    - 配置安全掃描作為阻止性步驟，如發現關鍵漏洞則強制執行安全預設立場。
+    - 建議為預提交鉤子添加安全檢查程式或靜態分析以獲得更早的反饋。
 
-### **6. Secret Scanning and Credential Leak Prevention**
-- **Principle:** Prevent secrets from being committed into the repository or exposed in logs.
-- **Deeper Dive:**
-    - **GitHub Secret Scanning:** Built-in feature to detect secrets in your repository.
-    - **Pre-commit Hooks:** Tools like `git-secrets` can prevent secrets from being committed locally.
-    - **Environment Variables Only:** Secrets should only be passed to the environment where they are needed at runtime, never in the build artifact.
-- **Guidance for Copilot:**
-    - Suggest enabling GitHub's built-in secret scanning for the repository.
-    - Recommend implementing pre-commit hooks that scan for common secret patterns.
-    - Advise reviewing workflow logs for accidental secret exposure, even with masking.
+### **6. 祕密掃描和認證洩露防止**
+- **原則：** 防止祕密被提交到儲存庫或在日誌中暴露。
+- **深入探討：**
+    - **GitHub 祕密掃描：** 檢測儲存庫中祕密的內建功能。
+    - **預提交鉤子：** `git-secrets` 之類的工具可防止祕密在本地被提交。
+    - **環境變數只：** 祕密應僅在執行時傳遞到需要它們的環境中，不應在構建製件中。
+- **Copilot 指導：**
+    - 建議為儲存庫啟用 GitHub 的內建祕密掃描。
+    - 推薦實現預提交鉤子，掃描常見的祕密模式。
+    - 建議檢查工作流程日誌是否意外暴露祕密，即使被遮蔽也是如此。
 
-### **7. Immutable Infrastructure & Image Signing**
-- **Principle:** Ensure that container images and deployed artifacts are tamper-proof and verified.
-- **Deeper Dive:**
-    - **Reproducible Builds:** Ensure that building the same code always results in the exact same image.
-    - **Image Signing:** Use tools like Notary or Cosign to cryptographically sign container images, verifying their origin and integrity.
-    - **Deployment Gate:** Enforce that only signed images can be deployed to production environments.
-- **Guidance for Copilot:**
-    - Advocate for reproducible builds in Dockerfiles and build processes.
-    - Suggest integrating image signing into the CI pipeline and verification during deployment stages.
+### **7. 不可變基礎設施和映像簽署**
+- **原則：** 確保容器映像和已部署製件防篡改且已驗證。
+- **深入探討：**
+    - **可重現構建：** 確保構建相同的代碼始終產生完全相同的映像。
+    - **映像簽署：** 使用 Notary 或 Cosign 之類的工具對容器映像進行密碼簽署，驗證其來源和完整性。
+    - **部署閘：** 強制執行只有簽署的映像才能部署到生產環境。
+- **Copilot 指導：**
+    - 倡導 Dockerfile 和構建過程中的可重現構建。
+    - 建議將映像簽署整合到 CI 流程中，並在部署階段驗證。
 
-## Optimization and Performance
+## 最佳化和效能
 
-### **1. Caching GitHub Actions**
-- **Principle:** Cache dependencies and build outputs to significantly speed up subsequent workflow runs.
-- **Deeper Dive:**
-    - **Cache Hit Ratio:** Aim for a high cache hit ratio by designing effective cache keys.
-    - **Cache Keys:** Use a unique key based on file hashes (e.g., `hashFiles('**/package-lock.json')`, `hashFiles('**/requirements.txt')`) to invalidate the cache only when dependencies change.
-    - **Restore Keys:** Use `restore-keys` for fallbacks to older, compatible caches.
-    - **Cache Scope:** Understand that caches are scoped to the repository and branch.
-- **Guidance for Copilot:**
-    - Use `actions/cache@v3` for caching common package manager dependencies (Node.js `node_modules`, Python `pip` packages, Java Maven/Gradle dependencies) and build artifacts.
-    - Design highly effective cache keys using `hashFiles` to ensure optimal cache hit rates.
-    - Advise on using `restore-keys` to gracefully fall back to previous caches.
-- **Example (Advanced Caching for Monorepo):**
+### **1. GitHub Actions 快取**
+- **原則：** 快取依賴項和構建輸出以大幅加速後續工作流程執行。
+- **深入探討：**
+    - **快取命中率：** 通過設計有效的快取金鑰，爭取高快取命中率。
+    - **快取金鑰：** 使用基於文件雜湊的唯一金鑰（例如 `hashFiles('**/package-lock.json')`、`hashFiles('**/requirements.txt')`）以僅在依賴項變更時使快取失效。
+    - **還原金鑰：** 使用 `restore-keys` 作為舊的、相容快取的後備。
+    - **快取範圍：** 理解快取的範圍限於儲存庫和分支。
+- **Copilot 指導：**
+    - 使用 `actions/cache@v3` 快取常見的套件管理器依賴項（Node.js `node_modules`、Python `pip` 套件、Java Maven/Gradle 依賴項）和構建製件。
+    - 使用 `hashFiles` 設計高度有效的快取金鑰，以確保最佳的快取命中率。
+    - 建議使用 `restore-keys` 優雅地回退到先前的快取。
+- **範例（Monorepo 的進階快取）：**
 ```yaml
 - name: Cache Node.js modules
   uses: actions/cache@v3
@@ -236,18 +236,18 @@ jobs:
       ${{ runner.os }}-node-
 ```
 
-### **2. Matrix Strategies for Parallelization**
-- **Principle:** Run jobs in parallel across multiple configurations (e.g., different Node.js versions, OS, Python versions, browser types) to accelerate testing and builds.
-- **Deeper Dive:**
-    - **`strategy.matrix`:** Define a matrix of variables.
-    - **`include`/`exclude`:** Fine-tune combinations.
-    - **`fail-fast`:** Control whether job failures in the matrix stop the entire strategy.
-    - **Maximizing Concurrency:** Ideal for running tests across various environments simultaneously.
-- **Guidance for Copilot:**
-    - Utilize `strategy.matrix` to test applications against different environments, programming language versions, or operating systems concurrently.
-    - Suggest `include` and `exclude` for specific matrix combinations to optimize test coverage without unnecessary runs.
-    - Advise on setting `fail-fast: true` (default) for quick feedback on critical failures, or `fail-fast: false` for comprehensive test reporting.
-- **Example (Multi-version, Multi-OS Test Matrix):**
+### **2. 並行化的矩陣策略**
+- **原則：** 跨多個配置並行執行工作（例如不同的 Node.js 版本、OS、Python 版本、瀏覽器類型）以加速測試和構建。
+- **深入探討：**
+    - **`strategy.matrix`：** 定義變數矩陣。
+    - **`include`/`exclude`：** 微調組合。
+    - **`fail-fast`：** 控制矩陣中的工作失敗是否停止整個策略。
+    - **最大化並行性：** 非常適合同時針對各種環境執行測試。
+- **Copilot 指導：**
+    - 利用 `strategy.matrix` 並行測試針對不同環境、程式設計語言版本或作業系統的應用程式。
+    - 建議 `include` 和 `exclude` 以用於特定的矩陣組合，以最佳化測試覆蓋範圍，無需不必要的執行。
+    - 建議設定 `fail-fast: true`（預設）以快速反饋關鍵失敗，或 `fail-fast: false` 以進行全面的測試報告。
+- **範例（多版本、多 OS 測試矩陣）：**
 ```yaml
 jobs:
   test:
@@ -269,339 +269,339 @@ jobs:
         run: npm test
 ```
 
-### **3. Self-Hosted Runners**
-- **Principle:** Use self-hosted runners for specialized hardware, network access to private resources, or environments where GitHub-hosted runners are cost-prohibitive.
-- **Deeper Dive:**
-    - **Custom Environments:** Ideal for large build caches, specific hardware (GPUs), or access to on-premise resources.
-    - **Cost Optimization:** Can be more cost-effective for very high usage.
-    - **Security Considerations:** Requires securing and maintaining your own infrastructure, network access, and updates. This includes proper hardening of the runner machines, managing access controls, and ensuring timely patching.
-    - **Scalability:** Plan for how self-hosted runners will scale with demand, either manually or using auto-scaling solutions.
-- **Guidance for Copilot:**
-    - Recommend self-hosted runners when GitHub-hosted runners do not meet specific performance, cost, security, or network access requirements.
-    - Emphasize the user's responsibility for securing, maintaining, and scaling self-hosted runners, including network configuration and regular security audits.
-    - Advise on using runner groups to organize and manage self-hosted runners efficiently.
+### **3. 自託管執行器**
+- **原則：** 對於特殊硬體、對私有資源的網路存取或 GitHub 託管執行器成本過高的環境，使用自託管執行器。
+- **深入探討：**
+    - **自訂環境：** 非常適合大型構建快取、特定硬體（GPU）或對內部部署資源的存取。
+    - **成本最佳化：** 對於非常高的使用量，可能更具成本效益。
+    - **安全考量：** 需要保護和維護您自己的基礎設施、網路存取和更新。這包括執行器機器的適當強化、管理存取控制和確保及時修補。
+    - **可擴展性：** 規劃自託管執行器如何隨需求擴展，無論是手動還是使用自動擴展解決方案。
+- **Copilot 指導：**
+    - 在 GitHub 託管執行器不符合特定效能、成本、安全或網路存取要求時推薦自託管執行器。
+    - 強調使用者對保護、維護和擴展自託管執行器的責任，包括網路配置和定期安全審計。
+    - 建議使用執行器群組以有效地組織和管理自託管執行器。
 
-### **4. Fast Checkout and Shallow Clones**
-- **Principle:** Optimize repository checkout time to reduce overall workflow duration, especially for large repositories.
-- **Deeper Dive:**
-    - **`fetch-depth`:** Controls how much of the Git history is fetched. `1` for most CI/CD builds is sufficient, as only the latest commit is usually needed. A `fetch-depth` of `0` fetches the entire history, which is rarely needed and can be very slow for large repos.
-    - **`submodules`:** Avoid checking out submodules if not required by the specific job. Fetching submodules adds significant overhead.
-    - **`lfs`:** Manage Git LFS (Large File Storage) files efficiently. If not needed, set `lfs: false`.
-    - **Partial Clones:** Consider using Git's partial clone feature (`--filter=blob:none` or `--filter=tree:0`) for extremely large repositories, though this is often handled by specialized actions or Git client configurations.
-- **Guidance for Copilot:**
-    - Use `actions/checkout@v4` with `fetch-depth: 1` as the default for most build and test jobs to significantly save time and bandwidth.
-    - Only use `fetch-depth: 0` if the workflow explicitly requires full Git history (e.g., for release tagging, deep commit analysis, or `git blame` operations).
-    - Advise against checking out submodules (`submodules: false`) if not strictly necessary for the workflow's purpose.
-    - Suggest optimizing LFS usage if large binary files are present in the repository.
+### **4. 快速簽出和淺層複製**
+- **原則：** 最佳化儲存庫簽出時間以減少整體工作流程持續時間，尤其是對於大型儲存庫。
+- **深入探討：**
+    - **`fetch-depth`：** 控制擷取多少 Git 歷史記錄。對大多數 CI/CD 構建，`1` 就足夠了，因為通常只需要最新提交。`fetch-depth` 為 `0` 擷取整個歷史記錄，這很少需要，對大型倉庫來說可能非常緩慢。
+    - **`submodules`：** 如果特定工作不需要，避免簽出子模組。擷取子模組會增加顯著的開銷。
+    - **`lfs`：** 有效管理 Git LFS（大文件儲存）文件。如果不需要，設定 `lfs: false`。
+    - **部分複製：** 對於極大型儲存庫，考慮使用 Git 的部分複製功能（`--filter=blob:none` 或 `--filter=tree:0`），儘管這通常由專門的動作或 Git 客戶端配置處理。
+- **Copilot 指導：**
+    - 使用 `actions/checkout@v4` 搭配 `fetch-depth: 1` 作為大多數構建和測試工作的預設值，以大幅節省時間和頻寬。
+    - 只有當工作流程明確需要完整 Git 歷史時才使用 `fetch-depth: 0`（例如版本標籤、深度提交分析或 `git blame` 操作）。
+    - 建議不要簽出子模組（`submodules: false`），除非工作流程的目的絕對必要。
+    - 建議如果儲存庫中存在大型二進位文件，優化 LFS 使用。
 
-### **5. Artifacts for Inter-Job and Inter-Workflow Communication**
-- **Principle:** Store and retrieve build outputs (artifacts) efficiently to pass data between jobs within the same workflow or across different workflows, ensuring data persistence and integrity.
-- **Deeper Dive:**
-    - **`actions/upload-artifact`:** Used to upload files or directories produced by a job. Artifacts are automatically compressed and can be downloaded later.
-    - **`actions/download-artifact`:** Used to download artifacts in subsequent jobs or workflows. You can download all artifacts or specific ones by name.
-    - **`retention-days`:** Crucial for managing storage costs and compliance. Set an appropriate retention period based on the artifact's importance and regulatory requirements.
-    - **Use Cases:** Build outputs (executables, compiled code, Docker images), test reports (JUnit XML, HTML reports), code coverage reports, security scan results, generated documentation, static website builds.
-    - **Limitations:** Artifacts are immutable once uploaded. Max size per artifact can be several gigabytes, but be mindful of storage costs.
-- **Guidance for Copilot:**
-    - Use `actions/upload-artifact@v3` and `actions/download-artifact@v3` to reliably pass large files between jobs within the same workflow or across different workflows, promoting modularity and efficiency.
-    - Set appropriate `retention-days` for artifacts to manage storage costs and ensure old artifacts are pruned.
-    - Advise on uploading test reports, coverage reports, and security scan results as artifacts for easy access, historical analysis, and integration with external reporting tools.
-    - Suggest using artifacts to pass compiled binaries or packaged applications from a build job to a deployment job, ensuring the exact same artifact is deployed that was built and tested.
+### **5. 用於工作間和工作流程間通訊的製件**
+- **原則：** 有效地儲存和檢索構建輸出（製件）以在同一工作流程內或不同工作流程間傳遞資料，確保資料持久化和完整性。
+- **深入探討：**
+    - **`actions/upload-artifact`：** 用於上傳由工作產生的文件或目錄。製件自動壓縮，可稍後下載。
+    - **`actions/download-artifact`：** 用於在後續工作或工作流程中下載製件。你可以下載所有製件或按名稱下載特定製件。
+    - **`retention-days`：** 對於管理存儲成本和合規性至關重要。根據製件的重要性和法規要求設定適當的保留期間。
+    - **使用案例：** 構建輸出（可執行文件、編譯代碼、Docker 映像）、測試報告（JUnit XML、HTML 報告）、代碼覆蓋率報告、安全掃描結果、生成的文檔、靜態網站構建。
+    - **限制：** 製件在上傳後是不可變的。每個製件的最大大小可達幾 GB，但要留意儲存成本。
+- **Copilot 指導：**
+    - 使用 `actions/upload-artifact@v3` 和 `actions/download-artifact@v3` 在同一工作流程內或不同工作流程間可靠地在工作間傳遞大文件，促進模組化和效率。
+    - 為製件設定適當的 `retention-days`，以管理存儲成本，並確保舊製件被刪除。
+    - 建議上傳測試報告、覆蓋率報告和安全掃描結果作為製件，以便輕鬆存取、歷史分析和與外部報告工具的整合。
+    - 建議使用製件將已編譯的二進位文件或已封裝的應用程式從構建工作傳遞到部署工作，確保部署的完全相同製件是構建和測試的。
 
-## Comprehensive Testing in CI/CD (Expanded)
+## CI/CD 中的全面測試（擴展）
 
-### **1. Unit Tests**
-- **Principle:** Run unit tests on every code push to ensure individual code components (functions, classes, modules) function correctly in isolation. They are the fastest and most numerous tests.
-- **Deeper Dive:**
-    - **Fast Feedback:** Unit tests should execute rapidly, providing immediate feedback to developers on code quality and correctness. Parallelization of unit tests is highly recommended.
-    - **Code Coverage:** Integrate code coverage tools (e.g., Istanbul for JS, Coverage.py for Python, JaCoCo for Java) and enforce minimum coverage thresholds. Aim for high coverage, but focus on meaningful tests, not just line coverage.
-    - **Test Reporting:** Publish test results using `actions/upload-artifact` (e.g., JUnit XML reports) or specific test reporter actions that integrate with GitHub Checks/Annotations.
-    - **Mocking and Stubbing:** Emphasize the use of mocks and stubs to isolate units under test from their dependencies.
-- **Guidance for Copilot:**
-    - Configure a dedicated job for running unit tests early in the CI pipeline, ideally triggered on every `push` and `pull_request`.
-    - Use appropriate language-specific test runners and frameworks (Jest, Vitest, Pytest, Go testing, JUnit, NUnit, XUnit, RSpec).
-    - Recommend collecting and publishing code coverage reports and integrating with services like Codecov, Coveralls, or SonarQube for trend analysis.
-    - Suggest strategies for parallelizing unit tests to reduce execution time.
+### **1. 單元測試**
+- **原則：** 在每次代碼推送時執行單元測試，確保個別代碼組件（函數、類別、模組）在隔離狀態下正確運行。它們是最快且數量最多的測試。
+- **深入探討：**
+    - **快速反饋：** 單元測試應快速執行，為開發者提供有關代碼品質和正確性的即時反饋。強烈建議並行化單元測試。
+    - **代碼覆蓋率：** 整合代碼覆蓋率工具（例如 Istanbul 用於 JS、Coverage.py 用於 Python、JaCoCo 用於 Java）並強制執行最小覆蓋率閾值。力求高覆蓋率，但專注於有意義的測試，而不是只關注行覆蓋率。
+    - **測試報告：** 使用 `actions/upload-artifact`（例如 JUnit XML 報告）或與 GitHub Checks/Annotations 整合的特定測試報告器動作來發佈測試結果。
+    - **模擬和存根：** 強調使用模擬和存根以隔離被測單元與其依賴項。
+- **Copilot 指導：**
+    - 配置專用工作以執行單元測試，在 CI 流程早期執行，理想上在每個 `push` 和 `pull_request` 上觸發。
+    - 使用適當的語言特定的測試執行器和框架（Jest、Vitest、Pytest、Go 測試、JUnit、NUnit、XUnit、RSpec）。
+    - 推薦收集和發佈代碼覆蓋率報告，並與 Codecov、Coveralls 或 SonarQube 等服務整合以進行趨勢分析。
+    - 建議並行化單元測試以減少執行時間的策略。
 
-### **2. Integration Tests**
-- **Principle:** Run integration tests to verify interactions between different components or services, ensuring they work together as expected. These tests typically involve real dependencies (e.g., databases, APIs).
-- **Deeper Dive:**
-    - **Service Provisioning:** Use `services` within a job to spin up temporary databases, message queues, external APIs, or other dependencies via Docker containers. This provides a consistent and isolated testing environment.
-    - **Test Doubles vs. Real Services:** Balance between mocking external services for pure unit tests and using real, lightweight instances for more realistic integration tests. Prioritize real instances when testing actual integration points.
-    - **Test Data Management:** Plan for managing test data, ensuring tests are repeatable and data is cleaned up or reset between runs.
-    - **Execution Time:** Integration tests are typically slower than unit tests. Optimize their execution and consider running them less frequently than unit tests (e.g., on PR merge instead of every push).
-- **Guidance for Copilot:**
-    - Provision necessary services (databases like PostgreSQL/MySQL, message queues like RabbitMQ/Kafka, in-memory caches like Redis) using `services` in the workflow definition or Docker Compose during testing.
-    - Advise on running integration tests after unit tests, but before E2E tests, to catch integration issues early.
-    - Provide examples of how to set up `service` containers in GitHub Actions workflows.
-    - Suggest strategies for creating and cleaning up test data for integration test runs.
+### **2. 整合測試**
+- **原則：** 執行整合測試以驗證不同組件或服務之間的交互，確保它們按預期協作。這些測試通常涉及真實依賴項（例如資料庫、API）。
+- **深入探討：**
+    - **服務配置：** 使用工作內的 `services` 旋轉臨時資料庫、訊息佇列、外部 API 或其他通過 Docker 容器的依賴項。這提供一致和隔離的測試環境。
+    - **測試雙重 vs. 真實服務：** 在為純單元測試嘲笑外部服務和為更實際的整合測試使用真實、輕量級實例之間平衡。優先考慮在測試實際整合點時使用真實實例。
+    - **測試資料管理：** 規劃管理測試資料，確保測試可重複且資料在執行間清潔或重置。
+    - **執行時間：** 整合測試通常比單元測試慢。優化它們的執行，並考慮不如單元測試頻繁地執行它們（例如在 PR 合併時而不是每次推送）。
+- **Copilot 指導：**
+    - 在工作流程定義中使用 `services` 配置必要的服務（如 PostgreSQL/MySQL 之類的資料庫、RabbitMQ/Kafka 之類的訊息佇列、Redis 之類的記憶體內快取）或在測試時使用 Docker Compose。
+    - 建議在單元測試之後但在 E2E 測試之前執行整合測試，以早期捕捉整合問題。
+    - 提供如何在 GitHub Actions 工作流程中設定 `service` 容器的範例。
+    - 建議為整合測試執行建立和清潔測試資料的策略。
 
-### **3. End-to-End (E2E) Tests**
-- **Principle:** Simulate full user behavior to validate the entire application flow from UI to backend, ensuring the complete system works as intended from a user's perspective.
-- **Deeper Dive:**
-    - **Tools:** Use modern E2E testing frameworks like Cypress, Playwright, or Selenium. These provide browser automation capabilities.
-    - **Staging Environment:** Ideally run E2E tests against a deployed staging environment that closely mirrors production, for maximum fidelity. Avoid running directly in CI unless resources are dedicated and isolated.
-    - **Flakiness Mitigation:** Address flakiness proactively with explicit waits, robust selectors, retries for failed tests, and careful test data management. Flaky tests erode trust in the pipeline.
-    - **Visual Regression Testing:** Consider integrating visual regression testing (e.g., Applitools, Percy) to catch UI discrepancies.
-    - **Reporting:** Capture screenshots and video recordings on failure to aid debugging.
-- **Guidance for Copilot:**
-    - Use tools like Cypress, Playwright, or Selenium for E2E testing, providing guidance on their setup within GitHub Actions.
-    - Recommend running E2E tests against a deployed staging environment to catch issues before production and validate the full deployment process.
-    - Configure test reporting, video recordings, and screenshots on failure to aid debugging and provide richer context for test results.
-    - Advise on strategies to minimize E2E test flakiness, such as robust element selection and retry mechanisms.
+### **3. 端對端（E2E）測試**
+- **原則：** 模擬完整的使用者行為以驗證從 UI 到後端的整個應用程式流程，確保完整系統從使用者的角度按預期運作。
+- **深入探討：**
+    - **工具：** 使用現代 E2E 測試框架，如 Cypress、Playwright 或 Selenium。這些提供瀏覽器自動化功能。
+    - **暫存環境：** 理想情況下，針對部署的暫存環境執行 E2E 測試，該環境緊密鏡像生產，以獲得最大保真度。除非資源是專用和隔離的，否則避免直接在 CI 中執行。
+    - **易變性緩解：** 主動解決易變性問題，使用顯式等待、強大的選擇器、失敗的測試重試和仔細的測試資料管理。易變的測試會削弱對流程的信任。
+    - **視覺回歸測試：** 考慮整合視覺回歸測試（例如 Applitools、Percy）以捕捉 UI 差異。
+    - **報告：** 捕捉失敗時的螢幕截圖和影片錄製以幫助除錯。
+- **Copilot 指導：**
+    - 使用 Cypress、Playwright 或 Selenium 等工具進行 E2E 測試，提供有關其在 GitHub Actions 內設定的指導。
+    - 推薦針對已部署的暫存環境執行 E2E 測試，以在生產前捕捉問題並驗證完整部署過程。
+    - 配置測試報告、失敗時的影片錄製和螢幕截圖，以幫助除錯並為測試結果提供更豐富的上下文。
+    - 建議最小化 E2E 測試易變性的策略，如強大的元素選擇和重試機制。
 
-### **4. Performance and Load Testing**
-- **Principle:** Assess application performance and behavior under anticipated and peak load conditions to identify bottlenecks, ensure scalability, and prevent regressions.
-- **Deeper Dive:**
-    - **Tools:** JMeter, k6, Locust, Gatling, Artillery. Choose based on language, complexity, and specific needs.
-    - **Integration:** Integrate into CI/CD for continuous performance regression detection. Run these tests less frequently than unit/integration tests (e.g., nightly, weekly, or on significant feature merges).
-    - **Thresholds:** Define clear performance thresholds (e.g., response time, throughput, error rates) and fail builds if these are exceeded.
-    - **Baseline Comparison:** Compare current performance metrics against established baselines to detect degradation.
-- **Guidance for Copilot:**
-    - Suggest integrating performance and load testing into the CI pipeline for critical applications, providing examples for common tools.
-    - Advise on setting performance baselines and failing the build if performance degrades beyond a set threshold.
-    - Recommend running these tests in a dedicated environment that simulates production load patterns.
-    - Guide on analyzing performance test results to pinpoint areas for optimization (e.g., database queries, API endpoints).
+### **4. 效能和負載測試**
+- **原則：** 評估應用程式在預期和峰值負載條件下的效能和行為，以識別瓶頸、確保可擴展性並防止回歸。
+- **深入探討：**
+    - **工具：** JMeter、k6、Locust、Gatling、Artillery。根據語言、複雜性和特定需求選擇。
+    - **整合：** 整合到 CI/CD 以進行持續效能回歸檢測。執行這些測試的頻率低於單元/整合測試（例如每晚、每週或在重大功能合併時）。
+    - **閾值：** 定義清晰的效能閾值（例如響應時間、吞吐量、錯誤率）並在超過這些閾值時使構建失敗。
+    - **基準線比較：** 將目前效能指標與既定基準線進行比較，以檢測劣化。
+- **Copilot 指導：**
+    - 建議為關鍵應用程式將效能和負載測試整合到 CI 流程中，提供常見工具的範例。
+    - 建議設定效能基準線，並在效能超過設定閾值時使構建失敗。
+    - 推薦在模擬生產負載模式的專用環境中執行這些測試。
+    - 指導分析效能測試結果以查明最佳化區域（例如資料庫查詢、API 端點）。
 
-### **5. Test Reporting and Visibility**
-- **Principle:** Make test results easily accessible, understandable, and visible to all stakeholders (developers, QA, product owners) to foster transparency and enable quick issue resolution.
-- **Deeper Dive:**
-    - **GitHub Checks/Annotations:** Leverage these for inline feedback directly in pull requests, showing which tests passed/failed and providing links to detailed reports.
-    - **Artifacts:** Upload comprehensive test reports (JUnit XML, HTML reports, code coverage reports, video recordings, screenshots) as artifacts for long-term storage and detailed inspection.
-    - **Integration with Dashboards:** Push results to external dashboards or reporting tools (e.g., SonarQube, custom reporting tools, Allure Report, TestRail) for aggregated views and historical trends.
-    - **Status Badges:** Use GitHub Actions status badges in your README to indicate the latest build/test status at a glance.
-- **Guidance for Copilot:**
-    - Use actions that publish test results as annotations or checks on PRs for immediate feedback and easy debugging directly in the GitHub UI.
-    - Upload detailed test reports (e.g., XML, HTML, JSON) as artifacts for later inspection and historical analysis, including negative results like error screenshots.
-    - Advise on integrating with external reporting tools for a more comprehensive view of test execution trends and quality metrics.
-    - Suggest adding workflow status badges to the README for quick visibility of CI/CD health.
+### **5. 測試報告和可見性**
+- **原則：** 使測試結果易於存取、可理解，並對所有利益相關者（開發人員、QA、產品所有者）可見，以促進透明度並實現快速問題解決。
+- **深入探討：**
+    - **GitHub Checks/Annotations：** 利用這些在 pull 請求中進行內嵌反饋，顯示哪些測試通過/失敗，並提供詳細報告的連結。
+    - **製件：** 上傳全面的測試報告（JUnit XML、HTML 報告、代碼覆蓋率報告、影片錄製、螢幕截圖）作為製件，供長期儲存和詳細檢查。
+    - **與儀表板整合：** 將結果推送到外部儀表板或報告工具（例如 SonarQube、自訂報告工具、Allure Report、TestRail）以進行彙總檢視和歷史趨勢。
+    - **狀態徽章：** 在 README 中使用 GitHub Actions 狀態徽章，一目瞭然地指示最新構建/測試狀態。
+- **Copilot 指導：**
+    - 使用發佈測試結果作為 PR 上的註釋或檢查的動作，以即時反饋和在 GitHub UI 中輕鬆除錯。
+    - 上傳詳細的測試報告（例如 XML、HTML、JSON）作為製件，以供稍後檢查和歷史分析，包括錯誤螢幕截圖等負面結果。
+    - 建議與外部報告工具整合，以便更全面地檢視測試執行趨勢和品質指標。
+    - 建議將工作流程狀態徽章添加到 README，以快速查看 CI/CD 健康狀況。
 
-## Advanced Deployment Strategies (Expanded)
+## 進階部署策略（擴展）
 
-### **1. Staging Environment Deployment**
-- **Principle:** Deploy to a staging environment that closely mirrors production for comprehensive validation, user acceptance testing (UAT), and final checks before promotion to production.
-- **Deeper Dive:**
-    - **Mirror Production:** Staging should closely mimic production in terms of infrastructure, data, configuration, and security. Any significant discrepancies can lead to issues in production.
-    - **Automated Promotion:** Implement automated promotion from staging to production upon successful UAT and necessary manual approvals. This reduces human error and speeds up releases.
-    - **Environment Protection:** Use environment protection rules in GitHub Actions to prevent accidental deployments, enforce manual approvals, and restrict which branches can deploy to staging.
-    - **Data Refresh:** Regularly refresh staging data from production (anonymized if necessary) to ensure realistic testing scenarios.
-- **Guidance for Copilot:**
-    - Create a dedicated `environment` for staging with approval rules, secret protection, and appropriate branch protection policies.
-    - Design workflows to automatically deploy to staging on successful merges to specific development or release branches (e.g., `develop`, `release/*`).
-    - Advise on ensuring the staging environment is as close to production as possible to maximize test fidelity.
-    - Suggest implementing automated smoke tests and post-deployment validation on staging.
+### **1. 暫存環境部署**
+- **原則：** 部署到緊密鏡像生產的暫存環境，以進行全面驗證、使用者接受度測試（UAT）和在推廣到生產前的最後檢查。
+- **深入探討：**
+    - **鏡像生產：** 暫存應在基礎設施、資料、配置和安全性方面緊密模擬生產。任何重大差異都可能導致生產問題。
+    - **自動推廣：** 實現從暫存到生產的自動推廣，以成功的 UAT 和必要的手動核准。這減少人為錯誤並加快發佈。
+    - **環境保護：** 在 GitHub Actions 中使用環境保護規則，防止意外部署、強制執行手動核准並限制哪些分支可以部署到暫存。
+    - **資料刷新：** 定期從生產刷新暫存資料（如必要，匿名化）以確保實際的測試情景。
+- **Copilot 指導：**
+    - 為暫存創建專用的 `environment`，具有核准規則、祕密保護和適當的分支保護政策。
+    - 設計工作流程以自動部署到暫存，在成功合併到特定開發或發佈分支時（例如 `develop`、`release/*`）。
+    - 建議確保暫存環境盡可能接近生產，以最大化測試保真度。
+    - 建議在暫存上實現自動化煙霧測試和部署後驗證。
 
-### **2. Production Environment Deployment**
-- **Principle:** Deploy to production only after thorough validation, potentially multiple layers of manual approvals, and robust automated checks, prioritizing stability and zero-downtime.
-- **Deeper Dive:**
-    - **Manual Approvals:** Critical for production deployments, often involving multiple team members, security sign-offs, or change management processes. GitHub Environments support this natively.
-    - **Rollback Capabilities:** Essential for rapid recovery from unforeseen issues. Ensure a quick and reliable way to revert to the previous stable state.
-    - **Observability During Deployment:** Monitor production closely *during* and *immediately after* deployment for any anomalies or performance degradation. Use dashboards, alerts, and tracing.
-    - **Progressive Delivery:** Consider advanced techniques like blue/green, canary, or dark launching for safer rollouts.
-    - **Emergency Deployments:** Have a separate, highly expedited pipeline for critical hotfixes that bypasses non-essential approvals but still maintains security checks.
-- **Guidance for Copilot:**
-    - Create a dedicated `environment` for production with required reviewers, strict branch protections, and clear deployment windows.
-    - Implement manual approval steps for production deployments, potentially integrating with external ITSM or change management systems.
-    - Emphasize the importance of clear, well-tested rollback strategies and automated rollback procedures in case of deployment failures.
-    - Advise on setting up comprehensive monitoring and alerting for production systems to detect and respond to issues immediately post-deployment.
+### **2. 生產環境部署**
+- **原則：** 僅在徹底驗證、可能的多層手動核准和強大的自動化檢查後部署到生產，優先考慮穩定性和零停機。
+- **深入探討：**
+    - **手動核准：** 對生產部署至關重要，通常涉及多個團隊成員、安全簽核或變更管理過程。GitHub Environments 本地支援此功能。
+    - **回滾功能：** 對於快速從不可預見的問題復復至關重要。確保快速可靠的方式以還原到之前的穩定狀態。
+    - **部署期間的可觀察性：** 在部署期間和之後立即密切監控生產，以查找任何異常或效能降低。使用儀表板、警報和追蹤。
+    - **漸進式交付：** 考慮用於更安全推出的進階技術，如藍綠部署、金絲雀部署或暗啟動。
+    - **緊急部署：** 有一個獨立的、高度加速的流程用於關鍵熱修補，繞過非必要的核准但仍保持安全檢查。
+- **Copilot 指導：**
+    - 為生產創建專用的 `environment`，具有必需的審核者、嚴格的分支保護和清晰的部署視窗。
+    - 為生產部署實現手動核准步驟，可能與外部 ITSM 或變更管理系統整合。
+    - 強調清晰、經過充分測試的回滾策略和在部署失敗時的自動回滾程序的重要性。
+    - 建議設定全面的監控和警報用於生產系統，以在部署後立即檢測和回應問題。
 
-### **3. Deployment Types (Beyond Basic Rolling Update)**
-- **Rolling Update (Default for Deployments):** Gradually replaces instances of the old version with new ones. Good for most cases, especially stateless applications.
-    - **Guidance:** Configure `maxSurge` (how many new instances can be created above the desired replica count) and `maxUnavailable` (how many old instances can be unavailable) for fine-grained control over rollout speed and availability.
-- **Blue/Green Deployment:** Deploy a new version (green) alongside the existing stable version (blue) in a separate environment, then switch traffic completely from blue to green.
-    - **Guidance:** Suggest for critical applications requiring zero-downtime releases and easy rollback. Requires managing two identical environments and a traffic router (load balancer, Ingress controller, DNS).
-    - **Benefits:** Instantaneous rollback by switching traffic back to the blue environment.
-- **Canary Deployment:** Gradually roll out new versions to a small subset of users (e.g., 5-10%) before a full rollout. Monitor performance and error rates for the canary group.
-    - **Guidance:** Recommend for testing new features or changes with a controlled blast radius. Implement with Service Mesh (Istio, Linkerd) or Ingress controllers that support traffic splitting and metric-based analysis.
-    - **Benefits:** Early detection of issues with minimal user impact.
-- **Dark Launch/Feature Flags:** Deploy new code but keep features hidden from users until toggled on for specific users/groups via feature flags.
-    - **Guidance:** Advise for decoupling deployment from release, allowing continuous delivery without continuous exposure of new features. Use feature flag management systems (LaunchDarkly, Split.io, Unleash).
-    - **Benefits:** Reduces deployment risk, enables A/B testing, and allows for staged rollouts.
-- **A/B Testing Deployments:** Deploy multiple versions of a feature concurrently to different user segments to compare their performance based on user behavior and business metrics.
-    - **Guidance:** Suggest integrating with specialized A/B testing platforms or building custom logic using feature flags and analytics.
+### **3. 部署類型（超越基本滾動更新）**
+- **滾動更新（部署的預設值）：** 逐漸將舊版本的實例替換為新版本。適用於大多數情況，尤其是無狀態應用程式。
+    - **指導：** 配置 `maxSurge`（可在所需副本計數上方創建多少個新實例）和 `maxUnavailable`（可有多少舊實例不可用）以精細控制推出速度和可用性。
+- **藍綠部署：** 在單獨的環境中部署新版本（綠色）與現有穩定版本（藍色）並排，然後完全將流量從藍色切換到綠色。
+    - **指導：** 對於需要零停機發佈和輕鬆回滾的關鍵應用程式建議。需要管理兩個相同環境和流量路由器（負載平衡器、Ingress 控制器、DNS）。
+    - **優點：** 通過切換流量回藍色環境進行即時回滾。
+- **金絲雀部署：** 逐漸將新版本推出給一小部分使用者（例如 5-10%），然後進行完整推出。監控金絲雀群組的效能和錯誤率。
+    - **指導：** 推薦用於在受控的爆炸半徑內測試新功能或變更。使用支援流量分割和基於指標分析的 Service Mesh（Istio、Linkerd）或 Ingress 控制器實現。
+    - **優點：** 以最小使用者影響進行早期問題檢測。
+- **暗啟動/功能旗幟：** 部署新代碼但將功能隱藏在使用者之外，直到通過功能旗幟為特定使用者/群組切換開啟。
+    - **指導：** 建議用於將部署與發佈分離，允許持續交付而不持續暴露新功能。使用功能旗幟管理系統（LaunchDarkly、Split.io、Unleash）。
+    - **優點：** 減少部署風險、啟用 A/B 測試並允許分階段推出。
+- **A/B 測試部署：** 同時向不同使用者段部署功能的多個版本，以基於使用者行為和商業指標比較其效能。
+    - **指導：** 建議與專門的 A/B 測試平台整合或使用功能旗幟和分析構建自訂邏輯。
 
-### **4. Rollback Strategies and Incident Response**
-- **Principle:** Be able to quickly and safely revert to a previous stable version in case of issues, minimizing downtime and business impact. This requires proactive planning.
-- **Deeper Dive:**
-    - **Automated Rollbacks:** Implement mechanisms to automatically trigger rollbacks based on monitoring alerts (e.g., sudden increase in errors, high latency) or failure of post-deployment health checks.
-    - **Versioned Artifacts:** Ensure previous successful build artifacts, Docker images, or infrastructure states are readily available and easily deployable. This is crucial for fast recovery.
-    - **Runbooks:** Document clear, concise, and executable rollback procedures for manual intervention when automation isn't sufficient or for complex scenarios. These should be regularly reviewed and tested.
-    - **Post-Incident Review:** Conduct blameless post-incident reviews (PIRs) to understand the root cause of failures, identify lessons learned, and implement preventative measures to improve resilience and reduce MTTR.
-    - **Communication Plan:** Have a clear communication plan for stakeholders during incidents and rollbacks.
-- **Guidance for Copilot:**
-    - Instruct users to store previous successful build artifacts and images for quick recovery, ensuring they are versioned and easily retrievable.
-    - Advise on implementing automated rollback steps in the pipeline, triggered by monitoring or health check failures, and providing examples.
-    - Emphasize building applications with "undo" in mind, meaning changes should be easily reversible.
-    - Suggest creating comprehensive runbooks for common incident scenarios, including step-by-step rollback instructions, and highlight their importance for MTTR.
-    - Guide on setting up alerts that are specific and actionable enough to trigger an automatic or manual rollback.
+### **4. 回滾策略和事件回應**
+- **原則：** 能夠在發生問題時快速且安全地還原到之前的穩定版本，最小化停機和業務影響。這需要主動規劃。
+- **深入探討：**
+    - **自動回滾：** 實現機制以根據監控警報（例如突然增加錯誤、高延遲）或部署後健康檢查失敗自動觸發回滾。
+    - **版本控制製件：** 確保先前成功的構建製件、Docker 映像或基礎設施狀態容易獲得和易於部署。這對於快速復復至關重要。
+    - **執行簿：** 記錄清晰、簡潔且可執行的回滾程序，用於手動干預何時自動化不充分或複雜情景。應定期檢查和測試這些。
+    - **事後審查：** 進行無責任的事件後審查（PIR）以理解失敗的根本原因、識別經驗教訓並實施預防措施以改進彈性並減少 MTTR。
+    - **通訊計劃：** 有明確的利益相關者溝通計劃在事件和回滾期間。
+- **Copilot 指導：**
+    - 指示使用者儲存先前成功的構建製件和映像以進行快速復復，確保它們版本控制且易於檢索。
+    - 建議在流程中實現自動回滾步驟，由監控或健康檢查失敗觸發，並提供範例。
+    - 強調以"撤銷"的想法構建應用程式，意味著變更應易於還原。
+    - 建議為常見事件情景創建全面的執行簿，包括分步回滾說明，並強調其對 MTTR 的重要性。
+    - 指導設定警報，具體且可執行，足以觸發自動或手動回滾。
 
-## GitHub Actions Workflow Review Checklist (Comprehensive)
+## GitHub Actions 工作流程審查檢查清單（全面）
 
-This checklist provides a granular set of criteria for reviewing GitHub Actions workflows to ensure they adhere to best practices for security, performance, and reliability.
+此檢查清單提供一組精細的標準，用於審查 GitHub Actions 工作流程，以確保它們符合安全性、效能和可靠性的最佳實踐。
 
-- [ ] **General Structure and Design:**
-    - Is the workflow `name` clear, descriptive, and unique?
-    - Are `on` triggers appropriate for the workflow's purpose (e.g., `push`, `pull_request`, `workflow_dispatch`, `schedule`)? Are path/branch filters used effectively?
-    - Is `concurrency` used for critical workflows or shared resources to prevent race conditions or resource exhaustion?
-    - Are global `permissions` set to the principle of least privilege (`contents: read` by default), with specific overrides for jobs?
-    - Are reusable workflows (`workflow_call`) leveraged for common patterns to reduce duplication and improve maintainability?
-    - Is the workflow organized logically with meaningful job and step names?
+- [ ] **一般結構和設計：**
+    - 工作流程 `name` 是否清晰、具描述性且唯一？
+    - `on` 觸發是否適合工作流程的目的（例如 `push`、`pull_request`、`workflow_dispatch`、`schedule`）？路徑/分支過濾器是否有效使用？
+    - 是否為關鍵工作流程或共享資源使用 `concurrency` 以防止競爭條件或資源耗盡？
+    - 全局 `permissions` 是否設定為最小權限原則（`contents: read` 作為預設），具有工作的特定覆蓋？
+    - 是否利用可重用工作流程（`workflow_call`）用於常見模式以減少重複並改進可維護性？
+    - 工作流程是否有邏輯組織，具有有意義的工作和步驟名稱？
 
-- [ ] **Jobs and Steps Best Practices:**
-    - Are jobs clearly named and represent distinct phases (e.g., `build`, `lint`, `test`, `deploy`)?
-    - Are `needs` dependencies correctly defined between jobs to ensure proper execution order?
-    - Are `outputs` used efficiently for inter-job and inter-workflow communication?
-    - Are `if` conditions used effectively for conditional job/step execution (e.g., environment-specific deployments, branch-specific actions)?
-    - Are all `uses` actions securely versioned (pinned to a full commit SHA or specific major version tag like `@v4`)? Avoid `main` or `latest` tags.
-    - Are `run` commands efficient and clean (combined with `&&`, temporary files removed, multi-line scripts clearly formatted)?
-    - Are environment variables (`env`) defined at the appropriate scope (workflow, job, step) and never hardcoded sensitive data?
-    - Is `timeout-minutes` set for long-running jobs to prevent hung workflows?
+- [ ] **工作和步驟最佳實踐：**
+    - 工作是否清晰命名並代表不同階段（例如 `build`、`lint`、`test`、`deploy`）？
+    - `needs` 依賴性是否在工作間正確定義以確保適當的執行順序？
+    - `outputs` 是否有效用於工作間和工作流程間通訊？
+    - `if` 條件是否有效用於條件性工作/步驟執行（例如環境特定部署、分支特定動作）？
+    - 所有 `uses` 動作是否安全版本控制（固定到完整提交 SHA 或特定主要版本標籤如 `@v4`）？避免 `main` 或 `latest` 標籤。
+    - `run` 指令是否有效且清潔（使用 `&&` 結合、刪除暫時文件、多行腳本清楚格式化）？
+    - 環境變數（`env`）是否在適當的範圍（工作流程、工作、步驟）定義，且從不硬編碼敏感資料？
+    - `timeout-minutes` 是否為長執行工作設定以防止掛起的工作流程？
 
-- [ ] **Security Considerations:**
-    - Are all sensitive data accessed exclusively via GitHub `secrets` context (`${{ secrets.MY_SECRET }}`)? Never hardcoded, never exposed in logs (even if masked).
-    - Is OpenID Connect (OIDC) used for cloud authentication where possible, eliminating long-lived credentials?
-    - Is `GITHUB_TOKEN` permission scope explicitly defined and limited to the minimum necessary access (`contents: read` as a baseline)?
-    - Are Software Composition Analysis (SCA) tools (e.g., `dependency-review-action`, Snyk) integrated to scan for vulnerable dependencies?
-    - Are Static Application Security Testing (SAST) tools (e.g., CodeQL, SonarQube) integrated to scan source code for vulnerabilities, with critical findings blocking builds?
-    - Is secret scanning enabled for the repository and are pre-commit hooks suggested for local credential leak prevention?
-    - Is there a strategy for container image signing (e.g., Notary, Cosign) and verification in deployment workflows if container images are used?
-    - For self-hosted runners, are security hardening guidelines followed and network access restricted?
+- [ ] **安全考量：**
+    - 是否所有敏感資料都明確通過 GitHub `secrets` 上下文存取（`${{ secrets.MY_SECRET }}`）？從不硬編碼，永不在日誌中暴露（即使被遮蔽）。
+    - OpenID Connect（OIDC）是否用於雲端認證（在可能的情況下），消除長期認證的需要？
+    - `GITHUB_TOKEN` 權限範圍是否明確定義並限制為最小必要存取（`contents: read` 作為基線）？
+    - 軟體成分分析（SCA）工具（例如 `dependency-review-action`、Snyk）是否整合以掃描易受攻擊的依賴項？
+    - 靜態應用程式安全測試（SAST）工具（例如 CodeQL、SonarQube）是否整合以掃描源代碼中的漏洞，關鍵發現是否阻止構建？
+    - 祕密掃描是否為儲存庫啟用，預提交鉤子是否被建議用於本地認證洩露防止？
+    - 容器映像簽署是否有策略（例如 Notary、Cosign），如果使用容器映像，部署工作流程中是否有驗證？
+    - 對於自託管執行器，安全強化指南是否被遵循且網路存取是否受限？
 
-- [ ] **Optimization and Performance:**
-    - Is caching (`actions/cache`) effectively used for package manager dependencies (`node_modules`, `pip` caches, Maven/Gradle caches) and build outputs?
-    - Are cache `key` and `restore-keys` designed for optimal cache hit rates (e.g., using `hashFiles`)?
-    - Is `strategy.matrix` used for parallelizing tests or builds across different environments, language versions, or OSs?
-    - Is `fetch-depth: 1` used for `actions/checkout` where full Git history is not required?
-    - Are artifacts (`actions/upload-artifact`, `actions/download-artifact`) used efficiently for transferring data between jobs/workflows rather than re-building or re-fetching?
-    - Are large files managed with Git LFS and optimized for checkout if necessary?
+- [ ] **最佳化和效能：**
+    - `actions/cache` 是否有效用於套件管理器依賴項（`node_modules`、`pip` 快取、Maven/Gradle 快取）和構建輸出？
+    - `key` 和 `restore-keys` 是否設計用於最佳的快取命中率（例如使用 `hashFiles`）？
+    - `strategy.matrix` 是否用於並行化測試或跨不同環境、語言版本或 OS 的構建？
+    - `actions/checkout` 是否使用 `fetch-depth: 1`（當不需要完整 Git 歷史時）？
+    - 製件（`actions/upload-artifact`、`actions/download-artifact`）是否有效用於在工作/工作流程間轉移資料而不是重新構建或重新擷取？
+    - 大型文件是否使用 Git LFS 管理和優化用於簽出（如必要）？
 
-- [ ] **Testing Strategy Integration:**
-    - Are comprehensive unit tests configured with a dedicated job early in the pipeline?
-    - Are integration tests defined, ideally leveraging `services` for dependencies, and run after unit tests?
-    - Are End-to-End (E2E) tests included, preferably against a staging environment, with robust flakiness mitigation?
-    - Are performance and load tests integrated for critical applications with defined thresholds?
-    - Are all test reports (JUnit XML, HTML, coverage) collected, published as artifacts, and integrated into GitHub Checks/Annotations for clear visibility?
-    - Is code coverage tracked and enforced with a minimum threshold?
+- [ ] **測試策略整合：**
+    - 是否配置全面的單元測試，在流程早期有專用工作？
+    - 整合測試是否定義，理想上利用 `services` 用於依賴項，並在單元測試後執行？
+    - 端對端（E2E）測試是否包括，優先針對暫存環境，具有強大的易變性緩解？
+    - 是否為關鍵應用程式整合效能和負載測試，具有定義的閾值？
+    - 所有測試報告（JUnit XML、HTML、覆蓋率）是否收集、發佈為製件並整合到 GitHub Checks/Annotations 中以提高清晰度？
+    - 代碼覆蓋率是否被追蹤並使用最小閾值強制執行？
 
-- [ ] **Deployment Strategy and Reliability:**
-    - Are staging and production deployments using GitHub `environment` rules with appropriate protections (manual approvals, required reviewers, branch restrictions)?
-    - Are manual approval steps configured for sensitive production deployments?
-    - Is a clear and well-tested rollback strategy in place and automated where possible (e.g., `kubectl rollout undo`, reverting to previous stable image)?
-    - Are chosen deployment types (e.g., rolling, blue/green, canary, dark launch) appropriate for the application's criticality and risk tolerance?
-    - Are post-deployment health checks and automated smoke tests implemented to validate successful deployment?
-    - Is the workflow resilient to temporary failures (e.g., retries for flaky network operations)?
+- [ ] **部署策略和可靠性：**
+    - 暫存和生產部署是否使用 GitHub `environment` 規則，具有適當的保護（手動核准、必需的審核者、分支限制）？
+    - 是否為敏感生產部署配置了手動核准步驟？
+    - 是否有明確、經過充分測試的回滾策略，並在可能的地方自動化（例如 `kubectl rollout undo`、還原到先前的穩定映像）？
+    - 選擇的部署類型（例如滾動、藍綠、金絲雀、暗啟動）是否適合應用程式的關鍵程度和風險容限？
+    - 是否實現了部署後健康檢查和自動化煙霧測試以驗證成功部署？
+    - 工作流程是否對暫時性故障具有彈性（例如易變網路操作的重試）？
 
-- [ ] **Observability and Monitoring:**
-    - Is logging adequate for debugging workflow failures (using STDOUT/STDERR for application logs)?
-    - Are relevant application and infrastructure metrics collected and exposed (e.g., Prometheus metrics)?
-    - Are alerts configured for critical workflow failures, deployment issues, or application anomalies detected in production?
-    - Is distributed tracing (e.g., OpenTelemetry, Jaeger) integrated for understanding request flows in microservices architectures?
-    - Are artifact `retention-days` configured appropriately to manage storage and compliance?
+- [ ] **可觀察性和監控：**
+    - 日誌記錄是否充足以便除錯工作流程故障（對應用程式日誌使用 STDOUT/STDERR）？
+    - 是否收集和暴露相關的應用程式和基礎設施指標（例如 Prometheus 指標）？
+    - 是否為關鍵工作流程故障、部署問題或生產中檢測到的應用程式異常配置了警報？
+    - 是否為理解微服務架構中的請求流程整合了分散式追蹤（例如 OpenTelemetry、Jaeger）？
+    - 製件 `retention-days` 是否適當配置以管理儲存和合規性？
 
-## Troubleshooting Common GitHub Actions Issues (Deep Dive)
+## 疑難排解常見的 GitHub Actions 問題（深入探討）
 
-This section provides an expanded guide to diagnosing and resolving frequent problems encountered when working with GitHub Actions workflows.
+本節提供診斷和解決使用 GitHub Actions 工作流程時遇到的頻繁問題的擴展指南。
 
-### **1. Workflow Not Triggering or Jobs/Steps Skipping Unexpectedly**
-- **Root Causes:** Mismatched `on` triggers, incorrect `paths` or `branches` filters, erroneous `if` conditions, or `concurrency` limitations.
-- **Actionable Steps:**
-    - **Verify Triggers:**
-        - Check the `on` block for exact match with the event that should trigger the workflow (e.g., `push`, `pull_request`, `workflow_dispatch`, `schedule`).
-        - Ensure `branches`, `tags`, or `paths` filters are correctly defined and match the event context. Remember that `paths-ignore` and `branches-ignore` take precedence.
-        - If using `workflow_dispatch`, verify the workflow file is in the default branch and any required `inputs` are provided correctly during manual trigger.
-    - **Inspect `if` Conditions:**
-        - Carefully review all `if` conditions at the workflow, job, and step levels. A single false condition can prevent execution.
-        - Use `always()` on a debug step to print context variables (`${{ toJson(github) }}`, `${{ toJson(job) }}`, `${{ toJson(steps) }}`) to understand the exact state during evaluation.
-        - Test complex `if` conditions in a simplified workflow.
-    - **Check `concurrency`:**
-        - If `concurrency` is defined, verify if a previous run is blocking a new one for the same group. Check the "Concurrency" tab in the workflow run.
-    - **Branch Protection Rules:** Ensure no branch protection rules are preventing workflows from running on certain branches or requiring specific checks that haven't passed.
+### **1. 工作流程未觸發或工作/步驟意外跳過**
+- **根本原因：** 不符合的 `on` 觸發、不正確的 `paths` 或 `branches` 過濾、錯誤的 `if` 條件或 `concurrency` 限制。
+- **可執行步驟：**
+    - **驗證觸發：**
+        - 檢查 `on` 區塊是否與應觸發工作流程的事件精確匹配（例如 `push`、`pull_request`、`workflow_dispatch`、`schedule`）。
+        - 確保 `branches`、`tags` 或 `paths` 過濾正確定義並匹配事件上下文。記住 `paths-ignore` 和 `branches-ignore` 優先。
+        - 如果使用 `workflow_dispatch`，驗證工作流程文件在預設分支中且任何必需的 `inputs` 在手動觸發期間正確提供。
+    - **檢查 `if` 條件：**
+        - 仔細審查工作流程、工作和步驟級別的所有 `if` 條件。單個假條件可能導致執行被阻止。
+        - 在除錯步驟上使用 `always()` 列印上下文變數（`${{ toJson(github) }}`、`${{ toJson(job) }}`、`${{ toJson(steps) }}`）以理解評估期間的確切狀態。
+        - 在簡化的工作流程中測試複雜的 `if` 條件。
+    - **檢查 `concurrency`：**
+        - 如果定義了 `concurrency`，驗證先前的執行是否正在為同一群組阻止新執行。檢查工作流程執行中的「Concurrency」標籤。
+    - **分支保護規則：** 確保沒有分支保護規則阻止工作流程在特定分支上執行或要求未通過的特定檢查。
 
-### **2. Permissions Errors (`Resource not accessible by integration`, `Permission denied`)**
-- **Root Causes:** `GITHUB_TOKEN` lacking necessary permissions, incorrect environment secrets access, or insufficient permissions for external actions.
-- **Actionable Steps:**
-    - **`GITHUB_TOKEN` Permissions:**
-        - Review the `permissions` block at both the workflow and job levels. Default to `contents: read` globally and grant specific write permissions only where absolutely necessary (e.g., `pull-requests: write` for updating PR status, `packages: write` for publishing packages).
-        - Understand the default permissions of `GITHUB_TOKEN` which are often too broad.
-    - **Secret Access:**
-        - Verify if secrets are correctly configured in the repository, organization, or environment settings.
-        - Ensure the workflow/job has access to the specific environment if environment secrets are used. Check if any manual approvals are pending for the environment.
-        - Confirm the secret name matches exactly (`secrets.MY_API_KEY`).
-    - **OIDC Configuration:**
-        - For OIDC-based cloud authentication, double-check the trust policy configuration in your cloud provider (AWS IAM roles, Azure AD app registrations, GCP service accounts) to ensure it correctly trusts GitHub's OIDC issuer.
-        - Verify the role/identity assigned has the necessary permissions for the cloud resources being accessed.
+### **2. 權限錯誤（`Resource not accessible by integration`、`Permission denied`）**
+- **根本原因：** `GITHUB_TOKEN` 缺少必要權限、不正確的環境祕密存取或外部動作的權限不足。
+- **可執行步驟：**
+    - **`GITHUB_TOKEN` 權限：**
+        - 在工作流程和工作級別審查 `permissions` 區塊。全局預設為 `contents: read`，且僅在絕對必要的地方授予特定寫入權限（例如 `pull-requests: write` 用於更新 PR 狀態、`packages: write` 用於發佈套件）。
+        - 理解 `GITHUB_TOKEN` 的預設權限，這些權限通常過於寬泛。
+    - **祕密存取：**
+        - 驗證祕密是否在儲存庫、組織或環境設定中正確配置。
+        - 確保工作流程/工作能夠存取特定環境（如果使用環境祕密）。檢查環境是否有任何待核准。
+        - 確認祕密名稱完全匹配（`secrets.MY_API_KEY`）。
+    - **OIDC 配置：**
+        - 對於基於 OIDC 的雲端認證，再次檢查雲端供應商中的信任政策配置（AWS IAM 角色、Azure AD 應用程式註冊、GCP 服務帳戶）以確保它正確信任 GitHub 的 OIDC 發行者。
+        - 驗證分配的角色/身份具有被存取的雲端資源的必要權限。
 
-### **3. Caching Issues (`Cache not found`, `Cache miss`, `Cache creation failed`)**
-- **Root Causes:** Incorrect cache key logic, `path` mismatch, cache size limits, or frequent cache invalidation.
-- **Actionable Steps:**
-    - **Validate Cache Keys:**
-        - Verify `key` and `restore-keys` are correct and dynamically change only when dependencies truly change (e.g., `key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}`). A cache key that is too dynamic will always result in a miss.
-        - Use `restore-keys` to provide fallbacks for slight variations, increasing cache hit chances.
-    - **Check `path`:**
-        - Ensure the `path` specified in `actions/cache` for saving and restoring corresponds exactly to the directory where dependencies are installed or artifacts are generated.
-        - Verify the existence of the `path` before caching.
-    - **Debug Cache Behavior:**
-        - Use the `actions/cache/restore` action with `lookup-only: true` to inspect what keys are being tried and why a cache miss occurred without affecting the build.
-        - Review workflow logs for `Cache hit` or `Cache miss` messages and associated keys.
-    - **Cache Size and Limits:** Be aware of GitHub Actions cache size limits per repository. If caches are very large, they might be evicted frequently.
+### **3. 快取問題（`Cache not found`、`Cache miss`、`Cache creation failed`）**
+- **根本原因：** 不正確的快取金鑰邏輯、`path` 不匹配、快取大小限制或頻繁的快取失效。
+- **可執行步驟：**
+    - **驗證快取金鑰：**
+        - 驗證 `key` 和 `restore-keys` 正確且僅在依賴項真正變更時動態變更（例如 `key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}`）。過於動態的快取金鑰將始終導致命中失敗。
+        - 使用 `restore-keys` 為輕微變動提供後備，增加快取命中機會。
+    - **檢查 `path`：**
+        - 確保 `actions/cache` 中指定的 `path` 用於儲存和還原對應於安裝依賴項或生成製件的目錄。
+        - 驗證 `path` 在快取之前的存在。
+    - **除錯快取行為：**
+        - 使用 `actions/cache/restore` 動作搭配 `lookup-only: true` 檢查嘗試了哪些金鑰以及為什麼在不影響構建的情況下發生快取命中失敗。
+        - 在工作流程日誌中審查 `Cache hit` 或 `Cache miss` 訊息和關聯的金鑰。
+    - **快取大小和限制：** 注意每個儲存庫的 GitHub Actions 快取大小限制。如果快取非常大，可能會頻繁被逐出。
 
-### **4. Long Running Workflows or Timeouts**
-- **Root Causes:** Inefficient steps, lack of parallelism, large dependencies, unoptimized Docker image builds, or resource bottlenecks on runners.
-- **Actionable Steps:**
-    - **Profile Execution Times:**
-        - Use the workflow run summary to identify the longest-running jobs and steps. This is your primary tool for optimization.
-    - **Optimize Steps:**
-        - Combine `run` commands with `&&` to reduce layer creation and overhead in Docker builds.
-        - Clean up temporary files immediately after use (`rm -rf` in the same `RUN` command).
-        - Install only necessary dependencies.
-    - **Leverage Caching:**
-        - Ensure `actions/cache` is optimally configured for all significant dependencies and build outputs.
-    - **Parallelize with Matrix Strategies:**
-        - Break down tests or builds into smaller, parallelizable units using `strategy.matrix` to run them concurrently.
-    - **Choose Appropriate Runners:**
-        - Review `runs-on`. For very resource-intensive tasks, consider using larger GitHub-hosted runners (if available) or self-hosted runners with more powerful specs.
-    - **Break Down Workflows:**
-        - For very complex or long workflows, consider breaking them into smaller, independent workflows that trigger each other or use reusable workflows.
+### **4. 長執行工作流程或超時**
+- **根本原因：** 低效步驟、缺乏並行性、大型依賴項、未最佳化的 Docker 映像構建或執行器上的資源瓶頸。
+- **可執行步驟：**
+    - **執行時間分析：**
+        - 使用工作流程執行摘要識別最長執行的工作和步驟。這是最佳化的主要工具。
+    - **最佳化步驟：**
+        - 使用 `&&` 結合 `run` 指令以減少層建立和 Docker 構建中的開銷。
+        - 立即清潔暫時文件後使用（在相同的 `RUN` 指令中使用 `rm -rf`）。
+        - 僅安裝必要的依賴項。
+    - **利用快取：**
+        - 確保 `actions/cache` 對所有重要依賴項和構建輸出進行了最佳配置。
+    - **使用矩陣策略並行化：**
+        - 使用 `strategy.matrix` 將測試或構建分解為更小的、可並行化的單位以同時執行。
+    - **選擇適當的執行器：**
+        - 審查 `runs-on`。對於非常資源密集的任務，考慮使用更大的 GitHub 託管執行器（如果可用）或具有更強大規格的自託管執行器。
+    - **分解工作流程：**
+        - 對於非常複雜或長的工作流程，考慮將其分解為較小的、獨立的工作流程，彼此觸發或使用可重用工作流程。
 
-### **5. Flaky Tests in CI (`Random failures`, `Passes locally, fails in CI`)**
-- **Root Causes:** Non-deterministic tests, race conditions, environmental inconsistencies between local and CI, reliance on external services, or poor test isolation.
-- **Actionable Steps:**
-    - **Ensure Test Isolation:**
-        - Make sure each test is independent and doesn't rely on the state left by previous tests. Clean up resources (e.g., database entries) after each test or test suite.
-    - **Eliminate Race Conditions:**
-        - For integration/E2E tests, use explicit waits (e.g., wait for element to be visible, wait for API response) instead of arbitrary `sleep` commands.
-        - Implement retries for operations that interact with external services or have transient failures.
-    - **Standardize Environments:**
-        - Ensure the CI environment (Node.js version, Python packages, database versions) matches the local development environment as closely as possible.
-        - Use Docker `services` for consistent test dependencies.
-    - **Robust Selectors (E2E):**
-        - Use stable, unique selectors in E2E tests (e.g., `data-testid` attributes) instead of brittle CSS classes or XPath.
-    - **Debugging Tools:**
-        - Configure E2E test frameworks to capture screenshots and video recordings on test failure in CI to visually diagnose issues.
-    - **Run Flaky Tests in Isolation:**
-        - If a test is consistently flaky, isolate it and run it repeatedly to identify the underlying non-deterministic behavior.
+### **5. CI 中易變的測試（`Random failures`、`Passes locally, fails in CI`）**
+- **根本原因：** 非確定性測試、競爭條件、本地和 CI 之間的環境不一致、對外部服務的依賴或測試隔離不佳。
+- **可執行步驟：**
+    - **確保測試隔離：**
+        - 確保每個測試是獨立的，不依賴於先前測試遺留的狀態。在每個測試或測試套件後清潔資源（例如資料庫條目）。
+    - **消除競爭條件：**
+        - 對於整合/E2E 測試，使用顯式等待（例如等待元素可見、等待 API 回應）而不是任意 `sleep` 指令。
+        - 為與外部服務交互或具有暫時性故障的操作實現重試。
+    - **標準化環境：**
+        - 確保 CI 環境（Node.js 版本、Python 套件、資料庫版本）盡可能與本地開發環境相符。
+        - 使用 Docker `services` 以實現一致的測試依賴項。
+    - **強大的選擇器（E2E）：**
+        - 在 E2E 測試中使用穩定、唯一的選擇器（例如 `data-testid` 屬性）而不是易變的 CSS 類別或 XPath。
+    - **除錯工具：**
+        - 配置 E2E 測試框架以在測試在 CI 中失敗時捕捉螢幕截圖和影片錄製，以進行視覺診斷。
+    - **隔離執行易變測試：**
+        - 如果測試始終易變，隔離它並重複執行以識別潛在的非確定性行為。
 
-### **6. Deployment Failures (Application Not Working After Deploy)**
-- **Root Causes:** Configuration drift, environmental differences, missing runtime dependencies, application errors, or network issues post-deployment.
-- **Actionable Steps:**
-    - **Thorough Log Review:**
-        - Review deployment logs (`kubectl logs`, application logs, server logs) for any error messages, warnings, or unexpected output during the deployment process and immediately after.
-    - **Configuration Validation:**
-        - Verify environment variables, ConfigMaps, Secrets, and other configuration injected into the deployed application. Ensure they match the target environment's requirements and are not missing or malformed.
-        - Use pre-deployment checks to validate configuration.
-    - **Dependency Check:**
-        - Confirm all application runtime dependencies (libraries, frameworks, external services) are correctly bundled within the container image or installed in the target environment.
-    - **Post-Deployment Health Checks:**
-        - Implement robust automated smoke tests and health checks *after* deployment to immediately validate core functionality and connectivity. Trigger rollbacks if these fail.
-    - **Network Connectivity:**
-        - Check network connectivity between deployed components (e.g., application to database, service to service) within the new environment. Review firewall rules, security groups, and Kubernetes network policies.
-    - **Rollback Immediately:**
-        - If a production deployment fails or causes degradation, trigger the rollback strategy immediately to restore service. Diagnose the issue in a non-production environment.
+### **6. 部署故障（應用程式在部署後不工作）**
+- **根本原因：** 配置漂移、環境差異、缺少執行時間依賴項、應用程式錯誤或部署後網路問題。
+- **可執行步驟：**
+    - **詳細日誌審查：**
+        - 審查部署日誌（`kubectl logs`、應用程式日誌、伺服器日誌）以檢查部署過程中和之後的任何錯誤訊息、警告或意外輸出。
+    - **配置驗證：**
+        - 驗證注入部署應用程式的環境變數、ConfigMaps、祕密和其他配置。確保它們符合目標環境的要求且不缺失或格式不正確。
+        - 使用部署前檢查驗證配置。
+    - **依賴關係檢查：**
+        - 確認所有應用程式執行時間依賴項（程式庫、框架、外部服務）在容器映像中正確綑綁或在目標環境中安裝。
+    - **部署後健康檢查：**
+        - 實現強大的自動化煙霧測試和健康檢查以在部署後立即驗證核心功能和連接性。如果這些失敗，觸發回滾。
+    - **網路連接：**
+        - 檢查已部署組件間的網路連接（例如應用程式至資料庫、服務至服務）在新環境中。檢查防火牆規則、安全群組和 Kubernetes 網路政策。
+    - **立即回滾：**
+        - 如果生產部署失敗或導致劣化，立即觸發回滾策略以還原服務。在非生產環境中診斷問題。
 
-## Conclusion
+## 結論
 
-GitHub Actions is a powerful and flexible platform for automating your software development lifecycle. By rigorously applying these best practices—from securing your secrets and token permissions, to optimizing performance with caching and parallelization, and implementing comprehensive testing and robust deployment strategies—you can guide developers in building highly efficient, secure, and reliable CI/CD pipelines. Remember that CI/CD is an iterative journey; continuously measure, optimize, and secure your pipelines to achieve faster, safer, and more confident releases. Your detailed guidance will empower teams to leverage GitHub Actions to its fullest potential and deliver high-quality software with confidence. This extensive document serves as a foundational resource for anyone looking to master CI/CD with GitHub Actions.
+GitHub Actions 是用於自動化軟體開發生命週期的強大且靈活的平台。通過嚴格應用這些最佳實踐——從保護祕密和令牌權限、通過使用快取和並行化進行最佳化效能、實現全面的測試和強大的部署策略——你可以指導開發者構建高效、安全且可靠的 CI/CD 流程。記住 CI/CD 是一個反覆的旅程；持續測量、最佳化和保護你的流程，以實現更快、更安全和更有信心的發佈。你的詳細指導將使團隊能夠充分發揮 GitHub Actions 的潛力，並充滿信心地交付高品質軟體。這份廣泛的文檔是想掌握 GitHub Actions CI/CD 的任何人的基礎資源。
 
 ---
 
-<!-- End of GitHub Actions CI/CD Best Practices Instructions --> 
+<!-- End of GitHub Actions CI/CD Best Practices Instructions -->

@@ -3,171 +3,171 @@ mode: 'agent'
 description: 'Update the llms.txt file in the root folder to reflect changes in documentation or specifications following the llms.txt specification at https://llmstxt.org/'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'extensions', 'fetch', 'githubRepo', 'openSimpleBrowser', 'problems', 'runTasks', 'search', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
 ---
-# Update LLMs.txt File
+# 更新 LLMs.txt 檔案
 
-Update the existing `llms.txt` file in the root of the repository to reflect changes in documentation, specifications, or repository structure. This file provides high-level guidance to large language models (LLMs) on where to find relevant content for understanding the repository's purpose and specifications.
+更新版本庫根目錄中現有的 `llms.txt` 檔案，以反映文件、規格或版本庫結構的變更。此檔案根據 llms.txt 規格 (https://llmstxt.org/) 為大型語言模型 (LLM) 提供高層級引導，指示它們在何處找到相關內容以了解版本庫的目的和規格。
 
-## Primary Directive
+## 主要指令
 
-Update the existing `llms.txt` file to maintain accuracy and compliance with the llms.txt specification while reflecting current repository structure and content. The file must remain optimized for LLM consumption while staying human-readable.
+更新現有的 `llms.txt` 檔案，以保持準確性並符合 llms.txt 規格，同時反映當前版本庫的結構和內容。此檔案必須保持針對 LLM 消費進行最佳化，同時保持人類可讀。
 
-## Analysis and Planning Phase
+## 分析與規劃階段
 
-Before updating the `llms.txt` file, you must complete a thorough analysis:
+在更新 `llms.txt` 檔案之前，你必須完成徹底的分析：
 
-### Step 1: Review Current File and Specification
-- Read the existing `llms.txt` file to understand current structure
-- Review the official specification at https://llmstxt.org/ to ensure continued compliance
-- Identify areas that may need updates based on repository changes
+### 第 1 步：檢視現有檔案與規格
+- 讀取現有的 `llms.txt` 檔案，了解當前的結構
+- 檢視 https://llmstxt.org/ 的正式規格，以確保持續符合規格
+- 根據版本庫的變更識別可能需要更新的領域
 
-### Step 2: Repository Structure Analysis
-- Examine the current repository structure using appropriate tools
-- Compare current structure with what's documented in existing `llms.txt`
-- Identify new directories, files, or documentation that should be included
-- Note any removed or relocated files that need to be updated
+### 第 2 步：版本庫結構分析
+- 使用適當的工具檢查當前版本庫結構
+- 將當前結構與現有 `llms.txt` 中的文件進行比較
+- 識別應包含的新目錄、檔案或文件
+- 記錄需要更新的任何已移除或重新定位的檔案
 
-### Step 3: Content Discovery and Change Detection
-- Identify new README files and their locations
-- Find new documentation files (`.md` files in `/docs/`, `/spec/`, etc.)
-- Locate new specification files and their purposes
-- Discover new configuration files and their relevance
-- Find new example files and code samples
-- Identify any changes to existing documentation structure
+### 第 3 步：內容發現與變更偵測
+- 識別新的 README 檔案及其位置
+- 尋找新的文件檔案 (`/docs/`、`/spec/` 等中的 `.md` 檔案)
+- 定位新的規格檔案及其用途
+- 探索新的組態檔案及其相關性
+- 尋找新的範例檔案和程式碼樣本
+- 識別現有文件結構的任何變更
 
-### Step 4: Create Update Plan
-Based on your analysis, create a structured plan that includes:
-- Changes needed to maintain accuracy
-- New files to be added to the llms.txt
-- Outdated references to be removed or updated
-- Organizational improvements to maintain clarity
+### 第 4 步：建立更新計畫
+根據你的分析，建立包含以下內容的結構化計畫：
+- 保持準確性所需的變更
+- 要新增至 llms.txt 的新檔案
+- 要移除或更新的過期參考
+- 保持清晰度的組織改進
 
-## Implementation Requirements
+## 實施要求
 
-### Format Compliance
-The updated `llms.txt` file must maintain this exact structure per the specification:
+### 格式符合性
+更新後的 `llms.txt` 檔案必須按照規格維持此確切結構：
 
-1. **H1 Header**: Single line with repository/project name (required)
-2. **Blockquote Summary**: Brief description in blockquote format (optional but recommended)
-3. **Additional Details**: Zero or more markdown sections without headings for context
-4. **File List Sections**: Zero or more H2 sections containing markdown lists of links
+1. **H1 標題**：包含版本庫/專案名稱的單行（必需）
+2. **引用摘要**：以區塊引用格式的簡短說明（選用但建議）
+3. **其他詳細資訊**：零個或多個沒有標題的 markdown 章節供參考
+4. **檔案列表章節**：零個或多個包含標記連結清單的 H2 章節
 
-### Content Requirements
+### 內容要求
 
-#### Required Elements
-- **Project Name**: Clear, descriptive title as H1
-- **Summary**: Concise blockquote explaining the repository's purpose
-- **Key Files**: Essential files organized by category (H2 sections)
+#### 必需元素
+- **專案名稱**：作為 H1 的清晰、詳細的標題
+- **摘要**：簡潔的區塊引用，說明版本庫的目的
+- **關鍵檔案**：按類別組織的必要檔案（H2 章節）
 
-#### File Link Format
-Each file link must follow: `[descriptive-name](relative-url): optional description`
+#### 檔案連結格式
+每個檔案連結必須遵循：`[descriptive-name](relative-url): optional description`
 
-#### Section Organization
-Organize files into logical H2 sections such as:
-- **Documentation**: Core documentation files
-- **Specifications**: Technical specifications and requirements
-- **Examples**: Sample code and usage examples
-- **Configuration**: Setup and configuration files
-- **Optional**: Secondary files (special meaning - can be skipped for shorter context)
+#### 章節組織
+將檔案組織為邏輯 H2 章節，例如：
+- **文件**：核心文件檔案
+- **規格**：技術規格和要求
+- **範例**：樣本程式碼和使用方式範例
+- **組態**：設定和組態檔案
+- **選用**：次要檔案（特殊含義 - 可針對較短的內容跳過）
 
-### Content Guidelines
+### 內容指導方針
 
-#### Language and Style
-- Use concise, clear, unambiguous language
-- Avoid jargon without explanation
-- Write for both human and LLM readers
-- Be specific and informative in descriptions
+#### 語言與風格
+- 使用簡潔、清晰、無歧義的語言
+- 避免沒有解釋的術語
+- 為人類和 LLM 讀者撰寫
+- 在說明中具體且具有資訊性
 
-#### File Selection Criteria
-Include files that:
-- Explain the repository's purpose and scope
-- Provide essential technical documentation
-- Show usage examples and patterns
-- Define interfaces and specifications
-- Contain configuration and setup instructions
+#### 檔案選擇標準
+包含以下檔案：
+- 說明版本庫的目的和範圍
+- 提供必要的技術文件
+- 展示使用方式範例和模式
+- 定義介面和規格
+- 包含組態和設定說明
 
-Exclude files that:
-- Are purely implementation details
-- Contain redundant information
-- Are build artifacts or generated content
-- Are not relevant to understanding the project
+排除以下檔案：
+- 純粹的實作細節
+- 包含冗餘資訊
+- 組建成品或產生的內容
+- 與了解專案無關
 
-## Execution Steps
+## 執行步驟
 
-### Step 1: Current State Analysis
-1. Read the existing `llms.txt` file thoroughly
-2. Examine the current repository structure completely
-3. Compare existing file references with actual repository content
-4. Identify outdated, missing, or incorrect references
-5. Note any structural issues with the current file
+### 第 1 步：當前狀態分析
+1. 徹底讀取現有的 `llms.txt` 檔案
+2. 完全檢查當前版本庫結構
+3. 將現有檔案參考與實際版本庫內容進行比較
+4. 識別過期、遺失或不正確的參考
+5. 記錄當前檔案的任何結構問題
 
-### Step 2: Content Planning
-1. Determine if the primary purpose statement needs updates
-2. Review and update the summary blockquote if needed
-3. Plan additions for new files and directories
-4. Plan removals for outdated or moved content
-5. Reorganize sections if needed for better clarity
+### 第 2 步：內容規劃
+1. 判斷主要目的陳述是否需要更新
+2. 檢視並在需要時更新摘要區塊引用
+3. 為新檔案和目錄規劃新增項目
+4. 為過期或已移動的內容規劃移除項目
+5. 如果需要，重新組織章節以獲得更好的清晰度
 
-### Step 3: File Updates
-1. Update the existing `llms.txt` file in the repository root
-2. Maintain compliance with the exact format specification
-3. Add new file references with appropriate descriptions
-4. Remove or update outdated references
-5. Ensure all links are valid relative paths
+### 第 3 步：檔案更新
+1. 更新版本庫根目錄中的現有 `llms.txt` 檔案
+2. 保持符合確切的格式規格
+3. 新增具有適當說明的新檔案參考
+4. 移除或更新過期的參考
+5. 確保所有連結都是有效的相對路徑
 
-### Step 4: Validation
-1. Verify continued compliance with https://llmstxt.org/ specification
-2. Check that all links are valid and accessible
-3. Ensure the file still serves as an effective LLM navigation tool
-4. Confirm the file remains both human and machine readable
+### 第 4 步：驗證
+1. 驗證繼續符合 https://llmstxt.org/ 規格
+2. 檢查所有連結是否有效且可存取
+3. 確保檔案仍然充當有效的 LLM 導覽工具
+4. 確認檔案保持人類和機器可讀
 
-## Quality Assurance
+## 品質保證
 
-### Format Validation
-- ✅ H1 header with project name
-- ✅ Blockquote summary (if included)
-- ✅ H2 sections for file lists
-- ✅ Proper markdown link format
-- ✅ No broken or invalid links
-- ✅ Consistent formatting throughout
+### 格式驗證
+- ✅ 帶有專案名稱的 H1 標題
+- ✅ 區塊引用摘要（如果包含）
+- ✅ 檔案列表的 H2 章節
+- ✅ 適當的 markdown 連結格式
+- ✅ 沒有斷開的或無效的連結
+- ✅ 整個頁面的一致格式
 
-### Content Validation
-- ✅ Clear, unambiguous language
-- ✅ Comprehensive coverage of essential files
-- ✅ Logical organization of content
-- ✅ Appropriate file descriptions
-- ✅ Serves as effective LLM navigation tool
+### 內容驗證
+- ✅ 清晰、無歧義的語言
+- ✅ 必要檔案的全面涵蓋
+- ✅ 內容的邏輯組織
+- ✅ 適當的檔案說明
+- ✅ 充當有效的 LLM 導覽工具
 
-### Specification Compliance
-- ✅ Follows https://llmstxt.org/ format exactly
-- ✅ Uses required markdown structure
-- ✅ Implements optional sections appropriately
-- ✅ File located at repository root (`/llms.txt`)
+### 規格符合性
+- ✅ 完全遵循 https://llmstxt.org/ 格式
+- ✅ 使用必需的 markdown 結構
+- ✅ 適當實施選用章節
+- ✅ 檔案位於版本庫根目錄 (`/llms.txt`)
 
-## Update Strategy
+## 更新策略
 
-### Addition Process
-When adding new content:
-1. Identify the appropriate section for new files
-2. Create clear, descriptive names for links
-3. Write concise but informative descriptions
-4. Maintain alphabetical or logical ordering within sections
-5. Consider if new sections are needed for new content types
+### 新增程序
+新增新內容時：
+1. 為新檔案識別適當的章節
+2. 為連結建立清晰、詳細的名稱
+3. 撰寫簡潔但有資訊的說明
+4. 保持章節內的按字母順序或邏輯順序
+5. 考慮是否需要為新內容型態建立新章節
 
-### Removal Process
-When removing outdated content:
-1. Verify files are actually removed or relocated
-2. Check if relocated files should be updated rather than removed
-3. Remove entire sections if they become empty
-4. Update cross-references if needed
+### 移除程序
+移除過期內容時：
+1. 驗證檔案是否真的被移除或重新定位
+2. 檢查重新定位的檔案是否應更新而不是移除
+3. 如果章節變空，移除整個章節
+4. 如果需要，更新交叉參考
 
-### Reorganization Process
-When restructuring content:
-1. Maintain logical flow from general to specific
-2. Keep essential documentation in primary sections
-3. Move secondary content to "Optional" section if appropriate
-4. Ensure new organization improves LLM navigation
+### 重新組織程序
+重新組織內容時：
+1. 保持從一般到特定的邏輯流程
+2. 在主要章節中保持必要的文件
+3. 如果適當，將次要內容移至「選用」章節
+4. 確保新組織改進 LLM 導覽
 
-Example structure for `llms.txt`:
+`llms.txt` 的範例結構：
 
 ```txt
 # [Repository Name]
@@ -203,14 +203,14 @@ Example structure for `llms.txt`:
 - [Design Decisions](docs/decisions.md): Historical design decision records
 ```
 
-## Success Criteria
+## 成功標準
 
-The updated `llms.txt` file should:
-1. Accurately reflect the current repository structure and content
-2. Maintain compliance with the llms.txt specification
-3. Provide clear navigation to essential documentation
-4. Remove outdated or incorrect references
-5. Include new important files and documentation
-6. Maintain logical organization for easy LLM consumption
-7. Use clear, unambiguous language throughout
-8. Continue to serve both human and machine readers effectively
+更新後的 `llms.txt` 檔案應該：
+1. 準確反映當前版本庫的結構和內容
+2. 保持符合 llms.txt 規格
+3. 提供對必要文件的清晰導覽
+4. 移除過期或不正確的參考
+5. 包含新的重要檔案和文件
+6. 為簡易 LLM 消費保持邏輯組織
+7. 在整個頁面使用清晰、無歧義的語言
+8. 繼續有效地為人類和機器讀者服務

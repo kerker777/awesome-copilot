@@ -3,13 +3,13 @@ description: 'Generate a complete Model Context Protocol server project in Ruby 
 mode: agent
 ---
 
-# Ruby MCP Server Generator
+# Ruby MCP 伺服器生成器
 
-Generate a complete, production-ready MCP server in Ruby using the official Ruby SDK.
+使用官方 Ruby SDK 生成一個完整的、生產就緒的 MCP 伺服器。
 
-## Project Generation
+## 專案生成
 
-When asked to create a Ruby MCP server, generate a complete project with this structure:
+當要求建立 Ruby MCP 伺服器時，使用此結構生成完整的專案：
 
 ```
 my-mcp-server/
@@ -36,7 +36,7 @@ my-mcp-server/
 └── README.md
 ```
 
-## Gemfile Template
+## Gemfile 樣板
 
 ```ruby
 source 'https://rubygems.org'
@@ -50,7 +50,7 @@ group :development, :test do
 end
 ```
 
-## Rakefile Template
+## Rakefile 樣板
 
 ```ruby
 require 'rake/testtask'
@@ -67,7 +67,7 @@ RuboCop::RakeTask.new
 task default: %i[test rubocop]
 ```
 
-## lib/my_mcp_server.rb Template
+## lib/my_mcp_server.rb 樣板
 
 ```ruby
 # frozen_string_literal: true
@@ -84,7 +84,7 @@ module MyMcpServer
 end
 ```
 
-## lib/my_mcp_server/server.rb Template
+## lib/my_mcp_server/server.rb 樣板
 
 ```ruby
 # frozen_string_literal: true
@@ -133,7 +133,7 @@ module MyMcpServer
 end
 ```
 
-## lib/my_mcp_server/tools/greet_tool.rb Template
+## lib/my_mcp_server/tools/greet_tool.rb 樣板
 
 ```ruby
 # frozen_string_literal: true
@@ -186,7 +186,7 @@ module MyMcpServer
 end
 ```
 
-## lib/my_mcp_server/tools/calculate_tool.rb Template
+## lib/my_mcp_server/tools/calculate_tool.rb 樣板
 
 ```ruby
 # frozen_string_literal: true
@@ -263,7 +263,7 @@ module MyMcpServer
 end
 ```
 
-## lib/my_mcp_server/prompts/code_review_prompt.rb Template
+## lib/my_mcp_server/prompts/code_review_prompt.rb 樣板
 
 ```ruby
 # frozen_string_literal: true
@@ -325,7 +325,7 @@ module MyMcpServer
 end
 ```
 
-## lib/my_mcp_server/resources/example_resource.rb Template
+## lib/my_mcp_server/resources/example_resource.rb 樣板
 
 ```ruby
 # frozen_string_literal: true
@@ -364,7 +364,7 @@ module MyMcpServer
 end
 ```
 
-## bin/mcp-server Template
+## bin/mcp-server 樣板
 
 ```ruby
 #!/usr/bin/env ruby
@@ -385,12 +385,12 @@ rescue StandardError => e
 end
 ```
 
-Make the file executable:
+讓文件可執行：
 ```bash
 chmod +x bin/mcp-server
 ```
 
-## test/test_helper.rb Template
+## test/test_helper.rb 樣板
 
 ```ruby
 # frozen_string_literal: true
@@ -400,7 +400,7 @@ require 'my_mcp_server'
 require 'minitest/autorun'
 ```
 
-## test/tools/greet_tool_test.rb Template
+## test/tools/greet_tool_test.rb 樣板
 
 ```ruby
 # frozen_string_literal: true
@@ -438,7 +438,7 @@ module MyMcpServer
 end
 ```
 
-## test/tools/calculate_tool_test.rb Template
+## test/tools/calculate_tool_test.rb 樣板
 
 ```ruby
 # frozen_string_literal: true
@@ -524,44 +524,44 @@ module MyMcpServer
 end
 ```
 
-## README.md Template
+## README.md 樣板
 
 ```markdown
-# My MCP Server
+# 我的 MCP 伺服器
 
-A Model Context Protocol server built with Ruby and the official MCP Ruby SDK.
+使用 Ruby 和官方 MCP Ruby SDK 建立的 Model Context Protocol 伺服器。
 
-## Features
+## 功能
 
-- ✅ Tools: greet, calculate
-- ✅ Prompts: code_review
-- ✅ Resources: example-data
-- ✅ Input/output schemas
-- ✅ Tool annotations
-- ✅ Structured content
-- ✅ Full test coverage
+- ✅ 工具：greet, calculate
+- ✅ 提示：code_review
+- ✅ 資源：example-data
+- ✅ 輸入/輸出架構
+- ✅ 工具註解
+- ✅ 結構化內容
+- ✅ 完整測試涵蓋
 
-## Requirements
+## 需求
 
-- Ruby 3.0 or later
+- Ruby 3.0 或更新版本
 
-## Installation
+## 安裝
 
 ```bash
 bundle install
 ```
 
-## Usage
+## 使用
 
-### Stdio Transport
+### Stdio 傳輸
 
-Run the server:
+執行伺服器：
 
 ```bash
 bundle exec bin/mcp-server
 ```
 
-Then send JSON-RPC requests:
+然後傳送 JSON-RPC 請求：
 
 ```bash
 {"jsonrpc":"2.0","id":"1","method":"ping"}
@@ -569,9 +569,9 @@ Then send JSON-RPC requests:
 {"jsonrpc":"2.0","id":"3","method":"tools/call","params":{"name":"greet","arguments":{"name":"Ruby"}}}
 ```
 
-### Rails Integration
+### Rails 整合
 
-Add to your Rails controller:
+新增到 Rails 控制器：
 
 ```ruby
 class McpController < ApplicationController
@@ -584,29 +584,29 @@ class McpController < ApplicationController
 end
 ```
 
-## Testing
+## 測試
 
-Run tests:
+執行測試：
 
 ```bash
 bundle exec rake test
 ```
 
-Run linter:
+執行檢查工具：
 
 ```bash
 bundle exec rake rubocop
 ```
 
-Run all checks:
+執行所有檢查：
 
 ```bash
 bundle exec rake
 ```
 
-## Integration with Claude Desktop
+## 與 Claude Desktop 整合
 
-Add to `claude_desktop_config.json`:
+新增到 `claude_desktop_config.json`：
 
 ```json
 {
@@ -620,41 +620,41 @@ Add to `claude_desktop_config.json`:
 }
 ```
 
-## Project Structure
+## 專案結構
 
 ```
 my-mcp-server/
-├── Gemfile              # Dependencies
-├── Rakefile             # Build tasks
-├── lib/                 # Source code
-│   ├── my_mcp_server.rb # Main entry point
-│   └── my_mcp_server/   # Module namespace
-│       ├── server.rb    # Server setup
-│       ├── tools/       # Tool implementations
-│       ├── prompts/     # Prompt templates
-│       └── resources/   # Resource handlers
-├── bin/                 # Executables
-│   └── mcp-server       # Stdio server
-├── test/                # Test suite
-│   ├── test_helper.rb   # Test configuration
-│   └── tools/           # Tool tests
-└── README.md            # This file
+├── Gemfile              # 相依套件
+├── Rakefile             # 建置工作
+├── lib/                 # 原始程式碼
+│   ├── my_mcp_server.rb # 主要進入點
+│   └── my_mcp_server/   # 模組命名空間
+│       ├── server.rb    # 伺服器設定
+│       ├── tools/       # 工具實作
+│       ├── prompts/     # 提示樣板
+│       └── resources/   # 資源處理器
+├── bin/                 # 可執行檔
+│   └── mcp-server       # Stdio 伺服器
+├── test/                # 測試套件
+│   ├── test_helper.rb   # 測試設定
+│   └── tools/           # 工具測試
+└── README.md            # 本檔案
 ```
 
-## License
+## 授權
 
 MIT
 ```
 
-## Generation Instructions
+## 生成指示
 
-1. **Ask for project name and description**
-2. **Generate all files** with proper naming and module structure
-3. **Use classes for tools and prompts** for better organization
-4. **Include input/output schemas** for type safety
-5. **Add tool annotations** for behavior hints
-6. **Include structured content** in responses
-7. **Implement comprehensive tests** for all tools
-8. **Follow Ruby conventions** (snake_case, modules, frozen_string_literal)
-9. **Add proper error handling** with is_error flag
-10. **Provide both stdio and HTTP** usage examples
+1. **詢問專案名稱和說明**
+2. **生成所有檔案**，使用適當的命名和模組結構
+3. **為工具和提示使用類別**，以便更好組織
+4. **包含輸入/輸出架構**，確保型態安全
+5. **新增工具註解**，提供行為提示
+6. **在回應中包含結構化內容**
+7. **為所有工具實作完整的測試**
+8. **遵循 Ruby 慣例**（snake_case、模組、frozen_string_literal）
+9. **新增適當的錯誤處理**，使用 is_error 旗標
+10. **提供 stdio 和 HTTP 使用範例**

@@ -3,33 +3,33 @@ description: "Best practices for authoring GNU Make Makefiles"
 applyTo: "**/Makefile, **/makefile, **/*.mk, **/GNUmakefile"
 ---
 
-# Makefile Development Instructions
+# Makefile 開發說明
 
-Instructions for writing clean, maintainable, and portable GNU Make Makefiles. These instructions are based on the [GNU Make manual](https://www.gnu.org/software/make/manual/).
+編寫乾淨、易於維護且具有可攜性的 GNU Make Makefile 的指導。這些說明基於 [GNU Make 手冊](https://www.gnu.org/software/make/manual/)。
 
-## General Principles
+## 通用原則
 
-- Write clear and maintainable makefiles that follow GNU Make conventions
-- Use descriptive target names that clearly indicate their purpose
-- Keep the default goal (first target) as the most common build operation
-- Prioritize readability over brevity when writing rules and recipes
-- Add comments to explain complex rules, variables, or non-obvious behavior
+- 編寫清晰且易於維護的 Makefile，遵循 GNU Make 約定
+- 使用具有描述性的目標名稱，清楚指示其用途
+- 將預設目標（首個目標）設定為最常見的建置操作
+- 編寫規則和配方時，優先考慮可讀性而非簡潔性
+- 為複雜的規則、變數或非明顯的行為添加註解
 
-## Naming Conventions
+## 命名約定
 
-- Name your makefile `Makefile` (recommended for visibility) or `makefile`
-- Use `GNUmakefile` only for GNU Make-specific features incompatible with other make implementations
-- Use standard variable names: `objects`, `OBJECTS`, `objs`, `OBJS`, `obj`, or `OBJ` for object file lists
-- Use uppercase for built-in variable names (e.g., `CC`, `CFLAGS`, `LDFLAGS`)
-- Use descriptive target names that reflect their action (e.g., `clean`, `install`, `test`)
+- 將 Makefile 命名為 `Makefile`（推薦用於清晰可見）或 `makefile`
+- 只在 GNU Make 特定功能與其他 make 實作不相容時才使用 `GNUmakefile`
+- 為目錄檔案清單使用標準變數名稱：`objects`、`OBJECTS`、`objs`、`OBJS`、`obj` 或 `OBJ`
+- 對內建變數名稱使用大寫（例如 `CC`、`CFLAGS`、`LDFLAGS`）
+- 使用描述性的目標名稱，反映其動作（例如 `clean`、`install`、`test`）
 
-## File Structure
+## 檔案結構
 
-- Place the default goal (primary build target) as the first rule in the makefile
-- Group related targets together logically
-- Define variables at the top of the makefile before rules
-- Use `.PHONY` to declare targets that don't represent files
-- Structure makefiles with: variables, then rules, then phony targets
+- 在 Makefile 中將預設目標（主要建置目標）作為第一個規則放置
+- 邏輯上將相關目標組合在一起
+- 在規則之前，在 Makefile 的頂部定義變數
+- 使用 `.PHONY` 聲明不代表檔案的目標
+- 結構化 Makefile：變數、規則、然後是虛擬目標
 
 ```makefile
 # Variables
@@ -53,14 +53,14 @@ clean:
 	rm -f program $(objects)
 ```
 
-## Variables and Substitution
+## 變數和替換
 
-- Use variables to avoid duplication and improve maintainability
-- Define variables with `:=` (simple expansion) for immediate evaluation, `=` for recursive expansion
-- Use `?=` to set default values that can be overridden
-- Use `+=` to append to existing variables
-- Reference variables with `$(VARIABLE)` not `$VARIABLE` (unless single character)
-- Use automatic variables (`$@`, `$<`, `$^`, `$?`, `$*`) in recipes to make rules more generic
+- 使用變數來避免重複並改進可維護性
+- 使用 `:=`（簡單展開）定義變數以進行即時評估，`=` 用於遞迴展開
+- 使用 `?=` 設定可被覆蓋的預設值
+- 使用 `+=` 追加到現有變數
+- 參考變數時使用 `$(VARIABLE)` 而不是 `$VARIABLE`（除非單個字元）
+- 在配方中使用自動變數（`$@`、`$<`、`$^`、`$?`、`$*`）以使規則更加通用
 
 ```makefile
 # Simple expansion (evaluates immediately)
@@ -76,17 +76,17 @@ PREFIX ?= /usr/local
 CFLAGS += -g
 ```
 
-## Rules and Prerequisites
+## 規則和先決條件
 
-- Separate targets, prerequisites, and recipes clearly
-- Use implicit rules for standard compilations (e.g., `.c` to `.o`)
-- List prerequisites in logical order (normal prerequisites before order-only)
-- Use order-only prerequisites (after `|`) for directories and dependencies that shouldn't trigger rebuilds
-- Include all actual dependencies to ensure correct rebuilds
-- Avoid circular dependencies between targets
-- Remember that order-only prerequisites are omitted from automatic variables like `$^`, so reference them explicitly if needed
+- 清楚分離目標、先決條件和配方
+- 為標準編譯使用隱含規則（例如 `.c` 到 `.o`）
+- 以邏輯順序列出先決條件（普通先決條件在順序相關之前）
+- 對不應該觸發重新建置的目錄和依賴項使用順序相關先決條件（`|` 後面）
+- 包括所有實際依賴項以確保正確的重新建置
+- 避免目標之間的圓形依賴項
+- 記住順序相關先決條件會從自動變數（如 `$^`）中省略，所以需要時要明確參考它們
 
-The example below shows a pattern rule that compiles objects into an `obj/` directory. The directory itself is listed as an order-only prerequisite so it is created before compiling but does not force recompilation when its timestamp changes.
+下面的範例展示了一個模式規則，將物件編譯到 `obj/` 目錄。該目錄本身被列為順序相關先決條件，所以它在編譯前建立，但當其時間戳改變時不會強制重新編譯。
 
 ```makefile
 # Normal prerequisites
@@ -101,14 +101,14 @@ obj:
 	mkdir -p obj
 ```
 
-## Recipes and Commands
+## 配方和命令
 
-- Start every recipe line with a **tab character** (not spaces) unless `.RECIPEPREFIX` is changed
-- Use `@` prefix to suppress command echoing when appropriate
-- Use `-` prefix to ignore errors for specific commands (use sparingly)
-- Combine related commands with `&&` or `;` on the same line when they must execute together
-- Keep recipes readable; break long commands across multiple lines with backslash continuation
-- Use shell conditionals and loops within recipes when needed
+- 每條配方行都必須以 **tab 字元**（不是空格）開始，除非 `.RECIPEPREFIX` 已改變
+- 在適當時使用 `@` 前綴來抑制命令回顯
+- 使用 `-` 前綴來忽略特定命令的錯誤（謹慎使用）
+- 在同一行中使用 `&&` 或 `;` 組合相關命令，當它們必須一起執行時
+- 保持配方可讀性；使用反斜線延續符號將長命令分解為多行
+- 在需要時在配方中使用 shell 條件和迴圈
 
 ```makefile
 # Silent command
@@ -128,11 +128,11 @@ install: program
 		install -m 755 program $(PREFIX)/bin
 ```
 
-## Phony Targets
+## 虛擬目標
 
-- Always declare phony targets with `.PHONY` to avoid conflicts with files of the same name
-- Use phony targets for actions like `clean`, `install`, `test`, `all`
-- Place phony target declarations near their rule definitions or at the end of the makefile
+- 始終使用 `.PHONY` 聲明虛擬目標以避免與同名檔案衝突
+- 為 `clean`、`install`、`test`、`all` 等動作使用虛擬目標
+- 將虛擬目標聲明放在其規則定義附近或 Makefile 結尾
 
 ```makefile
 .PHONY: all clean test install
@@ -149,12 +149,12 @@ install: program
 	install -m 755 program $(PREFIX)/bin
 ```
 
-## Pattern Rules and Implicit Rules
+## 模式規則和隱含規則
 
-- Use pattern rules (`%.o: %.c`) for generic transformations
-- Leverage built-in implicit rules when appropriate (GNU Make knows how to compile `.c` to `.o`)
-- Override implicit rule variables (like `CC`, `CFLAGS`) rather than rewriting the rules
-- Define custom pattern rules only when built-in rules are insufficient
+- 為通用轉換使用模式規則（`%.o: %.c`）
+- 在適當時利用內建隱含規則（GNU Make 知道如何編譯 `.c` 到 `.o`）
+- 覆蓋隱含規則變數（如 `CC`、`CFLAGS`）而不是重寫規則
+- 只在內建規則不足時才定義自訂模式規則
 
 ```makefile
 # Use built-in implicit rules by setting variables
@@ -166,16 +166,16 @@ CFLAGS = -Wall -O2
 	pandoc $< -o $@
 ```
 
-## Splitting Long Lines
+## 拆分長行
 
-- Use backslash-newline (`\`) to split long lines for readability
-- Be aware that backslash-newline is converted to a single space in non-recipe contexts
-- In recipes, backslash-newline preserves the line continuation for the shell
-- Avoid trailing whitespace after backslashes
+- 使用反斜線-換行（`\`）拆分長行以提高可讀性
+- 注意在非配方上下文中，反斜線-換行會轉換為單個空格
+- 在配方中，反斜線-換行會保留 shell 的行延續
+- 避免在反斜線後面有尾隨空格
 
-### Splitting Without Adding Whitespace
+### 拆分而不添加空格
 
-If you need to split a line without adding whitespace, you can use a special technique: insert `$ ` (dollar-space) followed by a backslash-newline. The `$ ` refers to a variable with a single-space name, which doesn't exist and expands to nothing, effectively joining the lines without inserting a space.
+如果需要在不添加空格的情況下拆分行，可以使用特殊技術：插入 `$ `（美元-空格），後面跟著反斜線-換行。`$ ` 參考一個單個空格名稱的變數，該變數不存在並展開為無，有效地連接行而不插入空格。
 
 ```makefile
 # Concatenate strings without adding whitespace
@@ -201,12 +201,12 @@ build: $(objects)
 	      -lm -lpthread
 ```
 
-## Including Other Makefiles
+## 包含其他 Makefile
 
-- Use `include` directive to share common definitions across makefiles
-- Use `-include` (or `sinclude`) to include optional makefiles without errors
-- Place `include` directives after variable definitions that may affect included files
-- Use `include` for shared variables, pattern rules, or common targets
+- 使用 `include` 指令在 Makefile 間共享通用定義
+- 使用 `-include`（或 `sinclude`）來包含可選 Makefile 而不出錯
+- 將 `include` 指令放在可能影響被包含檔案的變數定義之後
+- 為共享變數、模式規則或通用目標使用 `include`
 
 ```makefile
 # Include common settings
@@ -216,11 +216,11 @@ include config.mk
 -include local.mk
 ```
 
-## Conditional Directives
+## 條件指令
 
-- Use conditional directives (`ifeq`, `ifneq`, `ifdef`, `ifndef`) for platform or configuration-specific rules
-- Place conditionals at the makefile level, not within recipes (use shell conditionals in recipes)
-- Keep conditionals simple and well-documented
+- 為平台或配置特定規則使用條件指令（`ifeq`、`ifneq`、`ifdef`、`ifndef`）
+- 在 Makefile 層級放置條件，不在配方中（在配方中使用 shell 條件）
+- 保持條件簡單且文檔完善
 
 ```makefile
 # Platform-specific settings
@@ -234,11 +234,11 @@ program: main.o
 	$(CC) -o program$(EXE_EXT) main.o
 ```
 
-## Automatic Prerequisites
+## 自動先決條件
 
-- Generate header dependencies automatically rather than maintaining them manually
-- Use compiler flags like `-MMD` and `-MP` to generate `.d` files with dependencies
-- Include generated dependency files with `-include $(deps)` to avoid errors if they don't exist
+- 自動生成標頭依賴項而非手動維護
+- 使用編譯器旗標如 `-MMD` 和 `-MP` 來生成包含依賴項的 `.d` 檔案
+- 使用 `-include $(deps)` 包含生成的依賴項檔案，以避免在其不存在時出錯
 
 ```makefile
 objects = main.o utils.o
@@ -252,12 +252,12 @@ deps = $(objects:.o=.d)
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 ```
 
-## Error Handling and Debugging
+## 錯誤處理和除錯
 
-- Use `$(error text)` or `$(warning text)` functions for build-time diagnostics
-- Test makefiles with `make -n` (dry run) to see commands without executing
-- Use `make -p` to print the database of rules and variables for debugging
-- Validate required variables and tools at the beginning of the makefile
+- 使用 `$(error text)` 或 `$(warning text)` 函數進行建置時診斷
+- 使用 `make -n`（乾式執行）測試 Makefile 以查看命令而不執行
+- 使用 `make -p` 列印規則和變數的資料庫以進行除錯
+- 在 Makefile 開始時驗證所需的變數和工具
 
 ```makefile
 # Check for required tools
@@ -271,12 +271,12 @@ ifndef VERSION
 endif
 ```
 
-## Clean Targets
+## 清潔目標
 
-- Always provide a `clean` target to remove generated files
-- Declare `clean` as phony to avoid conflicts with a file named "clean"
-- Use `-` prefix with `rm` commands to ignore errors if files don't exist
-- Consider separate `clean` (removes objects) and `distclean` (removes all generated files) targets
+- 始終提供 `clean` 目標以移除生成的檔案
+- 將 `clean` 聲明為虛擬以避免與名為「clean」的檔案衝突
+- 對 `rm` 命令使用 `-` 前綴以在檔案不存在時忽略錯誤
+- 考慮分離的 `clean`（移除目錄檔案）和 `distclean`（移除所有生成檔案）目標
 
 ```makefile
 .PHONY: clean distclean
@@ -289,26 +289,26 @@ distclean: clean
 	-rm -f program config.mk
 ```
 
-## Portability Considerations
+## 可攜性考慮
 
-- Avoid GNU Make-specific features if portability to other make implementations is required
-- Use standard shell commands (prefer POSIX shell constructs)
-- Test with `make -B` to force rebuild all targets
-- Document any platform-specific requirements or GNU Make extensions used
+- 如果需要可攜到其他 make 實作，避免使用 GNU Make 特定功能
+- 使用標準 shell 命令（優先使用 POSIX shell 結構）
+- 使用 `make -B` 測試以強制重新建置所有目標
+- 記錄任何平台特定要求或所用的 GNU Make 擴展
 
-## Performance Optimization
+## 效能最佳化
 
-- Use `:=` for variables that don't need recursive expansion (faster)
-- Avoid unnecessary use of `$(shell ...)` which creates subprocesses
-- Order prerequisites efficiently (most frequently changing files last)
-- Use parallel builds (`make -j`) safely by ensuring targets don't conflict
+- 對不需要遞迴展開的變數使用 `:=`（更快）
+- 避免不必要地使用 `$(shell ...)`，這會建立子程序
+- 有效地排序先決條件（最常更改的檔案放在最後）
+- 通過確保目標不衝突來安全地使用平行建置（`make -j`）
 
-## Documentation and Comments
+## 文件和註解
 
-- Add a header comment explaining the makefile's purpose
-- Document non-obvious variable settings and their effects
-- Include usage examples or targets in comments
-- Add inline comments for complex rules or platform-specific workarounds
+- 添加標頭註解解釋 Makefile 的目的
+- 記錄非明顯的變數設定及其效果
+- 在註解中包括使用範例或目標
+- 為複雜規則或平台特定的解決方案添加內聯註解
 
 ```makefile
 # Makefile for building the example application
@@ -330,14 +330,14 @@ CFLAGS = -Wall -Wextra -O2
 PREFIX ?= /usr/local
 ```
 
-## Special Targets
+## 特殊目標
 
-- Use `.PHONY` for non-file targets
-- Use `.PRECIOUS` to preserve intermediate files
-- Use `.INTERMEDIATE` to mark files as intermediate (automatically deleted)
-- Use `.SECONDARY` to prevent deletion of intermediate files
-- Use `.DELETE_ON_ERROR` to remove targets if recipe fails
-- Use `.SILENT` to suppress echoing for all recipes (use sparingly)
+- 對非檔案目標使用 `.PHONY`
+- 使用 `.PRECIOUS` 保留中間檔案
+- 使用 `.INTERMEDIATE` 將檔案標記為中間（自動刪除）
+- 使用 `.SECONDARY` 防止中間檔案被刪除
+- 使用 `.DELETE_ON_ERROR` 在配方失敗時移除目標
+- 使用 `.SILENT` 對所有配方抑制回顯（謹慎使用）
 
 ```makefile
 # Don't delete intermediate files
@@ -350,9 +350,9 @@ PREFIX ?= /usr/local
 .PRECIOUS: %.o
 ```
 
-## Common Patterns
+## 常見模式
 
-### Standard Project Structure
+### 標準專案結構
 
 ```makefile
 CC = gcc
@@ -377,7 +377,7 @@ install: program
 	install -m 755 program $(PREFIX)/bin
 ```
 
-### Managing Multiple Programs
+### 管理多個程式
 
 ```makefile
 programs = prog1 prog2 prog3
@@ -399,12 +399,12 @@ clean:
 	-rm -f $(programs) *.o
 ```
 
-## Anti-Patterns to Avoid
+## 要避免的反模式
 
-- Don't start recipe lines with spaces instead of tabs
-- Avoid hardcoding file lists when they can be generated with wildcards or functions
-- Don't use `$(shell ls ...)` to get file lists (use `$(wildcard ...)` instead)
-- Avoid complex shell scripts in recipes (move to separate script files)
-- Don't forget to declare phony targets as `.PHONY`
-- Avoid circular dependencies between targets
-- Don't use recursive make (`$(MAKE) -C subdir`) unless absolutely necessary
+- 不要用空格而是 tab 開始配方行
+- 避免當可以用萬用字符或函數生成時硬編碼檔案清單
+- 不要使用 `$(shell ls ...)` 取得檔案清單（改用 `$(wildcard ...)`）
+- 避免在配方中使用複雜的 shell 指令碼（移到單獨的指令碼檔案）
+- 不要忘記將虛擬目標聲明為 `.PHONY`
+- 避免目標之間的圓形依賴項
+- 除非絕對必要，否則不要使用遞迴 make（`$(MAKE) -C subdir`）

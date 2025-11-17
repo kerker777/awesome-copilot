@@ -3,86 +3,86 @@ mode: 'agent'
 description: 'Suggest relevant GitHub Copilot instruction files from the awesome-copilot repository based on current repository context and chat history, avoiding duplicates with existing instructions in this repository.'
 tools: ['edit', 'search', 'runCommands', 'runTasks', 'think', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo', 'todos', 'search']
 ---
-# Suggest Awesome GitHub Copilot Instructions
+# 建議 GitHub Copilot 指令檔
 
-Analyze current repository context and suggest relevant copilot-instruction files from the [GitHub awesome-copilot repository](https://github.com/github/awesome-copilot/blob/main/docs/README.instructions.md) that are not already available in this repository.
+根據目前儲存庫的上下文和聊天記錄，分析並建議從 [GitHub awesome-copilot 儲存庫](https://github.com/github/awesome-copilot/blob/main/docs/README.instructions.md) 中與本儲存庫不重複的相關 copilot-instruction 檔案。
 
-## Process
+## 流程
 
-1. **Fetch Available Instructions**: Extract instruction list and descriptions from [awesome-copilot README.instructions.md](https://github.com/github/awesome-copilot/blob/main/docs/README.instructions.md). Must use `#fetch` tool.
-2. **Scan Local Instructions**: Discover existing instruction files in `.github/instructions/` folder
-3. **Extract Descriptions**: Read front matter from local instruction files to get descriptions and `applyTo` patterns
-4. **Analyze Context**: Review chat history, repository files, and current project needs
-5. **Compare Existing**: Check against instructions already available in this repository
-6. **Match Relevance**: Compare available instructions against identified patterns and requirements
-7. **Present Options**: Display relevant instructions with descriptions, rationale, and availability status
-8. **Validate**: Ensure suggested instructions would add value not already covered by existing instructions
-9. **Output**: Provide structured table with suggestions, descriptions, and links to both awesome-copilot instructions and similar local instructions
-   **AWAIT** user request to proceed with installation of specific instructions. DO NOT INSTALL UNLESS DIRECTED TO DO SO.
-10. **Download Assets**: For requested instructions, automatically download and install individual instructions to `.github/instructions/` folder. Do NOT adjust content of the files.  Use `#todos` tool to track progress. Prioritize use of `#fetch` tool to download assets, but may use `curl` using `#runInTerminal` tool to ensure all content is retrieved.
+1. **取得可用指令**: 從 [awesome-copilot README.instructions.md](https://github.com/github/awesome-copilot/blob/main/docs/README.instructions.md) 提取指令清單和描述。必須使用 `#fetch` 工具。
+2. **掃描本地指令**: 探索 `.github/instructions/` 資料夾中現有的指令檔案
+3. **提取描述**: 讀取本地指令檔案的前置事項以取得描述和 `applyTo` 模式
+4. **分析上下文**: 檢查聊天記錄、儲存庫檔案和目前的專案需求
+5. **比較現有項目**: 檢查本儲存庫中已有的指令
+6. **匹配相關性**: 將可用指令與已識別的模式和需求進行比較
+7. **展示選項**: 顯示相關指令、描述、理由和可用性狀態
+8. **驗證**: 確保建議的指令能增加現有指令尚未涵蓋的價值
+9. **輸出**: 提供包含建議、描述和連結的結構化表格，連結到 awesome-copilot 指令和類似的本地指令
+   **等待**使用者要求進行特定指令的安裝。除非受指示，否則不要安裝。
+10. **下載資源**: 針對要求的指令，自動下載和安裝個別指令到 `.github/instructions/` 資料夾。不要調整檔案內容。使用 `#todos` 工具追蹤進度。優先使用 `#fetch` 工具下載資源，但可能使用 `curl` 搭配 `#runInTerminal` 工具以確保所有內容都被取得。
 
-## Context Analysis Criteria
+## 上下文分析準則
 
-🔍 **Repository Patterns**:
-- Programming languages used (.cs, .js, .py, .ts, etc.)
-- Framework indicators (ASP.NET, React, Azure, Next.js, etc.)
-- Project types (web apps, APIs, libraries, tools)
-- Development workflow requirements (testing, CI/CD, deployment)
+🔍 **儲存庫模式**:
+- 使用的程式設計語言 (.cs, .js, .py, .ts 等)
+- 框架指標 (ASP.NET、React、Azure、Next.js 等)
+- 專案類型 (網頁應用程式、API、程式庫、工具)
+- 開發工作流程需求 (測試、CI/CD、部署)
 
-🗨️ **Chat History Context**:
-- Recent discussions and pain points
-- Technology-specific questions
-- Coding standards discussions
-- Development workflow requirements
+🗨️ **聊天記錄上下文**:
+- 最近的討論和痛點
+- 技術相關問題
+- 編碼標準討論
+- 開發工作流程需求
 
-## Output Format
+## 輸出格式
 
-Display analysis results in structured table comparing awesome-copilot instructions with existing repository instructions:
+在結構化表格中顯示分析結果，比較 awesome-copilot 指令與現有儲存庫指令：
 
-| Awesome-Copilot Instruction | Description | Already Installed | Similar Local Instruction | Suggestion Rationale |
+| Awesome-Copilot 指令 | 描述 | 已安裝 | 類似的本地指令 | 建議理由 |
 |------------------------------|-------------|-------------------|---------------------------|---------------------|
-| [blazor.instructions.md](https://github.com/github/awesome-copilot/blob/main/instructions/blazor.instructions.md) | Blazor development guidelines | ❌ No | blazor.instructions.md | Already covered by existing Blazor instructions |
-| [reactjs.instructions.md](https://github.com/github/awesome-copilot/blob/main/instructions/reactjs.instructions.md) | ReactJS development standards | ❌ No | None | Would enhance React development with established patterns |
-| [java.instructions.md](https://github.com/github/awesome-copilot/blob/main/instructions/java.instructions.md) | Java development best practices | ❌ No | None | Could improve Java code quality and consistency |
+| [blazor.instructions.md](https://github.com/github/awesome-copilot/blob/main/instructions/blazor.instructions.md) | Blazor 開發指南 | ❌ 否 | blazor.instructions.md | 已由現有 Blazor 指令涵蓋 |
+| [reactjs.instructions.md](https://github.com/github/awesome-copilot/blob/main/instructions/reactjs.instructions.md) | ReactJS 開發標準 | ❌ 否 | 無 | 將以建立的模式增強 React 開發 |
+| [java.instructions.md](https://github.com/github/awesome-copilot/blob/main/instructions/java.instructions.md) | Java 開發最佳實踐 | ❌ 否 | 無 | 可提升 Java 程式碼品質和一致性 |
 
-## Local Instructions Discovery Process
+## 本地指令發現流程
 
-1. List all `*.instructions.md` files in the `instructions/` directory
-2. For each discovered file, read front matter to extract `description` and `applyTo` patterns
-3. Build comprehensive inventory of existing instructions with their applicable file patterns
-4. Use this inventory to avoid suggesting duplicates
+1. 列出 `instructions/` 目錄中的所有 `*.instructions.md` 檔案
+2. 針對每個探索的檔案，讀取前置事項以提取 `description` 和 `applyTo` 模式
+3. 建立現有指令的完整清單，包含其適用的檔案模式
+4. 使用此清單避免建議重複項目
 
-## File Structure Requirements
+## 檔案結構需求
 
-Based on GitHub documentation, copilot-instructions files should be:
-- **Repository-wide instructions**: `.github/copilot-instructions.md` (applies to entire repository)
-- **Path-specific instructions**: `.github/instructions/NAME.instructions.md` (applies to specific file patterns via `applyTo` frontmatter)
-- **Community instructions**: `instructions/NAME.instructions.md` (for sharing and distribution)
+根據 GitHub 文件，copilot-instructions 檔案應為：
+- **儲存庫範圍指令**: `.github/copilot-instructions.md` (適用於整個儲存庫)
+- **路徑特定指令**: `.github/instructions/NAME.instructions.md` (透過 `applyTo` 前置事項適用於特定檔案模式)
+- **社群指令**: `instructions/NAME.instructions.md` (用於共享和分發)
 
-## Front Matter Structure
+## 前置事項結構
 
-Instructions files in awesome-copilot use this front matter format:
+awesome-copilot 中的指令檔案使用此前置事項格式：
 ```markdown
 ---
-description: 'Brief description of what this instruction provides'
-applyTo: '**/*.js,**/*.ts' # Optional: glob patterns for file matching
+description: '此指令提供的內容的簡短描述'
+applyTo: '**/*.js,**/*.ts' # 選項：檔案匹配的 glob 模式
 ---
 ```
 
-## Requirements
+## 需求
 
-- Use `githubRepo` tool to get content from awesome-copilot repository
-- Scan local file system for existing instructions in `instructions/` directory
-- Read YAML front matter from local instruction files to extract descriptions and `applyTo` patterns
-- Compare against existing instructions in this repository to avoid duplicates
-- Focus on gaps in current instruction library coverage
-- Validate that suggested instructions align with repository's purpose and standards
-- Provide clear rationale for each suggestion
-- Include links to both awesome-copilot instructions and similar local instructions
-- Consider technology stack compatibility and project-specific needs
-- Don't provide any additional information or context beyond the table and the analysis
+- 使用 `githubRepo` 工具從 awesome-copilot 儲存庫取得內容
+- 掃描本地檔案系統中 `instructions/` 目錄內現有的指令
+- 從本地指令檔案讀取 YAML 前置事項以提取描述和 `applyTo` 模式
+- 與本儲存庫中現有的指令進行比較以避免重複
+- 專注於目前指令程式庫涵蓋範圍的缺口
+- 驗證建議的指令與儲存庫的目的和標準一致
+- 為每項建議提供清晰的理由
+- 包含連結到 awesome-copilot 指令和類似本地指令的連結
+- 考慮技術堆棧相容性和專案特定需求
+- 不要提供表格和分析之外的任何額外資訊或上下文
 
-## Icons Reference
+## 圖示參考
 
-- ✅ Already installed in repo
-- ❌ Not installed in repo
+- ✅ 已在儲存庫中安裝
+- ❌ 未在儲存庫中安裝

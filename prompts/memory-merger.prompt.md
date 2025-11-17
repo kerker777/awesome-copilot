@@ -2,92 +2,92 @@
 description: 'Merges mature lessons from a domain memory file into its instruction file. Syntax: `/memory-merger >domain [scope]` where scope is `global` (default), `user`, `workspace`, or `ws`.'
 ---
 
-# Memory Merger
+# 記憶合併器
 
-You consolidate mature learnings from a domain's memory file into its instruction file, ensuring knowledge preservation with minimal redundancy.
+您將網域記憶檔案中的成熟學習內容合併到其指令檔案中，確保知識保留且冗餘性最小。
 
-**Use the todo list** to track your progress through the process steps and keep the user informed.
+**使用待辦清單**追蹤您在流程步驟中的進度，並讓使用者瞭解狀況。
 
-## Scopes
+## 範圍
 
-Memory instructions can be stored in two scopes:
+記憶指令可以儲存在兩個範圍：
 
-- **Global** (`global` or `user`) - Stored in `<global-prompts>` (`vscode-userdata:/User/prompts/`) and apply to all VS Code projects
-- **Workspace** (`workspace` or `ws`) - Stored in `<workspace-instructions>` (`<workspace-root>/.github/instructions/`) and apply only to the current project
+- **全域**（`global` 或 `user`）- 儲存在 `<global-prompts>`（`vscode-userdata:/User/prompts/`）中，適用於所有 VS Code 專案
+- **工作區**（`workspace` 或 `ws`）- 儲存在 `<workspace-instructions>`（`<workspace-root>/.github/instructions/`）中，僅適用於目前的專案
 
-Default scope is **global**.
+預設範圍是**全域**。
 
-Throughout this prompt, `<global-prompts>` and `<workspace-instructions>` refer to these directories.
+在本提示的整個過程中，`<global-prompts>` 和 `<workspace-instructions>` 是指這些目錄。
 
-## Syntax
+## 語法
 
 ```
 /memory-merger >domain-name [scope]
 ```
 
-- `>domain-name` - Required. The domain to merge (e.g., `>clojure`, `>git-workflow`, `>prompt-engineering`)
-- `[scope]` - Optional. One of: `global`, `user` (both mean global), `workspace`, or `ws`. Defaults to `global`
+- `>domain-name` - 必需。要合併的網域（例如：`>clojure`、`>git-workflow`、`>prompt-engineering`）
+- `[scope]` - 選擇性。下列其中之一：`global`、`user`（兩者皆表全域）、`workspace` 或 `ws`。預設為 `global`
 
-**Examples:**
-- `/memory-merger >prompt-engineering` - merges global prompt engineering memories
-- `/memory-merger >clojure workspace` - merges workspace clojure memories
-- `/memory-merger >git-workflow ws` - merges workspace git-workflow memories
+**範例：**
+- `/memory-merger >prompt-engineering` - 合併全域提示工程記憶
+- `/memory-merger >clojure workspace` - 合併工作區 clojure 記憶
+- `/memory-merger >git-workflow ws` - 合併工作區 git-workflow 記憶
 
-## Process
+## 流程
 
-### 1. Parse Input and Read Files
+### 1. 解析輸入並讀取檔案
 
-- **Extract** domain and scope from user input
-- **Determine** file paths:
-  - Global: `<global-prompts>/{domain}-memory.instructions.md` → `<global-prompts>/{domain}.instructions.md`
-  - Workspace: `<workspace-instructions>/{domain}-memory.instructions.md` → `<workspace-instructions>/{domain}.instructions.md`
-- The user can have mistyped the domain, if you don't find the memory file, glob the directory and determine if there may be a match there. Ask the user for input if in doubt.
-- **Read** both files (memory file must exist; instruction file may not)
+- **提取**使用者輸入的網域和範圍
+- **決定**檔案路徑：
+  - 全域：`<global-prompts>/{domain}-memory.instructions.md` → `<global-prompts>/{domain}.instructions.md`
+  - 工作區：`<workspace-instructions>/{domain}-memory.instructions.md` → `<workspace-instructions>/{domain}.instructions.md`
+- 使用者可能拼錯網域名稱，如果您找不到記憶檔案，請使用 glob 搜尋目錄，判斷是否有可能的配對。有疑慮時，請向使用者確認。
+- **讀取**兩個檔案（記憶檔案必須存在；指令檔案可能不存在）
 
-### 2. Analyze and Propose
+### 2. 分析並提案
 
-Review all memory sections and present them for merger consideration:
+檢視所有記憶區段，並將其呈現供合併考量：
 
 ```
-## Proposed Memories for Merger
+## 擬合併的記憶
 
-### Memory: [Headline]
-**Content:** [Key points]
-**Location:** [Where it fits in instructions]
+### 記憶：[標題]
+**內容：**[關鍵要點]
+**位置：**[在指令中的適當位置]
 
-[More memories]...
+[其他記憶]...
 ```
 
-Say: "Please review these memories. Approve all with 'go' or specify which to skip."
+說：「請檢視這些記憶。輸入 'go' 核准全部，或指定要跳過的項目。」
 
-**STOP and wait for user input.**
+**停止並等待使用者輸入。**
 
-### 3. Define Quality Bar
+### 3. 定義品質標準
 
-Establish 10/10 criteria for what constitutes awesome merged resulting instructions:
-1. **Zero knowledge loss** - Every detail, example, and nuance preserved
-2. **Minimal redundancy** - Overlapping guidance consolidated
-3. **Maximum scannability** - Clear hierarchy, parallel structure, strategic bold, logical grouping
+為優秀的合併結果指令建立 10/10 標準：
+1. **零知識遺失** - 保留每個細節、範例和細微差別
+2. **最小冗餘** - 統合重疊的指導
+3. **最大可掃描性** - 清晰的層級、平行結構、策略性加粗、邏輯分組
 
-### 4. Merge and Iterate
+### 4. 合併並迭代
 
-Develop the final merged instructions **without updating files yet**:
+開發最終合併的指令**但先不更新檔案**：
 
-1. Draft the merged instructions incorporating approved memories
-2. Evaluate against quality bar
-3. Refine structure, wording, organization
-4. Repeat until the merged instructions meet 10/10 criteria
+1. 起草合併的指令，納入已批准的記憶
+2. 評估是否符合品質標準
+3. 精化結構、措辭、組織
+4. 重複直到合併的指令符合 10/10 標準
 
-### 5. Update Files
+### 5. 更新檔案
 
-Once the final merged instructions meet 10/10 criteria:
+一旦最終合併的指令符合 10/10 標準：
 
-- **Create or update** the instruction file with the final merged content
-  - Include proper frontmatter if creating new file
-  - **Merge `applyTo` patterns** from both memory and instruction files if both exist, ensuring comprehensive coverage without duplication
-- **Remove** merged sections from the memory file
+- **建立或更新**指令檔案，使用最終合併的內容
+  - 如果建立新檔案，請包含適當的 frontmatter
+  - **合併** `applyTo` 型樣，如果兩個檔案都存在的話，從記憶和指令檔案中合併，確保全面涵蓋而無重複
+- **移除**記憶檔案中的已合併區段
 
-## Example
+## 範例
 
 ```
 User: "/memory-merger >clojure"

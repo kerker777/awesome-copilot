@@ -2,322 +2,322 @@
 description: 'Specification-Driven Workflow v1 provides a structured approach to software development, ensuring that requirements are clearly defined, designs are meticulously planned, and implementations are thoroughly documented and validated.'
 applyTo: '**'
 ---
-# Spec Driven Workflow v1
+# 規格驅動工作流程 v1
 
-**Specification-Driven Workflow:**
-Bridge the gap between requirements and implementation.
+**規格驅動工作流程：**
+橋接需求與實作之間的落差。
 
-**Maintain these artifacts at all times:**
+**始終維護這些成果物：**
 
-- **`requirements.md`**: User stories and acceptance criteria in structured EARS notation.
-- **`design.md`**: Technical architecture, sequence diagrams, implementation considerations.
-- **`tasks.md`**: Detailed, trackable implementation plan.
+- **`requirements.md`**：以結構化EARS標記法編寫的使用者故事和驗收準則。
+- **`design.md`**：技術架構、序列圖、實作考量。
+- **`tasks.md`**：詳細、可追蹤的實作計畫。
 
-## Universal Documentation Framework
+## 通用文件框架
 
-**Documentation Rule:**
-Use the detailed templates as the **primary source of truth** for all documentation.
+**文件規則：**
+將詳細的範本作為所有文件的**唯一可信來源**。
 
-**Summary formats:**
-Use only for concise artifacts such as changelogs and pull request descriptions.
+**摘要格式：**
+僅用於變更日誌和拉取請求描述等簡潔的成果物。
 
-### Detailed Documentation Templates
+### 詳細文件範本
 
-#### Action Documentation Template (All Steps/Executions/Tests)
-
-```bash
-### [TYPE] - [ACTION] - [TIMESTAMP]
-**Objective**: [Goal being accomplished]
-**Context**: [Current state, requirements, and reference to prior steps]
-**Decision**: [Approach chosen and rationale, referencing the Decision Record if applicable]
-**Execution**: [Steps taken with parameters and commands used. For code, include file paths.]
-**Output**: [Complete and unabridged results, logs, command outputs, and metrics]
-**Validation**: [Success verification method and results. If failed, include a remediation plan.]
-**Next**: [Automatic continuation plan to the next specific action]
-```
-
-#### Decision Record Template (All Decisions)
+#### 動作文件範本（所有步驟/執行/測試）
 
 ```bash
-### Decision - [TIMESTAMP]
-**Decision**: [What was decided]
-**Context**: [Situation requiring decision and data driving it]
-**Options**: [Alternatives evaluated with brief pros and cons]
-**Rationale**: [Why the selected option is superior, with trade-offs explicitly stated]
-**Impact**: [Anticipated consequences for implementation, maintainability, and performance]
-**Review**: [Conditions or schedule for reassessing this decision]
+### [類型] - [行動] - [時間戳記]
+**目標**：[正在完成的目標]
+**背景**：[目前狀態、需求和之前步驟的參考]
+**決策**：[選擇的方法和理由，必要時參考決策記錄]
+**執行**：[採取的步驟、使用的參數和命令。針對程式碼，請包含檔案路徑。]
+**輸出**：[完整和未編輯的結果、日誌、命令輸出和指標]
+**驗證**：[成功驗證方法和結果。如果失敗，請包含補救計畫。]
+**下一步**：[自動繼續到下一個特定行動的計畫]
 ```
 
-### Summary Formats (for Reporting)
+#### 決策記錄範本（所有決策）
 
-#### Streamlined Action Log
+```bash
+### 決策 - [時間戳記]
+**決策**：[決定了什麼]
+**背景**：[需要決策的情況和驅動因素]
+**選項**：[評估的替代方案及簡要的優缺點]
+**理由**：[為何選擇的選項更優越，明確說明權衡]
+**影響**：[預期對實作、可維護性和效能的影響]
+**審查**：[重新評估此決策的條件或時程]
+```
 
-For generating concise changelogs. Each log entry is derived from a full Action Document.
+### 摘要格式（用於報告）
 
-`[TYPE][TIMESTAMP] Goal: [X] → Action: [Y] → Result: [Z] → Next: [W]`
+#### 精簡動作日誌
 
-#### Compressed Decision Record
+用於產生簡潔的變更日誌。每個日誌項目衍生自完整的動作文件。
 
-For use in pull request summaries or executive summaries.
+`[類型][時間戳記] 目標：[X] → 行動：[Y] → 結果：[Z] → 下一步：[W]`
 
-`Decision: [X] | Rationale: [Y] | Impact: [Z] | Review: [Date]`
+#### 壓縮決策記錄
 
-## Execution Workflow (6-Phase Loop)
+用於拉取請求摘要或主管摘要。
 
-**Never skip any step. Use consistent terminology. Reduce ambiguity.**
+`決策：[X] | 理由：[Y] | 影響：[Z] | 審查：[日期]`
 
-### **Phase 1: ANALYZE**
+## 執行工作流程（6階段循環）
 
-**Objective:**
+**不要略過任何步驟。使用一致的術語。降低歧義。**
 
-- Understand the problem.
-- Analyze the existing system.
-- Produce a clear, testable set of requirements.
-- Think about the possible solutions and their implications.
+### **階段 1：分析**
 
-**Checklist:**
+**目標：**
 
-- [ ] Read all provided code, documentation, tests, and logs.
-      - Document file inventory, summaries, and initial analysis results.
-- [ ] Define requirements in **EARS Notation**:
-      - Transform feature requests into structured, testable requirements.
-      - Format: `WHEN [a condition or event], THE SYSTEM SHALL [expected behavior]`
-- [ ] Identify dependencies and constraints.
-      - Document a dependency graph with risks and mitigation strategies.
-- [ ] Map data flows and interactions.
-      - Document system interaction diagrams and data models.
-- [ ] Catalog edge cases and failures.
-      - Document a comprehensive edge case matrix and potential failure points.
-- [ ] Assess confidence.
-      - Generate a **Confidence Score (0-100%)** based on clarity of requirements, complexity, and problem scope.
-      - Document the score and its rationale.
+- 理解問題。
+- 分析現有系統。
+- 產生清楚、可測試的需求集合。
+- 思考可能的解決方案及其含義。
 
-**Critical Constraint:**
+**檢查清單：**
 
-- **Do not proceed until all requirements are clear and documented.**
+- [ ] 讀取所有提供的程式碼、文件、測試和日誌。
+      - 記錄檔案清單、摘要和初步分析結果。
+- [ ] 以**EARS標記法**定義需求：
+      - 將功能請求轉換為結構化、可測試的需求。
+      - 格式：`當[條件或事件]時，系統應該[預期行為]`
+- [ ] 識別相依性和約束。
+      - 記錄相依性圖表、風險和緩解策略。
+- [ ] 繪製資料流和互動。
+      - 記錄系統互動圖表和資料模型。
+- [ ] 編目邊界情況和失敗。
+      - 記錄全面的邊界情況矩陣和潛在失敗點。
+- [ ] 評估信心度。
+      - 根據需求清晰度、複雜度和問題範圍產生**信心分數（0-100%）**。
+      - 記錄分數及其理由。
 
-### **Phase 2: DESIGN**
+**關鍵約束：**
 
-**Objective:**
+- **在所有需求都清楚且記錄完善之前，不要繼續。**
 
-- Create a comprehensive technical design and a detailed implementation plan.
+### **階段 2：設計**
 
-**Checklist:**
+**目標：**
 
-- [ ] **Define adaptive execution strategy based on Confidence Score:**
-  - **High Confidence (>85%)**
-    - Draft a comprehensive, step-by-step implementation plan.
-    - Skip proof-of-concept steps.
-    - Proceed with full, automated implementation.
-    - Maintain standard comprehensive documentation.
-  - **Medium Confidence (66–85%)**
-    - Prioritize a **Proof-of-Concept (PoC)** or **Minimum Viable Product (MVP)**.
-    - Define clear success criteria for PoC/MVP.
-    - Build and validate PoC/MVP first, then expand plan incrementally.
-    - Document PoC/MVP goals, execution, and validation results.
-  - **Low Confidence (<66%)**
-    - Dedicate first phase to research and knowledge-building.
-    - Use semantic search and analyze similar implementations.
-    - Synthesize findings into a research document.
-    - Re-run ANALYZE phase after research.
-    - Escalate only if confidence remains low.
+- 建立全面的技術設計和詳細的實作計畫。
 
-- [ ] **Document technical design in `design.md`:**
-  - **Architecture:** High-level overview of components and interactions.
-  - **Data Flow:** Diagrams and descriptions.
-  - **Interfaces:** API contracts, schemas, public-facing function signatures.
-  - **Data Models:** Data structures and database schemas.
+**檢查清單：**
 
-- [ ] **Document error handling:**
-  - Create an error matrix with procedures and expected responses.
+- [ ] **基於信心分數定義自適應執行策略：**
+  - **高信心度（>85%）**
+    - 擬草詳細的、逐步的實作計畫。
+    - 跳過概念驗證步驟。
+    - 進行完整的自動化實作。
+    - 保持標準的完整文件。
+  - **中等信心度（66–85%）**
+    - 優先考慮**概念驗證（PoC）**或**最小可行產品（MVP）**。
+    - 為PoC/MVP定義清楚的成功準則。
+    - 先建立並驗證PoC/MVP，然後漸進式地擴展計畫。
+    - 記錄PoC/MVP目標、執行和驗證結果。
+  - **低信心度（<66%）**
+    - 首階段致力於研究和知識建立。
+    - 使用語意搜尋並分析類似的實作。
+    - 將發現綜合為研究文件。
+    - 研究後重新執行分析階段。
+    - 僅在信心度仍然偏低時才上報。
 
-- [ ] **Define unit testing strategy.**
+- [ ] **在`design.md`記錄技術設計：**
+  - **架構**：元件和互動的高階概述。
+  - **資料流**：圖表和描述。
+  - **介面**：API合約、結構、公開函式簽名。
+  - **資料模型**：資料結構和資料庫結構。
 
-- [ ] **Create implementation plan in `tasks.md`:**
-  - For each task, include description, expected outcome, and dependencies.
+- [ ] **記錄錯誤處理：**
+  - 建立具有程序和預期回應的錯誤矩陣。
 
-**Critical Constraint:**
+- [ ] **定義單元測試策略。**
 
-- **Do not proceed to implementation until design and plan are complete and validated.**
+- [ ] **在`tasks.md`建立實作計畫：**
+  - 對於每個任務，包括描述、預期結果和相依性。
 
-### **Phase 3: IMPLEMENT**
+**關鍵約束：**
 
-**Objective:**
+- **在設計和計畫完成並驗證之前，不要進行實作。**
 
-- Write production-quality code according to the design and plan.
+### **階段 3：實作**
 
-**Checklist:**
+**目標：**
 
-- [ ] Code in small, testable increments.
-      - Document each increment with code changes, results, and test links.
-- [ ] Implement from dependencies upward.
-      - Document resolution order, justification, and verification.
-- [ ] Follow conventions.
-      - Document adherence and any deviations with a Decision Record.
-- [ ] Add meaningful comments.
-      - Focus on intent ("why"), not mechanics ("what").
-- [ ] Create files as planned.
-      - Document file creation log.
-- [ ] Update task status in real time.
+- 根據設計和計畫編寫生產品質的程式碼。
 
-**Critical Constraint:**
+**檢查清單：**
 
-- **Do not merge or deploy code until all implementation steps are documented and tested.**
+- [ ] 以小的、可測試的增量編碼。
+      - 使用程式碼變更、結果和測試連結記錄每個增量。
+- [ ] 由相依性向上實作。
+      - 記錄解析順序、理由和驗證。
+- [ ] 遵循慣例。
+      - 記錄遵循情況和任何帶有決策記錄的偏差。
+- [ ] 添加有意義的註解。
+      - 著重於意圖（「為什麼」），而非機制（「做什麼」）。
+- [ ] 按計畫建立檔案。
+      - 記錄檔案建立日誌。
+- [ ] 即時更新任務狀態。
 
-### **Phase 4: VALIDATE**
+**關鍵約束：**
 
-**Objective:**
+- **在所有實作步驟都記錄並測試完畢之前，不要合併或部署程式碼。**
 
-- Verify that implementation meets all requirements and quality standards.
+### **階段 4：驗證**
 
-**Checklist:**
+**目標：**
 
-- [ ] Execute automated tests.
-      - Document outputs, logs, and coverage reports.
-      - For failures, document root cause analysis and remediation.
-- [ ] Perform manual verification if necessary.
-      - Document procedures, checklists, and results.
-- [ ] Test edge cases and errors.
-      - Document results and evidence of correct error handling.
-- [ ] Verify performance.
-      - Document metrics and profile critical sections.
-- [ ] Log execution traces.
-      - Document path analysis and runtime behavior.
+- 驗證實作滿足所有需求和品質標準。
 
-**Critical Constraint:**
+**檢查清單：**
 
-- **Do not proceed until all validation steps are complete and all issues are resolved.**
+- [ ] 執行自動化測試。
+      - 記錄輸出、日誌和覆蓋率報告。
+      - 失敗時，記錄根本原因分析和補救。
+- [ ] 必要時進行手動驗證。
+      - 記錄程序、檢查清單和結果。
+- [ ] 測試邊界情況和錯誤。
+      - 記錄結果和正確錯誤處理的證據。
+- [ ] 驗證效能。
+      - 記錄指標和關鍵部分的分析結果。
+- [ ] 記錄執行追蹤。
+      - 記錄路徑分析和執行時期行為。
 
-### **Phase 5: REFLECT**
+**關鍵約束：**
 
-**Objective:**
+- **在所有驗證步驟完成且所有問題都解決之前，不要繼續。**
 
-- Improve codebase, update documentation, and analyze performance.
+### **階段 5：反思**
 
-**Checklist:**
+**目標：**
 
-- [ ] Refactor for maintainability.
-      - Document decisions, before/after comparisons, and impact.
-- [ ] Update all project documentation.
-      - Ensure all READMEs, diagrams, and comments are current.
-- [ ] Identify potential improvements.
-      - Document backlog with prioritization.
-- [ ] Validate success criteria.
-      - Document final verification matrix.
-- [ ] Perform meta-analysis.
-      - Reflect on efficiency, tool usage, and protocol adherence.
-- [ ] Auto-create technical debt issues.
-      - Document inventory and remediation plans.
+- 改進程式碼庫、更新文件和分析效能。
 
-**Critical Constraint:**
+**檢查清單：**
 
-- **Do not close the phase until all documentation and improvement actions are logged.**
+- [ ] 為可維護性重構。
+      - 記錄決策、前後比較和影響。
+- [ ] 更新所有專案文件。
+      - 確保所有README、圖表和註解都是最新的。
+- [ ] 識別潛在的改進。
+      - 使用優先順序記錄待辦事項。
+- [ ] 驗證成功準則。
+      - 記錄最終驗證矩陣。
+- [ ] 執行後設分析。
+      - 反思效率、工具使用和協議遵循。
+- [ ] 自動建立技術債務議題。
+      - 記錄清單和補救計畫。
 
-### **Phase 6: HANDOFF**
+**關鍵約束：**
 
-**Objective:**
+- **在所有文件和改進行動都記錄完畢之前，不要結束此階段。**
 
-- Package work for review and deployment, and transition to next task.
+### **階段 6：交付**
 
-**Checklist:**
+**目標：**
 
-- [ ] Generate executive summary.
-      - Use **Compressed Decision Record** format.
-- [ ] Prepare pull request (if applicable):
-    1. Executive summary.
-    2. Changelog from **Streamlined Action Log**.
-    3. Links to validation artifacts and Decision Records.
-    4. Links to final `requirements.md`, `design.md`, and `tasks.md`.
-- [ ] Finalize workspace.
-      - Archive intermediate files, logs, and temporary artifacts to `.agent_work/`.
-- [ ] Continue to next task.
-      - Document transition or completion.
+- 打包工作以供審查和部署，並轉換到下一個任務。
 
-**Critical Constraint:**
+**檢查清單：**
 
-- **Do not consider the task complete until all handoff steps are finished and documented.**
+- [ ] 產生主管摘要。
+      - 使用**壓縮決策記錄**格式。
+- [ ] 準備拉取請求（如適用）：
+    1. 主管摘要。
+    2. 來自**精簡動作日誌**的變更日誌。
+    3. 驗證成果物和決策記錄的連結。
+    4. 最終`requirements.md`、`design.md`和`tasks.md`的連結。
+- [ ] 完成工作區。
+      - 將中間檔案、日誌和臨時成果物存檔到`.agent_work/`。
+- [ ] 繼續下一個任務。
+      - 記錄轉換或完成。
 
-## Troubleshooting & Retry Protocol
+**關鍵約束：**
 
-**If you encounter errors, ambiguities, or blockers:**
+- **在所有交付步驟都完成且記錄完畢之前，不要認為任務完成。**
 
-**Checklist:**
+## 故障排除和重試協議
 
-1. **Re-analyze**:
-   - Revisit the ANALYZE phase.
-   - Confirm all requirements and constraints are clear and complete.
-2. **Re-design**:
-   - Revisit the DESIGN phase.
-   - Update technical design, plans, or dependencies as needed.
-3. **Re-plan**:
-   - Adjust the implementation plan in `tasks.md` to address new findings.
-4. **Retry execution**:
-   - Re-execute failed steps with corrected parameters or logic.
-5. **Escalate**:
-   - If the issue persists after retries, follow the escalation protocol.
+**如果遇到錯誤、歧義或阻礙：**
 
-**Critical Constraint:**
+**檢查清單：**
 
-- **Never proceed with unresolved errors or ambiguities. Always document troubleshooting steps and outcomes.**
+1. **重新分析**：
+   - 重新訪問分析階段。
+   - 確認所有需求和約束都清楚且完整。
+2. **重新設計**：
+   - 重新訪問設計階段。
+   - 根據需要更新技術設計、計畫或相依性。
+3. **重新規劃**：
+   - 調整`tasks.md`中的實作計畫以解決新發現。
+4. **重試執行**：
+   - 使用更正的參數或邏輯重新執行失敗的步驟。
+5. **上報**：
+   - 如果重試後問題仍然存在，請遵循上報協議。
 
-## Technical Debt Management (Automated)
+**關鍵約束：**
 
-### Identification & Documentation
+- **永遠不要在有未解決的錯誤或歧義下繼續。始終記錄故障排除步驟和結果。**
 
-- **Code Quality**: Continuously assess code quality during implementation using static analysis.
-- **Shortcuts**: Explicitly record all speed-over-quality decisions with their consequences in a Decision Record.
-- **Workspace**: Monitor for organizational drift and naming inconsistencies.
-- **Documentation**: Track incomplete, outdated, or missing documentation.
+## 技術債務管理（自動化）
 
-### Auto-Issue Creation Template
+### 識別與記錄
+
+- **程式碼品質**：在實作期間使用靜態分析持續評估程式碼品質。
+- **捷徑**：明確記錄所有速度優於品質的決策及其在決策記錄中的後果。
+- **工作區**：監視組織漂移和命名不一致。
+- **文件**：追蹤不完整、過時或遺漏的文件。
+
+### 自動議題建立範本
 
 ```text
-**Title**: [Technical Debt] - [Brief Description]
-**Priority**: [High/Medium/Low based on business impact and remediation cost]
-**Location**: [File paths and line numbers]
-**Reason**: [Why the debt was incurred, linking to a Decision Record if available]
-**Impact**: [Current and future consequences (e.g., slows development, increases bug risk)]
-**Remediation**: [Specific, actionable resolution steps]
-**Effort**: [Estimate for resolution (e.g., T-shirt size: S, M, L)]
+**標題**：[技術債務] - [簡要描述]
+**優先級**：[根據業務影響和補救成本分為高/中/低]
+**位置**：[檔案路徑和行號]
+**原因**：[為何產生債務，必要時連結決策記錄]
+**影響**：[目前和未來的後果（例如，減慢開發、增加缺陷風險）]
+**補救**：[具體、可行的解決步驟]
+**工作量**：[解決的估計（例如，T恤尺寸：S、M、L）]
 ```
 
-### Remediation (Auto-Prioritized)
+### 補救（自動優先排序）
 
-- Risk-based prioritization with dependency analysis.
-- Effort estimation to aid in future planning.
-- Propose migration strategies for large refactoring efforts.
+- 基於風險的優先排序與相依性分析。
+- 工作量估計以協助未來規劃。
+- 為大規模重構工作提出遷移策略。
 
-## Quality Assurance (Automated)
+## 品質保證（自動化）
 
-### Continuous Monitoring
+### 持續監視
 
-- **Static Analysis**: Linting for code style, quality, security vulnerabilities, and architectural rule adherence.
-- **Dynamic Analysis**: Monitor runtime behavior and performance in a staging environment.
-- **Documentation**: Automated checks for documentation completeness and accuracy (e.g., linking, format).
+- **靜態分析**：檢查程式碼樣式、品質、安全漏洞和架構規則遵循。
+- **動態分析**：在預備環境中監視執行時期行為和效能。
+- **文件**：自動檢查文件完整性和準確性（例如，連結、格式）。
 
-### Quality Metrics (Auto-Tracked)
+### 品質指標（自動追蹤）
 
-- Code coverage percentage and gap analysis.
-- Cyclomatic complexity score per function/method.
-- Maintainability index assessment.
-- Technical debt ratio (e.g., estimated remediation time vs. development time).
-- Documentation coverage percentage (e.g., public methods with comments).
+- 程式碼覆蓋率百分比和缺口分析。
+- 每個函式/方法的環路複雜性分數。
+- 可維護性指數評估。
+- 技術債務比率（例如，預期補救時間與開發時間）。
+- 文件覆蓋率百分比（例如，具有註解的公開方法）。
 
-## EARS Notation Reference
+## EARS標記法參考
 
-**EARS (Easy Approach to Requirements Syntax)** - Standard format for requirements:
+**EARS（簡易需求語法方法）** - 需求的標準格式：
 
-- **Ubiquitous**: `THE SYSTEM SHALL [expected behavior]`
-- **Event-driven**: `WHEN [trigger event] THE SYSTEM SHALL [expected behavior]`
-- **State-driven**: `WHILE [in specific state] THE SYSTEM SHALL [expected behavior]`
-- **Unwanted behavior**: `IF [unwanted condition] THEN THE SYSTEM SHALL [required response]`
-- **Optional**: `WHERE [feature is included] THE SYSTEM SHALL [expected behavior]`
-- **Complex**: Combinations of the above patterns for sophisticated requirements
+- **通用**：`系統應該[預期行為]`
+- **事件驅動**：`當[觸發事件]時，系統應該[預期行為]`
+- **狀態驅動**：`在[特定狀態]期間，系統應該[預期行為]`
+- **不想要的行為**：`如果[不想要的條件]，則系統應該[必需的回應]`
+- **可選**：`其中[功能被包含]，系統應該[預期行為]`
+- **複雜**：上述圖案的組合，用於複雜的需求
 
-Each requirement must be:
+每個需求必須為：
 
-- **Testable**: Can be verified through automated or manual testing
-- **Unambiguous**: Single interpretation possible
-- **Necessary**: Contributes to the system's purpose
-- **Feasible**: Can be implemented within constraints
-- **Traceable**: Linked to user needs and design elements
+- **可測試**：可通過自動化或手動測試驗證
+- **明確**：只有單一的解釋方式
+- **必要**：對系統目的有貢獻
+- **可行**：可在約束範圍內實作
+- **可追蹤**：連結到使用者需求和設計元素

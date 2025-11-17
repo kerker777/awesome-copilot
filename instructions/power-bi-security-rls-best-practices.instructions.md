@@ -3,14 +3,14 @@ description: 'Comprehensive Power BI Row-Level Security (RLS) and advanced secur
 applyTo: '**/*.{pbix,dax,md,txt,json,csharp,powershell}'
 ---
 
-# Power BI Security and Row-Level Security Best Practices
+# Power BI 安全性與資料列層級安全性最佳實踐
 
-## Overview
-This document provides comprehensive instructions for implementing robust security patterns in Power BI, focusing on Row-Level Security (RLS), dynamic security, and governance best practices based on Microsoft's official guidance.
+## 概述
+本文件提供在 Power BI 中實施健全安全性模式的完整指南，重點著重在資料列層級安全性（RLS）、動態安全性，以及基於 Microsoft 官方指導的治理最佳實踐。
 
-## Row-Level Security Fundamentals
+## 資料列層級安全性基礎
 
-### 1. Basic RLS Implementation
+### 1. 基本 RLS 實現
 ```dax
 // Simple user-based filtering
 [EmailAddress] = USERNAME()
@@ -27,7 +27,7 @@ IF(
 )
 ```
 
-### 2. Dynamic RLS with Custom Data
+### 2. 使用自訂資料的動態 RLS
 ```dax
 // Using CUSTOMDATA() for dynamic filtering
 VAR UserRole = CUSTOMDATA()
@@ -41,17 +41,17 @@ RETURN
     )
 ```
 
-### 3. Advanced Security Patterns
+### 3. 進階安全性模式
 ```dax
 // Hierarchical security with territory lookups
 =DimSalesTerritory[SalesTerritoryKey]=LOOKUPVALUE(
-    DimUserSecurity[SalesTerritoryID], 
-    DimUserSecurity[UserName], USERNAME(), 
+    DimUserSecurity[SalesTerritoryID],
+    DimUserSecurity[UserName], USERNAME(),
     DimUserSecurity[SalesTerritoryID], DimSalesTerritory[SalesTerritoryKey]
 )
 
 // Multiple condition security
-VAR UserTerritories = 
+VAR UserTerritories =
     FILTER(
         UserSecurity,
         UserSecurity[UserName] = USERNAME()
@@ -61,19 +61,19 @@ RETURN
     [Territory] IN AllowedTerritories
 ```
 
-## Embedded Analytics Security
+## 內嵌分析安全性
 
-### 1. Static RLS Implementation
+### 1. 靜態 RLS 實現
 ```csharp
 // Static RLS with fixed roles
 var rlsidentity = new EffectiveIdentity(
-    username: "username@contoso.com", 
+    username: "username@contoso.com",
     roles: new List<string>{ "MyRole" },
     datasets: new List<string>{ datasetId.ToString()}
 );
 ```
 
-### 2. Dynamic RLS with Custom Data
+### 2. 使用自訂資料的動態 RLS
 ```csharp
 // Dynamic RLS with custom data
 var rlsidentity = new EffectiveIdentity(
@@ -84,7 +84,7 @@ var rlsidentity = new EffectiveIdentity(
 );
 ```
 
-### 3. Multi-Dataset Security
+### 3. 多資料集安全性
 ```json
 {
     "accessLevel": "View",
@@ -98,9 +98,9 @@ var rlsidentity = new EffectiveIdentity(
 }
 ```
 
-## Database-Level Security Integration
+## 資料庫層級安全性整合
 
-### 1. SQL Server RLS Integration
+### 1. SQL Server RLS 整合
 ```sql
 -- Creating security schema and predicate function
 CREATE SCHEMA Security;
@@ -122,7 +122,7 @@ WITH (STATE = ON);
 GO
 ```
 
-### 2. Fabric Warehouse Security
+### 2. Fabric 倉庫安全性
 ```sql
 -- Creating schema for Security
 CREATE SCHEMA Security;
@@ -146,9 +146,9 @@ WITH (STATE = ON);
 GO
 ```
 
-## Advanced Security Patterns
+## 進階安全性模式
 
-### 1. Paginated Reports Security
+### 1. 分頁報表安全性
 ```json
 {
     "format": "PDF",
@@ -160,12 +160,12 @@ GO
 }
 ```
 
-### 2. Power Pages Integration
+### 2. Power Pages 整合
 ```html
 {% powerbi authentication_type:"powerbiembedded" path:"https://app.powerbi.com/groups/00000000-0000-0000-0000-000000000000/reports/00000000-0000-0000-0000-000000000001/ReportSection" roles:"pagesuser" %}
 ```
 
-### 3. Multi-Tenant Security
+### 3. 多租用戶安全性
 ```json
 {
   "datasets": [
@@ -207,9 +207,9 @@ GO
 }
 ```
 
-## Security Design Patterns
+## 安全性設計模式
 
-### 1. Partial RLS Implementation
+### 1. 部分 RLS 實現
 ```dax
 // Create summary table for partial RLS
 SalesRevenueSummary =
@@ -222,12 +222,12 @@ SUMMARIZECOLUMNS(
 Salesperson Filter = [EmailAddress] = USERNAME()
 ```
 
-### 2. Hierarchical Security
+### 2. 階層安全性
 ```dax
 // Manager can see all, others see their own
 VAR CurrentUser = USERNAME()
 VAR UserRole = LOOKUPVALUE(
-    UserRoles[Role], 
+    UserRoles[Role],
     UserRoles[Email], CurrentUser
 )
 RETURN
@@ -245,11 +245,11 @@ RETURN
     )
 ```
 
-### 3. Time-Based Security
+### 3. 時間型安全性
 ```dax
 // Restrict access to recent data based on role
 VAR UserRole = LOOKUPVALUE(UserRoles[Role], UserRoles[Email], USERNAME())
-VAR CutoffDate = 
+VAR CutoffDate =
     SWITCH(
         UserRole,
         "Executive", DATE(1900,1,1),  // All historical data
@@ -261,17 +261,17 @@ RETURN
     [Date] >= CutoffDate
 ```
 
-## Security Validation and Testing
+## 安全性驗證與測試
 
-### 1. Role Validation Patterns
+### 1. 角色驗證模式
 ```dax
 // Security testing measure
-Security Test = 
+Security Test =
 VAR CurrentUsername = USERNAME()
 VAR ExpectedRole = "TestRole"
-VAR TestResult = 
+VAR TestResult =
     IF(
-        HASONEVALUE(SecurityRoles[Role]) && 
+        HASONEVALUE(SecurityRoles[Role]) &&
         VALUES(SecurityRoles[Role]) = ExpectedRole,
         "PASS: Role applied correctly",
         "FAIL: Incorrect role or multiple roles"
@@ -280,23 +280,23 @@ RETURN
     "User: " & CurrentUsername & " | " & TestResult
 ```
 
-### 2. Data Exposure Audit
+### 2. 資料曝露稽核
 ```dax
 // Audit measure to track data access
-Data Access Audit = 
+Data Access Audit =
 VAR AccessibleRows = COUNTROWS(FactTable)
 VAR TotalRows = CALCULATE(COUNTROWS(FactTable), ALL(FactTable))
 VAR AccessPercentage = DIVIDE(AccessibleRows, TotalRows) * 100
 RETURN
-    "User: " & USERNAME() & 
-    " | Accessible: " & FORMAT(AccessibleRows, "#,0") & 
-    " | Total: " & FORMAT(TotalRows, "#,0") & 
+    "User: " & USERNAME() &
+    " | Accessible: " & FORMAT(AccessibleRows, "#,0") &
+    " | Total: " & FORMAT(TotalRows, "#,0") &
     " | Access: " & FORMAT(AccessPercentage, "0.00") & "%"
 ```
 
-## Governance and Administration
+## 治理與管理
 
-### 1. Automated Security Group Management
+### 1. 自動安全群組管理
 ```powershell
 # Add security group to Power BI workspace
 # Sign in to Power BI
@@ -312,7 +312,7 @@ $pbiWorkspace = Get-PowerBIWorkspace -Filter "name eq '<workspace-name>'"
 Add-PowerBIWorkspaceUser -Id $($pbiWorkspace.Id) -AccessRight Member -PrincipalType Group -Identifier $($SGObjectID)
 ```
 
-### 2. Security Monitoring
+### 2. 安全性監控
 ```powershell
 # Monitor Power BI access patterns
 $workspaces = Get-PowerBIWorkspace
@@ -325,23 +325,23 @@ foreach ($workspace in $workspaces) {
 }
 ```
 
-### 3. Compliance Reporting
+### 3. 合規性報告
 ```dax
 // Compliance dashboard measures
-Users with Data Access = 
+Users with Data Access =
 CALCULATE(
     DISTINCTCOUNT(AuditLog[Username]),
     AuditLog[AccessType] = "DataAccess",
     AuditLog[Date] >= TODAY() - 30
 )
 
-High Privilege Users = 
+High Privilege Users =
 CALCULATE(
     DISTINCTCOUNT(UserRoles[Email]),
     UserRoles[Role] IN {"Admin", "Manager", "Executive"}
 )
 
-Security Violations = 
+Security Violations =
 CALCULATE(
     COUNTROWS(AuditLog),
     AuditLog[EventType] = "SecurityViolation",
@@ -349,15 +349,15 @@ CALCULATE(
 )
 ```
 
-## Best Practices and Anti-Patterns
+## 最佳實踐與反模式
 
-### ✅ Security Best Practices
+### ✅ 安全性最佳實踐
 
-#### 1. Principle of Least Privilege
+#### 1. 最小權限原則
 ```dax
 // Always default to restrictive access
-Default Security = 
-VAR UserPermissions = 
+Default Security =
+VAR UserPermissions =
     FILTER(
         UserAccess,
         UserAccess[Email] = USERNAME()
@@ -370,10 +370,10 @@ RETURN
     )
 ```
 
-#### 2. Explicit Role Validation
+#### 2. 明確的角色驗證
 ```dax
 // Validate expected roles explicitly
-Role-Based Filter = 
+Role-Based Filter =
 VAR UserRole = LOOKUPVALUE(UserRoles[Role], UserRoles[Email], USERNAME())
 VAR AllowedRoles = {"Analyst", "Manager", "Executive"}
 RETURN
@@ -389,12 +389,12 @@ RETURN
     )
 ```
 
-### ❌ Security Anti-Patterns to Avoid
+### ❌ 應避免的安全性反模式
 
-#### 1. Overly Permissive Defaults
+#### 1. 過度寬鬆的預設值
 ```dax
 // ❌ AVOID: This grants full access to unexpected users
-Bad Security Filter = 
+Bad Security Filter =
 IF(
     USERNAME() = "SpecificUser",
     [Type] = "Internal",
@@ -402,10 +402,10 @@ IF(
 )
 ```
 
-#### 2. Complex Security Logic
+#### 2. 複雜的安全性邏輯
 ```dax
 // ❌ AVOID: Overly complex security that's hard to audit
-Overly Complex Security = 
+Overly Complex Security =
 IF(
     OR(
         AND(USERNAME() = "User1", WEEKDAY(TODAY()) <= 5),
@@ -417,9 +417,9 @@ IF(
 )
 ```
 
-## Security Integration Patterns
+## 安全性整合模式
 
-### 1. Azure AD Integration
+### 1. Azure AD 整合
 ```csharp
 // Generate token with Azure AD user context
 var tokenRequest = new GenerateTokenRequestV2(
@@ -432,7 +432,7 @@ var tokenRequest = new GenerateTokenRequestV2(
 var embedToken = pbiClient.EmbedToken.GenerateToken(tokenRequest);
 ```
 
-### 2. Service Principal Authentication
+### 2. 服務主體驗證
 ```csharp
 // Service principal with RLS for embedded scenarios
 public EmbedToken GetEmbedToken(Guid reportId, IList<Guid> datasetIds, [Optional] Guid targetWorkspaceId)
@@ -444,7 +444,7 @@ public EmbedToken GetEmbedToken(Guid reportId, IList<Guid> datasetIds, [Optional
        roles: new List<string>{ "MyRole" },
        datasets: new List<string>{ datasetId.ToString()}
     );
-    
+
     var tokenRequest = new GenerateTokenRequestV2(
         reports: new List<GenerateTokenRequestV2Report>() { new GenerateTokenRequestV2Report(reportId) },
         datasets: datasetIds.Select(datasetId => new GenerateTokenRequestV2Dataset(datasetId.ToString())).ToList(),
@@ -458,18 +458,18 @@ public EmbedToken GetEmbedToken(Guid reportId, IList<Guid> datasetIds, [Optional
 }
 ```
 
-## Security Monitoring and Auditing
+## 安全性監控與稽核
 
-### 1. Access Pattern Analysis
+### 1. 存取模式分析
 ```dax
 // Identify unusual access patterns
-Unusual Access Pattern = 
-VAR UserAccessCount = 
+Unusual Access Pattern =
+VAR UserAccessCount =
     CALCULATE(
         COUNTROWS(AccessLog),
         AccessLog[Date] >= TODAY() - 7
     )
-VAR AvgUserAccess = 
+VAR AvgUserAccess =
     CALCULATE(
         AVERAGE(AccessLog[AccessCount]),
         ALL(AccessLog[Username]),
@@ -483,11 +483,11 @@ RETURN
     )
 ```
 
-### 2. Data Breach Detection
+### 2. 資料外洩偵測
 ```dax
 // Detect potential data exposure
-Potential Data Exposure = 
-VAR UnexpectedAccess = 
+Potential Data Exposure =
+VAR UnexpectedAccess =
     CALCULATE(
         COUNTROWS(AccessLog),
         AccessLog[AccessResult] = "Denied",
@@ -501,4 +501,4 @@ RETURN
     )
 ```
 
-Remember: Security is layered - implement defense in depth with proper authentication, authorization, data encryption, network security, and comprehensive auditing. Regularly review and test security implementations to ensure they meet current requirements and compliance standards.
+記住：安全性是分層的 - 使用適當的驗證、授權、資料加密、網路安全和全面的稽核來實現深度防禦。定期檢查和測試安全性實施，以確保它們符合當前的需求和合規標準。

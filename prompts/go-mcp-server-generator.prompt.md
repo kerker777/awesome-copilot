@@ -3,23 +3,23 @@ mode: agent
 description: 'Generate a complete Go MCP server project with proper structure, dependencies, and implementation using the official github.com/modelcontextprotocol/go-sdk.'
 ---
 
-# Go MCP Server Project Generator
+# Go MCP 伺服器專案產生器
 
-Generate a complete, production-ready Model Context Protocol (MCP) server project in Go.
+產生一個完整、生產就緒的 Go 語言 Model Context Protocol (MCP) 伺服器專案。
 
-## Project Requirements
+## 專案需求
 
-You will create a Go MCP server with:
+你將建立一個具有下列特性的 Go MCP 伺服器：
 
-1. **Project Structure**: Proper Go module layout
-2. **Dependencies**: Official MCP SDK and necessary packages
-3. **Server Setup**: Configured MCP server with transports
-4. **Tools**: At least 2-3 useful tools with typed inputs/outputs
-5. **Error Handling**: Proper error handling and context usage
-6. **Documentation**: README with setup and usage instructions
-7. **Testing**: Basic test structure
+1. **專案結構**：適當的 Go 模組佈局
+2. **依賴套件**：官方 MCP SDK 及必要的套件
+3. **伺服器設置**：配置 MCP 伺服器及傳輸層
+4. **工具**：至少 2-3 個實用工具，具有型別化的輸入/輸出
+5. **錯誤處理**：適當的錯誤處理及上下文使用
+6. **文件**：包含設置及使用說明的 README
+7. **測試**：基本測試結構
 
-## Template Structure
+## 樣板結構
 
 ```
 myserver/
@@ -37,7 +37,7 @@ myserver/
 └── main_test.go
 ```
 
-## go.mod Template
+## go.mod 樣板
 
 ```go
 module github.com/yourusername/{{PROJECT_NAME}}
@@ -49,7 +49,7 @@ require (
 )
 ```
 
-## main.go Template
+## main.go 樣板
 
 ```go
 package main
@@ -107,7 +107,7 @@ func main() {
 }
 ```
 
-## tools/tool1.go Template
+## tools/tool1.go 樣板
 
 ```go
 package tools
@@ -164,7 +164,7 @@ func RegisterTool1(server *mcp.Server) {
 }
 ```
 
-## tools/registry.go Template
+## tools/registry.go 樣板
 
 ```go
 package tools
@@ -178,7 +178,7 @@ func RegisterTools(server *mcp.Server) {
 }
 ```
 
-## config/config.go Template
+## config/config.go 樣板
 
 ```go
 package config
@@ -207,7 +207,7 @@ func getEnv(key, defaultValue string) string {
 }
 ```
 
-## main_test.go Template
+## main_test.go 樣板
 
 ```go
 package main
@@ -241,7 +241,7 @@ func TestTool1Handler(t *testing.T) {
 }
 ```
 
-## README.md Template
+## README.md 樣板
 
 ```markdown
 # {{PROJECT_NAME}}
@@ -307,28 +307,28 @@ go build -o {{PROJECT_NAME}}
 MIT
 ```
 
-## Generation Instructions
+## 產生指示
 
-When generating a Go MCP server:
+在產生 Go MCP 伺服器時：
 
-1. **Initialize Module**: Create `go.mod` with proper module path
-2. **Structure**: Follow the template directory structure
-3. **Type Safety**: Use structs with JSON schema tags for all inputs/outputs
-4. **Error Handling**: Validate inputs, check context, wrap errors
-5. **Documentation**: Add clear descriptions and examples
-6. **Testing**: Include at least one test per tool
-7. **Configuration**: Use environment variables for config
-8. **Logging**: Use structured logging (log/slog)
-9. **Graceful Shutdown**: Handle signals properly
-10. **Transport**: Default to stdio, document alternatives
+1. **初始化模組**：使用適當的模組路徑建立 `go.mod`
+2. **結構**：遵循樣板目錄結構
+3. **型別安全**：為所有輸入/輸出使用具有 JSON schema 標籤的結構體
+4. **錯誤處理**：驗證輸入、檢查上下文、包裝錯誤
+5. **文件**：新增清楚的說明及範例
+6. **測試**：每個工具至少包含一個測試
+7. **設定**：使用環境變數進行設定
+8. **日誌記錄**：使用結構化日誌 (log/slog)
+9. **優雅關閉**：適當處理信號
+10. **傳輸**：預設使用標準輸入/輸出，文件記錄其他方案
 
-## Best Practices
+## 最佳實踐
 
-- Keep tools focused and single-purpose
-- Use descriptive names for types and functions
-- Include JSON schema documentation in struct tags
-- Always respect context cancellation
-- Return descriptive errors
-- Keep main.go minimal, logic in packages
-- Write tests for tool handlers
-- Document all exported functions
+- 保持工具專注且單一目的
+- 為型別及函式使用描述性名稱
+- 在結構體標籤中包含 JSON schema 文件
+- 總是尊重上下文取消
+- 返回描述性錯誤
+- 保持 main.go 最小化，邏輯放在套件中
+- 為工具處理器撰寫測試
+- 記錄所有匯出的函式
