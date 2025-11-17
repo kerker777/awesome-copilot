@@ -1,23 +1,23 @@
 ---
-description: 'Best practices for building Model Context Protocol servers in PHP using the official PHP SDK with attribute-based discovery and multiple transport options'
+description: '使用官方 PHP SDK 在 PHP 中建構 Model Context Protocol 伺服器的最佳實踐，具有基於屬性的發現和多種傳輸選項'
 applyTo: '**/*.php'
 ---
 
-# PHP MCP Server Development Best Practices
+# PHP MCP 伺服器開發最佳實踐
 
-This guide provides best practices for building Model Context Protocol (MCP) servers using the official PHP SDK maintained in collaboration with The PHP Foundation.
+本指南提供了使用與 The PHP Foundation 合作維護的官方 PHP SDK 建構 Model Context Protocol (MCP) 伺服器的最佳實踐。
 
-## Installation and Setup
+## 安裝和設定
 
-### Install via Composer
+### 通過 Composer 安裝
 
 ```bash
 composer require mcp/sdk
 ```
 
-### Project Structure
+### 專案結構
 
-Organize your PHP MCP server project:
+組織你的 PHP MCP 伺服器專案：
 
 ```
 my-mcp-server/
@@ -32,12 +32,12 @@ my-mcp-server/
 │   ├── Prompts/
 │   │   └── PromptGenerator.php
 │   └── Server.php
-├── server.php           # Server entry point
+├── server.php           # 伺服器入口點
 └── tests/
     └── ToolsTest.php
 ```
 
-### Composer Configuration
+### Composer 配置
 
 ```json
 {
@@ -59,11 +59,11 @@ my-mcp-server/
 }
 ```
 
-## Server Implementation
+## 伺服器實作
 
-### Basic Server with Attribute Discovery
+### 具有屬性發現的基本伺服器
 
-Create your server entry point:
+建立你的伺服器入口點：
 
 ```php
 #!/usr/bin/env php
@@ -86,9 +86,9 @@ $transport = new StdioTransport();
 $server->run($transport);
 ```
 
-### Server with Caching
+### 具有快取的伺服器
 
-Use PSR-16 cache for better performance:
+使用 PSR-16 快取以獲得更好的效能：
 
 ```php
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -107,9 +107,9 @@ $server = Server::builder()
     ->build();
 ```
 
-### Manual Registration
+### 手動註冊
 
-Register capabilities programmatically:
+程式化註冊能力：
 
 ```php
 use App\Tools\Calculator;
@@ -123,9 +123,9 @@ $server = Server::builder()
     ->build();
 ```
 
-## Tool Development
+## 工具開發
 
-### Simple Tool with Attribute
+### 具有屬性的簡單工具
 
 ```php
 <?php
@@ -138,7 +138,7 @@ class Calculator
 {
     /**
      * Adds two numbers together.
-     * 
+     *
      * @param int $a The first number
      * @param int $b The second number
      * @return int The sum of the two numbers
@@ -151,7 +151,7 @@ class Calculator
 }
 ```
 
-### Tool with Custom Name
+### 具有自訂名稱的工具
 
 ```php
 use Mcp\Capability\Attribute\McpTool;
@@ -167,13 +167,13 @@ class FileManager
         if (!file_exists($path)) {
             throw new \InvalidArgumentException("File not found: {$path}");
         }
-        
+
         return file_get_contents($path);
     }
 }
 ```
 
-### Tool with Validation and Schema
+### 具有驗證和模式的工具
 
 ```php
 use Mcp\Capability\Attribute\{McpTool, Schema};
@@ -184,10 +184,10 @@ class UserManager
     public function createUser(
         #[Schema(format: 'email')]
         string $email,
-        
+
         #[Schema(minimum: 18, maximum: 120)]
         int $age,
-        
+
         #[Schema(
             pattern: '^[A-Z][a-z]+$',
             description: 'Capitalized first name'
@@ -205,7 +205,7 @@ class UserManager
 }
 ```
 
-### Tool with Complex Return Types
+### 具有複雜返回類型的工具
 
 ```php
 use Mcp\Schema\Content\{TextContent, ImageContent};
@@ -221,12 +221,12 @@ class ReportGenerator
             new TextContent('Summary: All checks passed.')
         ];
     }
-    
+
     #[McpTool]
     public function getChart(string $chartType): ImageContent
     {
         $imageData = $this->generateChartImage($chartType);
-        
+
         return new ImageContent(
             data: base64_encode($imageData),
             mimeType: 'image/png'
@@ -235,7 +235,7 @@ class ReportGenerator
 }
 ```
 
-### Tool with Match Expression
+### 具有 Match 表達式的工具
 
 ```php
 #[McpTool(name: 'calculate')]
@@ -245,16 +245,16 @@ public function performCalculation(float $a, float $b, string $operation): float
         'add' => $a + $b,
         'subtract' => $a - $b,
         'multiply' => $a * $b,
-        'divide' => $b != 0 ? $a / $b : 
+        'divide' => $b != 0 ? $a / $b :
             throw new \InvalidArgumentException('Division by zero'),
         default => throw new \InvalidArgumentException('Invalid operation')
     };
 }
 ```
 
-## Resource Implementation
+## 資源實作
 
-### Static Resource
+### 靜態資源
 
 ```php
 <?php
@@ -284,7 +284,7 @@ class ConfigProvider
 }
 ```
 
-### Resource Template with Variables
+### 具有變數的資源範本
 
 ```php
 use Mcp\Capability\Attribute\McpResourceTemplate;
@@ -302,14 +302,14 @@ class UserProvider
     )]
     public function getUserProfile(string $userId, string $section): array
     {
-        // Variable order must match URI template order
-        return $this->users[$userId][$section] ?? 
+        // 變數順序必須與 URI 範本順序匹配
+        return $this->users[$userId][$section] ??
             throw new \InvalidArgumentException("Profile section not found");
     }
 }
 ```
 
-### Resource with File Content
+### 具有檔案內容的資源
 
 ```php
 use Mcp\Schema\Content\{TextResourceContents, BlobResourceContents};
@@ -325,12 +325,12 @@ class FileProvider
             text: file_get_contents(__DIR__ . '/README.txt')
         );
     }
-    
+
     #[McpResource(uri: 'file://image.png', mimeType: 'image/png')]
     public function getImage(): BlobResourceContents
     {
         $imageData = file_get_contents(__DIR__ . '/image.png');
-        
+
         return new BlobResourceContents(
             uri: 'file://image.png',
             mimeType: 'image/png',
@@ -340,9 +340,9 @@ class FileProvider
 }
 ```
 
-## Prompt Implementation
+## 提示實作
 
-### Basic Prompt
+### 基本提示
 
 ```php
 <?php
@@ -367,7 +367,7 @@ class PromptGenerator
 }
 ```
 
-### Prompt with Mixed Content
+### 具有混合內容的提示
 
 ```php
 use Mcp\Schema\Content\{TextContent, ImageContent};
@@ -378,7 +378,7 @@ use Mcp\Schema\Enum\Role;
 public function analyzeImage(string $imageUrl, string $question): array
 {
     $imageData = file_get_contents($imageUrl);
-    
+
     return [
         new PromptMessage(Role::Assistant, [
             new TextContent('You are an image analysis expert.')
@@ -394,9 +394,9 @@ public function analyzeImage(string $imageUrl, string $question): array
 }
 ```
 
-## Completion Providers
+## 完成提供者
 
-### Value List Completion
+### 值清單完成
 
 ```php
 use Mcp\Capability\Attribute\{McpPrompt, CompletionProvider};
@@ -405,7 +405,7 @@ use Mcp\Capability\Attribute\{McpPrompt, CompletionProvider};
 public function generateContent(
     #[CompletionProvider(values: ['blog', 'article', 'tutorial', 'guide'])]
     string $contentType,
-    
+
     #[CompletionProvider(values: ['beginner', 'intermediate', 'advanced'])]
     string $difficulty
 ): array
@@ -416,7 +416,7 @@ public function generateContent(
 }
 ```
 
-### Enum Completion
+### 列舉完成
 
 ```php
 enum Priority: string
@@ -436,10 +436,10 @@ enum Status
 #[McpResourceTemplate(uriTemplate: 'tasks/{taskId}')]
 public function getTask(
     string $taskId,
-    
+
     #[CompletionProvider(enum: Priority::class)]
     string $priority,
-    
+
     #[CompletionProvider(enum: Status::class)]
     string $status
 ): array
@@ -448,7 +448,7 @@ public function getTask(
 }
 ```
 
-### Custom Completion Provider
+### 自訂完成提供者
 
 ```php
 use Mcp\Capability\Prompt\Completion\ProviderInterface;
@@ -471,16 +471,16 @@ public function getUserProfile(
     string $userId
 ): array
 {
-    return $this->users[$userId] ?? 
+    return $this->users[$userId] ??
         throw new \InvalidArgumentException('User not found');
 }
 ```
 
-## Transport Options
+## 傳輸選項
 
-### Stdio Transport
+### Stdio 傳輸
 
-For command-line integration (default):
+用於命令列整合（預設）：
 
 ```php
 use Mcp\Server\Transport\StdioTransport;
@@ -489,9 +489,9 @@ $transport = new StdioTransport();
 $server->run($transport);
 ```
 
-### HTTP Transport
+### HTTP 傳輸
 
-For web-based integration:
+用於基於 Web 的整合：
 
 ```php
 use Mcp\Server\Transport\StreamableHttpTransport;
@@ -509,7 +509,7 @@ $transport = new StreamableHttpTransport(
 
 $response = $server->run($transport);
 
-// Send response in your web framework
+// 在你的 Web 框架中發送回應
 foreach ($response->getHeaders() as $name => $values) {
     foreach ($values as $value) {
         header("$name: $value", false);
@@ -520,18 +520,18 @@ http_response_code($response->getStatusCode());
 echo $response->getBody();
 ```
 
-## Session Management
+## 工作階段管理
 
-### In-Memory Sessions (Default)
+### 記憶體內工作階段（預設）
 
 ```php
 $server = Server::builder()
     ->setServerInfo('My Server', '1.0.0')
-    ->setSession(ttl: 7200) // 2 hours
+    ->setSession(ttl: 7200) // 2 小時
     ->build();
 ```
 
-### File-Based Sessions
+### 基於檔案的工作階段
 
 ```php
 use Mcp\Server\Session\FileSessionStore;
@@ -542,7 +542,7 @@ $server = Server::builder()
     ->build();
 ```
 
-### Custom Session Store
+### 自訂工作階段儲存
 
 ```php
 use Mcp\Server\Session\InMemorySessionStore;
@@ -553,9 +553,9 @@ $server = Server::builder()
     ->build();
 ```
 
-## Error Handling
+## 錯誤處理
 
-### Exception Handling in Tools
+### 工具中的異常處理
 
 ```php
 #[McpTool]
@@ -564,7 +564,7 @@ public function divideNumbers(float $a, float $b): float
     if ($b === 0.0) {
         throw new \InvalidArgumentException('Division by zero is not allowed');
     }
-    
+
     return $a / $b;
 }
 
@@ -574,22 +574,22 @@ public function processFile(string $filename): string
     if (!file_exists($filename)) {
         throw new \InvalidArgumentException("File not found: {$filename}");
     }
-    
+
     if (!is_readable($filename)) {
         throw new \RuntimeException("File not readable: {$filename}");
     }
-    
+
     return file_get_contents($filename);
 }
 ```
 
-### Custom Error Responses
+### 自訂錯誤回應
 
-The SDK automatically converts exceptions into JSON-RPC error responses that MCP clients understand.
+SDK 會自動將異常轉換為 MCP 客戶端理解的 JSON-RPC 錯誤回應。
 
-## Testing
+## 測試
 
-### PHPUnit Tests for Tools
+### 工具的 PHPUnit 測試
 
 ```php
 <?php
@@ -602,29 +602,29 @@ use App\Tools\Calculator;
 class CalculatorTest extends TestCase
 {
     private Calculator $calculator;
-    
+
     protected function setUp(): void
     {
         $this->calculator = new Calculator();
     }
-    
+
     public function testAdd(): void
     {
         $result = $this->calculator->add(5, 3);
         $this->assertSame(8, $result);
     }
-    
+
     public function testDivideByZero(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Division by zero');
-        
+
         $this->calculator->divide(10, 0);
     }
 }
 ```
 
-### Testing Server Discovery
+### 測試伺服器發現
 
 ```php
 public function testServerDiscoversTools(): void
@@ -633,19 +633,19 @@ public function testServerDiscoversTools(): void
         ->setServerInfo('Test Server', '1.0.0')
         ->setDiscovery(__DIR__ . '/../src', ['.'])
         ->build();
-    
+
     $capabilities = $server->getCapabilities();
-    
+
     $this->assertArrayHasKey('tools', $capabilities);
     $this->assertNotEmpty($capabilities['tools']);
 }
 ```
 
-## Performance Best Practices
+## 效能最佳實踐
 
-### Use Discovery Caching
+### 使用發現快取
 
-Always use caching in production:
+在生產環境中始終使用快取：
 
 ```php
 use Symfony\Component\Cache\Adapter\RedisAdapter;
@@ -667,23 +667,23 @@ $server = Server::builder()
     ->build();
 ```
 
-### Optimize Scan Directories
+### 優化掃描目錄
 
-Only scan necessary directories:
+僅掃描必要的目錄：
 
 ```php
 $server = Server::builder()
     ->setDiscovery(
         basePath: __DIR__,
-        scanDirs: ['src/Tools', 'src/Resources'],  // Specific dirs
+        scanDirs: ['src/Tools', 'src/Resources'],  // 特定目錄
         excludeDirs: ['vendor', 'tests', 'var', 'cache']
     )
     ->build();
 ```
 
-### Use OPcache
+### 使用 OPcache
 
-Enable OPcache in production for better PHP performance:
+在生產環境中啟用 OPcache 以獲得更好的 PHP 效能：
 
 ```ini
 ; php.ini
@@ -694,9 +694,9 @@ opcache.max_accelerated_files=10000
 opcache.validate_timestamps=0
 ```
 
-## Framework Integration
+## 框架整合
 
-### Laravel Integration
+### Laravel 整合
 
 ```php
 // app/Console/Commands/McpServer.php
@@ -710,56 +710,56 @@ class McpServer extends Command
 {
     protected $signature = 'mcp:serve';
     protected $description = 'Start MCP server';
-    
+
     public function handle()
     {
         $server = Server::builder()
             ->setServerInfo('Laravel MCP Server', '1.0.0')
             ->setDiscovery(app_path(), ['Tools', 'Resources'])
             ->build();
-        
+
         $transport = new StdioTransport();
         $server->run($transport);
     }
 }
 ```
 
-### Symfony Integration
+### Symfony 整合
 
 ```php
-// Use symfony/mcp-bundle for native integration
+// 使用 symfony/mcp-bundle 進行原生整合
 composer require symfony/mcp-bundle
 ```
 
-## Deployment
+## 部署
 
-### Docker Deployment
+### Docker 部署
 
 ```dockerfile
 FROM php:8.2-cli
 
-# Install extensions
+# 安裝擴充功能
 RUN docker-php-ext-install pdo pdo_mysql
 
-# Install Composer
+# 安裝 Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set working directory
+# 設定工作目錄
 WORKDIR /app
 
-# Copy application
+# 複製應用程式
 COPY . /app
 
-# Install dependencies
+# 安裝依賴項
 RUN composer install --no-dev --optimize-autoloader
 
-# Make server executable
+# 使伺服器可執行
 RUN chmod +x /app/server.php
 
 CMD ["php", "/app/server.php"]
 ```
 
-### Systemd Service
+### Systemd 服務
 
 ```ini
 [Unit]
@@ -777,9 +777,9 @@ Restart=always
 WantedBy=multi-user.target
 ```
 
-## Configuration for MCP Clients
+## MCP 客戶端配置
 
-### Claude Desktop Configuration
+### Claude Desktop 配置
 
 ```json
 {
@@ -792,18 +792,18 @@ WantedBy=multi-user.target
 }
 ```
 
-### MCP Inspector Testing
+### MCP Inspector 測試
 
 ```bash
 npx @modelcontextprotocol/inspector php /path/to/server.php
 ```
 
-## Additional Resources
+## 其他資源
 
-- [Official PHP SDK Repository](https://github.com/modelcontextprotocol/php-sdk)
-- [MCP Elements Documentation](https://github.com/modelcontextprotocol/php-sdk/blob/main/docs/mcp-elements.md)
-- [Server Builder Documentation](https://github.com/modelcontextprotocol/php-sdk/blob/main/docs/server-builder.md)
-- [Transport Documentation](https://github.com/modelcontextprotocol/php-sdk/blob/main/docs/transports.md)
-- [Examples](https://github.com/modelcontextprotocol/php-sdk/blob/main/docs/examples.md)
-- [MCP Specification](https://spec.modelcontextprotocol.io/)
+- [官方 PHP SDK 儲存庫](https://github.com/modelcontextprotocol/php-sdk)
+- [MCP Elements 文件](https://github.com/modelcontextprotocol/php-sdk/blob/main/docs/mcp-elements.md)
+- [Server Builder 文件](https://github.com/modelcontextprotocol/php-sdk/blob/main/docs/server-builder.md)
+- [Transport 文件](https://github.com/modelcontextprotocol/php-sdk/blob/main/docs/transports.md)
+- [範例](https://github.com/modelcontextprotocol/php-sdk/blob/main/docs/examples.md)
+- [MCP 規格](https://spec.modelcontextprotocol.io/)
 - [Model Context Protocol](https://modelcontextprotocol.io/)

@@ -1,39 +1,39 @@
 ---
-description: 'Guidelines for localizing markdown documents'
+description: '在地化 markdown 文件的指南'
 applyTo: '**/*.md'
 ---
 
-# Guidance for Localization
+# 在地化指南
 
-You're an expert of localization for technical documents. Follow the instruction to localize documents.
+您是技術文件在地化的專家。請按照說明進行文件在地化。
 
-## Instruction
+## 指示
 
-- Find all markdown documents and localize them into given locale.
-- All localized documents should be placed under the `localization/{{locale}}` directory.
-- The locale format should follow the format of `{{language code}}-{{region code}}`. The language code is defined in ISO 639-1, and the region code is defined in ISO 3166. Here are some examples:
+- 找出所有 markdown 文件並將其在地化為指定的語言環境。
+- 所有在地化的文件應放在 `localization/{{locale}}` 目錄下。
+- 語言環境格式應遵循 `{{language code}}-{{region code}}` 的格式。語言代碼在 ISO 639-1 中定義，區域代碼在 ISO 3166 中定義。以下是一些範例：
   - `en-us`
   - `fr-ca`
   - `ja-jp`
   - `ko-kr`
   - `pt-br`
   - `zh-cn`
-- Localize all the sections and paragraphs in the original documents.
-- DO NOT miss any sections nor any paragraphs while localizing.
-- All image links should point to the original ones, unless they are external.
-- All document links should point to the localized ones, unless they are external.
-- When the localization is complete, ALWAYS compare the results to the original documents, especially the number of lines. If the number of lines of each result is different from the original document, there must be missing sections or paragraphs. Review line-by-line and update it.
+- 在地化原始文件中的所有章節和段落。
+- 在地化時不要遺漏任何章節或段落。
+- 除非是外部連結，否則所有圖片連結應指向原始圖片。
+- 除非是外部連結，否則所有文件連結應指向在地化後的文件。
+- 在地化完成後，務必將結果與原始文件進行比較，特別是行數。如果每個結果的行數與原始文件不同，則必定有缺失的章節或段落。請逐行檢視並更新。
 
-## Disclaimer
+## 免責聲明
 
-- ALWAYS add the disclaimer to the end of each localized document.
-- Here's the disclaimer:
+- 務必在每個在地化文件的結尾加入免責聲明。
+- 以下是免責聲明：
 
     ```text
     ---
-    
-    **DISCLAIMER**: This document is the localized by [GitHub Copilot](https://docs.github.com/copilot/about-github-copilot/what-is-github-copilot). Therefore, it may contain mistakes. If you find any translation that is inappropriate or mistake, please create an [issue](../../issues).
+
+    **免責聲明**：本文件由 [GitHub Copilot](https://docs.github.com/copilot/about-github-copilot/what-is-github-copilot) 進行在地化。因此，它可能包含錯誤。如果您發現任何不適當或錯誤的翻譯，請建立一個 [issue](../../issues)。
     ```
 
-- The disclaimer should also be localized.
-- Make sure the link in the disclaimer should always point to the issue page.
+- 免責聲明也應在地化。
+- 確保免責聲明中的連結始終指向 issue 頁面。

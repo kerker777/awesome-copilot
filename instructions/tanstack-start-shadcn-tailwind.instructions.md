@@ -1,31 +1,31 @@
 ---
-description: 'Guidelines for building TanStack Start applications'
+description: '建構 TanStack Start 應用程式的指南'
 applyTo: '**/*.ts, **/*.tsx, **/*.js, **/*.jsx, **/*.css, **/*.scss, **/*.json'
 ---
 
-# TanStack Start with Shadcn/ui Development Guide
+# TanStack Start 與 Shadcn/ui 開發指南
 
-You are an expert TypeScript developer specializing in TanStack Start applications with modern React patterns.
+你是專精於使用現代 React 模式建構 TanStack Start 應用程式的 TypeScript 專家開發者。
 
-## Tech Stack
-- TypeScript (strict mode)
-- TanStack Start (routing & SSR)
-- Shadcn/ui (UI components)
-- Tailwind CSS (styling)
-- Zod (validation)
-- TanStack Query (client state)
+## 技術堆疊
+- TypeScript（嚴格模式）
+- TanStack Start（路由和 SSR）
+- Shadcn/ui（UI 元件）
+- Tailwind CSS（樣式）
+- Zod（驗證）
+- TanStack Query（客戶端狀態）
 
-## Code Style Rules
+## 程式碼風格規則
 
-- NEVER use `any` type - always use proper TypeScript types
-- Prefer function components over class components
-- Always validate external data with Zod schemas
-- Include error and pending boundaries for all routes
-- Follow accessibility best practices with ARIA attributes
+- 永遠不要使用 `any` 類型 - 始終使用適當的 TypeScript 類型
+- 優先使用函數元件而非類別元件
+- 始終使用 Zod 模式驗證外部資料
+- 為所有路由包含錯誤和待處理邊界
+- 遵循無障礙最佳實踐，使用 ARIA 屬性
 
-## Component Patterns
+## 元件模式
 
-Use function components with proper TypeScript interfaces:
+使用具有適當 TypeScript 介面的函數元件：
 
 ```typescript
 interface ButtonProps {
@@ -43,20 +43,20 @@ export default function Button({ children, onClick, variant = 'primary' }: Butto
 }
 ```
 
-## Data Fetching
+## 資料擷取
 
-Use Route Loaders for:
-- Initial page data required for rendering
-- SSR requirements
-- SEO-critical data
+使用路由載入器用於：
+- 渲染所需的初始頁面資料
+- SSR 需求
+- SEO 關鍵資料
 
-Use React Query for:
-- Frequently updating data
-- Optional/secondary data
-- Client mutations with optimistic updates
+使用 React Query 用於：
+- 頻繁更新的資料
+- 可選/次要資料
+- 帶有樂觀更新的客戶端變更
 
 ```typescript
-// Route Loader
+// 路由載入器
 export const Route = createFileRoute('/users')({
   loader: async () => {
     const users = await fetchUsers()
@@ -73,9 +73,9 @@ const { data: stats } = useQuery({
 });
 ```
 
-## Zod Validation
+## Zod 驗證
 
-Always validate external data. Define schemas in `src/lib/schemas.ts`:
+始終驗證外部資料。在 `src/lib/schemas.ts` 中定義模式：
 
 ```typescript
 export const userSchema = z.object({
@@ -87,7 +87,7 @@ export const userSchema = z.object({
 
 export type User = z.infer<typeof userSchema>
 
-// Safe parsing
+// 安全解析
 const result = userSchema.safeParse(data)
 if (!result.success) {
   console.error('Validation failed:', result.error.format())
@@ -95,9 +95,9 @@ if (!result.success) {
 }
 ```
 
-## Routes
+## 路由
 
-Structure routes in `src/routes/` with file-based routing. Always include error and pending boundaries:
+在 `src/routes/` 中使用基於檔案的路由結構化路由。始終包含錯誤和待處理邊界：
 
 ```typescript
 export const Route = createFileRoute('/users/$id')({
@@ -117,9 +117,9 @@ export const Route = createFileRoute('/users/$id')({
 });
 ```
 
-## UI Components
+## UI 元件
 
-Always prefer Shadcn/ui components over custom ones:
+始終優先使用 Shadcn/ui 元件而非自訂元件：
 
 ```typescript
 import { Button } from '@/components/ui/button';
@@ -135,7 +135,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 </Card>
 ```
 
-Use Tailwind for styling with responsive design:
+使用 Tailwind 進行樣式設計，具有響應式設計：
 
 ```typescript
 <div className="flex flex-col gap-4 p-6 md:flex-row md:gap-6">
@@ -143,18 +143,18 @@ Use Tailwind for styling with responsive design:
 </div>
 ```
 
-## Accessibility
+## 無障礙
 
-Use semantic HTML first. Only add ARIA when no semantic equivalent exists:
+首先使用語義 HTML。只有在不存在語義等效時才新增 ARIA：
 
 ```typescript
-// ✅ Good: Semantic HTML with minimal ARIA
+// ✅ 良好：語義 HTML，最少 ARIA
 <button onClick={toggleMenu}>
   <MenuIcon aria-hidden="true" />
   <span className="sr-only">Toggle Menu</span>
 </button>
 
-// ✅ Good: ARIA only when needed (for dynamic states)
+// ✅ 良好：僅在需要時使用 ARIA（用於動態狀態）
 <button
   aria-expanded={isOpen}
   aria-controls="menu"
@@ -163,7 +163,7 @@ Use semantic HTML first. Only add ARIA when no semantic equivalent exists:
   Menu
 </button>
 
-// ✅ Good: Semantic form elements
+// ✅ 良好：語義表單元素
 <label htmlFor="email">Email Address</label>
 <input id="email" type="email" />
 {errors.email && (
@@ -171,42 +171,42 @@ Use semantic HTML first. Only add ARIA when no semantic equivalent exists:
 )}
 ```
 
-## File Organization
+## 檔案組織
 
 ```
 src/
-├── components/ui/    # Shadcn/ui components
-├── lib/schemas.ts    # Zod schemas
-├── routes/          # File-based routes
-└── routes/api/      # Server routes (.ts)
+├── components/ui/    # Shadcn/ui 元件
+├── lib/schemas.ts    # Zod 模式
+├── routes/          # 基於檔案的路由
+└── routes/api/      # 伺服器路由 (.ts)
 ```
 
-## Import Standards
+## 匯入標準
 
-Use `@/` alias for all internal imports:
+對所有內部匯入使用 `@/` 別名：
 
 ```typescript
-// ✅ Good
+// ✅ 良好
 import { Button } from '@/components/ui/button'
 import { userSchema } from '@/lib/schemas'
 
-// ❌ Bad
+// ❌ 不好
 import { Button } from '../components/ui/button'
 ```
 
-## Adding Components
+## 新增元件
 
-Install Shadcn components when needed:
+在需要時安裝 Shadcn 元件：
 
 ```bash
 npx shadcn@latest add button card input dialog
 ```
 
-## Common Patterns
+## 常見模式
 
-- Always validate external data with Zod
-- Use route loaders for initial data, React Query for updates
-- Include error/pending boundaries on all routes
-- Prefer Shadcn components over custom UI
-- Use `@/` imports consistently
-- Follow accessibility best practices
+- 始終使用 Zod 驗證外部資料
+- 使用路由載入器取得初始資料，React Query 用於更新
+- 在所有路由上包含錯誤/待處理邊界
+- 優先使用 Shadcn 元件而非自訂 UI
+- 一致使用 `@/` 匯入
+- 遵循無障礙最佳實踐
