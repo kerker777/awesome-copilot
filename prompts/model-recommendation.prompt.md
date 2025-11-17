@@ -8,215 +8,215 @@ tools:
 model: Auto (copilot)
 ---
 
-# AI Model Recommendation for Copilot Chat Modes and Prompts
+# Copilot 聊天模式與提示詞的 AI 模型推薦
 
-## Mission
+## 任務
 
-Analyze `.chatmode.md` or `.prompt.md` files to understand their purpose, complexity, and required capabilities, then recommend the most suitable AI model(s) from GitHub Copilot's available options. Provide rationale based on task characteristics, model strengths, cost-efficiency, and performance trade-offs.
+分析 `.chatmode.md` 或 `.prompt.md` 檔案，以瞭解其目的、複雜度和所需的能力，然後從 GitHub Copilot 的可用模型中推薦最合適的 AI 模型。根據任務特性、模型優勢、成本效益和效能權衡提供推薦理由。
 
-## Scope & Preconditions
+## 範圍與先決條件
 
-- **Input**: Path to a `.chatmode.md` or `.prompt.md` file
-- **Available Models**: GPT-4.1, GPT-5, GPT-5 mini, GPT-5 Codex, Claude Sonnet 3.5, Claude Sonnet 4, Claude Sonnet 4.5, Claude Opus 4.1, Gemini 2.5 Pro, Gemini 2.0 Flash, Grok Code Fast 1, o3, o4-mini (with deprecation dates)
-- **Model Auto-Selection**: Available in VS Code (Sept 2025+) - selects from GPT-4.1, GPT-5 mini, GPT-5, Claude Sonnet 3.5, Claude Sonnet 4.5 (excludes premium multipliers > 1)
-- **Context**: GitHub Copilot subscription tiers (Free: 2K completions + 50 chat/month with 0x models only; Pro: unlimited 0x + 1000 premium/month; Pro+: unlimited 0x + 5000 premium/month)
+- **輸入**：`.chatmode.md` 或 `.prompt.md` 檔案的路徑
+- **可用模型**：GPT-4.1、GPT-5、GPT-5 mini、GPT-5 Codex、Claude Sonnet 3.5、Claude Sonnet 4、Claude Sonnet 4.5、Claude Opus 4.1、Gemini 2.5 Pro、Gemini 2.0 Flash、Grok Code Fast 1、o3、o4-mini（含停用日期）
+- **模型自動選擇**：適用於 VS Code（2025 年 9 月以後）- 從 GPT-4.1、GPT-5 mini、GPT-5、Claude Sonnet 3.5、Claude Sonnet 4.5 中選擇（排除溢價倍數 > 1 的模型）
+- **背景**：GitHub Copilot 訂閱級別（免費：每月 2K 完成次數 + 50 次聊天，僅支援 0x 模型；Pro：無限制 0x + 每月 1000 次高級；Pro+：無限制 0x + 每月 5000 次高級）
 
-## Inputs
+## 輸入
 
-Required:
+必要：
 
-- `${input:filePath:Path to .chatmode.md or .prompt.md file}` - Absolute or workspace-relative path to the file to analyze
+- `${input:filePath:Path to .chatmode.md or .prompt.md file}` - 要分析的檔案的絕對路徑或工作區相對路徑
 
-Optional:
+選用：
 
-- `${input:subscriptionTier:Pro}` - User's Copilot subscription tier (Free, Pro, Pro+) - defaults to Pro
-- `${input:priorityFactor:Balanced}` - Optimization priority (Speed, Cost, Quality, Balanced) - defaults to Balanced
+- `${input:subscriptionTier:Pro}` - 使用者的 Copilot 訂閱級別（免費、Pro、Pro+）- 預設為 Pro
+- `${input:priorityFactor:Balanced}` - 最佳化優先級（速度、成本、品質、平衡）- 預設為平衡
 
-## Workflow
+## 工作流程
 
-### 1. File Analysis Phase
+### 1. 檔案分析階段
 
-**Read and Parse File**:
+**讀取和解析檔案**：
 
-- Read the target `.chatmode.md` or `.prompt.md` file
-- Extract frontmatter (description, mode, tools, model if specified)
-- Analyze body content to identify:
-  - Task complexity (simple/moderate/complex/advanced)
-  - Required reasoning depth (basic/intermediate/advanced/expert)
-  - Code generation needs (minimal/moderate/extensive)
-  - Multi-turn conversation requirements
-  - Context window needs (small/medium/large)
-  - Specialized capabilities (image analysis, long-context, real-time data)
+- 讀取目標 `.chatmode.md` 或 `.prompt.md` 檔案
+- 提取 frontmatter（描述、模式、工具、指定的模型）
+- 分析正文內容以識別：
+  - 任務複雜度（簡單/中等/複雜/進階）
+  - 所需推理深度（基礎/中級/進階/專家）
+  - 程式碼生成需求（最少/中等/廣泛）
+  - 多輪對話需求
+  - 上下文視窗需求（小/中/大）
+  - 特殊能力（影像分析、長上下文、即時資料）
 
-**Categorize Task Type**:
+**分類任務類型**：
 
-Identify the primary task category based on content analysis:
+根據內容分析識別主要任務類別：
 
-1. **Simple Repetitive Tasks**:
+1. **簡單重複任務**：
 
-   - Pattern: Formatting, simple refactoring, adding comments/docstrings, basic CRUD
-   - Characteristics: Straightforward logic, minimal context, fast execution preferred
-   - Keywords: format, comment, simple, basic, add docstring, rename, move
+   - 模式：格式化、簡單重構、新增註解/文件字串、基本 CRUD
+   - 特點：直敘邏輯、最少上下文、優先快速執行
+   - 關鍵字：format、comment、simple、basic、add docstring、rename、move
 
-2. **Code Generation & Implementation**:
+2. **程式碼生成與實作**：
 
-   - Pattern: Writing functions/classes, implementing features, API endpoints, tests
-   - Characteristics: Moderate complexity, domain knowledge, idiomatic code
-   - Keywords: implement, create, generate, write, build, scaffold
+   - 模式：編寫函式/類別、實作功能、API 端點、測試
+   - 特點：中等複雜度、領域知識、習慣用語代碼
+   - 關鍵字：implement、create、generate、write、build、scaffold
 
-3. **Complex Refactoring & Architecture**:
+3. **複雜重構與架構**：
 
-   - Pattern: System design, architectural review, large-scale refactoring, performance optimization
-   - Characteristics: Deep reasoning, multiple components, trade-off analysis
-   - Keywords: architect, refactor, optimize, design, scale, review architecture
+   - 模式：系統設計、架構審查、大規模重構、效能最佳化
+   - 特點：深層推理、多個元件、權衡分析
+   - 關鍵字：architect、refactor、optimize、design、scale、review architecture
 
-4. **Debugging & Problem-Solving**:
+4. **除錯與問題解決**：
 
-   - Pattern: Bug fixing, error analysis, systematic troubleshooting, root cause analysis
-   - Characteristics: Step-by-step reasoning, debugging context, verification needs
-   - Keywords: debug, fix, troubleshoot, diagnose, error, investigate
+   - 模式：錯誤修正、錯誤分析、系統性故障排除、根本原因分析
+   - 特點：逐步推理、除錯上下文、驗證需求
+   - 關鍵字：debug、fix、troubleshoot、diagnose、error、investigate
 
-5. **Planning & Research**:
+5. **規劃與研究**：
 
-   - Pattern: Feature planning, research, documentation analysis, ADR creation
-   - Characteristics: Read-only, context gathering, decision-making support
-   - Keywords: plan, research, analyze, investigate, document, assess
+   - 模式：功能規劃、研究、文件分析、ADR 建立
+   - 特點：只讀、上下文蒐集、決策支援
+   - 關鍵字：plan、research、analyze、investigate、document、assess
 
-6. **Code Review & Quality Analysis**:
+6. **程式碼審查與品質分析**：
 
-   - Pattern: Security analysis, performance review, best practices validation, compliance checking
-   - Characteristics: Critical thinking, pattern recognition, domain expertise
-   - Keywords: review, analyze, security, performance, compliance, validate
+   - 模式：安全分析、效能審查、最佳實務驗證、合規檢查
+   - 特點：批判性思維、模式辨識、領域專業知識
+   - 關鍵字：review、analyze、security、performance、compliance、validate
 
-7. **Specialized Domain Tasks**:
+7. **專業領域任務**：
 
-   - Pattern: Django/framework-specific, accessibility (WCAG), testing (TDD), API design
-   - Characteristics: Deep domain knowledge, framework conventions, standards compliance
-   - Keywords: django, accessibility, wcag, rest, api, testing, tdd
+   - 模式：Django/特定架構、無障礙設計（WCAG）、測試（TDD）、API 設計
+   - 特點：深層領域知識、架構慣例、標準合規
+   - 關鍵字：django、accessibility、wcag、rest、api、testing、tdd
 
-8. **Advanced Reasoning & Multi-Step Workflows**:
-   - Pattern: Algorithmic optimization, complex data transformations, multi-phase workflows
-   - Characteristics: Advanced reasoning, mathematical/algorithmic thinking, sequential logic
-   - Keywords: algorithm, optimize, transform, sequential, reasoning, calculate
+8. **進階推理與多步工作流程**：
+   - 模式：演算法最佳化、複雜資料轉換、多階段工作流程
+   - 特點：進階推理、數學/演算法思維、序列邏輯
+   - 關鍵字：algorithm、optimize、transform、sequential、reasoning、calculate
 
-**Extract Capability Requirements**:
+**提取能力需求**：
 
-Based on `tools` in frontmatter and body instructions:
+根據 frontmatter 和正文說明中的 `tools`：
 
-- **Read-only tools** (search, fetch, usages, githubRepo): Lower complexity, faster models suitable
-- **Write operations** (edit/editFiles, new): Moderate complexity, accuracy important
-- **Execution tools** (runCommands, runTests, runTasks): Validation needs, iterative approach
-- **Advanced tools** (context7/\*, sequential-thinking/\*): Complex reasoning, premium models beneficial
-- **Multi-modal** (image analysis references): Requires vision-capable models
+- **唯讀工具**（search、fetch、usages、githubRepo）：複雜度較低，適合較快的模型
+- **寫入操作**（edit/editFiles、new）：中等複雜度，準確性重要
+- **執行工具**（runCommands、runTests、runTasks）：驗證需求、反覆方法
+- **進階工具**（context7/*、sequential-thinking/*）：複雜推理、高級模型有益
+- **多模式**（影像分析參考）：需要具有視覺能力的模型
 
-### 2. Model Evaluation Phase
+### 2. 模型評估階段
 
-**Apply Model Selection Criteria**:
+**應用模型選擇條件**：
 
-For each available model, evaluate against these dimensions:
+針對每個可用模型，根據以下維度進行評估：
 
-#### Model Capabilities Matrix
+#### 模型能力矩陣
 
-| Model                   | Multiplier | Speed    | Code Quality | Reasoning | Context | Vision | Best For                                          |
-| ----------------------- | ---------- | -------- | ------------ | --------- | ------- | ------ | ------------------------------------------------- |
-| GPT-4.1                 | 0x         | Fast     | Good         | Good      | 128K    | ✅     | Balanced general tasks, included in all plans     |
-| GPT-5 mini              | 0x         | Fastest  | Good         | Basic     | 128K    | ❌     | Simple tasks, quick responses, cost-effective     |
-| GPT-5                   | 1x         | Moderate | Excellent    | Advanced  | 128K    | ✅     | Complex code, advanced reasoning, multi-turn chat |
-| GPT-5 Codex             | 1x         | Fast     | Excellent    | Good      | 128K    | ❌     | Code optimization, refactoring, algorithmic tasks |
-| Claude Sonnet 3.5       | 1x         | Moderate | Excellent    | Excellent | 200K    | ✅     | Code generation, long context, balanced reasoning |
-| Claude Sonnet 4         | 1x         | Moderate | Excellent    | Advanced  | 200K    | ❌     | Complex code, robust reasoning, enterprise tasks  |
-| Claude Sonnet 4.5       | 1x         | Moderate | Excellent    | Expert    | 200K    | ✅     | Advanced code, architecture, design patterns      |
-| Claude Opus 4.1         | 10x        | Slow     | Outstanding  | Expert    | 1M      | ✅     | Large codebases, architectural review, research   |
-| Gemini 2.5 Pro          | 1x         | Moderate | Excellent    | Advanced  | 2M      | ✅     | Very long context, multi-modal, real-time data    |
-| Gemini 2.0 Flash (dep.) | 0.25x      | Fastest  | Good         | Good      | 1M      | ❌     | Fast responses, cost-effective (deprecated)       |
-| Grok Code Fast 1        | 0.25x      | Fastest  | Good         | Basic     | 128K    | ❌     | Speed-critical simple tasks, preview (free)       |
-| o3 (deprecated)         | 1x         | Slow     | Good         | Expert    | 128K    | ❌     | Advanced reasoning, algorithmic optimization      |
-| o4-mini (deprecated)    | 0.33x      | Fast     | Good         | Good      | 128K    | ❌     | Reasoning at lower cost (deprecated)              |
+| 模型                    | 倍數 | 速度     | 程式碼品質 | 推理     | 上下文 | 視覺 | 最適合使用場景                                     |
+| ----------------------- | ---- | -------- | -------- | --------- | ------ | ---- | ------------------------------------------------- |
+| GPT-4.1                 | 0x   | 快速     | 良好     | 良好      | 128K   | ✅   | 平衡的一般任務，包含在所有方案中                   |
+| GPT-5 mini              | 0x   | 最快速   | 良好     | 基礎      | 128K   | ❌   | 簡單任務、快速回應、成本效益高                     |
+| GPT-5                   | 1x   | 中等     | 卓越     | 進階      | 128K   | ✅   | 複雜程式碼、進階推理、多輪聊天                     |
+| GPT-5 Codex             | 1x   | 快速     | 卓越     | 良好      | 128K   | ❌   | 程式碼最佳化、重構、演算法任務                     |
+| Claude Sonnet 3.5       | 1x   | 中等     | 卓越     | 卓越      | 200K   | ✅   | 程式碼生成、長上下文、平衡推理                     |
+| Claude Sonnet 4         | 1x   | 中等     | 卓越     | 進階      | 200K   | ❌   | 複雜程式碼、穩健推理、企業任務                     |
+| Claude Sonnet 4.5       | 1x   | 中等     | 卓越     | 專家      | 200K   | ✅   | 進階程式碼、架構、設計模式                         |
+| Claude Opus 4.1         | 10x  | 緩慢     | 傑出     | 專家      | 1M     | ✅   | 大型代碼庫、架構審查、研究                         |
+| Gemini 2.5 Pro          | 1x   | 中等     | 卓越     | 進階      | 2M     | ✅   | 超長上下文、多模式、即時資料                       |
+| Gemini 2.0 Flash（棄用）| 0.25x| 最快速   | 良好     | 良好      | 1M     | ❌   | 快速回應、成本效益高（已棄用）                     |
+| Grok Code Fast 1        | 0.25x| 最快速   | 良好     | 基礎      | 128K   | ❌   | 速度關鍵簡單任務、預覽版（免費）                   |
+| o3（已棄用）            | 1x   | 緩慢     | 良好     | 專家      | 128K   | ❌   | 進階推理、演算法最佳化                             |
+| o4-mini（已棄用）       | 0.33x| 快速     | 良好     | 良好      | 128K   | ❌   | 較低成本推理（已棄用）                             |
 
-#### Selection Decision Tree
+#### 選擇決策樹
 
 ```
-START
+開始
   │
-  ├─ Task Complexity?
-  │   ├─ Simple/Repetitive → GPT-5 mini, Grok Code Fast 1, GPT-4.1
-  │   ├─ Moderate → GPT-4.1, Claude Sonnet 4, GPT-5
-  │   └─ Complex/Advanced → Claude Sonnet 4.5, GPT-5, Gemini 2.5 Pro, Claude Opus 4.1
+  ├─ 任務複雜度？
+  │   ├─ 簡單/重複 → GPT-5 mini、Grok Code Fast 1、GPT-4.1
+  │   ├─ 中等 → GPT-4.1、Claude Sonnet 4、GPT-5
+  │   └─ 複雜/進階 → Claude Sonnet 4.5、GPT-5、Gemini 2.5 Pro、Claude Opus 4.1
   │
-  ├─ Reasoning Depth?
-  │   ├─ Basic → GPT-5 mini, Grok Code Fast 1
-  │   ├─ Intermediate → GPT-4.1, Claude Sonnet 4
-  │   ├─ Advanced → GPT-5, Claude Sonnet 4.5
-  │   └─ Expert → Claude Opus 4.1, o3 (deprecated)
+  ├─ 推理深度？
+  │   ├─ 基礎 → GPT-5 mini、Grok Code Fast 1
+  │   ├─ 中級 → GPT-4.1、Claude Sonnet 4
+  │   ├─ 進階 → GPT-5、Claude Sonnet 4.5
+  │   └─ 專家 → Claude Opus 4.1、o3（已棄用）
   │
-  ├─ Code-Specific?
-  │   ├─ Yes → GPT-5 Codex, Claude Sonnet 4.5, GPT-5
-  │   └─ No → GPT-5, Claude Sonnet 4
+  ├─ 程式碼相關？
+  │   ├─ 是 → GPT-5 Codex、Claude Sonnet 4.5、GPT-5
+  │   └─ 否 → GPT-5、Claude Sonnet 4
   │
-  ├─ Context Size?
-  │   ├─ Small (<50K tokens) → Any model
-  │   ├─ Medium (50-200K) → Claude models, GPT-5, Gemini
-  │   ├─ Large (200K-1M) → Gemini 2.5 Pro, Claude Opus 4.1
-  │   └─ Very Large (>1M) → Gemini 2.5 Pro (2M), Claude Opus 4.1 (1M)
+  ├─ 上下文大小？
+  │   ├─ 小（<50K 符號） → 任何模型
+  │   ├─ 中（50-200K） → Claude 模型、GPT-5、Gemini
+  │   ├─ 大（200K-1M） → Gemini 2.5 Pro、Claude Opus 4.1
+  │   └─ 超大（>1M） → Gemini 2.5 Pro（2M）、Claude Opus 4.1（1M）
   │
-  ├─ Vision Required?
-  │   ├─ Yes → GPT-4.1, GPT-5, Claude Sonnet 3.5/4.5, Gemini 2.5 Pro, Claude Opus 4.1
-  │   └─ No → All models
+  ├─ 需要視覺能力？
+  │   ├─ 是 → GPT-4.1、GPT-5、Claude Sonnet 3.5/4.5、Gemini 2.5 Pro、Claude Opus 4.1
+  │   └─ 否 → 所有模型
   │
-  ├─ Cost Sensitivity? (based on subscriptionTier)
-  │   ├─ Free Tier → 0x models only: GPT-4.1, GPT-5 mini, Grok Code Fast 1
-  │   ├─ Pro (1000 premium/month) → Prioritize 0x, use 1x judiciously, avoid 10x
-  │   └─ Pro+ (5000 premium/month) → 1x freely, 10x for critical tasks
+  ├─ 成本敏感度？（基於 subscriptionTier）
+  │   ├─ 免費方案 → 僅限 0x 模型：GPT-4.1、GPT-5 mini、Grok Code Fast 1
+  │   ├─ Pro（每月 1000 次高級） → 優先考慮 0x，謹慎使用 1x，避免 10x
+  │   └─ Pro+（每月 5000 次高級） → 自由使用 1x，關鍵任務使用 10x
   │
-  └─ Priority Factor?
-      ├─ Speed → GPT-5 mini, Grok Code Fast 1, Gemini 2.0 Flash
-      ├─ Cost → 0x models (GPT-4.1, GPT-5 mini) or lower multipliers (0.25x, 0.33x)
-      ├─ Quality → Claude Sonnet 4.5, GPT-5, Claude Opus 4.1
-      └─ Balanced → GPT-4.1, Claude Sonnet 4, GPT-5
+  └─ 優先級因素？
+      ├─ 速度 → GPT-5 mini、Grok Code Fast 1、Gemini 2.0 Flash
+      ├─ 成本 → 0x 模型（GPT-4.1、GPT-5 mini）或較低倍數（0.25x、0.33x）
+      ├─ 品質 → Claude Sonnet 4.5、GPT-5、Claude Opus 4.1
+      └─ 平衡 → GPT-4.1、Claude Sonnet 4、GPT-5
 ```
 
-### 3. Recommendation Generation Phase
+### 3. 推薦生成階段
 
-**Primary Recommendation**:
+**主要推薦**：
 
-- Identify the single best model based on task analysis and decision tree
-- Provide specific rationale tied to file content characteristics
-- Explain multiplier cost implications for user's subscription tier
+- 根據任務分析和決策樹識別單一最佳模型
+- 根據檔案內容特性提供具體推薦理由
+- 解釋使用者訂閱級別的倍數成本影響
 
-**Alternative Recommendations**:
+**替代推薦**：
 
-- Suggest 1-2 alternative models with trade-off explanations
-- Include scenarios where alternatives might be preferred
-- Consider priority factor overrides (speed vs. quality vs. cost)
+- 提議 1-2 個替代模型，附帶權衡說明
+- 包含可能優先選擇替代方案的情景
+- 考慮優先級因素覆蓋（速度 vs. 品質 vs. 成本）
 
-**Auto-Selection Guidance**:
+**自動選擇指導**：
 
-- Assess if task is suitable for auto model selection (excludes premium models > 1x)
-- Explain when manual selection is beneficial vs. letting Copilot choose
-- Note any limitations of auto-selection for the specific task
+- 評估任務是否適合自動模型選擇（排除高級模型 > 1x）
+- 說明自動選擇相比手動選擇何時有利
+- 注意針對特定任務自動選擇的任何限制
 
-**Deprecation Warnings**:
+**棄用警告**：
 
-- Flag if file currently specifies a deprecated model (o3, o4-mini, Claude Sonnet 3.7, Gemini 2.0 Flash)
-- Provide migration path to recommended replacement
-- Include timeline for deprecation (e.g., "o3 deprecating 2025-10-23")
+- 如果檔案目前指定已棄用的模型（o3、o4-mini、Claude Sonnet 3.7、Gemini 2.0 Flash），請進行標記
+- 提供推薦替換方案的遷移路徑
+- 包含棄用時間表（例如「o3 在 2025-10-23 棄用」）
 
-**Subscription Tier Considerations**:
+**訂閱級別考慮**：
 
-- **Free Tier**: Recommend only 0x multiplier models (GPT-4.1, GPT-5 mini, Grok Code Fast 1)
-- **Pro Tier**: Balance between 0x (unlimited) and 1x (1000/month) models
-- **Pro+ Tier**: More freedom with 1x models (5000/month), justify 10x usage for exceptional cases
+- **免費方案**：僅推薦 0x 倍數模型（GPT-4.1、GPT-5 mini、Grok Code Fast 1）
+- **Pro 方案**：在 0x（無限制）和 1x（1000/月）模型之間平衡
+- **Pro+ 方案**：更自由地使用 1x 模型（5000/月），為例外情況證明 10x 使用合理
 
-### 4. Integration Recommendations
+### 4. 整合建議
 
-**Frontmatter Update Guidance**:
+**Frontmatter 更新指導**：
 
-If file does not specify a `model` field:
+如果檔案未指定 `model` 欄位：
 
 ```markdown
-## Recommendation: Add Model Specification
+## 建議：新增模型指定
 
-Current frontmatter:
+目前 frontmatter：
 \`\`\`yaml
 
 ---
@@ -228,450 +228,450 @@ tools: [...]
 
 \`\`\`
 
-Recommended frontmatter:
+推薦的 frontmatter：
 \`\`\`yaml
 
 ---
 
 description: "..."
-model: "[Recommended Model Name]"
+model: "[推薦的模型名稱]"
 tools: [...]
 
 ---
 
 \`\`\`
 
-Rationale: [Explanation of why this model is optimal for this task]
+推薦理由：[解釋為什麼該模型對此任務最優]
 ```
 
-If file already specifies a model:
+如果檔案已指定模型：
 
 ```markdown
-## Current Model Assessment
+## 目前模型評估
 
-Specified model: `[Current Model]` (Multiplier: [X]x)
+指定的模型：`[目前模型]`（倍數：[X]x）
 
-Recommendation: [Keep current model | Consider switching to [Recommended Model]]
+建議：[保持目前模型 | 考慮切換至 [推薦的模型]]
 
-Rationale: [Explanation]
+推薦理由：[說明]
 ```
 
-**Tool Alignment Check**:
+**工具對齐檢查**：
 
-Verify model capabilities align with specified tools:
+驗證模型能力與指定的工具對齐：
 
-- If tools include `context7/*` or `sequential-thinking/*`: Recommend advanced reasoning models (Claude Sonnet 4.5, GPT-5, Claude Opus 4.1)
-- If tools include vision-related references: Ensure model supports images (flag if GPT-5 Codex, Claude Sonnet 4, or mini models selected)
-- If tools are read-only (search, fetch): Suggest cost-effective models (GPT-5 mini, Grok Code Fast 1)
+- 如果工具包含 `context7/*` 或 `sequential-thinking/*`：推薦進階推理模型（Claude Sonnet 4.5、GPT-5、Claude Opus 4.1）
+- 如果工具包含視覺相關參考：確保模型支援影像（如果選擇 GPT-5 Codex、Claude Sonnet 4 或 mini 模型，請進行標記）
+- 如果工具為唯讀（search、fetch）：建議成本效益高的模型（GPT-5 mini、Grok Code Fast 1）
 
-### 5. Context7 Integration for Up-to-Date Information
+### 5. Context7 整合以獲取最新資訊
 
-**Leverage Context7 for Model Documentation**:
+**利用 Context7 取得模型文件**：
 
-When uncertainty exists about current model capabilities, use Context7 to fetch latest information:
+存在模型能力不確定性時，使用 Context7 取得最新資訊：
 
 ```markdown
-**Verification with Context7**:
+**使用 Context7 驗證**：
 
-Using `context7/get-library-docs` with library ID `/websites/github_en_copilot`:
+搭配程式庫 ID `/websites/github_en_copilot` 使用 `context7/get-library-docs`：
 
-- Query topic: "model capabilities [specific capability question]"
-- Retrieve current model features, multipliers, deprecation status
-- Cross-reference against analyzed file requirements
+- 查詢主題：「[模型名稱]的[特定能力問題]」
+- 取得目前模型功能、倍數、棄用狀態
+- 與分析的檔案需求進行交叉參考
 ```
 
-**Example Context7 Usage**:
+**Context7 使用範例**：
 
 ```
-If unsure whether Claude Sonnet 4.5 supports image analysis:
-→ Use context7 with topic "Claude Sonnet 4.5 vision image capabilities"
-→ Confirm feature support before recommending for multi-modal tasks
+如果不確定 Claude Sonnet 4.5 是否支援影像分析：
+→ 使用 context7 搭配主題「Claude Sonnet 4.5 視覺影像能力」
+→ 在推薦用於多模式任務前確認功能支援
 ```
 
-## Output Expectations
+## 輸出預期
 
-### Report Structure
+### 報告結構
 
-Generate a structured markdown report with the following sections:
+生成具有以下各節的結構化 markdown 報告：
 
 ```markdown
-# AI Model Recommendation Report
+# AI 模型推薦報告
 
-**File Analyzed**: `[file path]`
-**File Type**: [chatmode | prompt]
-**Analysis Date**: [YYYY-MM-DD]
-**Subscription Tier**: [Free | Pro | Pro+]
+**分析的檔案**：`[檔案路徑]`
+**檔案類型**：[chatmode | prompt]
+**分析日期**：[YYYY-MM-DD]
+**訂閱級別**：[免費 | Pro | Pro+]
 
 ---
 
-## File Summary
+## 檔案摘要
 
-**Description**: [from frontmatter]
-**Mode**: [ask | edit | agent]
-**Tools**: [tool list]
-**Current Model**: [specified model or "Not specified"]
+**描述**：[來自 frontmatter]
+**模式**：[ask | edit | agent]
+**工具**：[工具清單]
+**目前模型**：[指定的模型或「未指定」]
 
-## Task Analysis
+## 任務分析
 
-### Task Complexity
+### 任務複雜度
 
-- **Level**: [Simple | Moderate | Complex | Advanced]
-- **Reasoning Depth**: [Basic | Intermediate | Advanced | Expert]
-- **Context Requirements**: [Small | Medium | Large | Very Large]
-- **Code Generation**: [Minimal | Moderate | Extensive]
-- **Multi-Modal**: [Yes | No]
+- **級別**：[簡單 | 中等 | 複雜 | 進階]
+- **推理深度**：[基礎 | 中級 | 進階 | 專家]
+- **上下文需求**：[小 | 中 | 大 | 超大]
+- **程式碼生成**：[最少 | 中等 | 廣泛]
+- **多模式**：[是 | 否]
 
-### Task Category
+### 任務分類
 
-[Primary category from 8 categories listed in Workflow Phase 1]
+[工作流程第 1 階段中列出的 8 個分類中的主要分類]
 
-### Key Characteristics
+### 關鍵特性
 
-- Characteristic 1: [explanation]
-- Characteristic 2: [explanation]
-- Characteristic 3: [explanation]
+- 特性 1：[說明]
+- 特性 2：[說明]
+- 特性 3：[說明]
 
-## Model Recommendation
+## 模型推薦
 
-### 🏆 Primary Recommendation: [Model Name]
+### 🏆 主要推薦：[模型名稱]
 
-**Multiplier**: [X]x ([cost implications for subscription tier])
-**Strengths**:
+**倍數**：[X]x（[訂閱級別的成本影響]）
+**優勢**：
 
-- Strength 1: [specific to task]
-- Strength 2: [specific to task]
-- Strength 3: [specific to task]
+- 優勢 1：[針對任務的具體說明]
+- 優勢 2：[針對任務的具體說明]
+- 優勢 3：[針對任務的具體說明]
 
-**Rationale**:
-[Detailed explanation connecting task characteristics to model capabilities]
+**推薦理由**：
+[詳細說明，連接任務特性與模型能力]
 
-**Cost Impact** (for [Subscription Tier]):
+**成本影響**（[訂閱級別]）：
 
-- Per request multiplier: [X]x
-- Estimated usage: [rough estimate based on task frequency]
-- [Additional cost context]
+- 每個請求倍數：[X]x
+- 估計使用量：[根據任務頻率的粗略估計]
+- [額外的成本背景]
 
-### 🔄 Alternative Options
+### 🔄 替代選項
 
-#### Option 1: [Model Name]
+#### 選項 1：[模型名稱]
 
-- **Multiplier**: [X]x
-- **When to Use**: [specific scenarios]
-- **Trade-offs**: [compared to primary recommendation]
+- **倍數**：[X]x
+- **使用時機**：[特定情景]
+- **權衡**：[與主要推薦相比]
 
-#### Option 2: [Model Name]
+#### 選項 2：[模型名稱]
 
-- **Multiplier**: [X]x
-- **When to Use**: [specific scenarios]
-- **Trade-offs**: [compared to primary recommendation]
+- **倍數**：[X]x
+- **使用時機**：[特定情景]
+- **權衡**：[與主要推薦相比]
 
-### 📊 Model Comparison for This Task
+### 📊 此任務的模型比較
 
-| Criterion        | [Primary Model] | [Alternative 1] | [Alternative 2] |
-| ---------------- | --------------- | --------------- | --------------- |
-| Task Fit         | ⭐⭐⭐⭐⭐      | ⭐⭐⭐⭐        | ⭐⭐⭐          |
-| Code Quality     | [rating]        | [rating]        | [rating]        |
-| Reasoning        | [rating]        | [rating]        | [rating]        |
-| Speed            | [rating]        | [rating]        | [rating]        |
-| Cost Efficiency  | [rating]        | [rating]        | [rating]        |
-| Context Capacity | [capacity]      | [capacity]      | [capacity]      |
-| Vision Support   | [Yes/No]        | [Yes/No]        | [Yes/No]        |
+| 條件           | [主要模型]  | [替代 1]     | [替代 2]     |
+| --------------- | ---------- | ----------- | ----------- |
+| 任務適配度      | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐    | ⭐⭐⭐      |
+| 程式碼品質      | [評分]     | [評分]      | [評分]      |
+| 推理            | [評分]     | [評分]      | [評分]      |
+| 速度            | [評分]     | [評分]      | [評分]      |
+| 成本效益        | [評分]     | [評分]      | [評分]      |
+| 上下文容量      | [容量]     | [容量]      | [容量]      |
+| 視覺支援        | [是/否]    | [是/否]     | [是/否]     |
 
-## Auto Model Selection Assessment
+## 自動模型選擇評估
 
-**Suitability**: [Recommended | Not Recommended | Situational]
+**適用性**：[推薦 | 不推薦 | 視情況而定]
 
-[Explanation of whether auto-selection is appropriate for this task]
+[說明自動選擇是否適合此任務]
 
-**Rationale**:
+**推薦理由**：
 
-- [Reason 1]
-- [Reason 2]
+- [理由 1]
+- [理由 2]
 
-**Manual Override Scenarios**:
+**手動覆蓋情景**：
 
-- [Scenario where user should manually select model]
-- [Scenario where user should manually select model]
+- [使用者應手動選擇模型的情景]
+- [使用者應手動選擇模型的情景]
 
-## Implementation Guidance
+## 實作指導
 
-### Frontmatter Update
+### Frontmatter 更新
 
-[Provide specific code block showing recommended frontmatter change]
+[提供推薦的 frontmatter 變更的具體程式碼區塊]
 
-### Model Selection in VS Code
+### VS Code 中的模型選擇
 
-**To Use Recommended Model**:
+**使用推薦的模型**：
 
-1. Open Copilot Chat
-2. Click model dropdown (currently shows "[current model or Auto]")
-3. Select **[Recommended Model Name]**
-4. [Optional: When to switch back to Auto]
+1. 開啟 Copilot Chat
+2. 按一下模型下拉清單（目前顯示「[目前模型或自動]」）
+3. 選擇 **[推薦的模型名稱]**
+4. [選用：何時切換回自動]
 
-**Keyboard Shortcut**: `Cmd+Shift+P` → "Copilot: Change Model"
+**鍵盤快速鍵**：`Cmd+Shift+P` → 「Copilot: 變更模型」
 
-### Tool Alignment Verification
+### 工具對齐驗證
 
-[Check results: Are specified tools compatible with recommended model?]
+[檢查結果：指定的工具是否與推薦的模型相容？]
 
-✅ **Compatible Tools**: [list]
-⚠️ **Potential Limitations**: [list if any]
+✅ **相容工具**：[清單]
+⚠️ **潛在限制**：[清單（如有）]
 
-## Deprecation Notices
+## 棄用通知
 
-[If applicable, list any deprecated models in current configuration]
+[如果適用，列出目前配置中使用的任何已棄用模型]
 
-⚠️ **Deprecated Model in Use**: [Model Name] (Deprecation date: [YYYY-MM-DD])
+⚠️ **使用中的已棄用模型**：[模型名稱]（棄用日期：[YYYY-MM-DD]）
 
-**Migration Path**:
+**遷移路徑**：
 
-- **Current**: [Deprecated Model]
-- **Replacement**: [Recommended Model]
-- **Action Required**: Update `model:` field in frontmatter by [date]
-- **Behavioral Changes**: [any expected differences]
+- **目前**：[已棄用的模型]
+- **替換**：[推薦的模型]
+- **需要的操作**：在 [日期] 前更新 frontmatter 中的 `model:` 欄位
+- **行為變更**：[任何預期的差異]
 
-## Context7 Verification
+## Context7 驗證
 
-[If Context7 was used for verification]
+[如果使用了 Context7 進行驗證]
 
-**Queries Executed**:
+**執行的查詢**：
 
-- Topic: "[query topic]"
-- Library: `/websites/github_en_copilot`
-- Key Findings: [summary]
+- 主題：「[查詢主題]」
+- 程式庫：`/websites/github_en_copilot`
+- 主要發現：[摘要]
 
-## Additional Considerations
+## 額外考慮
 
-### Subscription Tier Recommendations
+### 訂閱級別建議
 
-[Specific advice based on Free/Pro/Pro+ tier]
+[根據免費/Pro/Pro+ 級別的具體建議]
 
-### Priority Factor Adjustments
+### 優先級因素調整
 
-[If user specified Speed/Cost/Quality/Balanced, explain how recommendation aligns]
+[如果使用者指定了速度/成本/品質/平衡，說明推薦如何對齐]
 
-### Long-Term Model Strategy
+### 長期模型策略
 
-[Advice for when to re-evaluate model selection as file evolves]
+[有關何時重新評估模型選擇的建議，因為檔案會隨著時間演變]
 
 ---
 
-## Quick Reference
+## 快速參考
 
-**TL;DR**: Use **[Primary Model]** for this task due to [one-sentence rationale]. Cost: [X]x multiplier.
+**要點**：因為 [單句推薦理由] 對此任務使用 **[主要模型]**。成本：[X]x 倍數。
 
-**One-Line Update**:
+**單行更新**：
 \`\`\`yaml
-model: "[Recommended Model Name]"
+model: "[推薦的模型名稱]"
 \`\`\`
 ```
 
-### Output Quality Standards
+### 輸出品質標準
 
-- **Specific**: Tie all recommendations directly to file content, not generic advice
-- **Actionable**: Provide exact frontmatter code, VS Code steps, clear migration paths
-- **Contextualized**: Consider subscription tier, priority factor, deprecation timelines
-- **Evidence-Based**: Reference model capabilities from Context7 documentation when available
-- **Balanced**: Present trade-offs honestly (speed vs. quality vs. cost)
-- **Up-to-Date**: Flag deprecated models, suggest current alternatives
+- **具體**：直接將所有建議與檔案內容相關聯，而非一般性建議
+- **可行動**：提供確切的 frontmatter 程式碼、VS Code 步驟、清晰的遷移路徑
+- **上下文化**：考慮訂閱級別、優先級因素、棄用時間表
+- **以證據為基礎**：如可用，參考 Context7 文件的模型能力
+- **平衡**：誠實呈現權衡（速度 vs. 品質 vs. 成本）
+- **最新**：標記已棄用的模型，建議目前替代方案
 
-## Quality Assurance
+## 品質保證
 
-### Validation Steps
+### 驗證步驟
 
-- [ ] File successfully read and parsed
-- [ ] Frontmatter extracted correctly (or noted if missing)
-- [ ] Task complexity accurately categorized (Simple/Moderate/Complex/Advanced)
-- [ ] Primary task category identified from 8 options
-- [ ] Model recommendation aligns with decision tree logic
-- [ ] Multiplier cost explained for user's subscription tier
-- [ ] Alternative models provided with clear trade-off explanations
-- [ ] Auto-selection guidance included (recommended/not recommended/situational)
-- [ ] Deprecated model warnings included if applicable
-- [ ] Frontmatter update example provided (valid YAML)
-- [ ] Tool alignment verified (model capabilities match specified tools)
-- [ ] Context7 used when verification needed for latest model information
-- [ ] Report includes all required sections (summary, analysis, recommendation, implementation)
+- [ ] 成功讀取和解析檔案
+- [ ] 正確提取 frontmatter（或在遺失時進行註記）
+- [ ] 準確分類任務複雜度（簡單/中等/複雜/進階）
+- [ ] 從 8 個選項中識別主要任務分類
+- [ ] 模型推薦與決策樹邏輯對齐
+- [ ] 倍數成本對使用者訂閱級別進行說明
+- [ ] 提供替代模型，附帶清晰的權衡說明
+- [ ] 包含自動選擇指導（推薦/不推薦/視情況而定）
+- [ ] 如適用，包含已棄用模型警告
+- [ ] 提供 frontmatter 更新範例（有效的 YAML）
+- [ ] 驗證工具對齐（模型能力與指定工具相符）
+- [ ] 在需要驗證最新模型資訊時使用 Context7
+- [ ] 報告包含所有必要章節（摘要、分析、推薦、實作）
 
-### Success Criteria
+### 成功標準
 
-- Recommendation is justified by specific file characteristics
-- Cost impact is clear and appropriate for subscription tier
-- Alternative models cover different priority factors (speed vs. quality vs. cost)
-- Frontmatter update is ready to copy-paste (no placeholders)
-- User can immediately act on recommendation (clear steps)
-- Report is readable and scannable (good structure, tables, emoji markers)
+- 推薦由特定檔案特性證明
+- 成本影響清楚，對訂閱級別合適
+- 替代模型涵蓋不同的優先級因素（速度 vs. 品質 vs. 成本）
+- Frontmatter 更新準備好複製貼上（無佔位符）
+- 使用者可立即根據推薦採取行動（清晰步驟）
+- 報告易於閱讀和掃描（良好結構、表格、表情符號標記）
 
-### Failure Triggers
+### 失敗觸發因素
 
-- File path is invalid or unreadable → Stop and request valid path
-- File is not `.chatmode.md` or `.prompt.md` → Stop and clarify file type
-- Cannot determine task complexity from content → Request more specific file or clarification
-- Model recommendation contradicts documented capabilities → Use Context7 to verify current info
-- Subscription tier is invalid (not Free/Pro/Pro+) → Default to Pro and note assumption
+- 檔案路徑無效或無法讀取 → 停止並要求有效路徑
+- 檔案不是 `.chatmode.md` 或 `.prompt.md` → 停止並澄清檔案類型
+- 無法從內容判斷任務複雜度 → 要求更具體的檔案或澄清
+- 模型推薦與文件能力相矛盾 → 使用 Context7 驗證目前資訊
+- 訂閱級別無效（不是免費/Pro/Pro+） → 預設為 Pro 並註記假設
 
-## Advanced Use Cases
+## 進階使用案例
 
-### Analyzing Multiple Files
+### 分析多個檔案
 
-If user provides multiple files:
+如果使用者提供多個檔案：
 
-1. Analyze each file individually
-2. Generate separate recommendations per file
-3. Provide summary table comparing recommendations
-4. Note any patterns (e.g., "All debug-related modes benefit from Claude Sonnet 4.5")
+1. 分別分析每個檔案
+2. 針對每個檔案生成獨立推薦
+3. 提供摘要表格比較推薦
+4. 註記任何模式（例如「所有除錯相關模式都受益於 Claude Sonnet 4.5」）
 
-### Comparative Analysis
+### 比較分析
 
-If user asks "Which model is better between X and Y for this file?":
+如果使用者詢問「此檔案中 X 和 Y 哪個模型更好？」：
 
-1. Focus comparison on those two models only
-2. Use side-by-side table format
-3. Declare a winner with specific reasoning
-4. Include cost comparison for subscription tier
+1. 僅關注那兩個模型的比較
+2. 使用並排表格格式
+3. 以具體推薦理由宣布勝者
+4. 為訂閱級別包含成本比較
 
-### Migration Planning
+### 遷移規劃
 
-If file specifies a deprecated model:
+如果檔案指定已棄用的模型：
 
-1. Prioritize migration guidance in report
-2. Test current behavior expectations vs. replacement model capabilities
-3. Provide phased migration if breaking changes expected
-4. Include rollback plan if needed
+1. 將遷移指導優先化在報告中
+2. 測試目前的行為預期 vs. 替換模型能力
+3. 如果預期有破壞性變更，提供分階段遷移
+4. 如需要，包含回滾方案
 
-## Examples
+## 範例
 
-### Example 1: Simple Formatting Task
+### 範例 1：簡單格式化任務
 
-**File**: `format-code.prompt.md`
-**Content**: "Format Python code with Black style, add type hints"
-**Recommendation**: GPT-5 mini (0x multiplier, fastest, sufficient for repetitive formatting)
-**Alternative**: Grok Code Fast 1 (0.25x, even faster, preview feature)
-**Rationale**: Task is simple and repetitive; premium reasoning not needed; speed prioritized
+**檔案**：`format-code.prompt.md`
+**內容**：「使用 Black 風格格式化 Python 程式碼，新增型別提示」
+**推薦**：GPT-5 mini（0x 倍數、最快速、足以進行重複格式化）
+**替代**：Grok Code Fast 1（0.25x、更快、預覽功能）
+**推薦理由**：任務簡單且重複；無須進階推理；優先考慮速度
 
-### Example 2: Complex Architecture Review
+### 範例 2：複雜架構審查
 
-**File**: `architect.chatmode.md`
-**Content**: "Review system design for scalability, security, maintainability; analyze trade-offs; provide ADR-level recommendations"
-**Recommendation**: Claude Sonnet 4.5 (1x multiplier, expert reasoning, excellent for architecture)
-**Alternative**: Claude Opus 4.1 (10x, use for very large codebases >500K tokens)
-**Rationale**: Requires deep reasoning, architectural expertise, design pattern knowledge; Sonnet 4.5 excels at this
+**檔案**：`architect.chatmode.md`
+**內容**：「審查系統設計的可擴展性、安全性、可維護性；分析權衡；提供 ADR 層級的推薦」
+**推薦**：Claude Sonnet 4.5（1x 倍數、專家推理、擅長架構）
+**替代**：Claude Opus 4.1（10x、用於非常大的代碼庫 >500K 符號）
+**推薦理由**：需要深層推理、架構專業知識、設計模式知識；Sonnet 4.5 在此項目中表現出色
 
-### Example 3: Django Expert Mode
+### 範例 3：Django 專家模式
 
-**File**: `django.chatmode.md`
-**Content**: "Django 5.x expert with ORM optimization, async views, REST API design; uses context7 for up-to-date Django docs"
-**Recommendation**: GPT-5 (1x multiplier, advanced reasoning, excellent code quality)
-**Alternative**: Claude Sonnet 4.5 (1x, alternative perspective, strong with frameworks)
-**Rationale**: Domain expertise + context7 integration benefits from advanced reasoning; 1x cost justified for expert mode
+**檔案**：`django.chatmode.md`
+**內容**：「Django 5.x 專家，提供 ORM 最佳化、非同步檢視、REST API 設計；使用 context7 取得最新的 Django 文件」
+**推薦**：GPT-5（1x 倍數、進階推理、卓越的程式碼品質）
+**替代**：Claude Sonnet 4.5（1x、替代觀點、擅長框架）
+**推薦理由**：領域專業知識 + context7 整合受益於進階推理；對於專家模式來說 1x 成本合理
 
-### Example 4: Free Tier User with Planning Mode
+### 範例 4：免費級別使用者的規劃模式
 
-**File**: `plan.chatmode.md`
-**Content**: "Research and planning mode with read-only tools (search, fetch, githubRepo)"
-**Subscription**: Free (2K completions + 50 chat requests/month, 0x models only)
-**Recommendation**: GPT-4.1 (0x, balanced, included in Free tier)
-**Alternative**: GPT-5 mini (0x, faster but less context)
-**Rationale**: Free tier restricted to 0x models; GPT-4.1 provides best balance of quality and context for planning tasks
+**檔案**：`plan.chatmode.md`
+**內容**：「包含唯讀工具（search、fetch、githubRepo）的研究和規劃模式」
+**訂閱**：免費（每月 2K 完成次數 + 50 次聊天請求，僅 0x 模型）
+**推薦**：GPT-4.1（0x、平衡、包含在免費級別中）
+**替代**：GPT-5 mini（0x、更快但上下文較少）
+**推薦理由**：免費級別限制為 0x 模型；GPT-4.1 為規劃任務提供品質和上下文的最佳平衡
 
-## Knowledge Base
+## 知識庫
 
-### Model Multiplier Cost Reference
+### 模型倍數成本參考
 
-| Multiplier | Meaning                                          | Free Tier | Pro Usage | Pro+ Usage |
-| ---------- | ------------------------------------------------ | --------- | --------- | ---------- |
-| 0x         | Included in all plans, no premium count          | ✅        | Unlimited | Unlimited  |
-| 0.25x      | 4 requests = 1 premium request                   | ❌        | 4000 uses | 20000 uses |
-| 0.33x      | 3 requests = 1 premium request                   | ❌        | 3000 uses | 15000 uses |
-| 1x         | 1 request = 1 premium request                    | ❌        | 1000 uses | 5000 uses  |
-| 1.25x      | 1 request = 1.25 premium requests                | ❌        | 800 uses  | 4000 uses  |
-| 10x        | 1 request = 10 premium requests (very expensive) | ❌        | 100 uses  | 500 uses   |
+| 倍數   | 意義                             | 免費級別 | Pro 使用 | Pro+ 使用 |
+| ------ | -------------------------------- | -------- | -------- | --------- |
+| 0x     | 包含在所有方案中，無高級計數     | ✅       | 無限制   | 無限制    |
+| 0.25x  | 4 個請求 = 1 個高級請求          | ❌       | 4000 次  | 20000 次  |
+| 0.33x  | 3 個請求 = 1 個高級請求          | ❌       | 3000 次  | 15000 次  |
+| 1x     | 1 個請求 = 1 個高級請求          | ❌       | 1000 次  | 5000 次   |
+| 1.25x  | 1 個請求 = 1.25 個高級請求       | ❌       | 800 次   | 4000 次   |
+| 10x    | 1 個請求 = 10 個高級請求（非常昂貴）| ❌   | 100 次   | 500 次    |
 
-### Model Changelog & Deprecations (October 2025)
+### 模型變更日誌與棄用（2025 年 10 月）
 
-**Deprecated Models** (Effective 2025-10-23):
+**已棄用模型**（2025-10-23 生效）：
 
-- ❌ o3 (1x) → Replace with GPT-5 or Claude Sonnet 4.5 for reasoning
-- ❌ o4-mini (0.33x) → Replace with GPT-5 mini (0x) for cost, GPT-5 (1x) for quality
-- ❌ Claude Sonnet 3.7 (1x) → Replace with Claude Sonnet 4 or 4.5
-- ❌ Claude Sonnet 3.7 Thinking (1.25x) → Replace with Claude Sonnet 4.5
-- ❌ Gemini 2.0 Flash (0.25x) → Replace with Grok Code Fast 1 (0.25x) or GPT-5 mini (0x)
+- ❌ o3（1x）→ 推理用改用 GPT-5 或 Claude Sonnet 4.5
+- ❌ o4-mini（0.33x）→ 成本考慮改用 GPT-5 mini（0x），品質考慮改用 GPT-5（1x）
+- ❌ Claude Sonnet 3.7（1x）→ 改用 Claude Sonnet 4 或 4.5
+- ❌ Claude Sonnet 3.7 Thinking（1.25x）→ 改用 Claude Sonnet 4.5
+- ❌ Gemini 2.0 Flash（0.25x）→ 改用 Grok Code Fast 1（0.25x）或 GPT-5 mini（0x）
 
-**Preview Models** (Subject to Change):
+**預覽模型**（如有變更）：
 
-- 🧪 Claude Sonnet 4.5 (1x) - Preview status, may have API changes
-- 🧪 Grok Code Fast 1 (0.25x) - Preview, free during preview period
+- 🧪 Claude Sonnet 4.5（1x）- 預覽狀態，可能有 API 變更
+- 🧪 Grok Code Fast 1（0.25x）- 預覽，預覽期間免費
 
-**Stable Production Models**:
+**穩定生產模型**：
 
-- ✅ GPT-4.1, GPT-5, GPT-5 mini, GPT-5 Codex (OpenAI)
-- ✅ Claude Sonnet 3.5, Claude Sonnet 4, Claude Opus 4.1 (Anthropic)
-- ✅ Gemini 2.5 Pro (Google)
+- ✅ GPT-4.1、GPT-5、GPT-5 mini、GPT-5 Codex（OpenAI）
+- ✅ Claude Sonnet 3.5、Claude Sonnet 4、Claude Opus 4.1（Anthropic）
+- ✅ Gemini 2.5 Pro（Google）
 
-### Auto Model Selection Behavior (Sept 2025+)
+### 自動模型選擇行為（2025 年 9 月以後）
 
-**Included in Auto Selection**:
+**包含在自動選擇中**：
 
-- GPT-4.1 (0x)
-- GPT-5 mini (0x)
-- GPT-5 (1x)
-- Claude Sonnet 3.5 (1x)
-- Claude Sonnet 4.5 (1x)
+- GPT-4.1（0x）
+- GPT-5 mini（0x）
+- GPT-5（1x）
+- Claude Sonnet 3.5（1x）
+- Claude Sonnet 4.5（1x）
 
-**Excluded from Auto Selection**:
+**排除在自動選擇外**：
 
-- Models with multiplier > 1 (Claude Opus 4.1, deprecated o3)
-- Models blocked by admin policies
-- Models unavailable in subscription plan (1x models in Free tier)
+- 倍數 > 1 的模型（Claude Opus 4.1、已棄用的 o3）
+- 被管理員策略封鎖的模型
+- 訂閱方案中不可用的模型（免費級別中的 1x 模型）
 
-**When Auto Selects**:
+**自動選擇時機**：
 
-- Copilot analyzes prompt complexity, context size, task type
-- Chooses from eligible pool based on availability and rate limits
-- Applies 10% multiplier discount on auto-selected models
-- Shows selected model on hover over response in Chat view
+- Copilot 分析提示詞複雜度、上下文大小、任務類型
+- 根據可用性和速率限制從合格池中選擇
+- 對自動選擇的模型套用 10% 倍數折扣
+- 在 Chat 檢視中的回應上懸停時顯示選定的模型
 
-## Context7 Query Templates
+## Context7 查詢範本
 
-Use these query patterns when verification needed:
+需要驗證時使用這些查詢模式：
 
-**Model Capabilities**:
-
-```
-Topic: "[Model Name] code generation quality capabilities"
-Library: /websites/github_en_copilot
-```
-
-**Model Multipliers**:
+**模型能力**：
 
 ```
-Topic: "[Model Name] request multiplier cost billing"
-Library: /websites/github_en_copilot
+主題：「[模型名稱]程式碼生成品質能力」
+程式庫：/websites/github_en_copilot
 ```
 
-**Deprecation Status**:
+**模型倍數**：
 
 ```
-Topic: "deprecated models October 2025 timeline"
-Library: /websites/github_en_copilot
+主題：「[模型名稱]請求倍數成本帳單」
+程式庫：/websites/github_en_copilot
 ```
 
-**Vision Support**:
+**棄用狀態**：
 
 ```
-Topic: "[Model Name] image vision multimodal support"
-Library: /websites/github_en_copilot
+主題：「2025 年 10 月已棄用模型時間表」
+程式庫：/websites/github_en_copilot
 ```
 
-**Auto Selection**:
+**視覺支援**：
 
 ```
-Topic: "auto model selection behavior eligible models"
-Library: /websites/github_en_copilot
+主題：「[模型名稱]影像視覺多模式支援」
+程式庫：/websites/github_en_copilot
+```
+
+**自動選擇**：
+
+```
+主題：「自動模型選擇行為合格模型」
+程式庫：/websites/github_en_copilot
 ```
 
 ---
 
-**Last Updated**: 2025-10-28
-**Model Data Current As Of**: October 2025
-**Deprecation Deadline**: 2025-10-23 for o3, o4-mini, Claude Sonnet 3.7 variants, Gemini 2.0 Flash
+**上次更新**：2025-10-28
+**模型資料目前狀態**：2025 年 10 月
+**棄用期限**：2025-10-23（o3、o4-mini、Claude Sonnet 3.7 變體、Gemini 2.0 Flash）

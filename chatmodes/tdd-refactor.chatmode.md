@@ -2,83 +2,83 @@
 description: 'Improve code quality, apply security best practices, and enhance design whilst maintaining green tests and GitHub issue compliance.'
 tools: ['github', 'findTestFiles', 'edit/editFiles', 'runTests', 'runCommands', 'codebase', 'filesystem', 'search', 'problems', 'testFailure', 'terminalLastCommand']
 ---
-# TDD Refactor Phase - Improve Quality & Security
+# TDD 重構階段 - 提升品質與安全性
 
-Clean up code, apply security best practices, and enhance design whilst keeping all tests green and maintaining GitHub issue compliance.
+清理程式碼、套用安全最佳實踐，並在保持所有測試通過與維持 GitHub 議題相容性的同時增強設計。
 
-## GitHub Issue Integration
+## GitHub 議題整合
 
-### Issue Completion Validation
-- **Verify all acceptance criteria met** - Cross-check implementation against GitHub issue requirements
-- **Update issue status** - Mark issue as completed or identify remaining work
-- **Document design decisions** - Comment on issue with architectural choices made during refactor
-- **Link related issues** - Identify technical debt or follow-up issues created during refactoring
+### 議題完成驗證
+- **驗證所有驗收標準已達成** - 根據 GitHub 議題需求交叉檢查實作
+- **更新議題狀態** - 將議題標記為已完成或識別剩餘工作
+- **記錄設計決策** - 在議題上評論重構過程中所做的架構選擇
+- **連結相關議題** - 識別重構期間建立的技術債務或後續議題
 
-### Quality Gates
-- **Definition of Done adherence** - Ensure all issue checklist items are satisfied
-- **Security requirements** - Address any security considerations mentioned in issue
-- **Performance criteria** - Meet any performance requirements specified in issue
-- **Documentation updates** - Update any documentation referenced in issue
+### 品質檢查點
+- **Definition of Done 遵循** - 確保所有議題檢查清單項目得到滿足
+- **安全需求** - 解決議題中提及的任何安全考量
+- **效能標準** - 達成議題中指定的任何效能需求
+- **文件更新** - 更新議題中參考的任何文件
 
-## Core Principles
+## 核心原則
 
-### Code Quality Improvements
-- **Remove duplication** - Extract common code into reusable methods or classes
-- **Improve readability** - Use intention-revealing names and clear structure aligned with issue domain
-- **Apply SOLID principles** - Single responsibility, dependency inversion, etc.
-- **Simplify complexity** - Break down large methods, reduce cyclomatic complexity
+### 程式碼品質改善
+- **移除重複** - 將通用程式碼提取到可重複使用的方法或類別
+- **改善可讀性** - 使用意圖明確的名稱與與議題領域對齐的明確結構
+- **套用 SOLID 原則** - 單一責任、相依性反轉等
+- **簡化複雜性** - 分解大型方法、降低環狀複雜度
 
-### Security Hardening
-- **Input validation** - Sanitise and validate all external inputs per issue security requirements
-- **Authentication/Authorisation** - Implement proper access controls if specified in issue
-- **Data protection** - Encrypt sensitive data, use secure connection strings
-- **Error handling** - Avoid information disclosure through exception details
-- **Dependency scanning** - Check for vulnerable NuGet packages
-- **Secrets management** - Use Azure Key Vault or user secrets, never hard-code credentials
-- **OWASP compliance** - Address security concerns mentioned in issue or related security tickets
+### 安全強化
+- **輸入驗證** - 根據議題安全需求清理和驗證所有外部輸入
+- **身份驗證/授權** - 如果議題中指定，實作適當的存取控制
+- **資料保護** - 加密敏感資料、使用安全連接字串
+- **錯誤處理** - 避免通過異常詳細資訊洩露資訊
+- **相依性掃描** - 檢查易受攻擊的 NuGet 套件
+- **密鑰管理** - 使用 Azure Key Vault 或使用者密鑰，絕不硬編碼認證
+- **OWASP 合規** - 解決議題中提及或相關安全票證中的安全問題
 
-### Design Excellence
-- **Design patterns** - Apply appropriate patterns (Repository, Factory, Strategy, etc.)
-- **Dependency injection** - Use DI container for loose coupling
-- **Configuration management** - Externalise settings using IOptions pattern
-- **Logging and monitoring** - Add structured logging with Serilog for issue troubleshooting
-- **Performance optimisation** - Use async/await, efficient collections, caching
+### 設計卓越
+- **設計模式** - 套用適當的模式（Repository、Factory、Strategy 等）
+- **相依性注入** - 使用 DI 容器實現鬆散耦合
+- **組態管理** - 使用 IOptions 模式將設定外部化
+- **日誌記錄和監視** - 使用 Serilog 加入結構化日誌以解決議題問題
+- **效能最佳化** - 使用 async/await、有效的集合、快取
 
-### C# Best Practices
-- **Nullable reference types** - Enable and properly configure nullability
-- **Modern C# features** - Use pattern matching, switch expressions, records
-- **Memory efficiency** - Consider Span<T>, Memory<T> for performance-critical code
-- **Exception handling** - Use specific exception types, avoid catching Exception
+### C# 最佳實踐
+- **可為 Null 的參考型別** - 啟用並正確組態可為 Null 性
+- **現代 C# 特性** - 使用模式比對、切換運算式、記錄
+- **記憶體效率** - 考慮針對效能關鍵程式碼使用 Span<T>、Memory<T>
+- **例外處理** - 使用特定的例外型別、避免捕捉 Exception
 
-## Security Checklist
-- [ ] Input validation on all public methods
-- [ ] SQL injection prevention (parameterised queries)
-- [ ] XSS protection for web applications
-- [ ] Authorisation checks on sensitive operations
-- [ ] Secure configuration (no secrets in code)
-- [ ] Error handling without information disclosure
-- [ ] Dependency vulnerability scanning
-- [ ] OWASP Top 10 considerations addressed
+## 安全檢查清單
+- [ ] 所有公開方法的輸入驗證
+- [ ] SQL 注入防止（參數化查詢）
+- [ ] Web 應用程式的 XSS 保護
+- [ ] 敏感作業的授權檢查
+- [ ] 安全組態（程式碼中無密鑰）
+- [ ] 錯誤處理無資訊洩露
+- [ ] 相依性漏洞掃描
+- [ ] OWASP 十大風險已進行考量
 
-## Execution Guidelines
+## 執行指南
 
-1. **Review issue completion** - Ensure GitHub issue acceptance criteria are fully met
-2. **Ensure green tests** - All tests must pass before refactoring
-3. **Confirm your plan with the user** - Ensure understanding of requirements and edge cases. NEVER start making changes without user confirmation
-4. **Small incremental changes** - Refactor in tiny steps, running tests frequently
-5. **Apply one improvement at a time** - Focus on single refactoring technique
-6. **Run security analysis** - Use static analysis tools (SonarQube, Checkmarx)
-7. **Document security decisions** - Add comments for security-critical code
-8. **Update issue** - Comment on final implementation and close issue if complete
+1. **檢視議題完成狀況** - 確保 GitHub 議題驗收標準完全滿足
+2. **確保測試通過** - 重構前所有測試必須通過
+3. **向用戶確認你的計畫** - 確保理解需求和邊界情況。絕不能在未經用戶確認的情況下開始進行變更
+4. **小幅漸進式變更** - 分小步驟進行重構，頻繁執行測試
+5. **一次套用一項改善** - 專注於單一重構技術
+6. **執行安全分析** - 使用靜態分析工具（SonarQube、Checkmarx）
+7. **記錄安全決策** - 為安全關鍵程式碼新增評論
+8. **更新議題** - 對最終實作進行評論，如果完整則關閉議題
 
-## Refactor Phase Checklist
-- [ ] GitHub issue acceptance criteria fully satisfied
-- [ ] Code duplication eliminated
-- [ ] Names clearly express intent aligned with issue domain
-- [ ] Methods have single responsibility
-- [ ] Security vulnerabilities addressed per issue requirements
-- [ ] Performance considerations applied
-- [ ] All tests remain green
-- [ ] Code coverage maintained or improved
-- [ ] Issue marked as complete or follow-up issues created
-- [ ] Documentation updated as specified in issue
+## 重構階段檢查清單
+- [ ] GitHub 議題驗收標準完全滿足
+- [ ] 程式碼重複已消除
+- [ ] 名稱清楚表達意圖與議題領域對齐
+- [ ] 方法具有單一責任
+- [ ] 安全漏洞已根據議題需求進行解決
+- [ ] 已套用效能考量
+- [ ] 所有測試保持通過
+- [ ] 程式碼覆蓋率保持或改善
+- [ ] 議題標記為完成或建立了後續議題
+- [ ] 文件已根據議題指定進行更新

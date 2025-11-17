@@ -3,34 +3,34 @@ description: 'Comprehensive guide for working with Power Apps Canvas Apps YAML s
 applyTo: '**/*.{yaml,yml,md,pa.yaml}'
 ---
 
-# Power Apps Canvas Apps YAML Structure Guide
+# Power Apps Canvas Apps YAML 結構指南
 
-## Overview
-This document provides comprehensive instructions for working with YAML code for Power Apps canvas apps based on the official Microsoft Power Apps YAML schema (v3.0) and Power Fx documentation.
+## 概述
+本文件基於微軟官方 Power Apps YAML 結構（v3.0）和 Power Fx 文件，提供使用 Power Apps Canvas 應用程式之 YAML 程式碼的全面說明。
 
-**Official Schema Source**: https://raw.githubusercontent.com/microsoft/PowerApps-Tooling/refs/heads/master/schemas/pa-yaml/v3.0/pa.schema.yaml
+**官方結構定義來源**：https://raw.githubusercontent.com/microsoft/PowerApps-Tooling/refs/heads/master/schemas/pa-yaml/v3.0/pa.schema.yaml
 
-## Power Fx Design Principles
-Power Fx is the formula language used throughout Power Apps canvas apps. It follows these core principles:
+## Power Fx 設計原則
+Power Fx 是整個 Power Apps Canvas 應用程式中使用的公式語言。它遵循這些核心原則：
 
-### Design Principles
-- **Simple**: Uses familiar concepts from Excel formulas
-- **Excel Consistency**: Aligns with Excel formula syntax and behavior
-- **Declarative**: Describes what you want, not how to achieve it
-- **Functional**: Avoids side effects; most functions are pure
-- **Composition**: Complex logic built by combining simpler functions
-- **Strongly Typed**: Type system ensures data integrity
-- **Integrated**: Works seamlessly across the Power Platform
+### 設計原則
+- **簡單**：使用來自 Excel 公式的熟悉概念
+- **Excel 相容性**：符合 Excel 公式語法和行為
+- **宣告式**：描述您想要什麼，而不是如何達成
+- **函數式**：避免副作用；大多數函數都是純函數
+- **組合性**：透過組合較簡單的函數來建構複雜邏輯
+- **強型別**：型別系統確保資料完整性
+- **整合性**：在整個 Power Platform 中無縫運作
 
-### Language Philosophy
-Power Fx promotes:
-- Low-code development through familiar Excel-like formulas
-- Automatic recalculation when dependencies change
-- Type safety with compile-time checking
-- Functional programming patterns
+### 語言理念
+Power Fx 提倡：
+- 透過熟悉的類似 Excel 公式進行低程式碼開發
+- 當相依性改變時自動重新計算
+- 使用編譯時期檢查的型別安全
+- 函數式編程模式
 
-## Root Structure
-Every Power Apps YAML file follows this top-level structure:
+## 根結構
+每個 Power Apps YAML 檔案都遵循此最上層結構：
 
 ```yaml
 App:
@@ -51,8 +51,8 @@ EditorState:
   # Editor metadata (screen order, etc.)
 ```
 
-## 1. App Section
-The `App` section defines application-level properties and configuration.
+## 1. App 區段
+`App` 區段定義應用程式層級的屬性和設定。
 
 ```yaml
 App:
@@ -62,13 +62,13 @@ App:
     # Other app properties with Power Fx formulas
 ```
 
-### Key Points:
-- Contains application-wide settings
-- Properties use Power Fx formulas (prefixed with `=`)
-- `StartScreen` property is commonly specified
+### 重點：
+- 包含應用程式範圍的設定
+- 屬性使用 Power Fx 公式（以 `=` 作為前綴）
+- `StartScreen` 屬性通常會被指定
 
-## 2. Screens Section
-Defines all screens in the application as an unordered map.
+## 2. 畫面區段
+將應用程式中的所有畫面定義為無序對應。
 
 ```yaml
 Screens:
@@ -90,11 +90,11 @@ Screens:
             Y: =100
 ```
 
-### Screen Structure:
-- **Properties**: Screen-level properties and formulas
-- **Children**: Array of controls on the screen (ordered by z-index)
+### 畫面結構：
+- **Properties**：畫面層級的屬性和公式
+- **Children**：畫面上的控制項陣列（按疊置順序排列）
 
-### Control Definition Format:
+### 控制項定義格式：
 ```yaml
 ControlName:
   Control: ControlType      # Required: Control type identifier
@@ -109,8 +109,8 @@ ControlName:
   Children: []              # For container controls (ordered by z-index)
 ```
 
-### Control Versioning:
-You can specify control versions using the `@` operator:
+### 控制項版本化：
+您可以使用 `@` 運算子指定控制項版本：
 ```yaml
 MyButton:
   Control: Button@2.1.0     # Specific version
@@ -123,19 +123,19 @@ MyLabel:
     Text: ="Hello World"
 ```
 
-## 3. Control Types
+## 3. 控制項類型
 
-### Standard Controls
-Common first-party controls include:
-- **Basic Controls**: `Label`, `Button`, `TextInput`, `HTMLText`
-- **Input Controls**: `Slider`, `Toggle`, `Checkbox`, `Radio`, `Dropdown`, `Combobox`, `DatePicker`, `ListBox`
-- **Display Controls**: `Image`, `Icon`, `Video`, `Audio`, `PDF viewer`, `Barcode scanner`
-- **Layout Controls**: `Container`, `Rectangle`, `Circle`, `Gallery`, `DataTable`, `Form`
-- **Chart Controls**: `Column chart`, `Line chart`, `Pie chart`
-- **Advanced Controls**: `Timer`, `Camera`, `Microphone`, `Add picture`, `Import`, `Export`
+### 標準控制項
+常見的第一方控制項包括：
+- **基本控制項**：`Label`、`Button`、`TextInput`、`HTMLText`
+- **輸入控制項**：`Slider`、`Toggle`、`Checkbox`、`Radio`、`Dropdown`、`Combobox`、`DatePicker`、`ListBox`
+- **顯示控制項**：`Image`、`Icon`、`Video`、`Audio`、`PDF viewer`、`Barcode scanner`
+- **版面配置控制項**：`Container`、`Rectangle`、`Circle`、`Gallery`、`DataTable`、`Form`
+- **圖表控制項**：`Column chart`、`Line chart`、`Pie chart`
+- **進階控制項**：`Timer`、`Camera`、`Microphone`、`Add picture`、`Import`、`Export`
 
-### Container and Layout Controls
-Special attention for container controls and their children:
+### 容器和版面配置控制項
+容器控制項及其子項需要特別注意：
 ```yaml
 MyContainer:
   Control: Container
@@ -158,7 +158,7 @@ MyContainer:
           Y: =50
 ```
 
-### Custom Components
+### 自訂元件
 ```yaml
 MyCustomControl:
   Control: Component
@@ -169,7 +169,7 @@ MyCustomControl:
     # Custom component properties
 ```
 
-### Code Components (PCF)
+### 程式碼元件 (PCF)
 ```yaml
 MyPCFControl:
   Control: CodeComponent
@@ -179,8 +179,8 @@ MyPCFControl:
     Y: =10
 ```
 
-## 4. Component Definitions
-Define reusable custom components:
+## 4. 元件定義
+定義可重複使用的自訂元件：
 
 ```yaml
 ComponentDefinitions:
@@ -210,22 +210,22 @@ ComponentDefinitions:
             Text: =Parent.InputText
 ```
 
-### Custom Property Types:
-- **Input**: Receives values from parent
-- **Output**: Sends values to parent
-- **InputFunction**: Function called by parent
-- **OutputFunction**: Function defined in component
-- **Event**: Triggers events to parent
-- **Action**: Function with side effects
+### 自訂屬性類型：
+- **Input**：從父元件接收值
+- **Output**：向父元件傳送值
+- **InputFunction**：由父元件呼叫的函數
+- **OutputFunction**：在元件中定義的函數
+- **Event**：觸發事件到父元件
+- **Action**：具有副作用的函數
 
-### Data Types:
-- `Text`, `Number`, `Boolean`
-- `DateAndTime`, `Color`, `Currency`
-- `Record`, `Table`, `Image`
-- `VideoOrAudio`, `Screen`
+### 資料類型：
+- `Text`、`Number`、`Boolean`
+- `DateAndTime`、`Color`、`Currency`
+- `Record`、`Table`、`Image`
+- `VideoOrAudio`、`Screen`
 
-## 5. Data Sources
-Configure data connections:
+## 5. 資料來源
+設定資料連線：
 
 ```yaml
 DataSources:
@@ -241,12 +241,12 @@ DataSources:
       # Additional connector parameters
 ```
 
-### Data Source Types:
-- **Table**: Dataverse tables or other tabular data
-- **Actions**: Connector actions and flows
+### 資料來源類型：
+- **Table**：Dataverse 表格或其他表格資料
+- **Actions**：連接器動作和流程
 
-## 6. Editor State
-Maintains editor organization:
+## 6. 編輯器狀態
+維護編輯器組織：
 
 ```yaml
 EditorState:
@@ -259,13 +259,13 @@ EditorState:
     - AnotherComponent
 ```
 
-## Power Fx Formula Guidelines
+## Power Fx 公式指南
 
-### Formula Syntax:
-- All formulas must start with `=`
-- Use Power Fx syntax for expressions
-- Null values can be represented as `null` (without quotes)
-- Examples:
+### 公式語法：
+- 所有公式都必須以 `=` 開頭
+- 為表達式使用 Power Fx 語法
+- 空值可以表示為 `null`（沒有引號）
+- 範例：
   ```yaml
   Text: ="Hello World"
   X: =10
@@ -274,7 +274,7 @@ EditorState:
   OptionalProperty: null    # Represents no value
   ```
 
-### Common Formula Patterns:
+### 常見公式模式：
 ```yaml
 # Static values
 Text: ="Static Text"
@@ -302,89 +302,89 @@ Items: =Filter(DataSource, Status = "Active")
 Text: =LookUp(Users, ID = 123).Name
 ```
 
-### Z-Index and Control Ordering:
-- Controls in the `Children` array are ordered by z-index
-- First control in array = bottom layer (z-index 1)
-- Last control in array = top layer (highest z-index)
-- All controls use ascending order starting from 1
+### 疊置順序和控制項排序：
+- `Children` 陣列中的控制項按疊置順序排列
+- 陣列中的第一個控制項 = 底層（疊置順序 1）
+- 陣列中的最後一個控制項 = 頂層（最高疊置順序）
+- 所有控制項使用從 1 開始的遞增順序
 
-## Naming Conventions
+## 命名慣例
 
-### Entity Names:
-- Screen names: Descriptive and unique
-- Control names: TypeName + Number (e.g., `Button1`, `Label2`)
-- Component names: PascalCase
+### 實體名稱：
+- 畫面名稱：描述性且唯一
+- 控制項名稱：型別名稱 + 編號（例如 `Button1`、`Label2`）
+- 元件名稱：PascalCase
 
-### Property Names:
-- Standard properties: Use exact casing from schema
-- Custom properties: PascalCase recommended
+### 屬性名稱：
+- 標準屬性：使用結構定義中的精確大小寫
+- 自訂屬性：建議使用 PascalCase
 
-## Best Practices
+## 最佳做法
 
-### 1. Structure Organization:
-- Keep screens logically organized
-- Group related controls using the `Group` property
-- Use meaningful names for all entities
+### 1. 結構組織：
+- 保持畫面邏輯上組織有序
+- 使用 `Group` 屬性對相關控制項進行分組
+- 為所有實體使用有意義的名稱
 
-### 2. Formula Writing:
-- Keep formulas readable and well-formatted
-- Use comments in complex formulas when possible
-- Avoid overly complex nested expressions
+### 2. 公式撰寫：
+- 保持公式易讀且格式良好
+- 在複雜公式中盡可能使用註解
+- 避免過度複雜的巢狀表達式
 
-### 3. Component Design:
-- Design components to be reusable
-- Provide clear descriptions for custom properties
-- Use appropriate property kinds (Input/Output)
+### 3. 元件設計：
+- 設計可重複使用的元件
+- 為自訂屬性提供清晰的說明
+- 使用適當的屬性類型（Input/Output）
 
-### 4. Data Source Management:
-- Use descriptive names for data sources
-- Document connection requirements
-- Keep data source configurations minimal
+### 4. 資料來源管理：
+- 為資料來源使用描述性名稱
+- 記錄連線需求
+- 保持資料來源設定最少化
 
-## Validation Rules
+## 驗證規則
 
-### Required Properties:
-- All controls must have a `Control` property
-- Component definitions must have `DefinitionType`
-- Data sources must have `Type`
+### 必需屬性：
+- 所有控制項都必須有 `Control` 屬性
+- 元件定義必須有 `DefinitionType`
+- 資料來源必須有 `Type`
 
-### Naming Patterns:
-- Entity names: Minimum 1 character, alphanumeric
-- Control type IDs: Follow pattern `^([A-Z][a-zA-Z0-9]*/)?[A-Z][a-zA-Z0-9]*(@\d+\.\d+\.\d+)?$`
-- Code component names: Follow pattern `^([a-z][a-z0-9]{1,7})_([a-zA-Z0-9]\.)+[a-zA-Z0-9]+$`
+### 命名模式：
+- 實體名稱：最少 1 個字元，英數字
+- 控制項型別 ID：遵循模式 `^([A-Z][a-zA-Z0-9]*/)?[A-Z][a-zA-Z0-9]*(@\d+\.\d+\.\d+)?$`
+- 程式碼元件名稱：遵循模式 `^([a-z][a-z0-9]{1,7})_([a-zA-Z0-9]\.)+[a-zA-Z0-9]+$`
 
-## Common Issues and Solutions
+## 常見問題和解決方案
 
-### 1. Invalid Control Types:
-- Ensure control types are spelled correctly
-- Check for proper casing
-- Verify control type is supported in schema
+### 1. 無效的控制項型別：
+- 確保控制項型別拼寫正確
+- 檢查大小寫是否正確
+- 驗證結構定義中支援此控制項型別
 
-### 2. Formula Errors:
-- All formulas must start with `=`
-- Use proper Power Fx syntax
-- Check for correct property references
+### 2. 公式錯誤：
+- 所有公式都必須以 `=` 開頭
+- 使用適當的 Power Fx 語法
+- 檢查屬性參考是否正確
 
-### 3. Structure Validation:
-- Maintain proper YAML indentation
-- Ensure required properties are present
-- Follow the schema structure exactly
+### 3. 結構驗證：
+- 保持正確的 YAML 縮排
+- 確保存在必需屬性
+- 完全遵循結構定義結構
 
-### 4. Custom Component Issues:
-- Verify `ComponentName` matches definition
-- Ensure custom properties are properly defined
-- Check property kinds are appropriate
-- Validate component library references if using external components
+### 4. 自訂元件問題：
+- 驗證 `ComponentName` 是否符合定義
+- 確保自訂屬性已正確定義
+- 檢查屬性型別是否適當
+- 如果使用外部元件，驗證元件庫參考
 
-### 5. Performance Considerations:
-- Avoid deeply nested formulas in YAML
-- Use efficient data source queries
-- Consider delegable formulas for large datasets
-- Minimize complex calculations in frequently updated properties
+### 5. 效能考量：
+- 避免在 YAML 中深度巢狀公式
+- 使用有效率的資料來源查詢
+- 對大型資料集考慮可委派公式
+- 最小化頻繁更新屬性中的複雜計算
 
-## Advanced Topics
+## 進階主題
 
-### 1. Component Library Integration:
+### 1. 元件庫整合：
 ```yaml
 ComponentDefinitions:
   MyLibraryComponent:
@@ -394,12 +394,12 @@ ComponentDefinitions:
     # Component definition details
 ```
 
-### 2. Responsive Design Considerations:
-- Use `Parent.Width` and `Parent.Height` for responsive sizing
-- Consider container-based layouts for complex UIs
-- Use formulas for dynamic positioning and sizing
+### 2. 回應式設計考量：
+- 為回應式調整大小使用 `Parent.Width` 和 `Parent.Height`
+- 對複雜 UI 考慮容器型版面配置
+- 為動態定位和調整大小使用公式
 
-### 3. Gallery Templates:
+### 3. 圖庫範本：
 ```yaml
 MyGallery:
   Control: Gallery
@@ -416,7 +416,7 @@ MyGallery:
                 Width: =Parent.TemplateWidth - 20
 ```
 
-### 4. Form Controls and Data Cards:
+### 4. 表單控制項和資料卡：
 ```yaml
 MyForm:
   Control: Form
@@ -435,7 +435,7 @@ MyForm:
                 Default: =Parent.Default
 ```
 
-### 5. Error Handling in Formulas:
+### 5. 公式中的錯誤處理：
 ```yaml
 Properties:
   Text: =IfError(LookUp(DataSource, ID = 123).Name, "Not Found")
@@ -446,12 +446,12 @@ Properties:
   )
 ```
 
-## Power Apps Source Code Management
+## Power Apps 原始碼管理
 
-### Accessing Source Code Files:
-Power Apps YAML files can be obtained through several methods:
+### 存取原始碼檔案：
+Power Apps YAML 檔案可以透過多種方法取得：
 
-1. **Power Platform CLI**:
+1. **Power Platform CLI**：
    ```powershell
    # List canvas apps in environment
    pac canvas list
@@ -460,35 +460,35 @@ Power Apps YAML files can be obtained through several methods:
    pac canvas download --name "MyApp" --extract-to-directory "C:\path\to\destination"
    ```
 
-2. **Manual Extraction from .msapp**:
+2. **從 .msapp 手動提取**：
    ```powershell
    # Extract .msapp file using PowerShell
    Expand-Archive -Path "C:\path\to\yourFile.msapp" -DestinationPath "C:\path\to\destination"
    ```
 
-3. **Dataverse Git Integration**: Direct access to source files without .msapp files
+3. **Dataverse Git 整合**：直接存取原始碼檔案，無需 .msapp 檔案
 
-### File Structure in .msapp:
-- `\src\App.pa.yaml` - Represents the main App configuration
-- `\src\[ScreenName].pa.yaml` - One file for each screen
-- `\src\Component\[ComponentName].pa.yaml` - Component definitions
+### .msapp 中的檔案結構：
+- `\src\App.pa.yaml` - 代表主應用程式設定
+- `\src\[ScreenName].pa.yaml` - 每個畫面一個檔案
+- `\src\Component\[ComponentName].pa.yaml` - 元件定義
 
-**Important Notes**:
-- Only files in the `\src` folder are intended for source control
-- .pa.yaml files are **read-only** and for review purposes only
-- External editing, merging, and conflict resolution isn't supported
-- JSON files in .msapp aren't stable for source control
+**重要注意事項**：
+- 只有 `\src` 資料夾中的檔案用於版本控制
+- .pa.yaml 檔案是**唯讀的**，僅供檢閱之用
+- 不支援外部編輯、合併和衝突解決
+- .msapp 中的 JSON 檔案對版本控制並不穩定
 
-### Schema Version Evolution:
-1. **Experimental Format** (*.fx.yaml): No longer in development
-2. **Early Preview**: Temporary format, no longer in use
-3. **Source Code** (*.pa.yaml): Current active format with version control support
+### 結構定義版本演變：
+1. **實驗性格式** (*.fx.yaml)：不再開發
+2. **早期預覽**：暫時格式，不再使用
+3. **原始碼** (*.pa.yaml)：具有版本控制支援的目前作用中格式
 
-## Power Fx Formula Reference
+## Power Fx 公式參考
 
-### Formula Categories:
+### 公式類別：
 
-#### **Functions**: Take parameters, perform operations, return values
+#### **函數**：接受參數、執行操作、傳回值
 ```yaml
 Properties:
   Text: =Concatenate("Hello ", User().FullName)
@@ -496,7 +496,7 @@ Properties:
   Items: =Filter(DataSource, Status = "Active")
 ```
 
-#### **Signals**: Return environment information (no parameters)
+#### **訊號**：傳回環境資訊（沒有參數）
 ```yaml
 Properties:
   Text: =Location.Latitude & ", " & Location.Longitude
@@ -504,7 +504,7 @@ Properties:
   Color: =If(Acceleration.X > 5, Color.Red, Color.Blue)
 ```
 
-#### **Enumerations**: Predefined constant values
+#### **列舉**：預先定義的常數值
 ```yaml
 Properties:
   Fill: =Color.Blue
@@ -512,7 +512,7 @@ Properties:
   Align: =Align.Center
 ```
 
-#### **Named Operators**: Access container information
+#### **具名運算子**：存取容器資訊
 ```yaml
 Properties:
   Text: =ThisItem.Title        # In galleries
@@ -520,9 +520,9 @@ Properties:
   Height: =Self.Height / 2     # Self-reference
 ```
 
-### Essential Power Fx Functions for YAML:
+### YAML 的必需 Power Fx 函數：
 
-#### **Navigation & App Control**:
+#### **導覽和應用程式控制**：
 ```yaml
 OnSelect: =Navigate(NextScreen, ScreenTransition.Cover)
 OnSelect: =Back()
@@ -530,7 +530,7 @@ OnSelect: =Exit()
 OnSelect: =Launch("https://example.com")
 ```
 
-#### **Data Operations**:
+#### **資料操作**：
 ```yaml
 Items: =Filter(DataSource, Category = "Active")
 Text: =LookUp(Users, ID = 123).Name
@@ -538,14 +538,14 @@ OnSelect: =Patch(DataSource, ThisItem, {Status: "Complete"})
 OnSelect: =Collect(LocalCollection, {Name: TextInput1.Text})
 ```
 
-#### **Conditional Logic**:
+#### **條件邏輯**：
 ```yaml
 Visible: =If(Toggle1.Value, true, false)
 Text: =Switch(Status, "New", "🆕", "Complete", "✅", "❓")
 Fill: =If(Value < 0, Color.Red, Color.Green)
 ```
 
-#### **Text Manipulation**:
+#### **文字處理**：
 ```yaml
 Text: =Concatenate("Hello ", User().FullName)
 Text: =Upper(TextInput1.Text)
@@ -553,7 +553,7 @@ Text: =Substitute(Label1.Text, "old", "new")
 Text: =Left(Title, 10) & "..."
 ```
 
-#### **Mathematical Operations**:
+#### **數學操作**：
 ```yaml
 Text: =Sum(Sales[Amount])
 Text: =Average(Ratings[Score])
@@ -561,7 +561,7 @@ Text: =Round(Calculation, 2)
 Text: =Max(Values[Number])
 ```
 
-#### **Date & Time Functions**:
+#### **日期和時間函數**：
 ```yaml
 Text: =Text(Now(), "mm/dd/yyyy")
 Text: =DateDiff(StartDate, EndDate, Days)
@@ -569,16 +569,16 @@ Text: =Text(Today(), "dddd, mmmm dd, yyyy")
 Visible: =IsToday(DueDate)
 ```
 
-### Formula Syntax Guidelines:
+### 公式語法指南：
 
-#### **Basic Syntax Rules**:
-- All formulas start with `=`
-- No preceding `+` or `=` sign (unlike Excel)
-- Double quotes for text strings: `="Hello World"`
-- Property references: `ControlName.PropertyName`
-- Comments not supported in YAML context
+#### **基本語法規則**：
+- 所有公式以 `=` 開頭
+- 沒有前置 `+` 或 `=` 符號（不同於 Excel）
+- 文字字串使用雙引號：`="Hello World"`
+- 屬性參考：`ControlName.PropertyName`
+- 不支援在 YAML 內容中加入註解
 
-#### **Formula Elements**:
+#### **公式元素**：
 ```yaml
 # Literal values
 Text: ="Static Text"
@@ -597,7 +597,7 @@ Items: =Sort(DataSource, Title)
 Text: =If(IsBlank(TextInput1.Text), "Enter text", Upper(TextInput1.Text))
 ```
 
-#### **Behavior vs. Property Formulas**:
+#### **行為與屬性公式的對比**：
 ```yaml
 # Property formulas (calculate values)
 Properties:
@@ -609,9 +609,9 @@ Properties:
   OnSelect: =Set(MyVar, true); Navigate(NextScreen); Notify("Done!")
 ```
 
-### Advanced Formula Patterns:
+### 進階公式模式：
 
-#### **Working with Collections**:
+#### **使用集合**：
 ```yaml
 Properties:
   Items: =Filter(MyCollection, Status = "Active")
@@ -619,7 +619,7 @@ Properties:
   OnSelect: =Collect(MyCollection, {Name: "New Item", Status: "Active"})
 ```
 
-#### **Error Handling**:
+#### **錯誤處理**：
 ```yaml
 Properties:
   Text: =IfError(Value(TextInput1.Text), 0)
@@ -629,7 +629,7 @@ Properties:
   )
 ```
 
-#### **Dynamic Property Setting**:
+#### **動態屬性設定**：
 ```yaml
 Properties:
   Fill: =ColorValue("#" & HexInput.Text)
@@ -637,39 +637,39 @@ Properties:
   X: =If(Alignment = "Center", (Parent.Width - Self.Width) / 2, 0)
 ```
 
-## Working with Formulas Best Practices
+## 使用公式的最佳做法
 
-### Formula Organization:
-- Break complex formulas into smaller, readable parts
-- Use variables to store intermediate calculations
-- Comment complex logic using descriptive control names
-- Group related calculations together
+### 公式組織：
+- 將複雜公式分解為更小、易讀的部分
+- 使用變數儲存中間計算結果
+- 使用描述性控制項名稱為複雜邏輯加入註解
+- 將相關計算分組在一起
 
-### Performance Optimization:
-- Use delegation-friendly functions when working with large datasets
-- Avoid nested function calls in frequently updated properties
-- Use collections for complex data transformations
-- Minimize calls to external data sources
+### 效能最佳化：
+- 使用可委派函數處理大型資料集
+- 避免在頻繁更新的屬性中使用巢狀函數呼叫
+- 為複雜資料轉換使用集合
+- 最小化外部資料來源的呼叫
 
-## Power Fx Data Types and Operations
+## Power Fx 資料類型和操作
 
-### Data Type Categories:
+### 資料類型類別：
 
-#### **Primitive Types**:
-- **Boolean**: `=true`, `=false`
-- **Number**: `=123`, `=45.67`
-- **Text**: `="Hello World"`
-- **Date**: `=Date(2024, 12, 25)`
-- **Time**: `=Time(14, 30, 0)`
-- **DateTime**: `=Now()`
+#### **基本類型**：
+- **布林值**：`=true`、`=false`
+- **數字**：`=123`、`=45.67`
+- **文字**：`="Hello World"`
+- **日期**：`=Date(2024, 12, 25)`
+- **時間**：`=Time(14, 30, 0)`
+- **日期時間**：`=Now()`
 
-#### **Complex Types**:
-- **Color**: `=Color.Red`, `=RGBA(255, 128, 0, 1)`
-- **Record**: `={Name: "John", Age: 30}`
-- **Table**: `=Table({Name: "John"}, {Name: "Jane"})`
-- **GUID**: `=GUID()`
+#### **複雜類型**：
+- **色彩**：`=Color.Red`、`=RGBA(255, 128, 0, 1)`
+- **記錄**：`={Name: "John", Age: 30}`
+- **表格**：`=Table({Name: "John"}, {Name: "Jane"})`
+- **GUID**：`=GUID()`
 
-#### **Type Conversion**:
+#### **型別轉換**：
 ```yaml
 Properties:
   Text: =Text(123.45, "#,##0.00")        # Number to text
@@ -678,7 +678,7 @@ Properties:
   Visible: =Boolean("true")              # Text to boolean
 ```
 
-#### **Type Checking**:
+#### **型別檢查**：
 ```yaml
 Properties:
   Visible: =Not(IsBlank(OptionalField))
@@ -686,9 +686,9 @@ Properties:
   Visible: =IsNumeric(TextInput1.Text)
 ```
 
-### Table Operations:
+### 表格操作：
 
-#### **Creating Tables**:
+#### **建立表格**：
 ```yaml
 Properties:
   Items: =Table(
@@ -698,7 +698,7 @@ Properties:
   Items: =["Option 1", "Option 2", "Option 3"]  # Single-column table
 ```
 
-#### **Filtering and Sorting**:
+#### **篩選和排序**：
 ```yaml
 Properties:
   Items: =Filter(Products, Price > 10)
@@ -706,7 +706,7 @@ Properties:
   Items: =SortByColumns(Products, "Price", Descending, "Name", Ascending)
 ```
 
-#### **Data Transformation**:
+#### **資料轉換**：
 ```yaml
 Properties:
   Items: =AddColumns(Products, "Total", Price * Quantity)
@@ -715,7 +715,7 @@ Properties:
   Items: =DropColumns(Products, "InternalID")
 ```
 
-#### **Aggregation**:
+#### **彙總**：
 ```yaml
 Properties:
   Text: =Sum(Products, Price)
@@ -724,23 +724,23 @@ Properties:
   Text: =CountRows(Products)
 ```
 
-### Variables and State Management:
+### 變數和狀態管理：
 
-#### **Global Variables**:
+#### **全域變數**：
 ```yaml
 Properties:
   OnSelect: =Set(MyGlobalVar, "Hello World")
   Text: =MyGlobalVar
 ```
 
-#### **Context Variables**:
+#### **內容變數**：
 ```yaml
 Properties:
   OnSelect: =UpdateContext({LocalVar: "Screen Specific"})
   OnSelect: =Navigate(NextScreen, None, {PassedValue: 42})
 ```
 
-#### **Collections**:
+#### **集合**：
 ```yaml
 Properties:
   OnSelect: =ClearCollect(MyCollection, DataSource)
@@ -748,9 +748,9 @@ Properties:
   Items: =MyCollection
 ```
 
-## Power Fx Enhanced Connectors and External Data
+## Power Fx 增強連接器和外部資料
 
-### Connector Integration:
+### 連接器整合：
 ```yaml
 DataSources:
   SharePointList:
@@ -763,14 +763,14 @@ DataSources:
     ConnectorId: shared_office365users
 ```
 
-### Working with External Data:
+### 使用外部資料：
 ```yaml
 Properties:
   Items: =Filter(SharePointList, Status = "Active")
   OnSelect: =Office365Users.SearchUser({searchTerm: SearchInput.Text})
 ```
 
-### Delegation Considerations:
+### 委派考量：
 ```yaml
 Properties:
   # Delegable operations (executed server-side)
@@ -780,9 +780,9 @@ Properties:
   Items: =Filter(LargeTable, Len(Description) > 100)  # Warning issued
 ```
 
-## Troubleshooting and Common Patterns
+## 故障排除和常見模式
 
-### Common Error Patterns:
+### 常見錯誤模式：
 ```yaml
 # Handle blank values
 Properties:
@@ -801,7 +801,7 @@ Properties:
   )
 ```
 
-### Performance Optimization:
+### 效能最佳化：
 ```yaml
 # Efficient data loading
 Properties:
@@ -813,7 +813,7 @@ Properties:
   # Avoid: Sort(DataSource, If(Active, Name, ""))       # Not delegable
 ```
 
-### Memory Management:
+### 記憶體管理：
 ```yaml
 # Clear unused collections
 Properties:
@@ -824,4 +824,4 @@ Properties:
   Items: =FirstN(Filter(DataSource, Status = "Active"), 50)
 ```
 
-Remember: This guide provides comprehensive coverage of Power Apps Canvas Apps YAML structure and Power Fx formulas. Always validate your YAML against the official schema and test formulas in the Power Apps Studio environment.
+記住：本指南提供 Power Apps Canvas 應用程式 YAML 結構和 Power Fx 公式的全面涵蓋。請務必根據官方結構定義驗證您的 YAML，並在 Power Apps Studio 環境中測試公式。

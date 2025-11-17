@@ -3,188 +3,188 @@ applyTo: '**/.copilot-tracking/changes/*.md'
 description: 'Instructions for implementing task plans with progressive tracking and change record - Brought to you by microsoft/edge-ai'
 ---
 
-# Task Plan Implementation Instructions
+# 工作計畫實施指引
 
-You will implement your specific task plan located in `.copilot-tracking/plans/**` and `.copilot-tracking/details/**`. Your goal is to progressively and completely implement each step in the plan files to create high-quality, working software that meets all specified requirements.
+根據位於 `.copilot-tracking/plans/**` 和 `.copilot-tracking/details/**` 的計畫檔案，您將實施您的特定工作計畫。目標是逐步且完整地實施計畫檔案中的每一步驟，以建立高品質、能夠正常運作的軟體，符合所有指定需求。
 
-Implementation progress MUST be tracked in a corresponding changes files located in `.copilot-tracking/changes/**`.
+實施進度必須在位於 `.copilot-tracking/changes/**` 的對應變更檔案中進行追蹤。
 
-## Core Implementation Process
+## 核心實施流程
 
-### 1. Plan Analysis and Preparation
+### 1. 計畫分析與準備
 
-**MUST complete before starting implementation:**
-- **MANDATORY**: Read and fully understand the complete plan file including scope, objectives, all phases, and every checklist item
-- **MANDATORY**: Read and fully understand the corresponding changes file completely - if any parts are missing from context, read the entire file back in using `read_file`
-- **MANDATORY**: Identify all referenced files mentioned in the plan and examine them for context
-- **MANDATORY**: Understand current project structure and conventions
+**在開始實施前必須完成：**
+- **強制性**：閱讀並完全理解完整計畫檔案，包括範圍、目標、所有階段及每一項檢查清單項目
+- **強制性**：完全閱讀並理解對應的變更檔案——如果上下文中缺少任何部分，請使用 `read_file` 重新讀取整個檔案
+- **強制性**：識別計畫中提及的所有檔案並檢查它們以了解相關上下文
+- **強制性**：理解目前的專案結構和慣例
 
-### 2. Systematic Implementation Process
+### 2. 系統性實施流程
 
-**Implement each task in the plan systematically:**
+**按照計畫逐步實施每項工作：**
 
-1. **Process tasks in order** - Follow the plan sequence exactly, one task at a time
-2. **MANDATORY before implementing any task:**
-   - **ALWAYS ensure implementation is associated with a specific task from the plan**
-   - **ALWAYS read the entire details section for that task from the associated details markdown file in `.copilot-tracking/details/**`**
-   - **FULLY understand all implementation details before proceeding**
-   - Gather any additional required context as needed
+1. **按順序處理工作**——嚴格遵循計畫順序，一次完成一項工作
+2. **實施任何工作前強制性要求：**
+   - **務必確保實施與計畫中的特定工作相關聯**
+   - **務必從 `.copilot-tracking/details/**` 中的對應詳細資訊 markdown 檔案讀取該工作的完整詳細資訊部分**
+   - **在進行前完全理解所有實施細節**
+   - 視需要收集任何額外所需的上下文
 
-3. **Implement the task completely with working code:**
-   - Follow existing code patterns and conventions from the workspace
-   - Create working functionality that meets all task requirements specified in the details
-   - Include proper error handling, documentation, and follow best practices
+3. **以運作中的程式碼完整實施工作：**
+   - 遵循工作區中現有的程式碼模式和慣例
+   - 建立符合詳細資訊中指定的所有工作需求的運作功能
+   - 包括適當的錯誤處理、文件撰寫及遵循最佳實踐
 
-4. **Mark task complete and update changes tracking:**
-   - Update plan file: change `[ ]` to `[x]` for completed task
-   - **MANDATORY after completing EVERY task**: Update the changes file by appending to the appropriate Added, Modified, or Removed sections with relative file paths and one-sentence summary of what was implemented
-   - **MANDATORY**: If any changes diverge from the task plan and details, specifically call out within the relevant section that the change was made outside of the plan and include the specific reason
-   - If ALL tasks in a phase are complete `[x]`, mark the phase header as complete `[x]`
+4. **標記工作為完成並更新變更追蹤：**
+   - 更新計畫檔案：將完成的工作從 `[ ]` 變更為 `[x]`
+   - **強制性（每項工作完成後）**：通過附加到適當的新增、修改或移除部分，用相對檔案路徑和一句話摘要更新變更檔案，說明實施的內容
+   - **強制性**：如果任何變更偏離工作計畫和詳細資訊，請在相關部分明確說明變更是在計畫外進行的，並包括具體原因
+   - 如果某個階段中的所有工作都完成了 `[x]`，請將階段標題標記為完成 `[x]`
 
-### 3. Implementation Quality Standards
+### 3. 實施品質標準
 
-**Every implementation MUST:**
-- Follow existing workspace patterns and conventions (check `copilot/` folder for standards)
-- Implement complete, working functionality that meets all task requirements
-- Include appropriate error handling and validation
-- Use consistent naming conventions and code structure from the workspace
-- Add necessary documentation and comments for complex logic
-- Ensure compatibility with existing systems and dependencies
+**每項實施必須：**
+- 遵循現有工作區模式和慣例（檢查 `copilot/` 資料夾以了解標準）
+- 實施符合所有工作需求的完整、能夠正常運作的功能
+- 包括適當的錯誤處理和驗證
+- 使用工作區中現有程式碼的一致命名慣例和程式碼結構
+- 為複雜邏輯添加必要的文件和註解
+- 確保與現有系統和依賴項的相容性
 
-### 4. Continuous Progress and Validation
+### 4. 持續進展和驗證
 
-**After implementing each task:**
-1. Validate the changes made against the task requirements from the details file
-2. Fix any problems before moving to the next task
-3. **MANDATORY**: Update the plan file to mark completed tasks `[x]`
-4. **MANDATORY after EVERY task completion**: Update the changes file by appending to Added, Modified, or Removed sections with relative file paths and one-sentence summary of what was implemented
-5. Continue to the next unchecked task
+**實施每項工作後：**
+1. 根據詳細資訊檔案中的工作需求驗證所做的變更
+2. 在進行下一項工作前修復任何問題
+3. **強制性**：更新計畫檔案以標記完成的工作 `[x]`
+4. **強制性（每項工作完成後）**：通過附加到新增、修改或移除部分，用相對檔案路徑和一句話摘要更新變更檔案，說明實施的內容
+5. 繼續進行下一個未勾選的工作
 
-**Continue until:**
-- All tasks in the plan are marked complete `[x]`
-- All specified files have been created or updated with working code
-- All success criteria from the plan have been verified
+**繼續直到：**
+- 計畫中的所有工作都標記為完成 `[x]`
+- 所有指定的檔案都已建立或更新為運作程式碼
+- 計畫中的所有成功條件都已驗證
 
-### 5. Reference Gathering Guidelines
+### 5. 參考資訊收集指南
 
-**When gathering external references:**
-- Focus on practical implementation examples over theoretical documentation
-- Validate that external sources contain actual usable patterns
-- Adapt external patterns to match workspace conventions and standards
+**收集外部參考時：**
+- 重點放在實際實施範例而不是理論文件
+- 驗證外部來源包含實際可用的模式
+- 調整外部模式以符合工作區慣例和標準
 
-**When implementing from references:**
-- Follow workspace patterns and conventions first, external patterns second
-- Implement complete, working functionality rather than just examples
-- Ensure all dependencies and configurations are properly integrated
-- Ensure implementations work within the existing project structure
+**從參考實施時：**
+- 優先遵循工作區模式和慣例，其次才是外部模式
+- 實施完整、能夠正常運作的功能，而不僅僅是範例
+- 確保所有依賴項和設定都正確整合
+- 確保實施在現有專案結構中能夠正常運作
 
-### 6. Completion and Documentation
+### 6. 完成和文件
 
-**Implementation is complete when:**
-- All plan tasks are marked complete `[x]`
-- All specified files exist with working code
-- All success criteria from the plan are verified
-- No implementation errors remain
+**當以下條件全部符合時，實施即完成：**
+- 所有計畫工作都標記為完成 `[x]`
+- 所有指定的檔案都包含運作程式碼
+- 計畫中的所有成功條件都已驗證
+- 沒有實施錯誤遺留
 
-**Final step - update changes file with release summary:**
-- Add Release Summary section only after ALL phases are marked complete `[x]`
-- Document complete file inventory and overall implementation summary for release documentation
+**最後一步——使用發佈摘要更新變更檔案：**
+- 僅在所有階段都標記為完成 `[x]` 後，才添加發佈摘要部分
+- 為發佈文件編製完整的檔案清單和整體實施摘要
 
-### 7. Problem Resolution
+### 7. 問題解決
 
-**When encountering implementation issues:**
-- Document the specific problem clearly
-- Try alternative approaches or search terms
-- Use workspace patterns as fallback when external references fail
-- Continue with available information rather than stopping completely
-- Note any unresolved issues in the plan file for future reference
+**遇到實施問題時：**
+- 清楚地記錄具體問題
+- 嘗試替代方法或搜尋詞
+- 當外部參考失敗時，使用工作區模式作為備選
+- 使用可用資訊繼續進行，而不是完全停止
+- 在計畫檔案中記錄任何未解決的問題供將來參考
 
-## Implementation Workflow
+## 實施工作流程
 
 ```
-1. Read and fully understand plan file and all checklists completely
-2. Read and fully understand changes file completely (re-read entire file if missing context)
-3. For each unchecked task:
-   a. Read entire details section for that task from details markdown file
-   b. Fully understand all implementation requirements
-   c. Implement task with working code following workspace patterns
-   d. Validate implementation meets task requirements
-   e. Mark task complete [x] in plan file
-   f. Update changes file with Added, Modified, or Removed entries
-   g. Call out any divergences from plan/details within relevant sections with specific reasons
-4. Repeat until all tasks complete
-5. Only after ALL phases are complete [x]: Add final Release Summary to changes file
+1. 閱讀並完全理解計畫檔案和所有檢查清單
+2. 完全閱讀並理解變更檔案（如果缺少上下文，重新讀取整個檔案）
+3. 對於每項未勾選的工作：
+   a. 從詳細資訊 markdown 檔案中讀取該工作的完整詳細資訊部分
+   b. 完全理解所有實施需求
+   c. 使用運作程式碼實施工作，遵循工作區模式
+   d. 驗證實施符合工作需求
+   e. 在計畫檔案中標記工作為完成 [x]
+   f. 用新增、修改或移除項目更新變更檔案
+   g. 在相關部分指出任何偏離計畫/詳細資訊的情況，並附上具體原因
+4. 重複直到所有工作完成
+5. 僅在所有階段都完成 [x] 後：向變更檔案添加最終發佈摘要
 ```
 
-## Success Criteria
+## 成功條件
 
-Implementation is complete when:
-- ✅ All plan tasks are marked complete `[x]`
-- ✅ All specified files contain working code
-- ✅ Code follows workspace patterns and conventions
-- ✅ All functionality works as expected within the project
-- ✅ Changes file is updated after every task completion with Added, Modified, or Removed entries
-- ✅ Changes file documents all phases with detailed release-ready documentation and final release summary
+當以下情況時，實施完成：
+- ✅ 所有計畫工作都標記為完成 `[x]`
+- ✅ 所有指定的檔案都包含運作程式碼
+- ✅ 程式碼遵循工作區模式和慣例
+- ✅ 所有功能在專案中能夠正常運作
+- ✅ 每項工作完成後，變更檔案都用新增、修改或移除項目更新
+- ✅ 變更檔案記錄所有階段，包括詳細的發佈就緒文件和最終發佈摘要
 
-## Template Changes File
+## 變更檔案範本
 
-Use the following as a template for the changes file that tracks implementation progress for releases.
-Replace `{{ }}` with appropriate values. Create this file in `./.copilot-tracking/changes/` with filename: `YYYYMMDD-task-description-changes.md`
+使用以下內容作為追蹤發佈實施進度的變更檔案範本。
+用適當的值替換 `{{ }}`。在 `./.copilot-tracking/changes/` 中建立此檔案，檔案名稱為：`YYYYMMDD-task-description-changes.md`
 
-**IMPORTANT**: Update this file after EVERY task completion by appending to Added, Modified, or Removed sections.
-**MANDATORY**: Always include the following at the top of the changes file: `<!-- markdownlint-disable-file -->`
+**重要**：每項工作完成後，通過附加到新增、修改或移除部分來更新此檔案。
+**強制性**：變更檔案的頂部始終包括以下內容：`<!-- markdownlint-disable-file -->`
 
 <!-- <changes-template> -->
 ```markdown
 <!-- markdownlint-disable-file -->
-# Release Changes: {{task name}}
+# 發佈變更：{{工作名稱}}
 
-**Related Plan**: {{plan-file-name}}
-**Implementation Date**: {{YYYY-MM-DD}}
+**相關計畫**：{{計畫檔案名稱}}
+**實施日期**：{{YYYY-MM-DD}}
 
-## Summary
+## 摘要
 
-{{Brief description of the overall changes made for this release}}
+{{此發佈所進行的整體變更的簡要說明}}
 
-## Changes
+## 變更
 
-### Added
+### 新增
 
-- {{relative-file-path}} - {{one sentence summary of what was implemented}}
+- {{相對檔案路徑}} - {{實施內容的一句話摘要}}
 
-### Modified
+### 修改
 
-- {{relative-file-path}} - {{one sentence summary of what was changed}}
+- {{相對檔案路徑}} - {{變更內容的一句話摘要}}
 
-### Removed
+### 移除
 
-- {{relative-file-path}} - {{one sentence summary of what was removed}}
+- {{相對檔案路徑}} - {{移除內容的一句話摘要}}
 
-## Release Summary
+## 發佈摘要
 
-**Total Files Affected**: {{number}}
+**受影響的檔案總數**：{{數字}}
 
-### Files Created ({{count}})
+### 建立的檔案（{{數量}}）
 
-- {{file-path}} - {{purpose}}
+- {{檔案路徑}} - {{用途}}
 
-### Files Modified ({{count}})
+### 修改的檔案（{{數量}}）
 
-- {{file-path}} - {{changes-made}}
+- {{檔案路徑}} - {{所做的變更}}
 
-### Files Removed ({{count}})
+### 移除的檔案（{{數量}}）
 
-- {{file-path}} - {{reason}}
+- {{檔案路徑}} - {{原因}}
 
-### Dependencies & Infrastructure
+### 依賴項和基礎設施
 
-- **New Dependencies**: {{list-of-new-dependencies}}
-- **Updated Dependencies**: {{list-of-updated-dependencies}}
-- **Infrastructure Changes**: {{infrastructure-updates}}
-- **Configuration Updates**: {{configuration-changes}}
+- **新依賴項**：{{新依賴項清單}}
+- **更新的依賴項**：{{已更新依賴項清單}}
+- **基礎設施變更**：{{基礎設施更新}}
+- **組態更新**：{{組態變更}}
 
-### Deployment Notes
+### 部署說明
 
-{{Any specific deployment considerations or steps}}
+{{任何特定的部署考慮事項或步驟}}
 ```
 <!-- </changes-template> -->

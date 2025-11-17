@@ -3,51 +3,51 @@ description: 'Step-by-step guide for converting Spring Boot JPA applications to 
 applyTo: '**/*.java,**/pom.xml,**/build.gradle,**/application*.properties'
 ---
 
-# Convert Spring JPA project to Spring Data Cosmos
+# 將 Spring JPA 專案轉換為 Spring Data Cosmos
 
-This generalized guide applies to any JPA to Spring Data Cosmos DB conversion project.
+本通用指南適用於任何 JPA 到 Spring Data Cosmos DB 轉換的專案。
 
-## High-level plan
+## 高階計畫
 
-1. Swap build dependencies (remove JPA, add Cosmos + Identity).
-2. Add `cosmos` profile and properties.
-3. Add Cosmos config with proper Azure identity authentication.
-4. Transform entities (ids → `String`, add `@Container` and `@PartitionKey`, remove JPA mappings, adjust relationships).
-5. Convert repositories (`JpaRepository` → `CosmosRepository`).
-6. **Create service layer** for relationship management and template compatibility.
-7. **CRITICAL**: Update ALL test files to work with String IDs and Cosmos repositories.
-8. Seed data via `CommandLineRunner`.
-9. **CRITICAL**: Test runtime functionality and fix template compatibility issues.
+1. 替換建置相依性（移除 JPA，新增 Cosmos + Identity）。
+2. 新增 `cosmos` 設定檔和屬性。
+3. 新增具有正確 Azure 身分識別認證的 Cosmos 配置。
+4. 轉換實體（ID → `String`，新增 `@Container` 和 `@PartitionKey`，移除 JPA 映射，調整關聯）。
+5. 轉換儲存庫（`JpaRepository` → `CosmosRepository`）。
+6. **建立服務層**以進行關聯管理和範本相容性。
+7. **重要**：更新所有測試檔案以使用 String ID 和 Cosmos 儲存庫。
+8. 透過 `CommandLineRunner` 植入資料。
+9. **重要**：測試執行時功能並修復範本相容性問題。
 
-## Step-by-step
+## 逐步進行
 
-### Step 1 — Build dependencies
+### 步驟 1 — 建置相依性
 
 - **Maven** (`pom.xml`):
-  - Remove dependency `spring-boot-starter-data-jpa`
-  - Remove database-specific dependencies (H2, MySQL, PostgreSQL) unless needed elsewhere
-  - Add `com.azure:azure-spring-data-cosmos:5.17.0` (or latest compatible version)
-  - Add `com.azure:azure-identity:1.15.4` (required for DefaultAzureCredential)
-- **Gradle**: Apply same dependency changes for Gradle syntax
-- Remove testcontainers and JPA-specific test dependencies
+  - 移除相依性 `spring-boot-starter-data-jpa`
+  - 移除資料庫特定相依性（H2、MySQL、PostgreSQL），除非在其他地方需要
+  - 新增 `com.azure:azure-spring-data-cosmos:5.17.0`（或最新相容版本）
+  - 新增 `com.azure:azure-identity:1.15.4`（DefaultAzureCredential 所需）
+- **Gradle**：對 Gradle 語法採用相同的相依性更改
+- 移除 testcontainers 和 JPA 特定的測試相依性
 
-### Step 2 — Properties and Configuration
+### 步驟 2 — 屬性和配置
 
-- Create `src/main/resources/application-cosmos.properties`:
+- 建立 `src/main/resources/application-cosmos.properties`：
   ```properties
   azure.cosmos.uri=${COSMOS_URI:https://localhost:8081}
   azure.cosmos.database=${COSMOS_DATABASE:petclinic}
   azure.cosmos.populate-query-metrics=false
   azure.cosmos.enable-multiple-write-locations=false
   ```
-- Update `src/main/resources/application.properties`:
+- 更新 `src/main/resources/application.properties`：
   ```properties
   spring.profiles.active=cosmos
   ```
 
-### Step 3 — Configuration class with Azure Identity
+### 步驟 3 — 具有 Azure 身分識別的配置類別
 
-- Create `src/main/java/<rootpkg>/config/CosmosConfiguration.java`:
+- 建立 `src/main/java/<rootpkg>/config/CosmosConfiguration.java`：
   ```java
   @Configuration
   @EnableCosmosRepositories(basePackages = "<rootpkg>")
@@ -76,33 +76,33 @@ This generalized guide applies to any JPA to Spring Data Cosmos DB conversion pr
   }
 
   ```
-- **IMPORTANT**: Use `DefaultAzureCredentialBuilder().build()` instead of key-based authentication for production security
+- **重要**：為了生產環境安全性，請使用 `DefaultAzureCredentialBuilder().build()` 而不是基於金鑰的驗證
 
-### Step 4 — Entity transformation
+### 步驟 4 — 實體轉換
 
-- Target all classes with JPA annotations (`@Entity`, `@MappedSuperclass`, `@Embeddable`)
-- **Base entity changes**:
-  - Change `id` field type from `Integer` to `String`
-  - Add `@Id` and `@GeneratedValue` annotations
-  - Add `@PartitionKey` field (typically `String partitionKey`)
-  - Remove all `jakarta.persistence` imports
-- **CRITICAL - Cosmos DB Serialization Requirements**:
-  - **Remove ALL `@JsonIgnore` annotations** from fields that need to be persisted to Cosmos DB
-  - **Authentication entities (User, Authority) MUST be fully serializable** - no `@JsonIgnore` on password, authorities, or other persisted fields
-  - **Use `@JsonProperty` instead of `@JsonIgnore`** when you need to control JSON field names but still persist the data
-  - **Common authentication serialization errors**: `Cannot pass null or empty values to constructor` usually means `@JsonIgnore` is blocking required field serialization
-- **Entity-specific changes**:
-  - Replace `@Entity` with `@Container(containerName = "<plural-entity-name>")`
-  - Remove `@Table`, `@Column`, `@JoinColumn`, etc.
-  - Remove relationship annotations (`@OneToMany`, `@ManyToOne`, `@ManyToMany`)
-  - For relationships:
-    - Embed collections for one-to-many (e.g., `List<Pet> pets` in Owner)
-    - Use reference IDs for many-to-one (e.g., `String ownerId` in Pet)
-    - **For complex relationships**: Store IDs but add transient properties for templates
-  - Add constructor to set partition key: `setPartitionKey("entityType")`
-- **CRITICAL - Authentication Entity Pattern**:
-  - **For User entities with Spring Security**: Store authorities as `Set<String>` instead of `Set<Authority>` objects
-  - **Example User entity transformation**:
+- 鎖定所有具有 JPA 註解的類別（`@Entity`、`@MappedSuperclass`、`@Embeddable`）
+- **基本實體更改**：
+  - 將 `id` 欄位類型從 `Integer` 更改為 `String`
+  - 新增 `@Id` 和 `@GeneratedValue` 註解
+  - 新增 `@PartitionKey` 欄位（通常是 `String partitionKey`）
+  - 移除所有 `jakarta.persistence` 匯入
+- **重要 - Cosmos DB 序列化需求**：
+  - **移除所有需要持久化到 Cosmos DB 的欄位上的 `@JsonIgnore` 註解**
+  - **身分驗證實體（User、Authority）必須完全可序列化** - 密碼、權限或其他持久化欄位上沒有 `@JsonIgnore`
+  - **在需要控制 JSON 欄位名稱但仍需持久化資料時使用 `@JsonProperty` 而不是 `@JsonIgnore`**
+  - **常見的身分驗證序列化錯誤**：`Cannot pass null or empty values to constructor` 通常表示 `@JsonIgnore` 阻擋了必要的欄位序列化
+- **實體特定更改**：
+  - 將 `@Entity` 替換為 `@Container(containerName = "<plural-entity-name>")`
+  - 移除 `@Table`、`@Column`、`@JoinColumn` 等
+  - 移除關聯註解（`@OneToMany`、`@ManyToOne`、`@ManyToMany`）
+  - 對於關聯：
+    - 為一對多嵌入集合（例如，Owner 中的 `List<Pet> pets`）
+    - 為多對一使用參考 ID（例如，Pet 中的 `String ownerId`）
+    - **對於複雜關聯**：存儲 ID 但為範本新增暫時性屬性
+  - 新增建構子設定分割鍵：`setPartitionKey("entityType")`
+- **重要 - 身分驗證實體模式**：
+  - **對於具有 Spring Security 的 User 實體**：將權限存儲為 `Set<String>` 而不是 `Set<Authority>` 物件
+  - **範例 User 實體轉換**：
     ```java
     @Container(containerName = "users")
     public class User {
@@ -131,19 +131,19 @@ This generalized guide applies to any JPA to Spring Data Cosmos DB conversion pr
     }
 
     ```
-- **CRITICAL - Template Compatibility for Relationship Changes**:
-  - **When converting relationships to ID references, preserve template access**
-  - **Example**: If entity had `List<Specialty> specialties` → convert to:
-    - Storage: `List<String> specialtyIds` (persisted to Cosmos)
-    - Template: `@JsonIgnore private List<Specialty> specialties = new ArrayList<>()` (transient)
-    - Add getters/setters for both properties
-  - **Update entity method logic**: `getNrOfSpecialties()` should use the transient list
-- **CRITICAL - Template Compatibility for Thymeleaf/JSP Applications**:
-  - **Identify template property access**: Search for `${entity.relationshipProperty}` in `.html` files
-  - **For each relationship property accessed in templates**:
-    - **Storage**: Keep ID-based storage (e.g., `List<String> specialtyIds`)
-    - **Template Access**: Add transient property with `@JsonIgnore` (e.g., `private List<Specialty> specialties = new ArrayList<>()`)
-    - **Example**:
+- **重要 - 關聯更改的範本相容性**：
+  - **將關聯轉換為 ID 參考時，保持範本存取能力**
+  - **例**：如果實體具有 `List<Specialty> specialties` → 轉換為：
+    - 存儲：`List<String> specialtyIds`（持久化到 Cosmos）
+    - 範本：`@JsonIgnore private List<Specialty> specialties = new ArrayList<>()` （暫時性）
+    - 為兩個屬性新增取得器/設定器
+  - **更新實體方法邏輯**：`getNrOfSpecialties()` 應該使用暫時性列表
+- **重要 - Thymeleaf/JSP 應用程式的範本相容性**：
+  - **識別範本屬性存取**：搜尋 `.html` 檔案中的 `${entity.relationshipProperty}`
+  - **對於在範本中存取的每個關聯屬性**：
+    - **存儲**：保持基於 ID 的存儲（例如，`List<String> specialtyIds`）
+    - **範本存取**：新增暫時性屬性，帶有 `@JsonIgnore`（例如，`private List<Specialty> specialties = new ArrayList<>()`）
+    - **例**：
 
       ```java
       // Stored in Cosmos (persisted)
@@ -164,36 +164,36 @@ This generalized guide applies to any JPA to Spring Data Cosmos DB conversion pr
 
       ```
 
-    - **Update count methods**: `getNrOfSpecialties()` should use transient list, not ID list
-- **CRITICAL - Method Signature Conflicts**:
-  - **When converting ID types from Integer to String, check for method signature conflicts**
-  - **Common conflict**: `getPet(String name)` vs `getPet(String id)` - both have same signature
-  - **Solution**: Rename methods to be specific:
-    - `getPet(String id)` for ID-based lookup
-    - `getPetByName(String name)` for name-based lookup
-    - `getPetByName(String name, boolean ignoreNew)` for conditional name-based lookup
-  - **Update ALL callers** of renamed methods in controllers and tests
-- **Method updates for entities**:
-  - Update `addVisit(Integer petId, Visit visit)` to `addVisit(String petId, Visit visit)`
-  - Ensure all ID comparison logic uses `.equals()` instead of `==`
+    - **更新計數方法**：`getNrOfSpecialties()` 應該使用暫時性列表，而不是 ID 列表
+- **重要 - 方法簽章衝突**：
+  - **將 ID 類型從 Integer 轉換為 String 時，檢查方法簽章衝突**
+  - **常見衝突**：`getPet(String name)` vs `getPet(String id)` - 都具有相同簽章
+  - **解決方案**：重新命名方法以具有特異性：
+    - `getPet(String id)` 用於基於 ID 的查詢
+    - `getPetByName(String name)` 用於基於名稱的查詢
+    - `getPetByName(String name, boolean ignoreNew)` 用於條件式名稱查詢
+  - **更新控制器和測試中重新命名的方法的所有呼叫者**
+- **實體的方法更新**：
+  - 將 `addVisit(Integer petId, Visit visit)` 更新為 `addVisit(String petId, Visit visit)`
+  - 確保所有 ID 比較邏輯使用 `.equals()` 而不是 `==`
 
-### Step 5 — Repository conversion
+### 步驟 5 — 儲存庫轉換
 
-- Change all repository interfaces:
-  - From: `extends JpaRepository<Entity, Integer>`
-  - To: `extends CosmosRepository<Entity, String>`
-- **Query method updates**:
-  - Remove pagination parameters from custom queries
-  - Change `Page<Entity> findByX(String param, Pageable pageable)` to `List<Entity> findByX(String param)`
-  - Update `@Query` annotations to use Cosmos SQL syntax
-  - **Replace custom method names**: `findPetTypes()` → `findAllOrderByName()`
-  - **Update ALL references** to changed method names in controllers and formatters
+- 變更所有儲存庫介面：
+  - 從：`extends JpaRepository<Entity, Integer>`
+  - 至：`extends CosmosRepository<Entity, String>`
+- **查詢方法更新**：
+  - 從自訂查詢中移除分頁參數
+  - 將 `Page<Entity> findByX(String param, Pageable pageable)` 變更為 `List<Entity> findByX(String param)`
+  - 更新 `@Query` 註解以使用 Cosmos SQL 語法
+  - **替換自訂方法名稱**：`findPetTypes()` → `findAllOrderByName()`
+  - **更新控制器和格式化程式中已變更的方法名稱的所有參考**
 
-### Step 6 — **Create service layer** for relationship management and template compatibility
+### 步驟 6 — **建立服務層**以進行關聯管理和範本相容性
 
-- **CRITICAL**: Create service classes to bridge Cosmos document storage with existing template expectations
-- **Purpose**: Handle relationship population and maintain template compatibility
-- **Service pattern for each entity with relationships**:
+- **重要**：建立服務類別以橋接 Cosmos 文件存儲與現有的範本期望
+- **目的**：處理關聯填充並保持範本相容性
+- **每個具有關聯的實體的服務模式**：
   ```java
   @Service
   public class EntityService {
@@ -239,9 +239,9 @@ This generalized guide applies to any JPA to Spring Data Cosmos DB conversion pr
 
   ```
 
-### Step 6.5 — **Spring Security Integration** (CRITICAL for Authentication)
+### 步驟 6.5 — **Spring Security 整合**（身分驗證的重要事項）
 
-- **UserDetailsService Integration Pattern**:
+- **UserDetailsService 整合模式**：
   ```java
   @Service
   @Transactional
@@ -277,16 +277,16 @@ This generalized guide applies to any JPA to Spring Data Cosmos DB conversion pr
   }
 
   ```
-- **Key Authentication Requirements**:
-  - User entity must be fully serializable (no `@JsonIgnore` on password/authorities)
-  - Store authorities as `Set<String>` for Cosmos DB compatibility
-  - Convert between string authorities and `GrantedAuthority` objects in UserDetailsService
-  - Add comprehensive debugging logs to trace authentication flow
-  - Handle activated/deactivated user states appropriately
+- **關鍵身分驗證需求**：
+  - User 實體必須完全可序列化（密碼/權限上沒有 `@JsonIgnore`）
+  - 將權限存儲為 `Set<String>` 以便與 Cosmos DB 相容
+  - 在 UserDetailsService 中在字串權限和 `GrantedAuthority` 物件之間轉換
+  - 新增全面的偵錯日誌以追蹤身分驗證流程
+  - 適當處理已啟用/已停用的使用者狀態
 
-#### **Template Relationship Population Pattern**
+#### **範本關聯填充模式**
 
-Each service method that returns entities for template rendering MUST populate transient properties:
+返回用於範本呈現的實體的每個服務方法都必須填充暫時性屬性：
 
 ```java
 private void populateRelationships(Entity entity) {
@@ -305,30 +305,30 @@ private void populateRelationships(Entity entity) {
 
 ```
 
-#### **Critical Service Usage in Controllers**
+#### **控制器中的關鍵服務使用**
 
-- **Replace ALL direct repository calls** with service calls in controllers
-- **Never return entities from repositories directly** to templates without relationship population
-- **Update controllers** to use service layer instead of repositories directly
-- **Controller pattern change**:
+- **在控制器中用服務呼叫替換所有直接儲存庫呼叫**
+- **從不直接從儲存庫返回實體**到沒有關聯填充的範本
+- **更新控制器**以使用服務層而不是直接使用儲存庫
+- **控制器模式更改**：
 
   ```java
-  // OLD: Direct repository usage
+  // 舊式：直接儲存庫使用
   @Autowired
   private EntityRepository entityRepository;
 
-  // NEW: Service layer usage
+  // 新式：服務層使用
   @Autowired
   private EntityService entityService;
-  // Update method calls
-  // OLD: entityRepository.findAll()
-  // NEW: entityService.findAll()
+  // 更新方法呼叫
+  // 舊式：entityRepository.findAll()
+  // 新式：entityService.findAll()
 
   ```
 
-### Step 7 — Data seeding
+### 步驟 7 — 資料植入
 
-- Create `@Component` implementing `CommandLineRunner`:
+- 建立實現 `CommandLineRunner` 的 `@Component`：
   ```java
   @Component
   public class DataSeeder implements CommandLineRunner {
@@ -336,408 +336,327 @@ private void populateRelationships(Entity entity) {
     @Override
     public void run(String... args) throws Exception {
       if (ownerRepository.count() > 0) {
-        return; // Data already exists
+        return; // 資料已存在
       }
-      // Seed comprehensive test data with String IDs
-      // Use meaningful ID patterns: "owner-1", "pet-1", "pettype-1", etc.
+      // 植入具有 String ID 的全面測試資料
+      // 使用有意義的 ID 模式："owner-1"、"pet-1"、"pettype-1" 等
     }
   }
 
   ```
-- **CRITICAL - BigDecimal Reflection Issues with JDK 17+**:
-  - **If using BigDecimal fields**, you may encounter reflection errors during seeding
-  - **Error pattern**: `Unable to make field private final java.math.BigInteger java.math.BigDecimal.intVal accessible`
-  - **Solutions**:
-    1. Use `Double` or `String` instead of `BigDecimal` for monetary values
-    2. Add JVM argument: `--add-opens java.base/java.math=ALL-UNNAMED`
-    3. Wrap BigDecimal operations in try-catch and handle gracefully
-  - **The application will start successfully even if seeding fails** - check logs for seeding errors
+- **重要 - JDK 17+ 的 BigDecimal 反射問題**：
+  - **如果使用 BigDecimal 欄位**，植入期間可能會遇到反射錯誤
+  - **錯誤模式**：`Unable to make field private final java.math.BigInteger java.math.BigDecimal.intVal accessible`
+  - **解決方案**：
+    1. 對於貨幣值，使用 `Double` 或 `String` 而不是 `BigDecimal`
+    2. 新增 JVM 引數：`--add-opens java.base/java.math=ALL-UNNAMED`
+    3. 將 BigDecimal 操作包裝在 try-catch 中並妥善處理
+  - **應用程式將成功啟動，即使植入失敗** - 檢查日誌以取得植入錯誤
 
-### Step 8 — Test file conversion (CRITICAL SECTION)
+### 步驟 8 — 測試檔案轉換（重要部分）
 
-**This step is often overlooked but essential for successful conversion**
+**此步驟通常被忽視，但對於成功轉換至關重要**
 
-#### A. **COMPILATION CHECK STRATEGY**
+#### A. **編譯檢查策略**
 
-- **After each major change, run `mvn test-compile` to catch issues early**
-- **Fix compilation errors systematically before proceeding**
-- **Don't rely on IDE - Maven compilation reveals all issues**
+- **每次進行重大變更後，執行 `mvn test-compile` 以及早發現問題**
+- **在進行之前系統地修復編譯錯誤**
+- **不要依賴 IDE - Maven 編譯會揭示所有問題**
 
-#### B. **Search and Update ALL test files systematically**
+#### B. **系統地搜尋和更新所有測試檔案**
 
-**Use search tools to find and update every occurrence:**
+**使用搜尋工具尋找並更新每個出現的地方：**
 
-- Search for: `int.*TEST.*ID` → Replace with: `String.*TEST.*ID = "test-xyz-1"`
-- Search for: `setId\(\d+\)` → Replace with: `setId("test-id-X")`
-- Search for: `findById\(\d+\)` → Replace with: `findById("test-id-X")`
-- Search for: `\.findPetTypes\(\)` → Replace with: `.findAllOrderByName()`
-- Search for: `\.findByLastNameStartingWith\(.*,.*Pageable` → Remove pagination parameter
+- 搜尋：`int.*TEST.*ID` → 替換為：`String.*TEST.*ID = "test-xyz-1"`
+- 搜尋：`setId\(\d+\)` → 替換為：`setId("test-id-X")`
+- 搜尋：`findById\(\d+\)` → 替換為：`findById("test-id-X")`
+- 搜尋：`\.findPetTypes\(\)` → 替換為：`.findAllOrderByName()`
+- 搜尋：`\.findByLastNameStartingWith\(.*,.*Pageable` → 移除分頁參數
 
-#### C. Update test annotations and imports
+#### C. 更新測試註解和匯入
 
-- Replace `@DataJpaTest` with `@SpringBootTest` or appropriate slice test
-- Remove `@AutoConfigureTestDatabase` annotations
-- Remove `@Transactional` from tests (unless single-partition operations)
-- Remove imports from `org.springframework.orm` package
+- 使用 `@SpringBootTest` 或適當的切片測試替換 `@DataJpaTest`
+- 移除 `@AutoConfigureTestDatabase` 註解
+- 從測試中移除 `@Transactional`（除非進行單一分割區操作）
+- 移除 `org.springframework.orm` 套件的匯入
 
-#### D. Fix entity ID usage in ALL test files
+#### D. 在所有測試檔案中修復實體 ID 使用
 
-**Critical files that MUST be updated (search entire test directory):**
+**必須更新的關鍵檔案（搜尋整個測試目錄）：**
 
-- `*ControllerTests.java` - Path variables, entity creation, mock setup
-- `*ServiceTests.java` - Repository interactions, entity IDs
-- `EntityUtils.java` - Utility methods for ID handling
-- `*FormatterTests.java` - Repository method calls
-- `*ValidatorTests.java` - Entity creation with String IDs
-- Integration test classes - Test data setup
+- `*ControllerTests.java` - 路徑變數、實體建立、模擬設定
+- `*ServiceTests.java` - 儲存庫互動、實體 ID
+- `EntityUtils.java` - ID 處理的公用程式方法
+- `*FormatterTests.java` - 儲存庫方法呼叫
+- `*ValidatorTests.java` - 使用 String ID 建立實體
+- 整合測試類別 - 測試資料設定
 
-#### E. **Fix Controller and Service classes affected by repository changes**
+#### E. **修復受儲存庫變更影響的控制器和服務類別**
 
-- **Update controllers that call repository methods with changed signatures**
-- **Update formatters/converters that use repository methods**
-- **Common files to check**:
-  - `PetTypeFormatter.java` - often calls `findPetTypes()` method
-  - `*Controller.java` - may have pagination logic to remove
-  - Service classes that use repository methods
+- **更新呼叫具有已變更簽章的儲存庫方法的控制器**
+- **更新使用儲存庫方法的格式化程式/轉換器**
+- **要檢查的常見檔案**：
+  - `PetTypeFormatter.java` - 經常呼叫 `findPetTypes()` 方法
+  - `*Controller.java` - 可能需要移除分頁邏輯
+  - 使用儲存庫方法的服務類別
 
-#### F. Update repository mocking in tests
+#### F. 在測試中更新儲存庫模擬
 
-- Remove pagination from repository mocks:
+- 從儲存庫模擬中移除分頁：
   - `given(repository.findByX(param, pageable)).willReturn(pageResult)`
   - → `given(repository.findByX(param)).willReturn(listResult)`
-- Update method names in mocks:
+- 在模擬中更新方法名稱：
   - `given(petTypeRepository.findPetTypes()).willReturn(types)`
   - → `given(petTypeRepository.findAllOrderByName()).willReturn(types)`
 
-#### G. Fix utility classes used by tests
+#### G. 修復測試使用的公用程式類別
 
-- Update `EntityUtils.java` or similar:
-  - Remove JPA-specific exception imports (`ObjectRetrievalFailureException`)
-  - Change method signatures from `int id` to `String id`
-  - Update ID comparison logic: `entity.getId() == entityId` → `entity.getId().equals(entityId)`
-  - Replace JPA exceptions with standard exceptions (`IllegalArgumentException`)
+- 更新 `EntityUtils.java` 或類似的程式碼：
+  - 移除 JPA 特定的例外匯入（`ObjectRetrievalFailureException`）
+  - 將方法簽章從 `int id` 變更為 `String id`
+  - 更新 ID 比較邏輯：`entity.getId() == entityId` → `entity.getId().equals(entityId)`
+  - 用標準例外取代 JPA 例外（`IllegalArgumentException`）
 
-#### H. Update assertions for String IDs
+#### H. 更新 String ID 的判斷提示
 
-- Change ID assertions:
+- 變更 ID 判斷提示：
   - `assertThat(entity.getId()).isNotZero()` → `assertThat(entity.getId()).isNotEmpty()`
   - `assertThat(entity.getId()).isEqualTo(1)` → `assertThat(entity.getId()).isEqualTo("test-id-1")`
-  - JSON path assertions: `jsonPath("$.id").value(1)` → `jsonPath("$.id").value("test-id-1")`
+  - JSON 路徑判斷提示：`jsonPath("$.id").value(1)` → `jsonPath("$.id").value("test-id-1")`
 
-### Step 8 — Test file conversion (CRITICAL SECTION)
+### 步驟 9 — **執行時測試和範本相容性**
 
-**This step is often overlooked but essential for successful conversion**
+#### **重要**：編譯成功後測試執行中的應用程式
 
-#### A. **COMPILATION CHECK STRATEGY**
+- **啟動應用程式**：`mvn spring-boot:run`
+- **瀏覽網路介面中的所有頁面**以識別執行時錯誤
+- **轉換後的常見執行時問題**：
+  - 範本嘗試存取不再存在的屬性（例如，`vet.specialties`）
+  - 服務層未填充暫時性關聯屬性
+  - 控制器不使用服務層進行關聯載入
 
-- **After each major change, run `mvn test-compile` to catch issues early**
-- **Fix compilation errors systematically before proceeding**
-- **Don't rely on IDE - Maven compilation reveals all issues**
+#### **範本相容性修復**：
 
-#### B. **Search and Update ALL test files systematically**
+- **如果範本存取關聯屬性**（例如，`entity.relatedObjects`）：
+  - 確保暫時性屬性存在於實體上，具有適當的取得器/設定器
+  - 驗證服務層填充這些暫時性屬性
+  - 更新 `getNrOfXXX()` 方法以使用暫時性列表而不是 ID 列表
+- **檢查日誌中的 SpEL（Spring Expression Language）錯誤**：
+  - `Property or field 'xxx' cannot be found` → 新增遺失的暫時性屬性
+  - `EL1008E` 錯誤 → 服務層未填充關聯
 
-**Use search tools to find and update every occurrence:**
+#### **服務層驗證**：
 
-- Search for: `setId\(\d+\)` → Replace with: `setId("test-id-X")`
-- Search for: `findById\(\d+\)` → Replace with: `findById("test-id-X")`
-- Search for: `\.findPetTypes\(\)` → Replace with: `.findAllOrderByName()`
-- Search for: `\.findByLastNameStartingWith\(.*,.*Pageable` → Remove pagination parameter
+- **確保所有控制器使用服務層**而不是直接儲存庫存取
+- **驗證服務方法在返回實體前填充關聯**
+- **透過網路介面測試所有 CRUD 操作**
 
-#### C. Update test annotations and imports
+### 步驟 9.5 — **範本執行時驗證**（重要）
 
-- Replace `@DataJpaTest` with `@SpringBootTest` or appropriate slice test
-- Remove `@AutoConfigureTestDatabase` annotations
-- Remove `@Transactional` from tests (unless single-partition operations)
-- Remove imports from `org.springframework.orm` package
+#### **系統的範本測試流程**
 
-#### D. Fix entity ID usage in ALL test files
+編譯成功和應用程式啟動後：
 
-**Critical files that MUST be updated (search entire test directory):**
-
-- `*ControllerTests.java` - Path variables, entity creation, mock setup
-- `*ServiceTests.java` - Repository interactions, entity IDs
-- `EntityUtils.java` - Utility methods for ID handling
-- `*FormatterTests.java` - Repository method calls
-- `*ValidatorTests.java` - Entity creation with String IDs
-- Integration test classes - Test data setup
-
-#### E. **Fix Controller and Service classes affected by repository changes**
-
-- **Update controllers that call repository methods with changed signatures**
-- **Update formatters/converters that use repository methods**
-- **Common files to check**:
-  - `PetTypeFormatter.java` - often calls `findPetTypes()` method
-  - `*Controller.java` - may have pagination logic to remove
-  - Service classes that use repository methods
-
-#### F. Update repository mocking in tests
-
-- Remove pagination from repository mocks:
-  - `given(repository.findByX(param, pageable)).willReturn(pageResult)`
-  - → `given(repository.findByX(param)).willReturn(listResult)`
-- Update method names in mocks:
-  - `given(petTypeRepository.findPetTypes()).willReturn(types)`
-  - → `given(petTypeRepository.findAllOrderByName()).willReturn(types)`
-
-#### G. Fix utility classes used by tests
-
-- Update `EntityUtils.java` or similar:
-  - Remove JPA-specific exception imports (`ObjectRetrievalFailureException`)
-  - Change method signatures from `int id` to `String id`
-  - Update ID comparison logic: `entity.getId() == entityId` → `entity.getId().equals(entityId)`
-  - Replace JPA exceptions with standard exceptions (`IllegalArgumentException`)
-
-#### H. Update assertions for String IDs
-
-- Change ID assertions:
-  - `assertThat(entity.getId()).isNotZero()` → `assertThat(entity.getId()).isNotEmpty()`
-  - `assertThat(entity.getId()).isEqualTo(1)` → `assertThat(entity.getId()).isEqualTo("test-id-1")`
-  - JSON path assertions: `jsonPath("$.id").value(1)` → `jsonPath("$.id").value("test-id-1")`
-
-### Step 9 — **Runtime Testing and Template Compatibility**
-
-#### **CRITICAL**: Test the running application after compilation success
-
-- **Start the application**: `mvn spring-boot:run`
-- **Navigate through all pages** in the web interface to identify runtime errors
-- **Common runtime issues after conversion**:
-  - Templates trying to access properties that no longer exist (e.g., `vet.specialties`)
-  - Service layer not populating transient relationship properties
-  - Controllers not using service layer for relationship loading
-
-#### **Template compatibility fixes**:
-
-- **If templates access relationship properties** (e.g., `entity.relatedObjects`):
-  - Ensure transient properties exist on entities with proper getters/setters
-  - Verify service layer populates these transient properties
-  - Update `getNrOfXXX()` methods to use transient lists instead of ID lists
-- **Check for SpEL (Spring Expression Language) errors** in logs:
-  - `Property or field 'xxx' cannot be found` → Add missing transient property
-  - `EL1008E` errors → Service layer not populating relationships
-
-#### **Service layer verification**:
-
-- **Ensure all controllers use service layer** instead of direct repository access
-- **Verify service methods populate relationships** before returning entities
-- **Test all CRUD operations** through the web interface
-
-### Step 9.5 — **Template Runtime Validation** (CRITICAL)
-
-#### **Systematic Template Testing Process**
-
-After successful compilation and application startup:
-
-1. **Navigate to EVERY page** in the application systematically
-2. **Test each template that displays entity data**:
-   - List pages (e.g., `/vets`, `/owners`)
-   - Detail pages (e.g., `/owners/{id}`, `/vets/{id}`)
-   - Forms and edit pages
-3. **Look for specific template errors**:
+1. **系統地瀏覽應用程式中的每一頁**
+2. **測試顯示實體資料的每個範本**：
+   - 列表頁面（例如，`/vets`、`/owners`）
+   - 詳細頁面（例如，`/owners/{id}`、`/vets/{id}`）
+   - 表單和編輯頁面
+3. **尋找特定的範本錯誤**：
    - `Property or field 'relationshipName' cannot be found on object of type 'EntityName'`
-   - `EL1008E` Spring Expression Language errors
-   - Empty or missing data where relationships should appear
+   - `EL1008E` Spring Expression Language 錯誤
+   - 關聯應該出現的地方沒有資料或資料遺失
 
-#### **Template Error Resolution Checklist**
+#### **範本錯誤解決檢查清單**
 
-When encountering template errors:
+遇到範本錯誤時：
 
-- [ ] **Identify the missing property** from error message
-- [ ] **Check if property exists as transient field** in entity
-- [ ] **Verify service layer populates the property** before returning entity
-- [ ] **Ensure controller uses service layer**, not direct repository access
-- [ ] **Test the specific page again** after fixes
+- [ ] **從錯誤訊息識別遺失的屬性**
+- [ ] **檢查屬性是否在實體中以暫時性欄位形式存在**
+- [ ] **驗證服務層在返回實體前填充屬性**
+- [ ] **確保控制器使用服務層**，而不是直接儲存庫存取
+- [ ] **修復後再次測試特定頁面**
 
-#### **Common Template Error Patterns**
+#### **常見的範本錯誤模式**
 
-- `Property or field 'specialties' cannot be found` → Add `@JsonIgnore private List<Specialty> specialties` to Vet entity
-- `Property or field 'pets' cannot be found` → Add `@JsonIgnore private List<Pet> pets` to Owner entity
-- Empty relationship data displayed → Service not populating transient properties
+- `Property or field 'specialties' cannot be found` → 在 Vet 實體中新增 `@JsonIgnore private List<Specialty> specialties`
+- `Property or field 'pets' cannot be found` → 在 Owner 實體中新增 `@JsonIgnore private List<Pet> pets`
+- 顯示的關聯資料為空 → 服務未填充暫時性屬性
 
-### Step 10 — **Systematic Error Resolution Process**
+### 步驟 10 — **系統的錯誤解決流程**
 
-#### When compilation fails:
+#### 編譯失敗時：
 
-1. **Run `mvn compile` first** - fix main source issues before tests
-2. **Run `mvn test-compile`** - systematically fix each test compilation error
-3. **Focus on most frequent error patterns**:
-   - `int cannot be converted to String` → Change test constants and entity setters
-   - `method X cannot be applied to given types` → Remove pagination parameters
-   - `cannot find symbol: method Y()` → Update to new repository method names
-   - Method signature conflicts → Rename conflicting methods
+1. **首先執行 `mvn compile`** - 在測試前修復主要源程式碼問題
+2. **執行 `mvn test-compile`** - 系統地修復每個測試編譯錯誤
+3. **專注於最常見的錯誤模式**：
+   - `int cannot be converted to String` → 變更測試常數和實體設定器
+   - `method X cannot be applied to given types` → 移除分頁參數
+   - `cannot find symbol: method Y()` → 更新為新的儲存庫方法名稱
+   - 方法簽章衝突 → 重新命名衝突的方法
 
-### Step 10 — **Systematic Error Resolution Process**
+#### 執行時失敗時：
 
-#### When compilation fails:
+1. **檢查應用程式日誌**以取得特定的錯誤訊息
+2. **尋找範本/SpEL 錯誤**：
+   - `Property or field 'xxx' cannot be found` → 在實體中新增暫時性屬性
+   - 遺失的關聯資料 → 服務層未填充關聯
+3. **驗證控制器中的服務層使用**
+4. **測試瀏覽所有應用程式頁面**
 
-1. **Run `mvn compile` first** - fix main source issues before tests
-2. **Run `mvn test-compile`** - systematically fix each test compilation error
-3. **Focus on most frequent error patterns**:
-   - `int cannot be converted to String` → Change test constants and entity setters
-   - `method X cannot be applied to given types` → Remove pagination parameters
-   - `cannot find symbol: method Y()` → Update to new repository method names
-   - Method signature conflicts → Rename conflicting methods
-#### When runtime fails:
+#### 常見的錯誤模式和解決方案：
 
-1. **Check application logs** for specific error messages
-2. **Look for template/SpEL errors**:
-   - `Property or field 'xxx' cannot be found` → Add transient property to entity
-   - Missing relationship data → Service layer not populating relationships
-3. **Verify service layer usage** in controllers
-4. **Test navigation through all application pages**
+- **`method findByLastNameStartingWith cannot be applied`** → 移除 `Pageable` 參數
+- **`cannot find symbol: method findPetTypes()`** → 變更為 `findAllOrderByName()`
+- **`incompatible types: int cannot be converted to String`** → 更新測試 ID 常數
+- **`method getPet(String) is already defined`** → 重新命名一個方法（例如，`getPetByName`）
+- **`cannot find symbol: method isNotZero()`** → 對於 String ID，變更為 `isNotEmpty()`
+- **`Property or field 'specialties' cannot be found`** → 新增暫時性屬性並在服務中填充
+- **`ClassCastException: reactor.core.publisher.BlockingIterable cannot be cast to java.util.List`** → 修復儲存庫 `findAllWithEagerRelationships()` 方法以使用 StreamSupport
+- **`Unable to make field...BigDecimal.intVal accessible`** → 在整個應用程式中用 Double 取代 BigDecimal
+- **健康檢查資料庫失敗** → 從健康檢查就緒配置中移除 'db'
 
-#### Common error patterns and solutions:
+#### **範本特定的執行時錯誤**
 
-- **`method findByLastNameStartingWith cannot be applied`** → Remove `Pageable` parameter
-- **`cannot find symbol: method findPetTypes()`** → Change to `findAllOrderByName()`
-- **`incompatible types: int cannot be converted to String`** → Update test ID constants
-- **`method getPet(String) is already defined`** → Rename one method (e.g., `getPetByName`)
-- **`cannot find symbol: method isNotZero()`** → Change to `isNotEmpty()` for String IDs
-- **`Property or field 'specialties' cannot be found`** → Add transient property and populate in service
-- **`ClassCastException: reactor.core.publisher.BlockingIterable cannot be cast to java.util.List`** → Fix repository `findAllWithEagerRelationships()` method to use StreamSupport
-- **`Unable to make field...BigDecimal.intVal accessible`** → Replace BigDecimal with Double throughout application
-- **Health check database failure** → Remove 'db' from health check readiness configuration
+- **`Property or field 'XXX' cannot be found on object of type 'YYY'`**：
 
-#### **Template-Specific Runtime Errors**
+  - 根本原因：範本存取已轉換為 ID 存儲的關聯屬性
+  - 解決方案：在實體中新增暫時性屬性 + 在服務層中填充
+  - 預防：在轉換關聯前始終檢查範本使用
 
-- **`Property or field 'XXX' cannot be found on object of type 'YYY'`**:
+- **`EL1008E` Spring Expression Language 錯誤**：
 
-  - Root cause: Template accessing relationship property that was converted to ID storage
-  - Solution: Add transient property to entity + populate in service layer
-  - Prevention: Always check template usage before converting relationships
+  - 根本原因：服務層未填充暫時性屬性
+  - 解決方案：驗證 `populateRelationships()` 方法被呼叫且運作
+  - 預防：在服務層實作後測試所有範本導航
 
-- **`EL1008E` Spring Expression Language errors**:
+- **範本中的空/null 關聯資料**：
+  - 根本原因：控制器繞過服務層或服務未填充關聯
+  - 解決方案：確保所有控制器方法使用服務層進行實體檢索
+  - 預防：決不直接向範本返回儲存庫結果
 
-  - Root cause: Service layer not populating transient properties
-  - Solution: Verify `populateRelationships()` methods are called and working
-  - Prevention: Test all template navigation after service layer implementation
+### 步驟 11 — 驗證檢查清單
 
-- **Empty/null relationship data in templates**:
-  - Root cause: Controller bypassing service layer or service not populating relationships
-  - Solution: Ensure all controller methods use service layer for entity retrieval
-  - Prevention: Never return repository results directly to templates
+轉換後，驗證：
 
-### Step 11 — Validation checklist
+- [ ] **主要應用程式編譯**：`mvn compile` 成功
+- [ ] **所有測試檔案編譯**：`mvn test-compile` 成功
+- [ ] **無編譯錯誤**：解決每個編譯錯誤
+- [ ] **應用程式成功啟動**：`mvn spring-boot:run` 無錯誤
+- [ ] **所有網頁載入**：瀏覽所有應用程式頁面，無執行時錯誤
+- [ ] **服務層填充關聯**：暫時性屬性正確設定
+- [ ] **所有範本頁面無錯誤呈現**：瀏覽整個應用程式
+- [ ] **關聯資料正確顯示**：列表、計數和相關物件正確顯示
+- [ ] **日誌中沒有 SpEL 範本錯誤**：在導航期間檢查應用程式日誌
+- [ ] **暫時性屬性帶有 @JsonIgnore 註解**：防止 JSON 序列化問題
+- [ ] **服務層一致使用**：控制器中沒有直接儲存庫存取用於範本呈現
+- [ ] 沒有剩餘的 `jakarta.persistence` 匯入
+- [ ] 所有實體 ID 一致為 `String` 類型
+- [ ] 所有儲存庫介面擴充 `CosmosRepository<Entity, String>`
+- [ ] 配置使用 `DefaultAzureCredential` 進行驗證
+- [ ] 資料植入元件存在且運作
+- [ ] 測試檔案一致使用 String ID
+- [ ] 儲存庫模擬針對 Cosmos 方法進行更新
+- [ ] **實體類別中沒有方法簽章衝突**
+- [ ] **呼叫者中更新所有重新命名的方法**（控制器、測試、格式化程式）
 
-After conversion, verify:
+### 要避免的常見陷阱
 
-- [ ] **Main application compiles**: `mvn compile` succeeds
-- [ ] **All test files compile**: `mvn test-compile` succeeds
-- [ ] **No compilation errors**: Address every single compilation error
-- [ ] **Application starts successfully**: `mvn spring-boot:run` without errors
-- [ ] **All web pages load**: Navigate through all application pages without runtime errors
-- [ ] **Service layer populates relationships**: Transient properties are correctly set
-- [ ] **All template pages render without errors**: Navigate through entire application
-- [ ] **Relationship data displays correctly**: Lists, counts, and related objects show properly
-- [ ] **No SpEL template errors in logs**: Check application logs during navigation
-- [ ] **Transient properties are @JsonIgnore annotated**: Prevents JSON serialization issues
-- [ ] **Service layer used consistently**: No direct repository access in controllers for template rendering
-- [ ] No remaining `jakarta.persistence` imports
-- [ ] All entity IDs are `String` type consistently
-- [ ] All repository interfaces extend `CosmosRepository<Entity, String>`
-- [ ] Configuration uses `DefaultAzureCredential` for authentication
-- [ ] Data seeding component exists and works
-- [ ] Test files use String IDs consistently
-- [ ] Repository mocks updated for Cosmos methods
-- [ ] **No method signature conflicts** in entity classes
-- [ ] **All renamed methods updated** in callers (controllers, tests, formatters)
+1. **不經常檢查編譯** - 在每次進行重大變更後執行 `mvn test-compile`
+2. **方法簽章衝突** - 轉換 ID 類型時的方法超載問題
+3. **忘記更新方法呼叫者** - 重新命名方法時，更新所有呼叫者
+4. **遺失儲存庫方法重新命名** - 自訂儲存庫方法必須在每個呼叫位置進行更新
+5. **使用基於金鑰的驗證** - 改用 `DefaultAzureCredential`
+6. **混合 Integer 和 String ID** - 在所有地方（特別是測試中）與 String ID 一致
+7. **不更新控制器分頁邏輯** - 儲存庫變更時從控制器移除分頁
+8. **留下 JPA 特定的測試註解** - 用 Cosmos 相容的替代品取代
+9. **不完整的測試檔案更新** - 搜尋整個測試目錄，不僅是明顯的檔案
+10. **跳過執行時測試** - 始終測試執行中的應用程式，而不僅是編譯
+11. **遺失服務層** - 不要直接從控制器存取儲存庫
+12. **忘記暫時性屬性** - 範本可能需要存取關聯資料
+13. **不測試範本導航** - 編譯成功並不表示範本運作
+14. **遺失範本的暫時性屬性** - 範本需要物件存取，而不僅是 ID
+15. **服務層繞過** - 控制器必須使用服務，決不直接儲存庫存取
+16. **不完整的關聯填充** - 服務方法必須填充範本使用的所有暫時性屬性
+17. **忘記在暫時性屬性上使用 @JsonIgnore** - 防止序列化問題
+18. **在持久化欄位上使用 @JsonIgnore** - **重要**：決不在需要存儲在 Cosmos DB 中的欄位上使用 `@JsonIgnore`
+19. **身分驗證序列化錯誤** - User/Authority 實體必須完全可序列化，無 `@JsonIgnore` 阻擋必要的欄位
+20. **BigDecimal 反射問題** - 對於 JDK 17+ 相容性，使用替代資料類型或 JVM 引數
+21. **儲存庫反應式類型轉換** - 不要直接將 `findAll()` 轉換為 `List`，使用 `StreamSupport.stream().collect(Collectors.toList())`
+22. **健康檢查資料庫參考** - 移除 JPA 後從 Spring Boot 健康檢查中移除資料庫相依性
+23. **集合類型不匹配** - 更新服務方法以一致地處理 String 與物件集合
 
-### Common pitfalls to avoid
+### 系統地調試編譯問題
 
-1. **Not checking compilation frequently** - Run `mvn test-compile` after each major change
-2. **Method signature conflicts** - Method overloading issues when converting ID types
-3. **Forgetting to update method callers** - When renaming methods, update ALL callers
-4. **Missing repository method renames** - Custom repository methods must be updated everywhere called
-5. **Using key-based authentication** - Use `DefaultAzureCredential` instead
-6. **Mixing Integer and String IDs** - Be consistent with String IDs everywhere, especially in tests
-7. **Not updating controller pagination logic** - Remove pagination from controllers when repositories change
-8. **Leaving JPA-specific test annotations** - Replace with Cosmos-compatible alternatives
-9. **Incomplete test file updates** - Search entire test directory, not just obvious files
-10. **Skipping runtime testing** - Always test the running application, not just compilation
-11. **Missing service layer** - Don't access repositories directly from controllers
-12. **Forgetting transient properties** - Templates may need access to relationship data
-13. **Not testing template navigation** - Compilation success doesn't mean templates work
-14. **Missing transient properties for templates** - Templates need object access, not just IDs
-15. **Service layer bypassing** - Controllers must use services, never direct repository access
-16. **Incomplete relationship population** - Service methods must populate ALL transient properties used by templates
-17. **Forgetting @JsonIgnore on transient properties** - Prevents serialization issues
-18. **@JsonIgnore on persisted fields** - **CRITICAL**: Never use `@JsonIgnore` on fields that need to be stored in Cosmos DB
-19. **Authentication serialization errors** - User/Authority entities must be fully serializable without `@JsonIgnore` blocking required fields
-20. **BigDecimal reflection issues** - Use alternative data types or JVM arguments for JDK 17+ compatibility
-21. **Repository reactive type casting** - Don't cast `findAll()` directly to `List`, use `StreamSupport.stream().collect(Collectors.toList())`
-22. **Health check database references** - Remove database dependencies from Spring Boot health checks after JPA removal
-23. **Collection type mismatches** - Update service methods to handle String vs object collections consistently
+如果轉換後編譯失敗：
 
-### Debugging compilation issues systematically
+1. **從主要編譯開始**：`mvn compile` - 首先修復實體和控制器問題
+2. **然後進行測試編譯**：`mvn test-compile` - 系統地修復每個錯誤
+3. **檢查整個程式碼庫中剩餘的 `jakarta.persistence` 匯入**
+4. **驗證所有測試常數使用 String ID** - 搜尋 `int.*TEST.*ID`
+5. **確保儲存庫方法簽章符合**新 Cosmos 介面
+6. **檢查實體關聯和測試中的混合 Integer/String ID 使用**
+7. **驗證所有模擬使用正確的方法名稱**（`findAllOrderByName()` 而不是 `findPetTypes()`）
+8. **尋找方法簽章衝突** - 透過重新命名衝突的方法解決
+9. **驗證判斷提示方法適用於 String ID**（`isNotEmpty()` 而不是 `isNotZero()`）
 
-If compilation fails after conversion:
+### 系統地調試執行時問題
 
-1. **Start with main compilation**: `mvn compile` - fix entity and controller issues first
-2. **Then test compilation**: `mvn test-compile` - fix each error systematically
-3. **Check for remaining `jakarta.persistence` imports** throughout codebase
-4. **Verify all test constants use String IDs** - search for `int.*TEST.*ID`
-5. **Ensure repository method signatures match** new Cosmos interface
-6. **Check for mixed Integer/String ID usage** in entity relationships and tests
-7. **Validate all mocking uses correct method names** (`findAllOrderByName()` not `findPetTypes()`)
-8. **Look for method signature conflicts** - resolve by renaming conflicting methods
-9. **Verify assertion methods work with String IDs** (`isNotEmpty()` not `isNotZero()`)
+如果編譯成功後執行時失敗：
 
-### Debugging runtime issues systematically
+1. **檢查應用程式啟動日誌**以尋找初始化錯誤
+2. **瀏覽所有頁面**以識別範本/控制器問題
+3. **在日誌中尋找 SpEL 範本錯誤**：
+   - `Property or field 'xxx' cannot be found` → 遺失暫時性屬性
+   - `EL1008E` → 服務層未填充關聯
+4. **驗證服務層正在被使用**而不是直接儲存庫存取
+5. **檢查暫時性屬性在服務方法中被填充**
+6. **透過網路介面測試所有 CRUD 操作**
+7. **驗證資料植入正確運作**且關聯被保持
+8. **身分驗證特定的偵錯**：
+   - `Cannot pass null or empty values to constructor` → 檢查必要欄位上的 `@JsonIgnore`
+   - `BadCredentialsException` → 驗證 User 實體序列化和密碼欄位可存取性
+   - 檢查日誌中的 "DomainUserDetailsService" 偵錯輸出以追蹤身分驗證流程
 
-If runtime fails after successful compilation:
+### **成功的專業秘訣**
 
-1. **Check application startup logs** for initialization errors
-2. **Navigate through all pages** to identify template/controller issues
-3. **Look for SpEL template errors** in logs:
-   - `Property or field 'xxx' cannot be found` → Missing transient property
-   - `EL1008E` → Service layer not populating relationships
-4. **Verify service layer is being used** instead of direct repository access
-5. **Check that transient properties are populated** in service methods
-6. **Test all CRUD operations** through the web interface
-7. **Verify data seeding worked correctly** and relationships are maintained
-8. **Authentication-specific debugging**:
-   - `Cannot pass null or empty values to constructor` → Check for `@JsonIgnore` on required fields
-   - `BadCredentialsException` → Verify User entity serialization and password field accessibility
-   - Check logs for "DomainUserDetailsService" debugging output to trace authentication flow
+- **頻繁地編譯** - 不要讓錯誤累積
+- **使用全域搜尋和替換** - 找出所有要更新的模式出現位置
+- **要系統化** - 在移至下一個之前修復所有檔案中的一種類型的錯誤
+- **謹慎測試方法重新命名** - 確保所有呼叫者都被更新
+- **使用有意義的 String ID** - "owner-1"、"pet-1" 而不是隨機字串
+- **檢查控制器類別** - 它們經常呼叫簽章改變的儲存庫方法
+- **始終測試執行時** - 編譯成功並不保證範本正常運作
+- **服務層至關重要** - 文件存儲和範本期望之間的橋樑
 
-### **Pro Tips for Success**
+### **身分驗證故障排除指南**（重要）
 
-- **Compile early and often** - Don't let errors accumulate
-- **Use global search and replace** - Find all occurrences of patterns to update
-- **Be systematic** - Fix one type of error across all files before moving to next
-- **Test method renames carefully** - Ensure all callers are updated
-- **Use meaningful String IDs** - "owner-1", "pet-1" instead of random strings
-- **Check controller classes** - They often call repository methods that change signatures
-- **Always test runtime** - Compilation success doesn't guarantee functional templates
-- **Service layer is critical** - Bridge between document storage and template expectations
+#### **常見的身分驗證序列化錯誤**：
 
-### **Authentication Troubleshooting Guide** (CRITICAL)
+1. **`Cannot pass null or empty values to constructor`**：
 
-#### **Common Authentication Serialization Errors**:
+   - **根本原因**：`@JsonIgnore` 防止必要的欄位序列化到 Cosmos DB
+   - **解決方案**：從所有持久化欄位（密碼、權限等）移除 `@JsonIgnore`
+   - **驗證**：檢查 User 實體的存儲欄位上沒有 `@JsonIgnore`
 
-1. **`Cannot pass null or empty values to constructor`**:
+2. **登入期間出現 `BadCredentialsException`**：
 
-   - **Root Cause**: `@JsonIgnore` preventing required field serialization to Cosmos DB
-   - **Solution**: Remove `@JsonIgnore` from all persisted fields (password, authorities, etc.)
-   - **Verification**: Check User entity has no `@JsonIgnore` on stored fields
+   - **根本原因**：密碼欄位在驗證期間無法存取
+   - **解決方案**：確保密碼欄位可序列化且在 UserDetailsService 中可存取
+   - **驗證**：在 `loadUserByUsername` 方法中新增偵錯日誌
 
-2. **`BadCredentialsException` during login**:
+3. **權限載入不正確**：
 
-   - **Root Cause**: Password field not accessible during authentication
-   - **Solution**: Ensure password field is serializable and accessible in UserDetailsService
-   - **Verification**: Add debug logs in `loadUserByUsername` method
-
-3. **Authorities not loading correctly**:
-
-   - **Root Cause**: Authority objects stored as complex entities instead of strings
-   - **Solution**: Store authorities as `Set<String>` and convert to `GrantedAuthority` in UserDetailsService
-   - **Pattern**:
+   - **根本原因**：Authority 物件以複雜實體而不是字串形式存儲
+   - **解決方案**：將權限存儲為 `Set<String>` 並在 UserDetailsService 中轉換為 `GrantedAuthority`
+   - **模式**：
 
      ```java
-     // In User entity - stored in Cosmos
+     // 在 User 實體中 - 存儲在 Cosmos 中
      @JsonProperty("authorities")
      private Set<String> authorities = new HashSet<>();
 
-     // In UserDetailsService - convert for Spring Security
+     // 在 UserDetailsService 中 - 為 Spring Security 轉換
      List<GrantedAuthority> grantedAuthorities = user
        .getAuthorities()
        .stream()
@@ -746,75 +665,75 @@ If runtime fails after successful compilation:
 
      ```
 
-4. **User entity not found during authentication**:
-   - **Root Cause**: Repository query methods not working with String IDs
-   - **Solution**: Update repository `findOneByLogin` method to work with Cosmos DB
-   - **Verification**: Test repository methods independently
+4. **驗證期間找不到 User 實體**：
+   - **根本原因**：儲存庫查詢方法不適用於 String ID
+   - **解決方案**：更新儲存庫 `findOneByLogin` 方法以適用於 Cosmos DB
+   - **驗證**：獨立測試儲存庫方法
 
-#### **Authentication Debugging Checklist**:
+#### **身分驗證偵錯檢查清單**：
 
-- [ ] User entity fully serializable (no `@JsonIgnore` on persisted fields)
-- [ ] Password field accessible and not null
-- [ ] Authorities stored as `Set<String>`
-- [ ] UserDetailsService converts string authorities to `GrantedAuthority`
-- [ ] Repository methods work with String IDs
-- [ ] Debug logging enabled in authentication service
-- [ ] User activation status checked appropriately
-- [ ] Test login with known credentials (admin/admin)
+- [ ] User 實體完全可序列化（持久化欄位上沒有 `@JsonIgnore`）
+- [ ] 密碼欄位可存取且不為 null
+- [ ] 權限存儲為 `Set<String>`
+- [ ] UserDetailsService 將字串權限轉換為 `GrantedAuthority`
+- [ ] 儲存庫方法適用於 String ID
+- [ ] 在驗證服務中啟用偵錯日誌
+- [ ] 適當檢查 User 啟用狀態
+- [ ] 使用已知的認證資訊測試登入（admin/admin）
 
-### **Common Runtime Issues and Solutions**
+### **常見的執行時問題和解決方案**
 
-#### **Issue 1: Repository Reactive Type Casting Errors**
+#### **問題 1：儲存庫反應式類型轉換錯誤**
 
-**Error**: `ClassCastException: reactor.core.publisher.BlockingIterable cannot be cast to java.util.List`
+**錯誤**：`ClassCastException: reactor.core.publisher.BlockingIterable cannot be cast to java.util.List`
 
-**Root Cause**: Cosmos repositories return reactive types (`Iterable`) but legacy JPA code expects `List`
+**根本原因**：Cosmos 儲存庫傳回反應式類型（`Iterable`），但舊版 JPA 程式碼期望 `List`
 
-**Solution**: Convert reactive types properly in repository methods:
+**解決方案**：在儲存庫方法中正確轉換反應式類型：
 
 ```java
-// WRONG - Direct casting fails
+// 錯誤 - 直接轉換失敗
 default List<Entity> customFindMethod() {
     return (List<Entity>) this.findAll(); // ClassCastException!
 }
 
-// CORRECT - Convert Iterable to List
+// 正確 - 將 Iterable 轉換為 List
 default List<Entity> customFindMethod() {
     return StreamSupport.stream(this.findAll().spliterator(), false)
             .collect(Collectors.toList());
 }
 ```
 
-**Files to Check**:
+**要檢查的檔案**：
 
-- All repository interfaces with custom default methods
-- Any method that returns `List<Entity>` from Cosmos repository calls
-- Import `java.util.stream.StreamSupport` and `java.util.stream.Collectors`
+- 所有具有自訂預設方法的儲存庫介面
+- 從 Cosmos 儲存庫呼叫傳回 `List<Entity>` 的任何方法
+- 匯入 `java.util.stream.StreamSupport` 和 `java.util.stream.Collectors`
 
-#### **Issue 2: BigDecimal Reflection Issues in Java 17+**
+#### **問題 2：Java 17+ 中的 BigDecimal 反射問題**
 
-**Error**: `Unable to make field private final java.math.BigInteger java.math.BigDecimal.intVal accessible`
+**錯誤**：`Unable to make field private final java.math.BigInteger java.math.BigDecimal.intVal accessible`
 
-**Root Cause**: Java 17+ module system restricts reflection access to BigDecimal internal fields during serialization
+**根本原因**：Java 17+ 模組系統在序列化期間限制對 BigDecimal 內部欄位的反射存取
 
-**Solutions**:
+**解決方案**：
 
-1. **Replace with Double for simple cases**:
+1. **對於簡單情況，用 Double 取代**：
 
    ```java
-   // Before: BigDecimal fields
+   // 之前：BigDecimal 欄位
    private BigDecimal amount;
 
-   // After: Double fields (if precision requirements allow)
+   // 之後：Double 欄位（如果精度要求允許）
    private Double amount;
 
    ```
 
-2. **Use String for high precision requirements**:
+2. **對於高精度要求，使用 String**：
 
    ```java
-   // Store as String, convert as needed
-   private String amount; // Store "1500.00"
+   // 以字串形式存儲，視需要轉換
+   private String amount; // 存儲 "1500.00"
 
    public BigDecimal getAmountAsBigDecimal() {
      return new BigDecimal(amount);
@@ -822,48 +741,48 @@ default List<Entity> customFindMethod() {
 
    ```
 
-3. **Add JVM argument** (if BigDecimal must be kept):
+3. **新增 JVM 引數**（如果必須保留 BigDecimal）：
    ```
    --add-opens java.base/java.math=ALL-UNNAMED
    ```
 
-#### **Issue 3: Health Check Database Dependencies**
+#### **問題 3：健康檢查資料庫相依性**
 
-**Error**: Application fails health checks looking for removed database components
+**錯誤**：應用程式無法通過尋找已移除資料庫元件的健康檢查
 
-**Root Cause**: Spring Boot health checks still reference JPA/database dependencies after removal
+**根本原因**：Spring Boot 健康檢查仍引用移除後的 JPA/資料庫相依性
 
-**Solution**: Update health check configuration:
+**解決方案**：更新健康檢查配置：
 
 ```yaml
-# In application.yml - Remove database from health checks
+# 在 application.yml 中 - 從健康檢查中移除資料庫
 management:
   health:
     readiness:
-      include: 'ping,diskSpace' # Remove 'db' if present
+      include: 'ping,diskSpace' # 如果存在，移除 'db'
 ```
 
-**Files to Check**:
+**要檢查的檔案**：
 
-- All `application*.yml` configuration files
-- Remove any database-specific health indicators
-- Check actuator endpoint configurations
+- 所有 `application*.yml` 配置檔案
+- 移除任何資料庫特定的健康指標
+- 檢查執行器端點配置
 
-#### **Issue 4: Collection Type Mismatches in Services**
+#### **問題 4：服務中的集合類型不匹配**
 
-**Error**: Type mismatch errors when converting entity relationships to String-based storage
+**錯誤**：將實體關聯轉換為基於字串的存儲時的類型不匹配錯誤
 
-**Root Cause**: Service methods expecting different collection types after entity conversion
+**根本原因**：服務方法在實體轉換後期望不同的集合類型
 
-**Solution**: Update service methods to handle new entity structure:
+**解決方案**：更新服務方法以處理新的實體結構：
 
 ```java
-// Before: Entity relationships
+// 之前：實體關聯
 public Set<RelatedEntity> getRelatedEntities() {
-    return entity.getRelatedEntities(); // Direct entity references
+    return entity.getRelatedEntities(); // 直接實體參考
 }
 
-// After: String-based relationships with conversion
+// 之後：基於字串的關聯和轉換
 public Set<RelatedEntity> getRelatedEntities() {
     return entity.getRelatedEntityIds()
         .stream()
@@ -873,77 +792,77 @@ public Set<RelatedEntity> getRelatedEntities() {
         .collect(Collectors.toSet());
 }
 
-### **Enhanced Error Resolution Process**
+### **增強的錯誤解決流程**
 
-#### **Common Error Patterns and Solutions**:
+#### **常見的錯誤模式和解決方案**：
 
-1. **Reactive Type Casting Errors**:
-   - **Pattern**: `cannot be cast to java.util.List`
-   - **Fix**: Use `StreamSupport.stream().collect(Collectors.toList())`
-   - **Files**: Repository interfaces with custom default methods
+1. **反應式類型轉換錯誤**：
+   - **模式**：`cannot be cast to java.util.List`
+   - **修復**：使用 `StreamSupport.stream().collect(Collectors.toList())`
+   - **檔案**：具有自訂預設方法的儲存庫介面
 
-2. **BigDecimal Serialization Errors**:
-   - **Pattern**: `Unable to make field...BigDecimal.intVal accessible`
-   - **Fix**: Replace with Double, String, or add JVM module opens
-   - **Files**: Entity classes, DTOs, data initialization classes
+2. **BigDecimal 序列化錯誤**：
+   - **模式**：`Unable to make field...BigDecimal.intVal accessible`
+   - **修復**：用 Double、String 取代，或新增 JVM 模組開啟
+   - **檔案**：實體類別、DTO、資料初始化類別
 
-3. **Health Check Database Errors**:
-   - **Pattern**: Health check fails looking for database
-   - **Fix**: Remove database references from health check configuration
-   - **Files**: application.yml configuration files
+3. **健康檢查資料庫錯誤**：
+   - **模式**：健康檢查尋找資料庫時失敗
+   - **修復**：從健康檢查配置中移除資料庫參考
+   - **檔案**：application.yml 配置檔案
 
-4. **Collection Type Conversion Errors**:
-   - **Pattern**: Type mismatch in entity relationship handling
-   - **Fix**: Update service methods to handle String-based entity references
-   - **Files**: Service classes, DTOs, entity relationship methods
+4. **集合類型轉換錯誤**：
+   - **模式**：實體關聯處理中的類型不匹配
+   - **修復**：更新服務方法以處理基於字串的實體參考
+   - **檔案**：服務類別、DTO、實體關聯方法
 
-#### **Enhanced Validation Checklist**:
-- [ ] **Repository reactive casting handled**: No ClassCastException on collection returns
-- [ ] **BigDecimal compatibility resolved**: Java 17+ serialization works
-- [ ] **Health checks updated**: No database dependencies in health configuration
-- [ ] **Service layer collection handling**: String-based entity references work correctly
-- [ ] **Data seeding completes**: "Data seeding completed" message appears in logs
-- [ ] **Application starts fully**: Both frontend and backend accessible
-- [ ] **Authentication works**: Can sign in without serialization errors
-- [ ] **CRUD operations functional**: All entity operations work through UI
+#### **增強的驗證檢查清單**：
+- [ ] **儲存庫反應式轉換已處理**：集合傳回時沒有 ClassCastException
+- [ ] **BigDecimal 相容性已解決**：Java 17+ 序列化運作
+- [ ] **健康檢查已更新**：健康配置中沒有資料庫相依性
+- [ ] **服務層集合處理**：基於字串的實體參考正常運作
+- [ ] **資料植入完成**：日誌中出現 "Data seeding completed" 訊息
+- [ ] **應用程式完全啟動**：前端和後端都可存取
+- [ ] **身分驗證運作**：可以登入而不會出現序列化錯誤
+- [ ] **CRUD 操作正常運作**：所有實體操作透過 UI 運作
 
-## **Quick Reference: Common Post-Migration Fixes**
+## **快速參考：常見的遷移後修復**
 
-### **Top Runtime Issues to Check**
+### **要檢查的頂級執行時問題**
 
-1. **Repository Collection Casting**:
+1. **儲存庫集合轉換**：
    ```java
-   // Fix any repository methods that return collections:
+   // 修復任何傳回集合的儲存庫方法：
    default List<Entity> customFindMethod() {
        return StreamSupport.stream(this.findAll().spliterator(), false)
                .collect(Collectors.toList());
    }
 
-2. **BigDecimal Compatibility (Java 17+)**:
+2. **BigDecimal 相容性（Java 17+）**：
 
    ```java
-   // Replace BigDecimal fields with alternatives:
-   private Double amount; // Or String for high precision
+   // 用替代品取代 BigDecimal 欄位：
+   private Double amount; // 或用於高精度的 String
 
    ```
 
-3. **Health Check Configuration**:
+3. **健康檢查配置**：
    ```yaml
-   # Remove database dependencies from health checks:
+   # 從健康檢查中移除資料庫相依性：
    management:
      health:
        readiness:
          include: 'ping,diskSpace'
    ```
 
-### **Authentication Conversion Patterns**
+### **身分驗證轉換模式**
 
-- **Remove `@JsonIgnore` from fields that need Cosmos DB persistence**
-- **Store complex objects as simple types** (e.g., authorities as `Set<String>`)
-- **Convert between simple and complex types** in service/repository layers
+- **從需要 Cosmos DB 持久化的欄位移除 `@JsonIgnore`**
+- **將複雜物件存儲為簡單類型**（例如，權限為 `Set<String>`）
+- **在服務/儲存庫層中在簡單和複雜類型之間轉換**
 
-### **Template/UI Compatibility Patterns**
+### **範本/UI 相容性模式**
 
-- **Add transient properties** with `@JsonIgnore` for UI access to related data
-- **Use service layer** to populate transient relationships before rendering
-- **Never return repository results directly** to templates without relationship population
+- **新增暫時性屬性**，帶有 `@JsonIgnore` 以便 UI 存取相關資料
+- **使用服務層**在呈現前填充暫時性關聯
+- **決不直接向範本傳回儲存庫結果**，無需關聯填充

@@ -3,15 +3,15 @@ description: 'Best practices for building Model Context Protocol servers in Rust
 applyTo: '**/*.rs'
 ---
 
-# Rust MCP Server Development Best Practices
+# Rust MCP 伺服器開發最佳實踐
 
-This guide provides best practices for building Model Context Protocol (MCP) servers using the official Rust SDK (`rmcp`).
+本指南提供了使用官方 Rust SDK (`rmcp`) 建立 Model Context Protocol (MCP) 伺服器的最佳實踐。
 
-## Installation and Setup
+## 安裝與設定
 
-### Add Dependencies
+### 新增相依套件
 
-Add the `rmcp` crate to your `Cargo.toml`:
+將 `rmcp` crate 新增至您的 `Cargo.toml`：
 
 ```toml
 [dependencies]
@@ -24,7 +24,7 @@ tracing = "0.1"
 tracing-subscriber = "0.3"
 ```
 
-For macros support:
+若需要巨集支援：
 
 ```toml
 [dependencies]
@@ -32,9 +32,9 @@ rmcp-macros = "0.8"
 schemars = { version = "0.8", features = ["derive"] }
 ```
 
-### Project Structure
+### 專案結構
 
-Organize your Rust MCP server project:
+組織您的 Rust MCP 伺服器專案：
 
 ```
 my-mcp-server/
@@ -56,11 +56,11 @@ my-mcp-server/
     └── integration_tests.rs
 ```
 
-## Server Implementation
+## 伺服器實作
 
-### Basic Server Setup
+### 基本伺服器設定
 
-Create a server with stdio transport:
+以 stdio 傳輸建立伺服器：
 
 ```rust
 use rmcp::{
@@ -73,10 +73,10 @@ use tokio::signal;
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt::init();
-    
+
     let handler = MyServerHandler::new();
     let transport = StdioTransport::new();
-    
+
     let server = Server::builder()
         .with_handler(handler)
         .with_capabilities(ServerCapabilities {
@@ -86,16 +86,16 @@ async fn main() -> anyhow::Result<()> {
             ..Default::default()
         })
         .build(transport)?;
-    
+
     server.run(signal::ctrl_c()).await?;
-    
+
     Ok(())
 }
 ```
 
-### ServerHandler Implementation
+### ServerHandler 實作
 
-Implement the `ServerHandler` trait:
+實作 `ServerHandler` trait：
 
 ```rust
 use rmcp::{
@@ -115,7 +115,7 @@ impl MyServerHandler {
             tool_router: Self::create_tool_router(),
         }
     }
-    
+
     fn create_tool_router() -> ToolRouter {
         // Initialize and return tool router
         ToolRouter::new()
@@ -132,7 +132,7 @@ impl ServerHandler for MyServerHandler {
         let items = self.tool_router.list_all();
         Ok(ListToolsResult::with_all_items(items))
     }
-    
+
     async fn call_tool(
         &self,
         request: CallToolRequestParam,
@@ -144,11 +144,11 @@ impl ServerHandler for MyServerHandler {
 }
 ```
 
-## Tool Development
+## 工具開發
 
-### Using Macros for Tools
+### 使用巨集定義工具
 
-Use the `#[tool]` macro for declarative tool definitions:
+使用 `#[tool]` 巨集進行宣告式的工具定義：
 
 ```rust
 use rmcp::tool;
@@ -187,9 +187,9 @@ pub async fn calculate(params: Parameters<CalculateParams>) -> Result<f64, Strin
 }
 ```
 
-### Tool Router with Macros
+### 使用巨集進行工具路由
 
-Use `#[tool_router]` and `#[tool_handler]` macros:
+使用 `#[tool_router]` 和 `#[tool_handler]` 巨集：
 
 ```rust
 use rmcp::{tool_router, tool_handler};
@@ -204,12 +204,12 @@ impl ToolsHandler {
     async fn greet(params: Parameters<GreetParams>) -> String {
         format!("Hello, {}!", params.inner().name)
     }
-    
+
     #[tool(annotations(destructive_hint = true))]
     async fn reset_counter() -> String {
         "Counter reset".to_string()
     }
-    
+
     pub fn new() -> Self {
         Self {
             tool_router: Self::tool_router(),
@@ -223,9 +223,9 @@ impl ServerHandler for ToolsHandler {
 }
 ```
 
-### Tool Annotations
+### 工具註記
 
-Use annotations to provide hints about tool behavior:
+使用註記來提供關於工具行為的提示：
 
 ```rust
 #[tool(
@@ -253,9 +253,9 @@ pub async fn search_data(params: Parameters<SearchParams>) -> Vec<String> {
 }
 ```
 
-### Returning Rich Content
+### 傳回豐富內容
 
-Return structured content from tools:
+從工具傳回結構化的內容：
 
 ```rust
 use rmcp::model::{ToolResponseContent, TextContent, ImageContent};
@@ -269,11 +269,11 @@ async fn analyze_code(params: Parameters<CodeParams>) -> ToolResponseContent {
 }
 ```
 
-## Prompt Implementation
+## 提示實作
 
-### Prompt Handler
+### 提示處理器
 
-Implement prompt handlers:
+實作提示處理器：
 
 ```rust
 use rmcp::model::{Prompt, PromptArgument, PromptMessage, GetPromptResult};
@@ -296,7 +296,7 @@ async fn list_prompts(
             ]),
         },
     ];
-    
+
     Ok(ListPromptsResult { prompts })
 }
 
@@ -311,7 +311,7 @@ async fn get_prompt(
                 .as_ref()
                 .and_then(|args| args.get("language"))
                 .ok_or_else(|| ErrorData::invalid_params("language required"))?;
-            
+
             Ok(GetPromptResult {
                 description: Some("Code review prompt".to_string()),
                 messages: vec![
@@ -327,11 +327,11 @@ async fn get_prompt(
 }
 ```
 
-## Resource Implementation
+## 資源實作
 
-### Resource Handlers
+### 資源處理器
 
-Implement resource handlers:
+實作資源處理器：
 
 ```rust
 use rmcp::model::{Resource, ResourceContents, ReadResourceResult};
@@ -349,7 +349,7 @@ async fn list_resources(
             mime_type: Some("application/json".to_string()),
         },
     ];
-    
+
     Ok(ListResourcesResult { resources })
 }
 
@@ -374,11 +374,11 @@ async fn read_resource(
 }
 ```
 
-## Transport Options
+## 傳輸選項
 
-### Stdio Transport
+### Stdio 傳輸
 
-Standard input/output transport for CLI integration:
+用於 CLI 整合的標準輸入/輸出傳輸：
 
 ```rust
 use rmcp::transport::StdioTransport;
@@ -389,9 +389,9 @@ let server = Server::builder()
     .build(transport)?;
 ```
 
-### SSE (Server-Sent Events) Transport
+### SSE (伺服器傳送事件) 傳輸
 
-HTTP-based SSE transport:
+基於 HTTP 的 SSE 傳輸：
 
 ```rust
 use rmcp::transport::SseServerTransport;
@@ -407,9 +407,9 @@ let server = Server::builder()
 server.run(signal::ctrl_c()).await?;
 ```
 
-### Streamable HTTP Transport
+### 串流式 HTTP 傳輸
 
-HTTP streaming transport with Axum:
+使用 Axum 的 HTTP 串流傳輸：
 
 ```rust
 use rmcp::transport::StreamableHttpTransport;
@@ -423,9 +423,9 @@ let listener = tokio::net::TcpListener::bind("127.0.0.1:3000").await?;
 axum::serve(listener, app).await?;
 ```
 
-### Custom Transports
+### 自訂傳輸
 
-Implement custom transports (TCP, Unix Socket, WebSocket):
+實作自訂傳輸（TCP、Unix Socket、WebSocket）：
 
 ```rust
 use rmcp::transport::Transport;
@@ -434,11 +434,11 @@ use tokio::net::TcpListener;
 // See examples/transport/ for TCP, Unix Socket, WebSocket implementations
 ```
 
-## Error Handling
+## 錯誤處理
 
-### ErrorData Usage
+### ErrorData 使用
 
-Return proper MCP errors:
+傳回正確的 MCP 錯誤：
 
 ```rust
 use rmcp::ErrorData;
@@ -456,9 +456,9 @@ async fn call_tool(
     context: RequestContext<RoleServer>,
 ) -> Result<CallToolResult, ErrorData> {
     validate_params(&request.name)?;
-    
+
     // Tool execution...
-    
+
     Ok(CallToolResult {
         content: vec![TextContent::text("Success")],
         is_error: Some(false),
@@ -466,9 +466,9 @@ async fn call_tool(
 }
 ```
 
-### Anyhow Integration
+### Anyhow 整合
 
-Use `anyhow` for application-level errors:
+使用 `anyhow` 來處理應用程式層級的錯誤：
 
 ```rust
 use anyhow::{Context, Result};
@@ -477,25 +477,25 @@ async fn load_config() -> Result<Config> {
     let content = tokio::fs::read_to_string("config.json")
         .await
         .context("Failed to read config file")?;
-    
+
     let config: Config = serde_json::from_str(&content)
         .context("Failed to parse config")?;
-    
+
     Ok(config)
 }
 ```
 
-## Testing
+## 測試
 
-### Unit Tests
+### 單元測試
 
-Write unit tests for tools and handlers:
+為工具和處理器編寫單元測試：
 
 ```rust
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     #[tokio::test]
     async fn test_calculate_add() {
         let params = Parameters::new(CalculateParams {
@@ -503,11 +503,11 @@ mod tests {
             b: 3.0,
             operation: "add".to_string(),
         });
-        
+
         let result = calculate(params).await.unwrap();
         assert_eq!(result, 8.0);
     }
-    
+
     #[tokio::test]
     async fn test_divide_by_zero() {
         let params = Parameters::new(CalculateParams {
@@ -515,35 +515,35 @@ mod tests {
             b: 0.0,
             operation: "divide".to_string(),
         });
-        
+
         let result = calculate(params).await;
         assert!(result.is_err());
     }
 }
 ```
 
-### Integration Tests
+### 整合測試
 
-Test complete server interactions:
+測試完整的伺服器互動：
 
 ```rust
 #[tokio::test]
 async fn test_server_list_tools() {
     let handler = MyServerHandler::new();
     let context = RequestContext::default();
-    
+
     let result = handler.list_tools(None, context).await.unwrap();
-    
+
     assert!(!result.tools.is_empty());
     assert!(result.tools.iter().any(|t| t.name == "calculate"));
 }
 ```
 
-## Progress Notifications
+## 進度通知
 
-### Reporting Progress
+### 報告進度
 
-Send progress notifications during long-running operations:
+在長時間執行的操作期間傳送進度通知：
 
 ```rust
 use rmcp::model::ProgressNotification;
@@ -554,10 +554,10 @@ async fn process_large_file(
     context: RequestContext<RoleServer>,
 ) -> Result<String, String> {
     let total = 100;
-    
+
     for i in 0..=total {
         // Do work...
-        
+
         if i % 10 == 0 {
             context.notify_progress(ProgressNotification {
                 progress: i,
@@ -565,16 +565,16 @@ async fn process_large_file(
             }).await.ok();
         }
     }
-    
+
     Ok("Processing complete".to_string())
 }
 ```
 
-## OAuth Authentication
+## OAuth 驗證
 
-### OAuth Integration
+### OAuth 整合
 
-Implement OAuth for secure access:
+實作 OAuth 以進行安全存取：
 
 ```rust
 use rmcp::oauth::{OAuthConfig, OAuthProvider};
@@ -591,11 +591,11 @@ let oauth_provider = OAuthProvider::new(oauth_config);
 // See examples/servers/complex_auth_sse.rs for complete implementation
 ```
 
-## Performance Best Practices
+## 效能最佳實踐
 
-### Async Operations
+### 非同步操作
 
-Use async/await for non-blocking operations:
+使用 async/await 進行非阻塞操作：
 
 ```rust
 #[tool]
@@ -606,15 +606,15 @@ async fn fetch_data(params: Parameters<FetchParams>) -> Result<String, String> {
         .send()
         .await
         .map_err(|e| e.to_string())?;
-    
+
     let text = response.text().await.map_err(|e| e.to_string())?;
     Ok(text)
 }
 ```
 
-### State Management
+### 狀態管理
 
-Use `Arc` and `RwLock` for shared state:
+使用 `Arc` 和 `RwLock` 來管理共享狀態：
 
 ```rust
 use std::sync::Arc;
@@ -630,7 +630,7 @@ impl ServerState {
             counter: Arc::new(RwLock::new(0)),
         }
     }
-    
+
     pub async fn increment(&self) -> i32 {
         let mut counter = self.counter.write().await;
         *counter += 1;
@@ -639,11 +639,11 @@ impl ServerState {
 }
 ```
 
-## Logging and Tracing
+## 記錄與追蹤
 
-### Setup Tracing
+### 設定追蹤
 
-Configure tracing for observability:
+配置追蹤以獲得可觀測性：
 
 ```rust
 use tracing::{info, warn, error, debug};
@@ -661,19 +661,19 @@ fn init_logging() {
 async fn my_tool(params: Parameters<MyParams>) -> String {
     debug!("Tool called with params: {:?}", params);
     info!("Processing request");
-    
+
     // Tool logic...
-    
+
     info!("Request completed");
     "Done".to_string()
 }
 ```
 
-## Deployment
+## 部署
 
-### Binary Distribution
+### 二進位分發
 
-Build optimized release binaries:
+建立最佳化的發行版二進位：
 
 ```bash
 cargo build --release --target x86_64-unknown-linux-gnu
@@ -681,18 +681,18 @@ cargo build --release --target x86_64-pc-windows-msvc
 cargo build --release --target x86_64-apple-darwin
 ```
 
-### Cross-Compilation
+### 交叉編譯
 
-Use cross for cross-platform builds:
+使用 cross 進行跨平台建置：
 
 ```bash
 cargo install cross
 cross build --release --target aarch64-unknown-linux-gnu
 ```
 
-### Docker Deployment
+### Docker 部署
 
-Create a Dockerfile:
+建立 Dockerfile：
 
 ```dockerfile
 FROM rust:1.75 as builder
@@ -706,10 +706,10 @@ COPY --from=builder /app/target/release/my-mcp-server /usr/local/bin/
 CMD ["my-mcp-server"]
 ```
 
-## Additional Resources
+## 其他資源
 
-- [rmcp Documentation](https://docs.rs/rmcp)
-- [rmcp-macros Documentation](https://docs.rs/rmcp-macros)
-- [Examples Repository](https://github.com/modelcontextprotocol/rust-sdk/tree/main/examples)
-- [MCP Specification](https://spec.modelcontextprotocol.io/)
-- [Rust Async Book](https://rust-lang.github.io/async-book/)
+- [rmcp 文件](https://docs.rs/rmcp)
+- [rmcp-macros 文件](https://docs.rs/rmcp-macros)
+- [範例儲存庫](https://github.com/modelcontextprotocol/rust-sdk/tree/main/examples)
+- [MCP 規範](https://spec.modelcontextprotocol.io/)
+- [Rust 非同步書籍](https://rust-lang.github.io/async-book/)

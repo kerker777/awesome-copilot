@@ -4,13 +4,13 @@ description: 'Create time-boxed technical spike documents for researching and re
 tools: ['runCommands', 'runTasks', 'edit', 'search', 'extensions', 'usages', 'vscodeAPI', 'think', 'problems', 'changes', 'testFailure', 'openSimpleBrowser', 'fetch', 'githubRepo', 'todos', 'Microsoft Docs', 'search']
 ---
 
-# Create Technical Spike Document
+# 建立技術尖峰文件
 
-Create time-boxed technical spike documents for researching critical questions that must be answered before development can proceed. Each spike focuses on a specific technical decision with clear deliverables and timelines.
+建立有時間限制的技術尖峰文件，用於研究關鍵問題，這些問題必須在開發進行前解決。每個尖峰專注於特定的技術決策，並具有明確的交付成果和時間表。
 
-## Document Structure
+## 文件結構
 
-Create individual files in `${input:FolderPath|docs/spikes}` directory. Name each file using the pattern: `[category]-[short-description]-spike.md` (e.g., `api-copilot-integration-spike.md`, `performance-realtime-audio-spike.md`).
+在 `${input:FolderPath|docs/spikes}` 目錄中建立個別文件。使用以下模式命名每個文件：`[category]-[short-description]-spike.md`（例如：`api-copilot-integration-spike.md`、`performance-realtime-audio-spike.md`）。
 
 ```md
 ---
@@ -125,107 +125,107 @@ tags: ["technical-spike", "${input:Category|technical}", "research"]
 _Last updated: [Date] by [Name]_
 ```
 
-## Categories for Technical Spikes
+## 技術尖峰的類別
 
-### API Integration
+### API 整合
 
-- Third-party API capabilities and limitations
-- Integration patterns and authentication
-- Rate limits and performance characteristics
+- 第三方 API 能力與限制
+- 整合模式與認證
+- 速率限制與性能特性
 
-### Architecture & Design
+### 架構與設計
 
-- System architecture decisions
-- Design pattern applicability
-- Component interaction models
+- 系統架構決策
+- 設計模式適用性
+- 元件交互模型
 
-### Performance & Scalability
+### 性能與可擴展性
 
-- Performance requirements and constraints
-- Scalability bottlenecks and solutions
-- Resource utilization patterns
+- 性能需求與約束
+- 可擴展性瓶頸與解決方案
+- 資源利用模式
 
-### Platform & Infrastructure
+### 平台與基礎設施
 
-- Platform capabilities and limitations
-- Infrastructure requirements
-- Deployment and hosting considerations
+- 平台能力與限制
+- 基礎設施需求
+- 部署與託管考量
 
-### Security & Compliance
+### 安全與合規性
 
-- Security requirements and implementations
-- Compliance constraints
-- Authentication and authorization approaches
+- 安全需求與實作
+- 合規性約束
+- 認證與授權方案
 
-### User Experience
+### 使用者體驗
 
-- User interaction patterns
-- Accessibility requirements
-- Interface design decisions
+- 使用者互動模式
+- 無障礙需求
+- 介面設計決策
 
-## File Naming Conventions
+## 文件命名慣例
 
-Use descriptive, kebab-case names that indicate the category and specific unknown:
+使用描述性的kebab-case名稱，表明類別與特定的未知項目：
 
-**API/Integration Examples:**
+**API/整合範例：**
 
 - `api-copilot-chat-integration-spike.md`
 - `api-azure-speech-realtime-spike.md`
 - `api-vscode-extension-capabilities-spike.md`
 
-**Performance Examples:**
+**性能範例：**
 
 - `performance-audio-processing-latency-spike.md`
 - `performance-extension-host-limitations-spike.md`
 - `performance-webrtc-reliability-spike.md`
 
-**Architecture Examples:**
+**架構範例：**
 
 - `architecture-voice-pipeline-design-spike.md`
 - `architecture-state-management-spike.md`
 - `architecture-error-handling-strategy-spike.md`
 
-## Best Practices for AI Agents
+## AI 代理的最佳做法
 
-1. **One Question Per Spike:** Each document focuses on a single technical decision or research question
+1. **每個尖峰一個問題：** 每個文件專注於單一技術決策或研究問題
 
-2. **Time-Boxed Research:** Define specific time limits and deliverables for each spike
+2. **有時間限制的研究：** 為每個尖峰定義具體的時間限制與交付成果
 
-3. **Evidence-Based Decisions:** Require concrete evidence (tests, prototypes, documentation) before marking as complete
+3. **基於證據的決策：** 要求具體的證據（測試、原型、文件）才能標記為完成
 
-4. **Clear Recommendations:** Document specific recommendations and rationale for implementation
+4. **清晰的建議：** 文件化具體的建議與實作的理由
 
-5. **Dependency Tracking:** Identify how spikes relate to each other and impact project decisions
+5. **依賴項追蹤：** 識別尖峰如何相互關聯以及如何影響專案決策
 
-6. **Outcome-Focused:** Every spike must result in an actionable decision or recommendation
+6. **以結果為導向：** 每個尖峰都必須產生可操作的決策或建議
 
-## Research Strategy
+## 研究策略
 
-### Phase 1: Information Gathering
+### 第 1 階段：信息收集
 
-1. **Search existing documentation** using search/fetch tools
-2. **Analyze codebase** for existing patterns and constraints
-3. **Research external resources** (APIs, libraries, examples)
+1. **搜尋現有文件** 使用搜尋/取得工具
+2. **分析代碼庫** 找出現有的模式與約束
+3. **研究外部資源** (API、程式庫、範例)
 
-### Phase 2: Validation & Testing
+### 第 2 階段：驗證與測試
 
-1. **Create focused prototypes** to test specific hypotheses
-2. **Run targeted experiments** to validate assumptions
-3. **Document test results** with supporting evidence
+1. **建立專注的原型** 測試具體的假設
+2. **執行針對性的實驗** 驗證假設
+3. **文件化測試結果** 附帶支持性證據
 
-### Phase 3: Decision & Documentation
+### 第 3 階段：決策與文件
 
-1. **Synthesize findings** into clear recommendations
-2. **Document implementation guidance** for development team
-3. **Create follow-up tasks** for implementation
+1. **合成研究結果** 形成清晰的建議
+2. **文件化實作指導** 供開發團隊使用
+3. **建立後續任務** 供實作使用
 
-## Tools Usage
+## 工具使用
 
-- **search/searchResults:** Research existing solutions and documentation
-- **fetch/githubRepo:** Analyze external APIs, libraries, and examples
-- **codebase:** Understand existing system constraints and patterns
-- **runTasks:** Execute prototypes and validation tests
-- **editFiles:** Update research progress and findings
-- **vscodeAPI:** Test VS Code extension capabilities and limitations
+- **search/searchResults：** 研究現有的解決方案與文件
+- **fetch/githubRepo：** 分析外部 API、程式庫與範例
+- **codebase：** 瞭解現有的系統約束與模式
+- **runTasks：** 執行原型與驗證測試
+- **editFiles：** 更新研究進度與結果
+- **vscodeAPI：** 測試 VS Code 擴充套件的能力與限制
 
-Focus on time-boxed research that resolves critical technical decisions and unblocks development progress.
+專注於有時間限制的研究，解決關鍵技術決策並消除開發進度的阻礙。

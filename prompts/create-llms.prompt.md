@@ -3,165 +3,166 @@ mode: 'agent'
 description: 'Create an llms.txt file from scratch based on repository structure following the llms.txt specification at https://llmstxt.org/'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'extensions', 'fetch', 'githubRepo', 'openSimpleBrowser', 'problems', 'runTasks', 'search', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection', 'testFailure', 'usages', 'vscodeAPI']
 ---
-# Create LLMs.txt File from Repository Structure
+# 從儲存庫結構建立 LLMs.txt 文件
 
-Create a new `llms.txt` file from scratch in the root of the repository following the official llms.txt specification at https://llmstxt.org/. This file provides high-level guidance to large language models (LLMs) on where to find relevant content for understanding the repository's purpose and specifications.
+在儲存庫根目錄按照官方 llms.txt 規範（https://llmstxt.org/）從頭建立新的 `llms.txt` 文件。此文件為大型語言模型（LLM）提供高階指導，說明在何處可以找到相關內容，以便理解儲存庫的用途和規範。
 
-## Primary Directive
+## 主要目標
 
-Create a comprehensive `llms.txt` file that serves as an entry point for LLMs to understand and navigate the repository effectively. The file must comply with the llms.txt specification and be optimized for LLM consumption while remaining human-readable.
+建立一份完整的 `llms.txt` 文件，作為 LLM 理解和有效瀏覽儲存庫的進入點。文件必須符合 llms.txt 規範，並針對 LLM 使用進行最佳化，同時保持人類可讀性。
 
-## Analysis and Planning Phase
+## 分析和規劃階段
 
-Before creating the `llms.txt` file, you must complete a thorough analysis:
+在建立 `llms.txt` 文件之前，必須完成全面的分析：
 
-### Step 1: Review llms.txt Specification
+### 步驟 1：檢閱 llms.txt 規範
 
-- Review the official specification at https://llmstxt.org/ to ensure full compliance
-- Understand the required format structure and guidelines
-- Note the specific markdown structure requirements
+- 檢閱官方規範（https://llmstxt.org/）以確保完全符合
+- 理解所需的格式結構和指南
+- 注意特定的 markdown 結構要求
 
-### Step 2: Repository Structure Analysis
+### 步驟 2：儲存庫結構分析
 
-- Examine the complete repository structure using appropriate tools
-- Identify the primary purpose and scope of the repository
-- Catalog all important directories and their purposes
-- List key files that would be valuable for LLM understanding
+- 使用適當的工具檢查完整的儲存庫結構
+- 確認儲存庫的主要目的和範圍
+- 編錄所有重要目錄及其用途
+- 列出對 LLM 理解有價值的關鍵檔案
 
-### Step 3: Content Discovery
+### 步驟 3：內容探索
 
-- Identify README files and their locations
-- Find documentation files (`.md` files in `/docs/`, `/spec/`, etc.)
-- Locate specification files and their purposes
-- Discover configuration files and their relevance
-- Find example files and code samples
-- Identify any existing documentation structure
+- 辨識 README 文件及其位置
+- 尋找文檔檔案（`/docs/`、`/spec/` 等目錄中的 `.md` 檔案）
+- 定位規範檔案及其用途
+- 發現組態檔案及其相關性
+- 尋找範例檔案和程式碼範本
+- 辨識任何現有的文檔結構
 
-### Step 4: Create Implementation Plan
+### 步驟 4：建立實作計畫
 
-Based on your analysis, create a structured plan that includes:
+根據分析，建立包含以下項目的結構化計畫：
 
-- Repository purpose and scope summary
-- Priority-ordered list of essential files for LLM understanding
-- Secondary files that provide additional context
-- Organizational structure for the llms.txt file
+- 儲存庫用途和範圍的摘要
+- 依優先度排序的 LLM 理解所需必要檔案列表
+- 提供額外內容的次要檔案
+- llms.txt 文件的組織結構
 
-## Implementation Requirements
+## 實作要求
 
-### Format Compliance
+### 格式遵循
 
-The `llms.txt` file must follow this exact structure per the specification:
+`llms.txt` 文件必須按照規範遵循此確切結構：
 
-1. **H1 Header**: Single line with repository/project name (required)
-2. **Blockquote Summary**: Brief description in blockquote format (optional but recommended)
-3. **Additional Details**: Zero or more markdown sections without headings for context
-4. **File List Sections**: Zero or more H2 sections containing markdown lists of links
+1. **H1 標題**：包含儲存庫/專案名稱的單一行（必要）
+2. **引言摘要**：引言格式的簡短說明（可選但推薦）
+3. **其他詳細資訊**：零個或多個不含標題的 markdown 段落，用於提供內容
+4. **檔案列表段落**：零個或多個包含 markdown 連結列表的 H2 段落
 
-### Content Requirements
+### 內容要求
 
-#### Required Elements
+#### 必要元素
 
-- **Project Name**: Clear, descriptive title as H1
-- **Summary**: Concise blockquote explaining the repository's purpose
-- **Key Files**: Essential files organized by category (H2 sections)
+- **專案名稱**：作為 H1 的清晰描述性標題
+- **摘要**：說明儲存庫用途的簡潔引言
+- **關鍵檔案**：按類別組織的必要檔案（H2 段落）
 
-#### File Link Format
+#### 檔案連結格式
 
-Each file link must follow: `[descriptive-name](relative-url): optional description`
+每個檔案連結必須遵循：`[descriptive-name](relative-url): optional description`
 
-#### Section Organization
+#### 段落組織
 
-Organize files into logical H2 sections such as:
+將檔案組織成邏輯性的 H2 段落，例如：
 
-- **Documentation**: Core documentation files
-- **Specifications**: Technical specifications and requirements
-- **Examples**: Sample code and usage examples
-- **Configuration**: Setup and configuration files
-- **Optional**: Secondary files (special meaning - can be skipped for shorter context)
+- **文檔**：核心文檔檔案
+- **規範**：技術規範和要求
+- **範例**：範本程式碼和使用範例
+- **組態**：設定和組態檔案
+- **可選**：次要檔案（特殊含義 - 在較短的內容中可以跳過）
 
-### Content Guidelines
+### 內容指南
 
-#### Language and Style
+#### 語言和風格
 
-- Use concise, clear, unambiguous language
-- Avoid jargon without explanation
-- Write for both human and LLM readers
-- Be specific and informative in descriptions
+- 使用簡潔、清晰、不含歧義的語言
+- 避免未解釋的術語
+- 編寫供人類和 LLM 讀者使用的內容
+- 在描述中具體且提供資訊
 
-#### File Selection Criteria
+#### 檔案選擇條件
 
-Include files that:
-- Explain the repository's purpose and scope
-- Provide essential technical documentation
-- Show usage examples and patterns
-- Define interfaces and specifications
-- Contain configuration and setup instructions
+包含以下檔案：
+- 說明儲存庫的用途和範圍
+- 提供必要的技術文檔
+- 顯示使用範例和模式
+- 定義介面和規範
+- 包含組態和設定指示
 
-Exclude files that:
-- Are purely implementation details
-- Contain redundant information
-- Are build artifacts or generated content
-- Are not relevant to understanding the project
+排除以下檔案：
+- 純粹的實作細節
+- 包含冗餘資訊
+- 為建置成品或生成內容
+- 與理解專案無關
 
-## Execution Steps
+## 執行步驟
 
-### Step 1: Repository Analysis
+### 步驟 1：儲存庫分析
 
-1. Examine the repository structure completely
-2. Read the main README.md to understand the project
-3. Identify all documentation directories and files
-4. Catalog specification files and their purposes
-5. Find example files and configuration files
+1. 完整檢查儲存庫結構
+2. 閱讀主要 README.md 以理解專案
+3. 辨識所有文檔目錄和檔案
+4. 編錄規範檔案及其用途
+5. 尋找範例檔案和組態檔案
 
-### Step 2: Content Planning
+### 步驟 2：內容規劃
 
-1. Determine the primary purpose statement
-2. Write a concise summary for the blockquote
-3. Group identified files into logical categories
-4. Prioritize files by importance for LLM understanding
-5. Create descriptions for each file link
+1. 確定主要目的聲明
+2. 為引言撰寫簡潔摘要
+3. 將辨識的檔案分組成邏輯類別
+4. 根據 LLM 理解的重要性排定檔案優先順序
+5. 為每個檔案連結建立說明
 
-### Step 3: File Creation
+### 步驟 3：檔案建立
 
-1. Create the `llms.txt` file in the repository root
-2. Follow the exact format specification
-3. Include all required sections
-4. Use proper markdown formatting
-5. Ensure all links are valid relative paths
+1. 在儲存庫根目錄建立 `llms.txt` 檔案
+2. 遵循確切的格式規範
+3. 包含所有必要段落
+4. 使用適當的 markdown 格式設定
+5. 確保所有連結都是有效的相對路徑
 
-### Step 4: Validation
-1. Verify compliance with https://llmstxt.org/ specification
-2. Check that all links are valid and accessible
-3. Ensure the file serves as an effective LLM navigation tool
-4. Confirm the file is both human and machine readable
+### 步驟 4：驗證
 
-## Quality Assurance
+1. 驗證是否符合 https://llmstxt.org/ 規範
+2. 檢查所有連結是否有效且可訪問
+3. 確保檔案作為有效的 LLM 瀏覽工具
+4. 確認檔案既可供人類閱讀，也可供機器閱讀
 
-### Format Validation
+## 品質保證
 
-- ✅ H1 header with project name
-- ✅ Blockquote summary (if included)
-- ✅ H2 sections for file lists
-- ✅ Proper markdown link format
-- ✅ No broken or invalid links
-- ✅ Consistent formatting throughout
+### 格式驗證
 
-### Content Validation
+- ✅ 包含專案名稱的 H1 標題
+- ✅ 引言摘要（如包含）
+- ✅ 檔案列表的 H2 段落
+- ✅ 適當的 markdown 連結格式
+- ✅ 無損壞或無效連結
+- ✅ 全程一致的格式設定
 
-- ✅ Clear, unambiguous language
-- ✅ Comprehensive coverage of essential files
-- ✅ Logical organization of content
-- ✅ Appropriate file descriptions
-- ✅ Serves as effective LLM navigation tool
+### 內容驗證
 
-### Specification Compliance
+- ✅ 清晰、不含歧義的語言
+- ✅ 全面涵蓋必要檔案
+- ✅ 內容的邏輯組織
+- ✅ 適當的檔案說明
+- ✅ 作為有效的 LLM 瀏覽工具
 
-- ✅ Follows https://llmstxt.org/ format exactly
-- ✅ Uses required markdown structure
-- ✅ Implements optional sections appropriately
-- ✅ File located at repository root (`/llms.txt`)
+### 規範遵循
 
-## Example Structure Template
+- ✅ 確實遵循 https://llmstxt.org/ 格式
+- ✅ 使用必要的 markdown 結構
+- ✅ 適當地實作可選段落
+- ✅ 檔案位於儲存庫根目錄（`/llms.txt`）
+
+## 範例結構範本
 
 ```txt
 # [Repository Name]
@@ -197,14 +198,14 @@ Exclude files that:
 - [Design Decisions](docs/decisions.md): Historical design decision records
 ```
 
-## Success Criteria
+## 成功條件
 
-The created `llms.txt` file should:
-1. Enable LLMs to quickly understand the repository's purpose
-2. Provide clear navigation to essential documentation
-3. Follow the official llms.txt specification exactly
-4. Be comprehensive yet concise
-5. Serve both human and machine readers effectively
-6. Include all critical files for project understanding
-7. Use clear, unambiguous language throughout
-8. Organize content logically for easy consumption
+建立的 `llms.txt` 文件應該：
+1. 讓 LLM 快速理解儲存庫的用途
+2. 提供到必要文檔的清晰瀏覽
+3. 確實遵循官方 llms.txt 規範
+4. 全面但簡潔
+5. 有效地為人類和機器讀者服務
+6. 包含專案理解的所有關鍵檔案
+7. 全程使用清晰、不含歧義的語言
+8. 以邏輯方式組織內容以便於使用

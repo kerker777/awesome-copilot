@@ -3,14 +3,14 @@ description: 'Comprehensive Power BI custom visuals development guide covering R
 applyTo: '**/*.{ts,tsx,js,jsx,json,less,css}'
 ---
 
-# Power BI Custom Visuals Development Best Practices
+# Power BI 自訂視覺效果開發最佳實踐
 
-## Overview
-This document provides comprehensive instructions for developing custom Power BI visuals using modern web technologies including React, D3.js, TypeScript, and advanced testing frameworks, based on Microsoft's official guidance and community best practices.
+## 概述
+本文件提供使用現代網頁技術開發自訂 Power BI 視覺效果的全面指示，包括 React、D3.js、TypeScript 和進階測試框架，基於 Microsoft 的官方指導和社群最佳實踐。
 
-## Development Environment Setup
+## 開發環境設定
 
-### 1. Project Initialization
+### 1. 專案初始化
 ```typescript
 // Install Power BI visuals tools globally
 npm install -g powerbi-visuals-tools
@@ -23,7 +23,7 @@ cd MyCustomVisual
 pbiviz start
 ```
 
-### 2. TypeScript Configuration
+### 2. TypeScript 設定
 ```json
 {
     "compilerOptions": {
@@ -48,9 +48,9 @@ pbiviz start
 }
 ```
 
-## Core Visual Development Patterns
+## 核心視覺效果開發模式
 
-### 1. Basic Visual Structure
+### 1. 基本視覺效果結構
 ```typescript
 "use strict";
 import powerbi from "powerbi-visuals-api";
@@ -74,7 +74,7 @@ export class Visual implements IVisual {
 
     public update(options: VisualUpdateOptions) {
         const dataView: DataView = options.dataViews[0];
-        
+
         if (!dataView) {
             return;
         }
@@ -88,7 +88,7 @@ export class Visual implements IVisual {
 }
 ```
 
-### 2. Data View Processing
+### 2. 資料檢視處理
 ```typescript
 // Single data mapping example
 export class Visual implements IVisual {
@@ -114,9 +114,9 @@ export class Visual implements IVisual {
 }
 ```
 
-## React Integration
+## React 整合
 
-### 1. React Visual Setup
+### 1. React 視覺效果設定
 ```typescript
 import * as React from "react";
 import * as ReactDOM from "react-dom";
@@ -135,7 +135,7 @@ export class Visual implements IVisual {
 
     public update(options: VisualUpdateOptions) {
         const dataView: DataView = options.dataViews[0];
-        
+
         if (dataView) {
             const reactProps = this.parseDataView(dataView);
             this.reactRoot = React.createElement(ReactCircleCard, reactProps);
@@ -153,7 +153,7 @@ export class Visual implements IVisual {
 }
 ```
 
-### 2. React Component with Props
+### 2. 具有 Props 的 React 元件
 ```typescript
 // React component for Power BI visual
 import * as React from "react";
@@ -167,17 +167,17 @@ export interface ReactCircleCardProps {
 
 export const ReactCircleCard: React.FC<ReactCircleCardProps> = (props) => {
     const { data, categories, size = 200, color = "#3498db" } = props;
-    
+
     const maxValue = Math.max(...data);
     const minValue = Math.min(...data);
-    
+
     return (
         <div className="react-circle-card">
             {data.map((value, index) => {
                 const radius = ((value - minValue) / (maxValue - minValue)) * size / 2;
                 return (
                     <div key={index} className="data-point">
-                        <div 
+                        <div
                             className="circle"
                             style={{
                                 width: radius * 2,
@@ -197,7 +197,7 @@ export const ReactCircleCard: React.FC<ReactCircleCardProps> = (props) => {
 export default ReactCircleCard;
 ```
 
-## D3.js Integration
+## D3.js 整合
 
 ### 1. D3 with TypeScript
 ```typescript
@@ -214,7 +214,7 @@ export class Visual implements IVisual {
         this.svg = d3.select(options.element)
             .append('svg')
             .classed('visual-svg', true);
-        
+
         this.container = this.svg
             .append('g')
             .classed('visual-container', true);
@@ -222,14 +222,14 @@ export class Visual implements IVisual {
 
     public update(options: VisualUpdateOptions) {
         const dataView = options.dataViews[0];
-        
+
         if (!dataView) {
             return;
         }
 
         const width = options.viewport.width;
         const height = options.viewport.height;
-        
+
         this.svg
             .attr('width', width)
             .attr('height', height);
@@ -240,7 +240,7 @@ export class Visual implements IVisual {
 
     private renderChart(dataView: DataView, width: number, height: number): void {
         const data = this.transformData(dataView);
-        
+
         // Create scales
         const xScale = d3.scaleBand()
             .domain(data.map(d => d.category))
@@ -282,7 +282,7 @@ export class Visual implements IVisual {
 }
 ```
 
-### 2. Advanced D3 Patterns
+### 2. 進階 D3 模式
 ```typescript
 // Complex D3 visualization with interactions
 export class AdvancedD3Visual implements IVisual {
@@ -293,11 +293,11 @@ export class AdvancedD3Visual implements IVisual {
     constructor(options: VisualConstructorOptions) {
         this.host = options.host;
         this.selectionManager = this.host.createSelectionManager();
-        
+
         // Create main SVG
         this.svg = d3.select(options.element)
             .append('svg');
-        
+
         // Create tooltip
         this.tooltip = d3.select(options.element)
             .append('div')
@@ -342,19 +342,19 @@ export class AdvancedD3Visual implements IVisual {
 }
 ```
 
-## Advanced Visual Features
+## 進階視覺效果功能
 
-### 1. Custom Formatting Model
+### 1. 自訂格式化模型
 ```typescript
 import { formattingSettings } from "powerbi-visuals-utils-formattingmodel";
 
 export class VisualFormattingSettingsModel extends formattingSettings.CompositeFormattingSettingsModel {
     // Color settings card
     public colorCard: ColorCardSettings = new ColorCardSettings();
-    
-    // Data point settings card  
+
+    // Data point settings card
     public dataPointCard: DataPointCardSettings = new DataPointCardSettings();
-    
+
     // General settings card
     public generalCard: GeneralCardSettings = new GeneralCardSettings();
 
@@ -379,7 +379,7 @@ export class ColorCardSettings extends formattingSettings.SimpleCard {
 }
 ```
 
-### 2. Interactivity and Selections
+### 2. 互動性和選擇
 ```typescript
 import { interactivitySelectionService, baseBehavior } from "powerbi-visuals-utils-interactivityutils";
 
@@ -419,7 +419,7 @@ export class VisualBehavior extends baseBehavior.BaseBehavior<VisualDataPoint> {
 }
 ```
 
-### 3. Landing Page Implementation
+### 3. 登陸頁面實作
 ```typescript
 export class Visual implements IVisual {
     private element: HTMLElement;
@@ -466,9 +466,9 @@ export class Visual implements IVisual {
 }
 ```
 
-## Testing Framework
+## 測試框架
 
-### 1. Unit Testing Setup
+### 1. 單元測試設定
 ```typescript
 // Webpack configuration for testing
 const path = require('path');
@@ -515,7 +515,7 @@ module.exports = {
 };
 ```
 
-### 2. Visual Testing Utilities
+### 2. 視覺效果測試工具
 ```typescript
 // Test utilities for Power BI visuals
 export class VisualTestUtils {
@@ -558,7 +558,7 @@ export class VisualTestUtils {
 }
 ```
 
-### 3. Component Testing
+### 3. 元件測試
 ```typescript
 // Jest test for React component
 import * as React from 'react';
@@ -576,7 +576,7 @@ describe('ReactCircleCard', () => {
 
     test('renders with correct data points', () => {
         render(<ReactCircleCard {...mockProps} />);
-        
+
         expect(screen.getByText('A: 10')).toBeInTheDocument();
         expect(screen.getByText('B: 20')).toBeInTheDocument();
         expect(screen.getByText('C: 30')).toBeInTheDocument();
@@ -584,10 +584,10 @@ describe('ReactCircleCard', () => {
 
     test('applies correct styling', () => {
         render(<ReactCircleCard {...mockProps} />);
-        
+
         const circles = document.querySelectorAll('.circle');
         expect(circles).toHaveLength(3);
-        
+
         circles.forEach(circle => {
             expect(circle).toHaveStyle('backgroundColor: #3498db');
             expect(circle).toHaveStyle('borderRadius: 50%');
@@ -597,15 +597,15 @@ describe('ReactCircleCard', () => {
     test('handles empty data gracefully', () => {
         const emptyProps = { ...mockProps, data: [], categories: [] };
         const { container } = render(<ReactCircleCard {...emptyProps} />);
-        
+
         expect(container.querySelector('.data-point')).toBeNull();
     });
 });
 ```
 
-## Advanced Patterns
+## 進階模式
 
-### 1. Dialog Box Implementation
+### 1. 對話方塊實作
 ```typescript
 import DialogConstructorOptions = powerbi.extensibility.visual.DialogConstructorOptions;
 import DialogAction = powerbi.DialogAction;
@@ -646,7 +646,7 @@ export class CustomDialog {
 }
 ```
 
-### 2. Conditional Formatting Integration
+### 2. 條件格式化整合
 ```typescript
 import powerbiVisualsApi from "powerbi-visuals-api";
 import { ColorHelper } from "powerbi-visuals-utils-colorutils";
@@ -666,7 +666,7 @@ export class Visual implements IVisual {
         return dataPoints.map(dataPoint => {
             // Get conditional formatting color
             const color = this.colorHelper.getColorForDataPoint(dataPoint.dataViewObject);
-            
+
             return {
                 ...dataPoint,
                 color: color,
@@ -684,7 +684,7 @@ export class Visual implements IVisual {
 }
 ```
 
-### 3. Tooltip Integration
+### 3. 工具提示整合
 ```typescript
 import { createTooltipServiceWrapper, TooltipEventArgs, ITooltipServiceWrapper } from "powerbi-visuals-utils-tooltiputils";
 
@@ -709,7 +709,7 @@ export class Visual implements IVisual {
                         value: dataPoint.category
                     },
                     {
-                        displayName: "Value", 
+                        displayName: "Value",
                         value: dataPoint.value.toString()
                     },
                     {
@@ -723,9 +723,9 @@ export class Visual implements IVisual {
 }
 ```
 
-## Performance Optimization
+## 效能最佳化
 
-### 1. Data Reduction Strategies
+### 1. 資料縮減策略
 ```json
 // Visual capabilities with data reduction
 "dataViewMappings": {
@@ -736,7 +736,7 @@ export class Visual implements IVisual {
                 "window": {
                     "count": 300
                 }
-            }  
+            }
         },
         "values": {
             "group": {
@@ -750,14 +750,14 @@ export class Visual implements IVisual {
                     "top": {
                         "count": 100
                     }
-                }  
+                }
             }
         }
     }
 }
 ```
 
-### 2. Efficient Rendering Patterns
+### 2. 有效的呈現模式
 ```typescript
 export class OptimizedVisual implements IVisual {
     private animationFrameId: number;
@@ -770,7 +770,7 @@ export class OptimizedVisual implements IVisual {
 
     private queueRender(renderFunction: () => void): void {
         this.renderQueue.push(renderFunction);
-        
+
         if (!this.animationFrameId) {
             this.animationFrameId = requestAnimationFrame(() => {
                 this.processRenderQueue();
@@ -786,14 +786,14 @@ export class OptimizedVisual implements IVisual {
                 renderFunction();
             }
         }
-        
+
         this.animationFrameId = null;
     }
 
     private performUpdate(options: VisualUpdateOptions): void {
         // Use virtual DOM or efficient diffing strategies
         const currentData = this.transformData(options.dataViews[0]);
-        
+
         if (this.hasDataChanged(currentData)) {
             this.renderVisualization(currentData);
             this.previousData = currentData;
@@ -807,4 +807,4 @@ export class OptimizedVisual implements IVisual {
 }
 ```
 
-Remember: Custom visual development requires understanding both Power BI's visual framework and modern web development practices. Focus on creating reusable, testable, and performant visualizations that enhance the Power BI ecosystem.
+記住：自訂視覺效果開發需要瞭解 Power BI 的視覺效果框架和現代網頁開發實踐。重點是建立可重複使用、可測試和高效能的視覺化，以提升 Power BI 生態系統。

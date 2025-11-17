@@ -4,44 +4,44 @@ tools: ['search/codebase']
 description: 'Create optimized multi-stage Dockerfiles for any language or framework'
 ---
 
-Your goal is to help me create efficient multi-stage Dockerfiles that follow best practices, resulting in smaller, more secure container images.
+你的目標是幫助我建立高效率的多階段 Dockerfile，遵循最佳實踐，以產生更小、更安全的容器映像。
 
-## Multi-Stage Structure
+## 多階段結構
 
-- Use a builder stage for compilation, dependency installation, and other build-time operations
-- Use a separate runtime stage that only includes what's needed to run the application
-- Copy only the necessary artifacts from the builder stage to the runtime stage
-- Use meaningful stage names with the `AS` keyword (e.g., `FROM node:18 AS builder`)
-- Place stages in logical order: dependencies → build → test → runtime
+- 使用建置階段執行編譯、相依套件安裝及其他建置時期的操作
+- 使用獨立的執行階段，只包含執行應用程式所需的內容
+- 只從建置階段複製必要的產物到執行階段
+- 使用 `AS` 關鍵字搭配有意義的階段名稱（例如 `FROM node:18 AS builder`）
+- 依邏輯順序排列階段：相依套件 → 建置 → 測試 → 執行
 
-## Base Images
+## 基底映像
 
-- Start with official, minimal base images when possible
-- Specify exact version tags to ensure reproducible builds (e.g., `python:3.11-slim` not just `python`)
-- Consider distroless images for runtime stages where appropriate
-- Use Alpine-based images for smaller footprints when compatible with your application
-- Ensure the runtime image has the minimal necessary dependencies
+- 盡可能從官方、最小化的基底映像開始
+- 指定確切的版本標籤以確保可重現的建置（例如 `python:3.11-slim` 而不只是 `python`）
+- 適當考慮在執行階段使用無發行套件映像
+- 當與你的應用程式相容時，使用以 Alpine 為基礎的映像以縮小佔用空間
+- 確保執行映像具有最少必要的相依套件
 
-## Layer Optimization
+## 層級最佳化
 
-- Organize commands to maximize layer caching
-- Place commands that change frequently (like code changes) after commands that change less frequently (like dependency installation)
-- Use `.dockerignore` to prevent unnecessary files from being included in the build context
-- Combine related RUN commands with `&&` to reduce layer count
-- Consider using COPY --chown to set permissions in one step
+- 組織命令以最大化層級快取效果
+- 將經常變更的命令（如程式碼變更）放在較少變更的命令（如相依套件安裝）之後
+- 使用 `.dockerignore` 防止不必要的檔案被納入建置環境
+- 使用 `&&` 組合相關的 RUN 命令以減少層級數量
+- 考慮使用 COPY --chown 在單一步驟中設定權限
 
-## Security Practices
+## 安全實踐
 
-- Avoid running containers as root - use `USER` instruction to specify a non-root user
-- Remove build tools and unnecessary packages from the final image
-- Scan the final image for vulnerabilities
-- Set restrictive file permissions
-- Use multi-stage builds to avoid including build secrets in the final image
+- 避免以 root 身份執行容器 - 使用 `USER` 指令指定非 root 使用者
+- 從最終映像中移除建置工具及不必要的套件
+- 掃描最終映像以找出漏洞
+- 設定限制性的檔案權限
+- 使用多階段建置以避免在最終映像中包含建置機密
 
-## Performance Considerations
+## 效能考量
 
-- Use build arguments for configuration that might change between environments
-- Leverage build cache efficiently by ordering layers from least to most frequently changing
-- Consider parallelization in build steps when possible
-- Set appropriate environment variables like NODE_ENV=production to optimize runtime behavior
-- Use appropriate healthchecks for the application type with the HEALTHCHECK instruction
+- 為可能在環境間變更的組態使用建置引數
+- 透過將層級由最少到最常變更的順序排列，以有效地運用建置快取
+- 盡可能在建置步驟中考慮平行化
+- 設定適當的環境變數（如 NODE_ENV=production）以最佳化執行時行為
+- 為應用程式類型使用 HEALTHCHECK 指令進行適當的健康檢查

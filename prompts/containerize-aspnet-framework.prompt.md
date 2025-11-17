@@ -4,125 +4,125 @@ tools: ['search/codebase', 'edit/editFiles', 'terminalCommand']
 description: 'Containerize an ASP.NET .NET Framework project by creating Dockerfile and .dockerfile files customized for the project.'
 ---
 
-# ASP.NET .NET Framework Containerization Prompt
+# ASP.NET .NET Framework 容器化提示
 
-Containerize the ASP.NET (.NET Framework) project specified in the containerization settings below, focusing **exclusively** on changes required for the application to run in a Windows Docker container. Containerization should consider all settings specified here.
+依照下方的容器化設定，對指定的 ASP.NET (.NET Framework) 專案進行容器化，**專注於**確保應用程式能在 Windows Docker 容器中執行所需的變更。容器化應納入此處指定的所有設定。
 
-**REMEMBER:** This is a .NET Framework application, not .NET Core. The containerization process will be different from that of a .NET Core application.
+**記住：** 這是 .NET Framework 應用程式，不是 .NET Core。容器化流程與 .NET Core 應用程式不同。
 
-## Containerization Settings
+## 容器化設定
 
-This section of the prompt contains the specific settings and configurations required for containerizing the ASP.NET (.NET Framework) application. Prior to running this prompt, ensure that the settings are filled out with the necessary information. Note that in many cases, only the first few settings are required. Later settings can be left as defaults if they do not apply to the project being containerized.
+本提示的此部分包含容器化 ASP.NET (.NET Framework) 應用程式所需的特定設定和組態。執行本提示前，請確保設定已填入必要資訊。請注意，許多情況下只需要前幾個設定。如果後續設定不適用於要容器化的專案，可保留為預設值。
 
-Any settings that are not specified will be set to default values. The default values are provided in `[square brackets]`.
+未指定的任何設定將設為預設值。預設值以 `[方括弧]` 表示。
 
-### Basic Project Information
-1. Project to containerize: 
-   - `[ProjectName (provide path to .csproj file)]`
+### 基本專案資訊
+1. 要容器化的專案：
+   - `[專案名稱（提供 .csproj 檔案路徑）]`
 
-2. Windows Server SKU to use:
-   - `[Windows Server Core (Default) or Windows Server Full]`
+2. 要使用的 Windows Server SKU：
+   - `[Windows Server Core（預設）或 Windows Server Full]`
 
-3. Windows Server version to use:
-   - `[2022, 2019, or 2016 (Default 2022)]`
+3. 要使用的 Windows Server 版本：
+   - `[2022、2019 或 2016（預設 2022）]`
 
-4. Custom base image for the build stage of the Docker image ("None" to use standard Microsoft base image):
-   - `[Specify base image to use for build stage (Default None)]`
+4. Docker 映像建構階段的自訂基礎映像（輸入「None」可使用標準 Microsoft 基礎映像）：
+   - `[指定用於建構階段的基礎映像（預設 None）]`
 
-5. Custom base image for the run stage of the Docker image ("None" to use standard Microsoft base image):
-   - `[Specify base image to use for run stage (Default None)]`   
+5. Docker 映像執行階段的自訂基礎映像（輸入「None」可使用標準 Microsoft 基礎映像）：
+   - `[指定用於執行階段的基礎映像（預設 None）]`   
 
-### Container Configuration
-1. Ports that must be exposed in the container image:
-   - Primary HTTP port: `[e.g., 80]`
-   - Additional ports: `[List any additional ports, or "None"]`
+### 容器組態
+1. 必須在容器映像中公開的連接埠：
+   - 主 HTTP 連接埠：`[例如，80]`
+   - 額外連接埠：`[列出任何額外連接埠，或「None」]`
 
-2. User account the container should run as:
-   - `[User account, or default to "ContainerUser"]`
+2. 容器應執行的使用者帳戶：
+   - `[使用者帳戶，或預設為「ContainerUser」]`
 
-3. IIS settings that must be configured in the container image:
-   - `[List any specific IIS settings, or "None"]`
+3. 必須在容器映像中設定的 IIS 設定：
+   - `[列出任何特定 IIS 設定，或「None」]`
 
-### Build configuration
-1. Custom build steps that must be performed before building the container image:
-   - `[List any specific build steps, or "None"]`
+### 組建組態
+1. 建構容器映像前必須執行的自訂組建步驟：
+   - `[列出任何特定組建步驟，或「None」]`
 
-2. Custom build steps that must be performed after building the container image:
-   - `[List any specific build steps, or "None"]`
+2. 建構容器映像後必須執行的自訂組建步驟：
+   - `[列出任何特定組建步驟，或「None」]`
 
-### Dependencies
-1. .NET assemblies that should be registered in the GAC in the container image:
-   - `[Assembly name and version, or "None"]`
+### 相依性
+1. 應在容器映像中向 GAC 註冊的 .NET 組件：
+   - `[組件名稱和版本，或「None」]`
 
-2. MSIs that must be copied to the container image and installed:
-   - `[MSI names and versions, or "None"]`
+2. 必須複製到容器映像並安裝的 MSI：
+   - `[MSI 名稱和版本，或「None」]`
 
-3. COM components that must be registered in the container image:
-   - `[COM component names, or "None"]`
+3. 必須在容器映像中註冊的 COM 元件：
+   - `[COM 元件名稱，或「None」]`
 
-### System Configuration
-1. Registry keys and values that must be added to the container image:
-   - `[Registry paths and values, or "None"]`
+### 系統組態
+1. 必須新增至容器映像的登錄機碼和值：
+   - `[登錄路徑和值，或「None」]`
 
-2. Environment variables that must be set in the container image:
-   - `[Variable names and values, or "Use defaults"]`
+2. 必須在容器映像中設定的環境變數：
+   - `[變數名稱和值，或「使用預設值」]`
 
-3. Windows Server roles and features that must be installed in the container image:
-   - `[Role/feature names, or "None"]`
+3. 必須在容器映像中安裝的 Windows Server 角色和功能：
+   - `[角色/功能名稱，或「None」]`
 
-### File System
-1. Files/directories that need to be copied to the container image:
-   - `[Paths relative to project root, or "None"]`
-   - Target location in container: `[Container paths, or "Not applicable"]`
+### 檔案系統
+1. 需要複製到容器映像的檔案/目錄：
+   - `[相對於專案根目錄的路徑，或「None」]`
+   - 容器中的目標位置：`[容器路徑，或「不適用」]`
 
-2. Files/directories to exclude from containerization:
-   - `[Paths to exclude, or "None"]`
+2. 要從容器化中排除的檔案/目錄：
+   - `[要排除的路徑，或「None」]`
 
-### .dockerignore Configuration
-1. Patterns to include in the `.dockerignore` file (.dockerignore will already have common defaults; these are additional patterns):
-   - Additional patterns: `[List any additional patterns, or "None"]`
+### .dockerignore 組態
+1. 要納入 `.dockerignore` 檔案的模式（.dockerignore 已包含常見預設值；這些是額外模式）：
+   - 額外模式：`[列出任何額外模式，或「None」]`
 
-### Health Check Configuration
-1. Health check endpoint:
-   - `[Health check URL path, or "None"]`
+### 健康檢查組態
+1. 健康檢查端點：
+   - `[健康檢查 URL 路徑，或「None」]`
 
-2. Health check interval and timeout:
-   - `[Interval and timeout values, or "Use defaults"]`
+2. 健康檢查間隔和逾時：
+   - `[間隔和逾時值，或「使用預設值」]`
 
-### Additional Instructions
-1. Other instructions that must be followed to containerize the project:
-   - `[Specific requirements, or "None"]`
+### 額外指令
+1. 必須遵循以容器化專案的其他指令：
+   - `[具體需求，或「None」]`
 
-2. Known issues to address:
-   - `[Describe any known issues, or "None"]`
+2. 需要解決的已知問題：
+   - `[描述任何已知問題，或「None」]`
 
-## Scope
+## 範圍
 
-- ✅ App configuration modification to ensure config builders are used to read app settings and connection strings from the environment variables
-- ✅ Dockerfile creation and configuration for an ASP.NET application
-- ✅ Specifying multiple stages in the Dockerfile to build/publish the application and copy the output to the final image
-- ✅ Configuration of Windows container platform compatibility (Windows Server Core or Full)
-- ✅ Proper handling of dependencies (GAC assemblies, MSIs, COM components)
-- ❌ No infrastructure setup (assumed to be handled separately)
-- ❌ No code changes beyond those required for containerization
+- ✅ 應用程式組態修改，確保使用組態建構程式從環境變數讀取應用程式設定和連接字串
+- ✅ ASP.NET 應用程式的 Dockerfile 建立和組態
+- ✅ 在 Dockerfile 中指定多個階段以建構/發佈應用程式，並將輸出複製到最終映像
+- ✅ Windows 容器平台相容性組態（Windows Server Core 或 Full）
+- ✅ 適當處理相依性（GAC 組件、MSI、COM 元件）
+- ❌ 不涉及基礎結構設定（假設另行處理）
+- ❌ 除容器化所需外，無其他程式碼變更
 
-## Execution Process
+## 執行程序
 
-1. Review the containerization settings above to understand the containerization requirements
-2. Create a `progress.md` file to track changes with check marks
-3. Determine the .NET Framework version from the project's .csproj file by checking the `TargetFrameworkVersion` element
-4. Select the appropriate Windows Server container image based on:
-   - The .NET Framework version detected from the project
-   - The Windows Server SKU specified in containerization settings (Core or Full)
-   - The Windows Server version specified in containerization settings (2016, 2019, or 2022)
-   - Windows Server Core tags can be found at: https://github.com/microsoft/dotnet-framework-docker/blob/main/README.aspnet.md#full-tag-listing
-5. Ensure that required NuGet packages are installed. **DO NOT** install these if they are missing. If they are not installed, the user must install them manually. If they are not installed, pause executing this prompt and ask the user to install them using the Visual Studio NuGet Package Manager or Visual Studio package manager console. The following packages are required:
+1. 檢閱上述容器化設定以了解容器化需求
+2. 建立 `progress.md` 檔案以追蹤包含勾選標記的變更
+3. 通過檢查 `.csproj` 檔案中的 `TargetFrameworkVersion` 元素來決定 .NET Framework 版本
+4. 根據以下項目選擇適當的 Windows Server 容器映像：
+   - 從專案偵測到的 .NET Framework 版本
+   - 容器化設定中指定的 Windows Server SKU（Core 或 Full）
+   - 容器化設定中指定的 Windows Server 版本（2016、2019 或 2022）
+   - Windows Server Core 標籤可在此找到：https://github.com/microsoft/dotnet-framework-docker/blob/main/README.aspnet.md#full-tag-listing
+5. 確保已安裝必要的 NuGet 套件。**不要**在遺失時安裝。如果未安裝，使用者必須手動安裝。如果未安裝，請暫停執行此提示並要求使用者使用 Visual Studio NuGet 套件管理員或 Visual Studio 套件管理員主控台安裝。以下套件為必要：
    - `Microsoft.Configuration.ConfigurationBuilders.Environment`
-6. Modify the `web.config` file to add configuration builders section and settings to read app settings and connection strings from environment variables:
-   - Add ConfigBuilders section in configSections
-   - Add configBuilders section in the root
-   - Configure EnvironmentConfigBuilder for both appSettings and connectionStrings
-   - Example pattern:
+6. 修改 `web.config` 檔案以新增組態建構程式區段和設定，從環境變數讀取應用程式設定和連接字串：
+   - 在 configSections 中新增 ConfigBuilders 區段
+   - 在根目錄中新增 configBuilders 區段
+   - 為 appSettings 和 connectionStrings 設定 EnvironmentConfigBuilder
+   - 範例模式：
      ```xml
      <configSections>
        <section name="configBuilders" type="System.Configuration.ConfigurationBuildersSection, System.Configuration, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" restartOnExternalChanges="false" requirePermission="false" />
@@ -139,40 +139,40 @@ Any settings that are not specified will be set to default values. The default v
        <!-- existing connection strings -->
      </connectionStrings>
      ```
-7. Create a `LogMonitorConfig.json` file in the folder where the Dockerfile will be created by copying the reference `LogMonitorConfig.json` file at the end of this prompt. The file's contents **MUST NOT** not be modified and should match the reference content exactly unless instructions in containerization settings specify otherwise.
-   - In particular, make sure the level of issues to be logged is not changed as using `Information` level for EventLog sources will cause unnecessary noise.
-8. Create a Dockerfile in the root of the project directory to containerize the application
-   - The Dockerfile should use multiple stages:
-     - Build stage: Use a Windows Server Core image to build the application
-       - The build stage MUST use a `mcr.microsoft.com/dotnet/framework/sdk` base image unless a custom base image is specified in the settings file
-       - Copy sln, csproj, and packages.config files first
-       - Copy NuGet.config if one exists and configure any private feeds
-       - Restore NuGet packages       
-       - Then, copy the rest of the source code and build and publish the application to C:\publish using MSBuild
-     - Final stage: Use the selected Windows Server image to run the application
-       - The final stage MUST use a `mcr.microsoft.com/dotnet/framework/aspnet` base image unless a custom base image is specified in the settings file
-       - Copy the `LogMonitorConfig.json` file to a directory in the container (e.g., C:\LogMonitor)
-       - Download LogMonitor.exe from the Microsoft repository to the same directory
-           - The correct LogMonitor.exe URL is: https://github.com/microsoft/windows-container-tools/releases/download/v2.1.1/LogMonitor.exe
-       - Set the working directory to C:\inetpub\wwwroot
-       - Copy the published output from the build stage (in C:\publish) to the final image
-       - Set the container's entry point to run LogMonitor.exe with ServiceMonitor.exe to monitor the IIS service
+7. 通過複製本提示結尾的參考 `LogMonitorConfig.json` 檔案，在 Dockerfile 所在的資料夾中建立 `LogMonitorConfig.json` 檔案。檔案內容**不得**修改，應完全符合參考內容，除非容器化設定中的指令另有說明。
+   - 特別是，確保不要更改要記錄的問題等級，因為對 EventLog 來源使用 `Information` 等級會造成不必要的噪音。
+8. 在專案目錄的根目錄中建立 Dockerfile 以容器化應用程式
+   - Dockerfile 應使用多個階段：
+     - 組建階段：使用 Windows Server Core 映像來建構應用程式
+       - 組建階段必須使用 `mcr.microsoft.com/dotnet/framework/sdk` 基礎映像，除非設定檔中指定了自訂基礎映像
+       - 先複製 sln、csproj 和 packages.config 檔案
+       - 複製 NuGet.config（如果存在），並組態任何私密摘要
+       - 還原 NuGet 套件
+       - 然後，複製其餘原始程式碼，並使用 MSBuild 建構並發佈應用程式到 C:\publish
+     - 最終階段：使用選定的 Windows Server 映像執行應用程式
+       - 最終階段必須使用 `mcr.microsoft.com/dotnet/framework/aspnet` 基礎映像，除非設定檔中指定了自訂基礎映像
+       - 將 `LogMonitorConfig.json` 檔案複製到容器中的目錄（例如 C:\LogMonitor）
+       - 從 Microsoft 儲存庫下載 LogMonitor.exe 到相同目錄
+           - 正確的 LogMonitor.exe URL 為：https://github.com/microsoft/windows-container-tools/releases/download/v2.1.1/LogMonitor.exe
+       - 將工作目錄設為 C:\inetpub\wwwroot
+       - 將來自組建階段的發佈輸出（位於 C:\publish）複製到最終映像
+       - 設定容器的進入點以執行 LogMonitor.exe 搭配 ServiceMonitor.exe 來監控 IIS 服務
            - `ENTRYPOINT [ "C:\\LogMonitor\\LogMonitor.exe", "C:\\ServiceMonitor.exe", "w3svc" ]`
-   - Be sure to consider all requirements in the containerization settings:
-     - Windows Server SKU and version
-     - Exposed ports
-     - User account for container
-     - IIS settings
-     - GAC assembly registration
-     - MSI installation
-     - COM component registration
-     - Registry keys
-     - Environment variables
-     - Windows roles and features
-     - File/directory copying
-   - Model the Dockerfile after the example provided at the end of this prompt, but ensure it is customized to the specific project requirements and settings.
-   - **IMPORTANT:** Use a Windows Server Core base image unless the user has **specifically requested** a full Windows Server image in the settings file
-9. Create a `.dockerignore` file in the root of the project directory to exclude unnecessary files from the Docker image. The `.dockerignore` file **MUST** include at least the following elements as well as additional patterns as specified in the containerization settings:
+   - 務必考慮容器化設定中的所有需求：
+     - Windows Server SKU 和版本
+     - 公開的連接埠
+     - 容器的使用者帳戶
+     - IIS 設定
+     - GAC 組件註冊
+     - MSI 安裝
+     - COM 元件註冊
+     - 登錄機碼
+     - 環境變數
+     - Windows 角色和功能
+     - 檔案/目錄複製
+   - 以本提示結尾提供的範例為 Dockerfile 的模型，但確保根據特定專案需求和設定進行自訂。
+   - **重要：** 除非使用者在設定檔中**明確要求**完整 Windows Server 映像，否則使用 Windows Server Core 基礎映像
+9. 在專案目錄的根目錄中建立 `.dockerignore` 檔案，以從 Docker 映像中排除不必要的檔案。`.dockerignore` 檔案**必須**至少包含以下元素，以及容器化設定中指定的額外模式：
    - packages/
    - bin/
    - obj/
@@ -187,64 +187,64 @@ Any settings that are not specified will be set to default values. The default v
    - *.suo
    - **/.DS_Store
    - **/Thumbs.db
-   - Any additional patterns specified in the containerization settings
-10. Configure health checks if specified in the settings:
-   - Add HEALTHCHECK instruction to Dockerfile if health check endpoint is provided
-11. Add the dockerfile to the project by adding the following item to the project file: `<None Include="Dockerfile" />`
-12. Mark tasks as completed: [ ] → [✓]
-13. Continue until all tasks are complete and Docker build succeeds
+   - 容器化設定中指定的任何額外模式
+10. 如果在設定中指定了健康檢查，請進行設定：
+   - 如果提供了健康檢查端點，在 Dockerfile 中新增 HEALTHCHECK 指令
+11. 通過在專案檔案中新增以下項目，將 Dockerfile 新增至專案：`<None Include="Dockerfile" />`
+12. 將工作標記為已完成：[ ] → [✓]
+13. 繼續進行，直到所有工作完成且 Docker 建置成功
 
-## Build and Runtime Verification
+## 組建與執行時期驗證
 
-confirm that Docker build succeeds once the Dockerfile is completed. Use the following command to build the Docker image:
+確認 Dockerfile 完成後 Docker 建置成功。使用以下命令建置 Docker 映像：
 
 ```bash
 docker build -t aspnet-app:latest .
 ```
 
-If the build fails, review the error messages and make necessary adjustments to the Dockerfile or project configuration. Report success/failure.
+如果建置失敗，請檢查錯誤訊息，並對 Dockerfile 或專案組態做出必要的調整。回報成功/失敗。
 
-## Progress Tracking
+## 進度追蹤
 
-Maintain a `progress.md` file with the following structure:
+維持 `progress.md` 檔案，採用下列結構：
 ```markdown
-# Containerization Progress
+# 容器化進度
 
-## Environment Detection
-- [ ] .NET Framework version detection (version: ___)
-- [ ] Windows Server SKU selection (SKU: ___)
-- [ ] Windows Server version selection (Version: ___)
+## 環境偵測
+- [ ] .NET Framework 版本偵測（版本：___）
+- [ ] Windows Server SKU 選擇（SKU：___）
+- [ ] Windows Server 版本選擇（版本：___）
 
-## Configuration Changes
-- [ ] Web.config modifications for configuration builders
-- [ ] NuGet package source configuration (if applicable)
-- [ ] Copy LogMonitorConfig.json and adjust if required by settings
+## 組態變更
+- [ ] Web.config 對組態建構程式的修改
+- [ ] NuGet 套件來源組態（若適用）
+- [ ] 複製 LogMonitorConfig.json 及視設定要求進行調整
 
-## Containerization
-- [ ] Dockerfile creation
-- [ ] .dockerignore file creation
-- [ ] Build stage created with SDK image
-- [ ] sln, csproj, packages.config, and (if applicable) NuGet.config copied for package restore
-- [ ] Runtime stage created with runtime image
-- [ ] Non-root user configuration
-- [ ] Dependency handling (GAC, MSI, COM, registry, additional files, etc.)
-- [ ] Health check configuration (if applicable)
-- [ ] Special requirements implementation
+## 容器化
+- [ ] Dockerfile 建立
+- [ ] .dockerignore 檔案建立
+- [ ] 使用 SDK 映像建立的組建階段
+- [ ] 已複製 sln、csproj、packages.config 及（如適用）NuGet.config 以進行套件還原
+- [ ] 使用執行時期映像建立的執行階段
+- [ ] 非 root 使用者組態
+- [ ] 相依性處理（GAC、MSI、COM、登錄、額外檔案等）
+- [ ] 健康檢查組態（若適用）
+- [ ] 特殊需求實作
 
-## Verification
-- [ ] Review containerization settings and make sure that all requirements are met
-- [ ] Docker build success
+## 驗證
+- [ ] 檢閱容器化設定並確保符合所有需求
+- [ ] Docker 建置成功
 ```
 
-Do not pause for confirmation between steps. Continue methodically until the application has been containerized and Docker build succeeds.
+請勿在各步驟間暫停確認。持續有條不紊地進行，直到應用程式已容器化且 Docker 建置成功。
 
-**YOU ARE NOT DONE UNTIL ALL CHECKBOXES ARE MARKED!** This includes building the Docker image successfully and addressing any issues that arise during the build process.
+**在所有核取方塊都標記完成之前，你尚未完成！** 這包括成功建置 Docker 映像，以及解決建置程序中出現的任何問題。
 
-## Reference Materials
+## 參考資料
 
-### Example Dockerfile
+### 範例 Dockerfile
 
-An example Dockerfile for an ASP.NET (.NET Framework) application using a Windows Server Core base image.
+使用 Windows Server Core 基礎映像的 ASP.NET (.NET Framework) 應用程式範例 Dockerfile。
 
 ```dockerfile
 # escape=`
@@ -387,26 +387,26 @@ USER ContainerUser
 ENTRYPOINT [ "C:\\LogMonitor\\LogMonitor.exe", "C:\\ServiceMonitor.exe", "w3svc" ]
 ```
 
-## Adapting this Example
+## 調整此範例
 
-**Note:** Customize this template based on the specific requirements in the containerization settings. 
+**注意：** 根據容器化設定中的特定需求自訂此範本。
 
-When adapting this example Dockerfile:
+調整此範例 Dockerfile 時：
 
-1. Replace `YourSolution.sln`, `YourProject.csproj`, etc. with your actual file names
-2. Adjust the Windows Server and .NET Framework versions as needed
-3. Modify the dependency installation steps based on your requirements and remove any unnecessary ones
-4. Add or remove stages as needed for your specific workflow
+1. 使用實際檔案名稱取代 `YourSolution.sln`、`YourProject.csproj` 等
+2. 視需要調整 Windows Server 和 .NET Framework 版本
+3. 根據需求修改相依性安裝步驟，並移除任何不必要的步驟
+4. 根據特定工作流程視需要新增或移除階段
 
-## Notes on Stage Naming
+## 階段命名附註
 
-- The `AS stage-name` syntax gives each stage a name
-- Use `--from=stage-name` to copy files from a previous stage
-- You can have multiple intermediate stages that aren't used in the final image
+- `AS stage-name` 語法為每個階段指定名稱
+- 使用 `--from=stage-name` 從先前的階段複製檔案
+- 可有多個中間階段不用於最終映像
 
 ### LogMonitorConfig.json
 
-The LogMonitorConfig.json file should be created in the root of the project directory. It is used to configure the LogMonitor tool, which monitors logs in the container. The contents of this file should look exactly like this to ensure proper logging functionality:
+LogMonitorConfig.json 檔案應建立在專案目錄的根目錄中。它用於設定 LogMonitor 工具，該工具在容器中監控日誌。此檔案的內容應完全如下所示，以確保適當的記錄功能：
 ```json
 {
   "LogConfig": {

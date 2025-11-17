@@ -3,13 +3,13 @@ description: 'Best practices and patterns for building Model Context Protocol (M
 applyTo: "**/*.kt, **/*.kts, **/build.gradle.kts, **/settings.gradle.kts"
 ---
 
-# Kotlin MCP Server Development Guidelines
+# Kotlin MCP 伺服器開發指南
 
-When building MCP servers in Kotlin, follow these best practices and patterns using the official Kotlin SDK.
+在使用官方 Kotlin SDK 建構 Kotlin MCP 伺服器時，請遵循以下最佳實踐與設計模式。
 
-## Server Setup
+## 伺服器設定
 
-Create an MCP server using the `Server` class:
+使用 `Server` 類別建立一個 MCP 伺服器：
 
 ```kotlin
 import io.modelcontextprotocol.kotlin.sdk.server.Server
@@ -37,9 +37,9 @@ val server = Server(
 }
 ```
 
-## Adding Tools
+## 新增工具
 
-Use `server.addTool()` to register tools with typed request/response handling:
+使用 `server.addTool()` 來註冊工具，並配合型別的請求/回應處理：
 
 ```kotlin
 import io.modelcontextprotocol.kotlin.sdk.CallToolRequest
@@ -69,10 +69,10 @@ server.addTool(
     val query = request.params.arguments["query"] as? String
         ?: throw IllegalArgumentException("query is required")
     val limit = (request.params.arguments["limit"] as? Number)?.toInt() ?: 10
-    
+
     // Perform search
     val results = performSearch(query, limit)
-    
+
     CallToolResult(
         content = listOf(
             TextContent(
@@ -83,9 +83,9 @@ server.addTool(
 }
 ```
 
-## Adding Resources
+## 新增資源
 
-Use `server.addResource()` to provide accessible data:
+使用 `server.addResource()` 來提供可存取的資料：
 
 ```kotlin
 import io.modelcontextprotocol.kotlin.sdk.ReadResourceRequest
@@ -99,7 +99,7 @@ server.addResource(
     mimeType = "text/plain"
 ) { request: ReadResourceRequest ->
     val content = loadResourceContent(request.uri)
-    
+
     ReadResourceResult(
         contents = listOf(
             TextResourceContents(
@@ -112,9 +112,9 @@ server.addResource(
 }
 ```
 
-## Adding Prompts
+## 新增提示範本
 
-Use `server.addPrompt()` for reusable prompt templates:
+使用 `server.addPrompt()` 來建立可重複使用的提示範本：
 
 ```kotlin
 import io.modelcontextprotocol.kotlin.sdk.GetPromptRequest
@@ -135,7 +135,7 @@ server.addPrompt(
 ) { request: GetPromptRequest ->
     val topic = request.params.arguments?.get("topic") as? String
         ?: throw IllegalArgumentException("topic is required")
-    
+
     GetPromptResult(
         description = "Analyze the given topic",
         messages = listOf(
@@ -150,11 +150,11 @@ server.addPrompt(
 }
 ```
 
-## Transport Configuration
+## 傳輸設定
 
-### Stdio Transport
+### 標準輸入/輸出傳輸
 
-For communication over stdin/stdout:
+用於透過標準輸入/輸出進行通訊：
 
 ```kotlin
 import io.modelcontextprotocol.kotlin.sdk.server.StdioServerTransport
@@ -165,9 +165,9 @@ suspend fun main() {
 }
 ```
 
-### SSE Transport with Ktor
+### 使用 Ktor 的 SSE 傳輸
 
-For HTTP-based communication using Server-Sent Events:
+用於使用伺服器傳送事件 (Server-Sent Events) 的 HTTP 型通訊：
 
 ```kotlin
 import io.ktor.server.application.*
@@ -196,9 +196,9 @@ fun main() {
 }
 ```
 
-## Coroutine Usage
+## 協程使用方式
 
-All MCP operations are suspending functions. Use Kotlin coroutines properly:
+所有 MCP 操作都是暫停函式。請正確使用 Kotlin 協程：
 
 ```kotlin
 import kotlinx.coroutines.coroutineScope
@@ -211,9 +211,9 @@ server.addTool(
     coroutineScope {
         val source1 = async { searchSource1(query) }
         val source2 = async { searchSource2(query) }
-        
+
         val results = source1.await() + source2.await()
-        
+
         CallToolResult(
             content = listOf(TextContent(text = results.joinToString("\n")))
         )
@@ -221,9 +221,9 @@ server.addTool(
 }
 ```
 
-## Error Handling
+## 錯誤處理
 
-Use Kotlin's exception handling and provide meaningful error messages:
+使用 Kotlin 的例外處理機制並提供有意義的錯誤訊息：
 
 ```kotlin
 server.addTool(
@@ -233,11 +233,11 @@ server.addTool(
     try {
         val input = request.params.arguments["input"] as? String
             ?: throw IllegalArgumentException("input is required")
-        
+
         require(input.isNotBlank()) { "input cannot be blank" }
-        
+
         val result = processInput(input)
-        
+
         CallToolResult(
             content = listOf(TextContent(text = result))
         )
@@ -250,9 +250,9 @@ server.addTool(
 }
 ```
 
-## JSON Schema with kotlinx.serialization
+## 使用 kotlinx.serialization 的 JSON 架構
 
-Use kotlinx.serialization for type-safe JSON schemas:
+使用 kotlinx.serialization 來建立型別安全的 JSON 架構：
 
 ```kotlin
 import kotlinx.serialization.Serializable
@@ -289,9 +289,9 @@ fun createToolSchema(): JsonObject = buildJsonObject {
 }
 ```
 
-## Gradle Configuration
+## Gradle 設定
 
-Set up your `build.gradle.kts` properly:
+正確設定您的 `build.gradle.kts`：
 
 ```kotlin
 plugins {
@@ -305,24 +305,24 @@ repositories {
 
 dependencies {
     implementation("io.modelcontextprotocol:kotlin-sdk:0.7.2")
-    
+
     // For client transport
     implementation("io.ktor:ktor-client-cio:3.0.0")
-    
+
     // For server transport
     implementation("io.ktor:ktor-server-netty:3.0.0")
-    
+
     // For JSON serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    
+
     // For coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
 }
 ```
 
-## Multiplatform Support
+## 多平台支援
 
-The Kotlin SDK supports Kotlin Multiplatform (JVM, Wasm, iOS):
+Kotlin SDK 支援 Kotlin 多平台 (JVM、Wasm、iOS)：
 
 ```kotlin
 kotlin {
@@ -332,7 +332,7 @@ kotlin {
         nodejs()
     }
     wasmJs()
-    
+
     sourceSets {
         commonMain.dependencies {
             implementation("io.modelcontextprotocol:kotlin-sdk:0.7.2")
@@ -342,9 +342,9 @@ kotlin {
 }
 ```
 
-## Resource Lifecycle
+## 資源生命週期
 
-Handle resource updates and subscriptions:
+處理資源更新與訂閱：
 
 ```kotlin
 server.addResource(
@@ -369,9 +369,9 @@ server.addResource(
 server.notifyResourceListChanged()
 ```
 
-## Testing
+## 測試
 
-Test your MCP tools using Kotlin coroutines test utilities:
+使用 Kotlin 協程測試工具來測試您的 MCP 工具：
 
 ```kotlin
 import kotlinx.coroutines.test.runTest
@@ -382,27 +382,27 @@ class ServerTest {
     @Test
     fun testSearchTool() = runTest {
         val server = createTestServer()
-        
+
         val request = CallToolRequest(
             params = CallToolParams(
                 name = "search",
                 arguments = mapOf("query" to "test", "limit" to 5)
             )
         )
-        
+
         val result = server.callTool(request)
-        
+
         assertEquals(false, result.isError)
         assert(result.content.isNotEmpty())
     }
 }
 ```
 
-## Common Patterns
+## 常見設計模式
 
-### Logging
+### 日誌記錄
 
-Use structured logging with a Kotlin logging library:
+使用 Kotlin 日誌記錄程式庫進行結構化日誌記錄：
 
 ```kotlin
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -414,7 +414,7 @@ server.addTool(
     description = "Operation with logging"
 ) { request ->
     logger.info { "Tool called with args: ${request.params.arguments}" }
-    
+
     try {
         val result = performOperation(request)
         logger.info { "Operation succeeded" }
@@ -426,9 +426,9 @@ server.addTool(
 }
 ```
 
-### Configuration
+### 設定
 
-Use data classes for configuration:
+使用資料類別進行設定：
 
 ```kotlin
 import kotlinx.serialization.Serializable
@@ -450,9 +450,9 @@ fun loadConfig(): ServerConfig {
 }
 ```
 
-### Dependency Injection
+### 依賴注入
 
-Use constructor injection for testability:
+使用建構函式注入來確保可測試性：
 
 ```kotlin
 class MyServer(

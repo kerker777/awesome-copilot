@@ -3,50 +3,50 @@ description: 'Documentation and content creation standards'
 applyTo: '**/*.md'
 ---
 
-## Markdown Content Rules
+## Markdown 內容規則
 
-The following markdown content rules are enforced in the validators:
+驗證工具會執行以下 Markdown 內容規則：
 
-1. **Headings**: Use appropriate heading levels (H2, H3, etc.) to structure your content. Do not use an H1 heading, as this will be generated based on the title.
-2. **Lists**: Use bullet points or numbered lists for lists. Ensure proper indentation and spacing.
-3. **Code Blocks**: Use fenced code blocks for code snippets. Specify the language for syntax highlighting.
-4. **Links**: Use proper markdown syntax for links. Ensure that links are valid and accessible.
-5. **Images**: Use proper markdown syntax for images. Include alt text for accessibility.
-6. **Tables**: Use markdown tables for tabular data. Ensure proper formatting and alignment.
-7. **Line Length**: Limit line length to 400 characters for readability.
-8. **Whitespace**: Use appropriate whitespace to separate sections and improve readability.
-9. **Front Matter**: Include YAML front matter at the beginning of the file with required metadata fields.
+1. **標題**：使用適當的標題等級（H2、H3 等）來組織內容。不要使用 H1 標題，因為這將根據標題自動產生。
+2. **列表**：使用項目符號或編號列表。確保正確的縮排和間距。
+3. **程式碼區塊**：使用圍欄式程式碼區塊放置程式碼片段。指定語言以啟用語法醒目提示。
+4. **連結**：使用正確的 Markdown 語法建立連結。確保連結有效且可訪問。
+5. **圖片**：使用正確的 Markdown 語法插入圖片。包含替代文字以提升無障礙性。
+6. **表格**：使用 Markdown 表格顯示表格式資料。確保格式正確且對齊。
+7. **行長**：限制行長為 400 個字元，以提升可讀性。
+8. **空白**：使用適當的空白分隔各章節並改善可讀性。
+9. **Front Matter**：在檔案開頭包含 YAML front matter，內含必需的中繼資料欄位。
 
-## Formatting and Structure
+## 格式與結構
 
-Follow these guidelines for formatting and structuring your markdown content:
+遵循以下指南來格式化和組織 Markdown 內容：
 
-- **Headings**: Use `##` for H2 and `###` for H3. Ensure that headings are used in a hierarchical manner. Recommend restructuring if content includes H4, and more strongly recommend for H5.
-- **Lists**: Use `-` for bullet points and `1.` for numbered lists. Indent nested lists with two spaces.
-- **Code Blocks**: Use triple backticks (`) to create fenced code blocks. Specify the language after the opening backticks for syntax highlighting (e.g., `csharp).
-- **Links**: Use `[link text](URL)` for links. Ensure that the link text is descriptive and the URL is valid.
-- **Images**: Use `![alt text](image URL)` for images. Include a brief description of the image in the alt text.
-- **Tables**: Use `|` to create tables. Ensure that columns are properly aligned and headers are included.
-- **Line Length**: Break lines at 80 characters to improve readability. Use soft line breaks for long paragraphs.
-- **Whitespace**: Use blank lines to separate sections and improve readability. Avoid excessive whitespace.
+- **標題**：使用 `##` 表示 H2，使用 `###` 表示 H3。確保標題以階層式方式使用。如果內容包含 H4，建議重新組織；如包含 H5，則強烈建議重新組織。
+- **列表**：使用 `-` 作為項目符號，使用 `1.` 作為編號列表。使用兩個空格縮排巢狀列表。
+- **程式碼區塊**：使用三個反引號 (`) 建立圍欄式程式碼區塊。在開始反引號後指定語言以啟用語法醒目提示（例如 `csharp`）。
+- **連結**：使用 `[連結文字](URL)` 建立連結。確保連結文字具有描述性，且 URL 有效。
+- **圖片**：使用 `![替代文字](圖片 URL)` 插入圖片。在替代文字中包含圖片的簡短說明。
+- **表格**：使用 `|` 建立表格。確保欄位正確對齐，且包含標題。
+- **行長**：在 80 個字元處換行以提升可讀性。在長段落中使用軟換行。
+- **空白**：使用空白行分隔章節並改善可讀性。避免過度的空白。
 
-## Validation Requirements
+## 驗證需求
 
-Ensure compliance with the following validation requirements:
+確保符合以下驗證需求：
 
-- **Front Matter**: Include the following fields in the YAML front matter:
+- **Front Matter**：在 YAML front matter 中包含以下欄位：
 
-  - `post_title`: The title of the post.
-  - `author1`: The primary author of the post.
-  - `post_slug`: The URL slug for the post.
-  - `microsoft_alias`: The Microsoft alias of the author.
-  - `featured_image`: The URL of the featured image.
-  - `categories`: The categories for the post. These categories must be from the list in /categories.txt.
-  - `tags`: The tags for the post.
-  - `ai_note`: Indicate if AI was used in the creation of the post.
-  - `summary`: A brief summary of the post. Recommend a summary based on the content when possible.
-  - `post_date`: The publication date of the post.
+  - `post_title`：文章的標題。
+  - `author1`：文章的主要作者。
+  - `post_slug`：文章的 URL 別名。
+  - `microsoft_alias`：作者的 Microsoft 別名。
+  - `featured_image`：精選圖片的 URL。
+  - `categories`：文章的分類。這些分類必須來自 /categories.txt 中的列表。
+  - `tags`：文章的標籤。
+  - `ai_note`：指示文章建立過程中是否使用了 AI。
+  - `summary`：文章的簡短摘要。可能時根據內容建議摘要。
+  - `post_date`：文章的發佈日期。
 
-- **Content Rules**: Ensure that the content follows the markdown content rules specified above.
-- **Formatting**: Ensure that the content is properly formatted and structured according to the guidelines.
-- **Validation**: Run the validation tools to check for compliance with the rules and guidelines.
+- **內容規則**：確保內容遵循上述指定的 Markdown 內容規則。
+- **格式**：確保內容根據指南進行正確格式化和組織。
+- **驗證**：執行驗證工具以檢查是否符合規則和指南。

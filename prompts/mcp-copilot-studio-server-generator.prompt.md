@@ -3,33 +3,33 @@ description: Generate a complete MCP server implementation optimized for Copilot
 mode: agent
 ---
 
-# Power Platform MCP Connector Generator
+# Power Platform MCP 連接器產生器
 
-Generate a complete Power Platform custom connector with Model Context Protocol (MCP) integration for Microsoft Copilot Studio. This prompt creates all necessary files following Power Platform connector standards with MCP streamable HTTP support.
+產生完整的 Power Platform 自訂連接器，整合 Model Context Protocol (MCP) 以供 Microsoft Copilot Studio 使用。此提示會遵循 Power Platform 連接器標準建立所有必要文件，並提供 MCP 串流 HTTP 支援。
 
-## Instructions
+## 指示說明
 
-Create a complete MCP server implementation that:
+建立完整的 MCP 伺服器實作，滿足以下要求：
 
-1. **Uses Copilot Studio MCP Pattern:**
-   - Implement `x-ms-agentic-protocol: mcp-streamable-1.0`
-   - Support JSON-RPC 2.0 communication protocol
-   - Provide streamable HTTP endpoint at `/mcp`
-   - Follow Power Platform connector structure
+1. **使用 Copilot Studio MCP 模式：**
+   - 實作 `x-ms-agentic-protocol: mcp-streamable-1.0`
+   - 支援 JSON-RPC 2.0 通訊協定
+   - 在 `/mcp` 提供可串流的 HTTP 端點
+   - 遵循 Power Platform 連接器結構
 
-2. **Schema Compliance Requirements:**
-   - **NO reference types** in tool inputs/outputs (filtered by Copilot Studio)
-   - **Single type values only** (not arrays of multiple types)
-   - **Avoid enum inputs** (interpreted as string, not enum)
-   - Use primitive types: string, number, integer, boolean, array, object
-   - Ensure all endpoints return full URIs
+2. **架構相容要求：**
+   - **工具輸入/輸出中不使用參考型別**（由 Copilot Studio 篩選）
+   - **只使用單一型別值**（不使用多重型別陣列）
+   - **避免使用列舉輸入**（會被解釋為字串，而不是列舉）
+   - 使用原始型別：string、number、integer、boolean、array、object
+   - 確保所有端點都回傳完整的 URI
 
-3. **MCP Components to Include:**
-   - **Tools**: Functions for the language model to call (✅ Supported in Copilot Studio)
-   - **Resources**: File-like data outputs from tools (✅ Supported in Copilot Studio - must be tool outputs to be accessible)
-   - **Prompts**: Predefined templates for specific tasks (❌ Not yet supported in Copilot Studio)
+3. **要包含的 MCP 元件：**
+   - **工具**：供語言模型呼叫的函式（✅ Copilot Studio 支援）
+   - **資源**：來自工具的類檔案資料輸出（✅ Copilot Studio 支援 - 必須為工具輸出才能存取）
+   - **提示**：特定工作的預定義範本（❌ Copilot Studio 尚未支援）
 
-4. **Implementation Structure:**
+4. **實作結構：**
    ```
    /apiDefinition.swagger.json  (Power Platform connector schema)
    /apiProperties.json         (Connector metadata and configuration)
@@ -39,73 +39,73 @@ Create a complete MCP server implementation that:
    /resources/                 (MCP resource handlers)
    ```
 
-## Context Variables
+## 內容變數
 
-- **Server Purpose**: [Describe what the MCP server should accomplish]
-- **Tools Needed**: [List of specific tools to implement]  
-- **Resources**: [Types of resources to provide]
-- **Authentication**: [Auth method: none, api-key, oauth2]
-- **Host Environment**: [Azure Function, Express.js, FastAPI, etc.]
-- **Target APIs**: [External APIs to integrate with]
+- **伺服器用途**：[描述 MCP 伺服器應該完成的工作]
+- **需要的工具**：[要實作的特定工具列表]
+- **資源**：[要提供的資源型別]
+- **身份驗證**：[驗證方式：none、api-key、oauth2]
+- **主機環境**：[Azure Function、Express.js、FastAPI 等]
+- **目標 API**：[要整合的外部 API]
 
-## Expected Output
+## 預期輸出
 
-Generate:
+產生下列項目：
 
-1. **apiDefinition.swagger.json** with:
-   - Proper `x-ms-agentic-protocol: mcp-streamable-1.0`
-   - MCP endpoint at POST `/mcp`
-   - Compliant schema definitions (no reference types)
-   - McpResponse and McpErrorResponse definitions
+1. **apiDefinition.swagger.json** 包含：
+   - 正確的 `x-ms-agentic-protocol: mcp-streamable-1.0`
+   - POST `/mcp` 的 MCP 端點
+   - 相容的架構定義（無參考型別）
+   - McpResponse 和 McpErrorResponse 定義
 
-2. **apiProperties.json** with:
-   - Connector metadata and branding
-   - Authentication configuration
-   - Policy templates if needed
+2. **apiProperties.json** 包含：
+   - 連接器中繼資料和品牌
+   - 身份驗證組態
+   - 必要時的原則範本
 
-3. **script.csx** with:
-   - Custom C# code for request/response transformations
-   - MCP JSON-RPC message handling logic
-   - Data validation and processing functions
-   - Error handling and logging capabilities
+3. **script.csx** 包含：
+   - 用於請求/回應轉換的自訂 C# 程式碼
+   - MCP JSON-RPC 訊息處理邏輯
+   - 資料驗證和處理函式
+   - 錯誤處理和記錄功能
 
-4. **MCP Server Code** with:
-   - JSON-RPC 2.0 request handler
-   - Tool registration and execution
-   - Resource management (as tool outputs)
-   - Proper error handling
-   - Copilot Studio compatibility checks
+4. **MCP 伺服器程式碼** 包含：
+   - JSON-RPC 2.0 請求處理程式
+   - 工具註冊和執行
+   - 資源管理（作為工具輸出）
+   - 正確的錯誤處理
+   - Copilot Studio 相容性檢查
 
-5. **Individual Tools** that:
-   - Accept only primitive type inputs
-   - Return structured outputs
-   - Include resources as outputs when needed
-   - Provide clear descriptions for Copilot Studio
+5. **個別工具** 必須：
+   - 只接受原始型別輸入
+   - 回傳結構化輸出
+   - 必要時在輸出中包含資源
+   - 為 Copilot Studio 提供清晰的描述
 
-6. **Deployment Configuration** for:
-   - Power Platform environment
-   - Copilot Studio agent integration
-   - Testing and validation
+6. **部署組態** 包含：
+   - Power Platform 環境
+   - Copilot Studio 代理程式整合
+   - 測試和驗證
 
-## Validation Checklist
+## 驗證檢查清單
 
-Ensure generated code:
-- [ ] No reference types in schemas
-- [ ] All type fields are single types
-- [ ] Enum handling via string with validation
-- [ ] Resources available through tool outputs
-- [ ] Full URI endpoints
-- [ ] JSON-RPC 2.0 compliance
-- [ ] Proper x-ms-agentic-protocol header
-- [ ] McpResponse/McpErrorResponse schemas
-- [ ] Clear tool descriptions for Copilot Studio
-- [ ] Generative Orchestration compatible
+確保產生的程式碼：
+- [ ] 架構中沒有參考型別
+- [ ] 所有型別欄位都是單一型別
+- [ ] 透過字串進行列舉處理並驗證
+- [ ] 資源可透過工具輸出取得
+- [ ] 完整的 URI 端點
+- [ ] 符合 JSON-RPC 2.0
+- [ ] 正確的 x-ms-agentic-protocol 標頭
+- [ ] McpResponse/McpErrorResponse 架構
+- [ ] 為 Copilot Studio 提供清晰的工具描述
+- [ ] 相容於生成式協調
 
-## Example Usage
+## 使用範例
 
 ```yaml
 Server Purpose: Customer data management and analysis
-Tools Needed: 
+Tools Needed:
   - searchCustomers
   - getCustomerDetails
   - analyzeCustomerTrends

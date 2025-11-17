@@ -3,371 +3,371 @@ description: 'Instructions for writing Go code following idiomatic Go practices 
 applyTo: '**/*.go,**/go.mod,**/go.sum'
 ---
 
-# Go Development Instructions
+# Go 開發指南
 
-Follow idiomatic Go practices and community standards when writing Go code. These instructions are based on [Effective Go](https://go.dev/doc/effective_go), [Go Code Review Comments](https://go.dev/wiki/CodeReviewComments), and [Google's Go Style Guide](https://google.github.io/styleguide/go/).
+撰寫 Go 程式碼時，應遵循 Go 慣用法和社群標準。本指南基於 [Effective Go](https://go.dev/doc/effective_go)、[Go Code Review Comments](https://go.dev/wiki/CodeReviewComments) 和 [Google's Go Style Guide](https://google.github.io/styleguide/go/) 編製。
 
-## General Instructions
+## 通用指南
 
-- Write simple, clear, and idiomatic Go code
-- Favor clarity and simplicity over cleverness
-- Follow the principle of least surprise
-- Keep the happy path left-aligned (minimize indentation)
-- Return early to reduce nesting
-- Prefer early return over if-else chains; use `if condition { return }` pattern to avoid else blocks
-- Make the zero value useful
-- Write self-documenting code with clear, descriptive names
-- Document exported types, functions, methods, and packages
-- Use Go modules for dependency management
-- Leverage the Go standard library instead of reinventing the wheel (e.g., use `strings.Builder` for string concatenation, `filepath.Join` for path construction)
-- Prefer standard library solutions over custom implementations when functionality exists
-- Write comments in English by default; translate only upon user request
-- Avoid using emoji in code and comments
+- 撰寫簡潔、清晰且符合 Go 慣用法的程式碼
+- 優先選擇清晰與簡潔，而非巧妙的實現
+- 遵循最小驚訝原則
+- 保持主路徑左對齊（最小化縮排）
+- 提前返回以減少嵌套層級
+- 優先使用提前返回而非 if-else 鏈；使用 `if condition { return }` 模式以避免 else 區塊
+- 使零值變得有用
+- 撰寫自我解釋的程式碼，使用清晰、描述性的名稱
+- 對匯出的型別、函式、方法和套件進行文件記錄
+- 使用 Go modules 進行依賴管理
+- 善用 Go 標準程式庫，避免重複造輪子（例如，字串連接使用 `strings.Builder`、路徑構建使用 `filepath.Join`）
+- 當功能存在時，優先選擇標準程式庫方案而非自訂實現
+- 預設註釋使用英文；只在使用者明確要求時才翻譯
+- 避免在程式碼和註釋中使用表情符號
 
-## Naming Conventions
+## 命名規則
 
-### Packages
+### 套件
 
-- Use lowercase, single-word package names
-- Avoid underscores, hyphens, or mixedCaps
-- Choose names that describe what the package provides, not what it contains
-- Avoid generic names like `util`, `common`, or `base`
-- Package names should be singular, not plural
+- 使用小寫、單字套件名稱
+- 避免使用底線、連字號或混合大小寫
+- 選擇描述套件提供內容的名稱，而非所包含內容的名稱
+- 避免使用 `util`、`common` 或 `base` 等通用名稱
+- 套件名稱應為單數，而非複數
 
-#### Package Declaration Rules (CRITICAL):
-- **NEVER duplicate `package` declarations** - each Go file must have exactly ONE `package` line
-- When editing an existing `.go` file:
-  - **PRESERVE** the existing `package` declaration - do not add another one
-  - If you need to replace the entire file content, start with the existing package name
-- When creating a new `.go` file:
-  - **BEFORE writing any code**, check what package name other `.go` files in the same directory use
-  - Use the SAME package name as existing files in that directory
-  - If it's a new directory, use the directory name as the package name
-  - Write **exactly one** `package <name>` line at the very top of the file
-- When using file creation or replacement tools:
-  - **ALWAYS verify** the target file doesn't already have a `package` declaration before adding one
-  - If replacing file content, include only ONE `package` declaration in the new content
-  - **NEVER** create files with multiple `package` lines or duplicate declarations
+#### 套件宣告規則（重要）：
+- **絕不重複 `package` 宣告** - 每個 Go 檔案必須恰好有一個 `package` 行
+- 編輯現有的 `.go` 檔案時：
+  - **保留**現有的 `package` 宣告 - 不要再加一個
+  - 如果需要替換整個檔案內容，應以現有套件名稱開頭
+- 建立新的 `.go` 檔案時：
+  - **撰寫任何程式碼前**，檢查同目錄中其他 `.go` 檔案使用的套件名稱
+  - 使用與該目錄現有檔案**相同的套件名稱**
+  - 如果是新目錄，使用目錄名稱作為套件名稱
+  - 在檔案最頂部撰寫**恰好一行** `package <name>`
+- 使用檔案建立或替換工具時：
+  - **務必驗證**目標檔案尚未有 `package` 宣告才加入
+  - 若替換檔案內容，新內容中只包含一個 `package` 宣告
+  - **絕不**建立具有多個 `package` 行或重複宣告的檔案
 
-### Variables and Functions
+### 變數和函式
 
-- Use mixedCaps or MixedCaps (camelCase) rather than underscores
-- Keep names short but descriptive
-- Use single-letter variables only for very short scopes (like loop indices)
-- Exported names start with a capital letter
-- Unexported names start with a lowercase letter
-- Avoid stuttering (e.g., avoid `http.HTTPServer`, prefer `http.Server`)
+- 使用混合大小寫或大寫開頭的混合大小寫（camelCase），而非底線
+- 保持名稱簡短但具描述性
+- 單字母變數僅用於非常短的作用域（如迴圈索引）
+- 匯出的名稱以大寫字母開頭
+- 未匯出的名稱以小寫字母開頭
+- 避免重複冗贅（例如，避免 `http.HTTPServer`，改用 `http.Server`）
 
-### Interfaces
+### 介面
 
-- Name interfaces with -er suffix when possible (e.g., `Reader`, `Writer`, `Formatter`)
-- Single-method interfaces should be named after the method (e.g., `Read` → `Reader`)
-- Keep interfaces small and focused
+- 介面名稱盡可能使用 -er 後綴（例如 `Reader`、`Writer`、`Formatter`）
+- 單一方法介面應以該方法命名（例如 `Read` → `Reader`）
+- 保持介面小型且專注
 
-### Constants
+### 常數
 
-- Use MixedCaps for exported constants
-- Use mixedCaps for unexported constants
-- Group related constants using `const` blocks
-- Consider using typed constants for better type safety
+- 匯出的常數使用大寫開頭的混合大小寫
+- 未匯出的常數使用小寫混合大小寫
+- 使用 `const` 區塊分組相關常數
+- 考慮使用具型別的常數以獲得更好的型別安全性
 
-## Code Style and Formatting
+## 程式碼樣式和格式
 
-### Formatting
+### 格式化
 
-- Always use `gofmt` to format code
-- Use `goimports` to manage imports automatically
-- Keep line length reasonable (no hard limit, but consider readability)
-- Add blank lines to separate logical groups of code
+- 總是使用 `gofmt` 格式化程式碼
+- 使用 `goimports` 自動管理匯入
+- 保持行長合理（無硬性限制，但需考慮可讀性）
+- 使用空行分隔邏輯相關的程式碼組
 
-### Comments
+### 註釋
 
-- Strive for self-documenting code; prefer clear variable names, function names, and code structure over comments
-- Write comments only when necessary to explain complex logic, business rules, or non-obvious behavior
-- Write comments in complete sentences in English by default
-- Translate comments to other languages only upon specific user request
-- Start sentences with the name of the thing being described
-- Package comments should start with "Package [name]"
-- Use line comments (`//`) for most comments
-- Use block comments (`/* */`) sparingly, mainly for package documentation
-- Document why, not what, unless the what is complex
-- Avoid emoji in comments and code
+- 力求自我解釋的程式碼；優先選擇清晰的變數名稱、函式名稱和程式碼結構而非註釋
+- 僅在必要時撰寫註釋，以解釋複雜邏輯、業務規則或非明顯行為
+- 預設使用英文撰寫完整句子的註釋
+- 只在使用者明確要求時才將註釋翻譯為其他語言
+- 以被描述事物的名稱開頭
+- 套件註釋應以「Package [名稱]」開頭
+- 大多數註釋使用行註釋（`//`）
+- 區塊註釋（`/* */`）須謹慎使用，主要用於套件文件
+- 記錄為什麼，而非做什麼（除非做什麼很複雜）
+- 避免在註釋和程式碼中使用表情符號
 
-### Error Handling
+### 錯誤處理
 
-- Check errors immediately after the function call
-- Don't ignore errors using `_` unless you have a good reason (document why)
-- Wrap errors with context using `fmt.Errorf` with `%w` verb
-- Create custom error types when you need to check for specific errors
-- Place error returns as the last return value
-- Name error variables `err`
-- Keep error messages lowercase and don't end with punctuation
+- 在函式呼叫後立即檢查錯誤
+- 不使用 `_` 忽略錯誤，除非有充分理由（記錄下來）
+- 使用 `fmt.Errorf` 與 `%w` 動詞包裝錯誤以新增內容
+- 當需要檢查特定錯誤時，建立自訂錯誤型別
+- 將錯誤返回放在最後的返回值
+- 將錯誤變數命名為 `err`
+- 保持錯誤訊息小寫且不以標點符號結尾
 
-## Architecture and Project Structure
+## 架構和專案結構
 
-### Package Organization
+### 套件組織
 
-- Follow standard Go project layout conventions
-- Keep `main` packages in `cmd/` directory
-- Put reusable packages in `pkg/` or `internal/`
-- Use `internal/` for packages that shouldn't be imported by external projects
-- Group related functionality into packages
-- Avoid circular dependencies
+- 遵循標準 Go 專案配置約定
+- 將 `main` 套件保存在 `cmd/` 目錄中
+- 將可重用套件放在 `pkg/` 或 `internal/` 中
+- 使用 `internal/` 放置不應被外部專案匯入的套件
+- 將相關功能分組到套件中
+- 避免循環依賴
 
-### Dependency Management
+### 依賴管理
 
-- Use Go modules (`go.mod` and `go.sum`)
-- Keep dependencies minimal
-- Regularly update dependencies for security patches
-- Use `go mod tidy` to clean up unused dependencies
-- Vendor dependencies only when necessary
+- 使用 Go modules（`go.mod` 和 `go.sum`）
+- 保持依賴最少化
+- 定期更新依賴以獲得安全補丁
+- 使用 `go mod tidy` 清理未使用的依賴
+- 僅在必要時對依賴進行供應商化
 
-## Type Safety and Language Features
+## 型別安全和語言功能
 
-### Type Definitions
+### 型別定義
 
-- Define types to add meaning and type safety
-- Use struct tags for JSON, XML, database mappings
-- Prefer explicit type conversions
-- Use type assertions carefully and check the second return value
-- Prefer generics over unconstrained types; when an unconstrained type is truly needed, use the predeclared alias `any` instead of `interface{}` (Go 1.18+)
+- 定義型別以增加意義和型別安全性
+- 使用結構標籤進行 JSON、XML、資料庫映射
+- 偏好明確的型別轉換
+- 謹慎使用型別判斷，並檢查第二個返回值
+- 優先選擇泛型而非無約束型別；當確實需要無約束型別時，使用預宣告別名 `any` 而非 `interface{}`（Go 1.18+）
 
-### Pointers vs Values
+### 指標對比值
 
-- Use pointer receivers for large structs or when you need to modify the receiver
-- Use value receivers for small structs and when immutability is desired
-- Use pointer parameters when you need to modify the argument or for large structs
-- Use value parameters for small structs and when you want to prevent modification
-- Be consistent within a type's method set
-- Consider the zero value when choosing pointer vs value receivers
+- 對於大型結構或需要修改接收者時使用指標接收者
+- 對於小型結構或需要不可變性時使用值接收者
+- 當需要修改引數或處理大型結構時使用指標參數
+- 對於小型結構或想防止修改時使用值參數
+- 在型別的方法集內保持一致性
+- 選擇指標或值接收者時考慮零值
 
-### Interfaces and Composition
+### 介面和組合
 
-- Accept interfaces, return concrete types
-- Keep interfaces small (1-3 methods is ideal)
-- Use embedding for composition
-- Define interfaces close to where they're used, not where they're implemented
-- Don't export interfaces unless necessary
+- 接受介面，返回具體型別
+- 保持介面小型（1-3 個方法最理想）
+- 使用嵌入進行組合
+- 在使用介面的位置定義介面，而非實現位置
+- 不要匯出介面，除非必要
 
-## Concurrency
+## 並行處理
 
 ### Goroutines
 
-- Be cautious about creating goroutines in libraries; prefer letting the caller control concurrency
-- If you must create goroutines in libraries, provide clear documentation and cleanup mechanisms
-- Always know how a goroutine will exit
-- Use `sync.WaitGroup` or channels to wait for goroutines
-- Avoid goroutine leaks by ensuring cleanup
+- 在程式庫中建立 goroutines 時要謹慎；優先讓呼叫者控制並行
+- 如果必須在程式庫中建立 goroutines，請提供清晰的文件和清理機制
+- 始終知道 goroutine 如何退出
+- 使用 `sync.WaitGroup` 或 channels 等待 goroutines
+- 透過確保清理來避免 goroutine 洩漏
 
-### Channels
+### 通道
 
-- Use channels to communicate between goroutines
-- Don't communicate by sharing memory; share memory by communicating
-- Close channels from the sender side, not the receiver
-- Use buffered channels when you know the capacity
-- Use `select` for non-blocking operations
+- 使用 channels 在 goroutines 之間通訊
+- 不要透過共享記憶體進行通訊；透過通訊共享記憶體
+- 從傳送者端關閉 channels，而非接收者端
+- 當已知容量時使用帶緩衝的 channels
+- 使用 `select` 進行非阻塞操作
 
-### Synchronization
+### 同步
 
-- Use `sync.Mutex` for protecting shared state
-- Keep critical sections small
-- Use `sync.RWMutex` when you have many readers
-- Choose between channels and mutexes based on the use case: use channels for communication, mutexes for protecting state
-- Use `sync.Once` for one-time initialization
-- WaitGroup usage by Go version:
-	- If `go >= 1.25` in `go.mod`, use the new `WaitGroup.Go` method ([documentation](https://pkg.go.dev/sync#WaitGroup)):
+- 使用 `sync.Mutex` 保護共享狀態
+- 保持臨界區段小型
+- 當有多個讀取者時使用 `sync.RWMutex`
+- 根據使用案例在 channels 和 mutexes 之間選擇：使用 channels 進行通訊，使用 mutexes 保護狀態
+- 使用 `sync.Once` 進行一次性初始化
+- 根據 Go 版本使用 WaitGroup：
+	- 如果 `go.mod` 中 `go >= 1.25`，使用新的 `WaitGroup.Go` 方法（[文件](https://pkg.go.dev/sync#WaitGroup)）：
 		```go
 		var wg sync.WaitGroup
 		wg.Go(task1)
 		wg.Go(task2)
 		wg.Wait()
 		```
-	- If `go < 1.25`, use the classic `Add`/`Done` pattern
+	- 如果 `go < 1.25`，使用經典的 `Add`/`Done` 模式
 
-## Error Handling Patterns
+## 錯誤處理模式
 
-### Creating Errors
+### 建立錯誤
 
-- Use `errors.New` for simple static errors
-- Use `fmt.Errorf` for dynamic errors
-- Create custom error types for domain-specific errors
-- Export error variables for sentinel errors
-- Use `errors.Is` and `errors.As` for error checking
+- 使用 `errors.New` 處理簡單的靜態錯誤
+- 使用 `fmt.Errorf` 處理動態錯誤
+- 為領域特定錯誤建立自訂錯誤型別
+- 針對 sentinel errors 匯出錯誤變數
+- 使用 `errors.Is` 和 `errors.As` 進行錯誤檢查
 
-### Error Propagation
+### 錯誤傳播
 
-- Add context when propagating errors up the stack
-- Don't log and return errors (choose one)
-- Handle errors at the appropriate level
-- Consider using structured errors for better debugging
+- 在堆疊中傳播錯誤時新增內容
+- 不要既記錄又返回錯誤（選擇其一）
+- 在適當的層級處理錯誤
+- 考慮使用結構化錯誤以獲得更好的偵錯
 
-## API Design
+## API 設計
 
-### HTTP Handlers
+### HTTP 處理器
 
-- Use `http.HandlerFunc` for simple handlers
-- Implement `http.Handler` for handlers that need state
-- Use middleware for cross-cutting concerns
-- Set appropriate status codes and headers
-- Handle errors gracefully and return appropriate error responses
-- Router usage by Go version:
-	- If `go >= 1.22`, prefer the enhanced `net/http` `ServeMux` with pattern-based routing and method matching
-	- If `go < 1.22`, use the classic `ServeMux` and handle methods/paths manually (or use a third-party router when justified)
+- 對於簡單的處理器使用 `http.HandlerFunc`
+- 對於需要狀態的處理器實作 `http.Handler`
+- 使用中介軟體處理交叉關注點
+- 設定適當的狀態碼和標頭
+- 正常處理錯誤並返回適當的錯誤回應
+- 根據 Go 版本使用路由器：
+	- 如果 `go >= 1.22`，優先選擇增強的 `net/http` `ServeMux`，支援基於模式的路由和方法匹配
+	- 如果 `go < 1.22`，使用經典的 `ServeMux` 並手動處理方法/路徑（或在合理時使用第三方路由器）
 
-### JSON APIs
+### JSON API
 
-- Use struct tags to control JSON marshaling
-- Validate input data
-- Use pointers for optional fields
-- Consider using `json.RawMessage` for delayed parsing
-- Handle JSON errors appropriately
+- 使用結構標籤控制 JSON 編組
+- 驗證輸入資料
+- 對於選擇性欄位使用指標
+- 考慮使用 `json.RawMessage` 進行延遲解析
+- 適當地處理 JSON 錯誤
 
-### HTTP Clients
+### HTTP 用戶端
 
-- Keep the client struct focused on configuration and dependencies only (e.g., base URL, `*http.Client`, auth, default headers). It must not store per-request state
-- Do not store or cache `*http.Request` inside the client struct, and do not persist request-specific state across calls; instead, construct a fresh request per method invocation
-- Methods should accept `context.Context` and input parameters, assemble the `*http.Request` locally (or via a short-lived builder/helper created per call), then call `c.httpClient.Do(req)`
-- If request-building logic is reused, factor it into unexported helper functions or a per-call builder type; never keep `http.Request` (URL params, body, headers) as fields on the long-lived client
-- Ensure the underlying `*http.Client` is configured (timeouts, transport) and is safe for concurrent use; avoid mutating `Transport` after first use
-- Always set headers on the request instance you’re sending, and close response bodies (`defer resp.Body.Close()`), handling errors appropriately
+- 保持用戶端結構專注於組態和依賴項（例如基底 URL、`*http.Client`、身份驗證、預設標頭）。必須不儲存每個請求的狀態
+- 不要在用戶端結構內儲存或快取 `*http.Request`，也不要在呼叫間保留請求特定的狀態；而應為每個方法呼叫構建新鮮請求
+- 方法應接受 `context.Context` 和輸入參數，在本地組裝 `*http.Request`（或透過每次呼叫建立的短期存在建立者/輔助程式），然後呼叫 `c.httpClient.Do(req)`
+- 如果請求建立邏輯被重用，應將其分解為未匯出的輔助函式或按呼叫的建立者型別；永遠不要在長期存在的用戶端上保留 `http.Request`（URL 參數、本體、標頭）作為欄位
+- 確保基礎 `*http.Client` 已配置（逾時、傳輸）且可安全用於並行使用；避免在首次使用後改變 `Transport`
+- 始終在要傳送的請求實例上設定標頭，並關閉回應本體（`defer resp.Body.Close()`），適當地處理錯誤
 
-## Performance Optimization
+## 效能最佳化
 
-### Memory Management
+### 記憶體管理
 
-- Minimize allocations in hot paths
-- Reuse objects when possible (consider `sync.Pool`)
-- Use value receivers for small structs
-- Preallocate slices when size is known
-- Avoid unnecessary string conversions
+- 最小化熱路徑中的配置
+- 盡可能重用物件（考慮 `sync.Pool`）
+- 對小型結構使用值接收者
+- 當大小已知時預先配置切片
+- 避免不必要的字串轉換
 
-### I/O: Readers and Buffers
+### I/O：讀取器和緩衝區
 
-- Most `io.Reader` streams are consumable once; reading advances state. Do not assume a reader can be re-read without special handling
-- If you must read data multiple times, buffer it once and recreate readers on demand:
-	- Use `io.ReadAll` (or a limited read) to obtain `[]byte`, then create fresh readers via `bytes.NewReader(buf)` or `bytes.NewBuffer(buf)` for each reuse
-	- For strings, use `strings.NewReader(s)`; you can `Seek(0, io.SeekStart)` on `*bytes.Reader` to rewind
-- For HTTP requests, do not reuse a consumed `req.Body`. Instead:
-	- Keep the original payload as `[]byte` and set `req.Body = io.NopCloser(bytes.NewReader(buf))` before each send
-	- Prefer configuring `req.GetBody` so the transport can recreate the body for redirects/retries: `req.GetBody = func() (io.ReadCloser, error) { return io.NopCloser(bytes.NewReader(buf)), nil }`
-- To duplicate a stream while reading, use `io.TeeReader` (copy to a buffer while passing through) or write to multiple sinks with `io.MultiWriter`
-- Reusing buffered readers: call `(*bufio.Reader).Reset(r)` to attach to a new underlying reader; do not expect it to “rewind” unless the source supports seeking
-- For large payloads, avoid unbounded buffering; consider streaming, `io.LimitReader`, or on-disk temporary storage to control memory
+- 大多數 `io.Reader` 串流只能消費一次；讀取會推進狀態。不要假設讀取器可以在沒有特殊處理的情況下重新讀取
+- 如果必須多次讀取資料，應緩衝一次並按需重新建立讀取器：
+	- 使用 `io.ReadAll`（或限制讀取）取得 `[]byte`，然後透過 `bytes.NewReader(buf)` 或 `bytes.NewBuffer(buf)` 為每次重用建立新的讀取器
+	- 對於字串，使用 `strings.NewReader(s)`；可在 `*bytes.Reader` 上呼叫 `Seek(0, io.SeekStart)` 以倒轉
+- 對於 HTTP 請求，不要重用已消費的 `req.Body`。改為：
+	- 將原始負載保留為 `[]byte` 並在每次傳送前設定 `req.Body = io.NopCloser(bytes.NewReader(buf))`
+	- 優先配置 `req.GetBody` 以便傳輸可為重新導向/重試重新建立本體：`req.GetBody = func() (io.ReadCloser, error) { return io.NopCloser(bytes.NewReader(buf)), nil }`
+- 若要在讀取時複製串流，應使用 `io.TeeReader`（複製到緩衝區同時傳遞）或使用 `io.MultiWriter` 寫入多個接收器
+- 重用帶緩衝的讀取器：呼叫 `(*bufio.Reader).Reset(r)` 以附加到新的基礎讀取器；不要預期它會「倒轉」，除非來源支援搜尋
+- 對於大型負載，避免無界緩衝；考慮串流、`io.LimitReader` 或磁碟上的暫存儲存以控制記憶體
 
-- Use `io.Pipe` to stream without buffering the whole payload:
-	- Write to `*io.PipeWriter` in a separate goroutine while the reader consumes
-	- Always close the writer; use `CloseWithError(err)` on failures
-	- `io.Pipe` is for streaming, not rewinding or making readers reusable
+- 使用 `io.Pipe` 進行串流而不緩衝整個負載：
+	- 在單獨的 goroutine 中寫入 `*io.PipeWriter`，同時讀取器消費
+	- 始終關閉寫入器；失敗時使用 `CloseWithError(err)`
+	- `io.Pipe` 用於串流，不適用於倒轉或重用讀取器
 
-- **Warning:** When using `io.Pipe` (especially with multipart writers), all writes must be performed in strict, sequential order. Do not write concurrently or out of order—multipart boundaries and chunk order must be preserved. Out-of-order or parallel writes can corrupt the stream and result in errors.
+- **警告：** 使用 `io.Pipe` 時（特別是多部分寫入器），所有寫入必須按嚴格的順序執行。不要並行或亂序寫入——多部分邊界和區塊順序必須保留。亂序或並行寫入可能導致串流損壞和錯誤。
 
-- Streaming multipart/form-data with `io.Pipe`:
-	- `pr, pw := io.Pipe()`; `mw := multipart.NewWriter(pw)`; use `pr` as the HTTP request body
-	- Set `Content-Type` to `mw.FormDataContentType()`
-	- In a goroutine: write all parts to `mw` in the correct order; on error `pw.CloseWithError(err)`; on success `mw.Close()` then `pw.Close()`
-	- Do not store request/in-flight form state on a long-lived client; build per call
-	- Streamed bodies are not rewindable; for retries/redirects, buffer small payloads or provide `GetBody`
+- 使用 `io.Pipe` 進行多部分/表單資料串流：
+	- `pr, pw := io.Pipe()`；`mw := multipart.NewWriter(pw)`；使用 `pr` 作為 HTTP 請求本體
+	- 將 `Content-Type` 設定為 `mw.FormDataContentType()`
+	- 在 goroutine 中：按正確順序將所有部分寫入 `mw`；出錯時 `pw.CloseWithError(err)`；成功時 `mw.Close()` 然後 `pw.Close()`
+	- 不要在長期存在的用戶端上儲存請求/進中的表單狀態；每次呼叫時構建
+	- 串流本體不可倒轉；對於重試/重新導向，緩衝小型負載或提供 `GetBody`
 
-### Profiling
+### 分析
 
-- Use built-in profiling tools (`pprof`)
-- Benchmark critical code paths
-- Profile before optimizing
-- Focus on algorithmic improvements first
-- Consider using `testing.B` for benchmarks
+- 使用內建的分析工具（`pprof`）
+- 對關鍵程式碼路徑進行效能測試
+- 最佳化前先進行分析
+- 首先專注於演算法改進
+- 考慮使用 `testing.B` 進行基準測試
 
-## Testing
+## 測試
 
-### Test Organization
+### 測試組織
 
-- Keep tests in the same package (white-box testing)
-- Use `_test` package suffix for black-box testing
-- Name test files with `_test.go` suffix
-- Place test files next to the code they test
+- 將測試保持在同一套件中（白盒測試）
+- 對於黑盒測試使用 `_test` 套件後綴
+- 使用 `_test.go` 後綴為測試檔案命名
+- 將測試檔案放在所測試程式碼的旁邊
 
-### Writing Tests
+### 撰寫測試
 
-- Use table-driven tests for multiple test cases
-- Name tests descriptively using `Test_functionName_scenario`
-- Use subtests with `t.Run` for better organization
-- Test both success and error cases
-- Consider using `testify` or similar libraries when they add value, but don't over-complicate simple tests
+- 對多個測試案例使用表驅動測試
+- 使用 `Test_functionName_scenario` 進行描述性的測試命名
+- 使用 `t.Run` 的子測試以獲得更好的組織
+- 測試成功和錯誤案例
+- 當增加價值時考慮使用 `testify` 或類似的程式庫，但不要過度複雜化簡單測試
 
-### Test Helpers
+### 測試輔助程式
 
-- Mark helper functions with `t.Helper()`
-- Create test fixtures for complex setup
-- Use `testing.TB` interface for functions used in tests and benchmarks
-- Clean up resources using `t.Cleanup()`
+- 使用 `t.Helper()` 標記輔助函式
+- 為複雜的設定建立測試 fixtures
+- 對於測試和基準測試中使用的函式使用 `testing.TB` 介面
+- 使用 `t.Cleanup()` 清理資源
 
-## Security Best Practices
+## 安全性最佳實踐
 
-### Input Validation
+### 輸入驗證
 
-- Validate all external input
-- Use strong typing to prevent invalid states
-- Sanitize data before using in SQL queries
-- Be careful with file paths from user input
-- Validate and escape data for different contexts (HTML, SQL, shell)
+- 驗證所有外部輸入
+- 使用強型別以防止無效狀態
+- 在 SQL 查詢中使用前清理資料
+- 小心來自使用者輸入的檔案路徑
+- 對不同上下文的資料進行驗證和逃逸（HTML、SQL、shell）
 
-### Cryptography
+### 密碼學
 
-- Use standard library crypto packages
-- Don't implement your own cryptography
-- Use crypto/rand for random number generation
-- Store passwords using bcrypt, scrypt, or argon2 (consider golang.org/x/crypto for additional options)
-- Use TLS for network communication
+- 使用標準程式庫密碼學套件
+- 不要實作自己的密碼學
+- 使用 crypto/rand 進行隨機數生成
+- 使用 bcrypt、scrypt 或 argon2 儲存密碼（考慮 golang.org/x/crypto 以獲得額外選項）
+- 使用 TLS 進行網路通訊
 
-## Documentation
+## 文件
 
-### Code Documentation
+### 程式碼文件
 
-- Prioritize self-documenting code through clear naming and structure
-- Document all exported symbols with clear, concise explanations
-- Start documentation with the symbol name
-- Write documentation in English by default
-- Use examples in documentation when helpful
-- Keep documentation close to code
-- Update documentation when code changes
-- Avoid emoji in documentation and comments
+- 透過清晰的命名和結構優先選擇自我解釋的程式碼
+- 使用清晰、簡潔的說明為所有匯出符號進行文件記錄
+- 文件記錄應以符號名稱開頭
+- 預設使用英文撰寫文件
+- 在文件中使用範例（當有幫助時）
+- 保持文件接近程式碼
+- 程式碼變更時更新文件
+- 避免在文件和註釋中使用表情符號
 
-### README and Documentation Files
+### README 和文件檔案
 
-- Include clear setup instructions
-- Document dependencies and requirements
-- Provide usage examples
-- Document configuration options
-- Include troubleshooting section
+- 包含清晰的設定說明
+- 記錄依賴項和要求
+- 提供使用範例
+- 記錄組態選項
+- 包含疑難排解部分
 
-## Tools and Development Workflow
+## 工具和開發工作流程
 
-### Essential Tools
+### 必要工具
 
-- `go fmt`: Format code
-- `go vet`: Find suspicious constructs
-- `golangci-lint`: Additional linting (golint is deprecated)
-- `go test`: Run tests
-- `go mod`: Manage dependencies
-- `go generate`: Code generation
+- `go fmt`：格式化程式碼
+- `go vet`：尋找可疑的構造
+- `golangci-lint`：額外的 linting（golint 已棄用）
+- `go test`：執行測試
+- `go mod`：管理依賴項
+- `go generate`：程式碼生成
 
-### Development Practices
+### 開發實踐
 
-- Run tests before committing
-- Use pre-commit hooks for formatting and linting
-- Keep commits focused and atomic
-- Write meaningful commit messages
-- Review diffs before committing
+- 提交前執行測試
+- 使用 pre-commit 鉤子進行格式化和 linting
+- 保持提交專注且原子性
+- 撰寫有意義的提交訊息
+- 提交前檢查差異
 
-## Common Pitfalls to Avoid
+## 常見陷阱須避免
 
-- Not checking errors
-- Ignoring race conditions
-- Creating goroutine leaks
-- Not using defer for cleanup
-- Modifying maps concurrently
-- Not understanding nil interfaces vs nil pointers
-- Forgetting to close resources (files, connections)
-- Using global variables unnecessarily
-- Over-using unconstrained types (e.g., `any`); prefer specific types or generic type parameters with constraints. If an unconstrained type is required, use `any` rather than `interface{}`
-- Not considering the zero value of types
-- **Creating duplicate `package` declarations** - this is a compile error; always check existing files before adding package declarations
+- 不檢查錯誤
+- 忽視競態條件
+- 建立 goroutine 洩漏
+- 不使用 defer 進行清理
+- 並行修改 maps
+- 不理解 nil 介面 vs nil 指標
+- 忘記關閉資源（檔案、連接）
+- 不必要地使用全域變數
+- 過度使用無約束型別（例如 `any`）；優先選擇特定型別或具有約束的泛型型別參數。如果需要無約束型別，使用 `any` 而非 `interface{}`
+- 不考慮型別的零值
+- **建立重複的 `package` 宣告** - 這是編譯錯誤；加入套件宣告前務必檢查現有檔案

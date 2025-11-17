@@ -3,23 +3,23 @@ mode: agent
 description: 'Generate a complete Kotlin MCP server project with proper structure, dependencies, and implementation using the official io.modelcontextprotocol:kotlin-sdk library.'
 ---
 
-# Kotlin MCP Server Project Generator
+# Kotlin MCP 服務器專案生成器
 
-Generate a complete, production-ready Model Context Protocol (MCP) server project in Kotlin.
+使用 Kotlin 生成一個完整、可用於生產環境的模型上下文協議 (Model Context Protocol, MCP) 服務器專案。
 
-## Project Requirements
+## 專案需求
 
-You will create a Kotlin MCP server with:
+您將建立一個 Kotlin MCP 服務器，具備以下功能：
 
-1. **Project Structure**: Gradle-based Kotlin project layout
-2. **Dependencies**: Official MCP SDK, Ktor, and kotlinx libraries
-3. **Server Setup**: Configured MCP server with transports
-4. **Tools**: At least 2-3 useful tools with typed inputs/outputs
-5. **Error Handling**: Proper exception handling and validation
-6. **Documentation**: README with setup and usage instructions
-7. **Testing**: Basic test structure with coroutines
+1. **專案結構**：基於 Gradle 的 Kotlin 專案佈局
+2. **依賴項**：官方 MCP SDK、Ktor 和 kotlinx 函式庫
+3. **服務器設定**：設定好的 MCP 服務器與傳輸機制
+4. **工具**：至少 2-3 個實用工具，具有類型化的輸入/輸出
+5. **錯誤處理**：適當的異常處理和驗證
+6. **文件**：包含安裝和使用說明的 README
+7. **測試**：包含協程的基本測試結構
 
-## Template Structure
+## 範本結構
 
 ```
 myserver/
@@ -44,7 +44,7 @@ myserver/
 └── README.md
 ```
 
-## build.gradle.kts Template
+## build.gradle.kts 範本
 
 ```kotlin
 plugins {
@@ -95,13 +95,13 @@ kotlin {
 }
 ```
 
-## settings.gradle.kts Template
+## settings.gradle.kts 範本
 
 ```kotlin
 rootProject.name = "{{PROJECT_NAME}}"
 ```
 
-## Main.kt Template
+## Main.kt 範本
 
 ```kotlin
 package com.example.myserver
@@ -126,7 +126,7 @@ fun main() = runBlocking {
 }
 ```
 
-## Server.kt Template
+## Server.kt 範本
 
 ```kotlin
 package com.example.myserver
@@ -164,7 +164,7 @@ fun createServer(config: Config): Server {
 }
 ```
 
-## Config.kt Template
+## Config.kt 範本
 
 ```kotlin
 package com.example.myserver.config
@@ -187,7 +187,7 @@ fun loadConfig(): Config {
 }
 ```
 
-## Tool1.kt Template
+## Tool1.kt 範本
 
 ```kotlin
 package com.example.myserver.tools
@@ -244,7 +244,7 @@ private fun performTool1Logic(param1: String, param2: Int): String {
 }
 ```
 
-## tools/ToolRegistry.kt Template
+## tools/ToolRegistry.kt 範本
 
 ```kotlin
 package com.example.myserver.tools
@@ -258,7 +258,7 @@ fun Server.registerTools() {
 }
 ```
 
-## ServerTest.kt Template
+## ServerTest.kt 範本
 
 ```kotlin
 package com.example.myserver
@@ -296,132 +296,132 @@ class ServerTest {
 }
 ```
 
-## README.md Template
+## README.md 範本
 
 ```markdown
 # {{PROJECT_NAME}}
 
-A Model Context Protocol (MCP) server built with Kotlin.
+使用 Kotlin 建立的模型上下文協議 (MCP) 服務器。
 
-## Description
+## 說明
 
 {{PROJECT_DESCRIPTION}}
 
-## Requirements
+## 需求
 
-- Java 17 or higher
+- Java 17 或更新版本
 - Kotlin 2.1.0
 
-## Installation
+## 安裝
 
-Build the project:
+建立專案：
 
 \`\`\`bash
 ./gradlew build
 \`\`\`
 
-## Usage
+## 使用
 
-Run the server with stdio transport:
+使用 stdio 傳輸執行服務器：
 
 \`\`\`bash
 ./gradlew run
 \`\`\`
 
-Or build and run the jar:
+或建立並執行 jar 檔案：
 
 \`\`\`bash
 ./gradlew installDist
 ./build/install/{{PROJECT_NAME}}/bin/{{PROJECT_NAME}}
 \`\`\`
 
-## Configuration
+## 設定
 
-Configure via environment variables:
+透過環境變數進行設定：
 
-- `SERVER_NAME`: Server name (default: "{{PROJECT_NAME}}")
-- `VERSION`: Server version (default: "1.0.0")
-- `DESCRIPTION`: Server description
+- `SERVER_NAME`：服務器名稱 (預設值："{{PROJECT_NAME}}")
+- `VERSION`：服務器版本 (預設值："1.0.0")
+- `DESCRIPTION`：服務器說明
 
-## Available Tools
+## 可用工具
 
 ### tool1
 {{TOOL1_DESCRIPTION}}
 
-**Input:**
-- `param1` (string, required): First parameter
-- `param2` (integer, optional): Second parameter
+**輸入：**
+- `param1` (字串，必需)：第一個參數
+- `param2` (整數，選擇性)：第二個參數
 
-**Output:**
-- Text result of the operation
+**輸出：**
+- 操作的文字結果
 
-## Development
+## 開發
 
-Run tests:
+執行測試：
 
 \`\`\`bash
 ./gradlew test
 \`\`\`
 
-Build:
+建立：
 
 \`\`\`bash
 ./gradlew build
 \`\`\`
 
-Run with auto-reload (development):
+以自動重新載入方式執行 (開發)：
 
 \`\`\`bash
 ./gradlew run --continuous
 \`\`\`
 
-## Multiplatform
+## 多平台
 
-This project uses Kotlin Multiplatform and can target JVM, Wasm, and iOS.
-See `build.gradle.kts` for platform configuration.
+此專案使用 Kotlin 多平台，可以使用 JVM、Wasm 和 iOS 作為目標。
+請參閱 `build.gradle.kts` 以了解平台設定。
 
-## License
+## 授權
 
 MIT
 ```
 
-## Generation Instructions
+## 生成指南
 
-When generating a Kotlin MCP server:
+在生成 Kotlin MCP 服務器時：
 
-1. **Gradle Setup**: Create proper `build.gradle.kts` with all dependencies
-2. **Package Structure**: Follow Kotlin package conventions
-3. **Type Safety**: Use data classes and kotlinx.serialization
-4. **Coroutines**: All operations should be suspending functions
-5. **Error Handling**: Use Kotlin exceptions and validation
-6. **JSON Schemas**: Use `buildJsonObject` for tool schemas
-7. **Testing**: Include coroutine test utilities
-8. **Logging**: Use kotlin-logging for structured logging
-9. **Configuration**: Use data classes and environment variables
-10. **Documentation**: KDoc comments for public APIs
+1. **Gradle 設定**：建立含有所有依賴項的適當 `build.gradle.kts` 檔案
+2. **套件結構**：遵循 Kotlin 套件慣例
+3. **類型安全**：使用資料類別和 kotlinx.serialization
+4. **協程**：所有操作應該是掛起函數
+5. **錯誤處理**：使用 Kotlin 異常和驗證
+6. **JSON 模式**：使用 `buildJsonObject` 進行工具模式定義
+7. **測試**：包含協程測試工具
+8. **日誌記錄**：使用 kotlin-logging 進行結構化日誌記錄
+9. **設定**：使用資料類別和環境變數
+10. **文件**：公開 API 的 KDoc 註解
 
-## Best Practices
+## 最佳實踐
 
-- Use suspending functions for all async operations
-- Leverage Kotlin's null safety and type system
-- Use data classes for structured data
-- Apply kotlinx.serialization for JSON handling
-- Use sealed classes for result types
-- Implement proper error handling with Result/Either patterns
-- Write tests using kotlinx-coroutines-test
-- Use dependency injection for testability
-- Follow Kotlin coding conventions
-- Use meaningful names and KDoc comments
+- 為所有非同步操作使用掛起函數
+- 利用 Kotlin 的空值安全性和類型系統
+- 使用資料類別來處理結構化資料
+- 應用 kotlinx.serialization 進行 JSON 處理
+- 使用密閉類別來處理結果類型
+- 使用 Result/Either 模式實現適當的錯誤處理
+- 使用 kotlinx-coroutines-test 進行測試
+- 使用依賴注入來增進可測試性
+- 遵循 Kotlin 編碼慣例
+- 使用有意義的名稱和 KDoc 註解
 
-## Transport Options
+## 傳輸選項
 
-### Stdio Transport
+### Stdio 傳輸
 ```kotlin
 val transport = StdioServerTransport()
 server.connect(transport)
 ```
 
-### SSE Transport (Ktor)
+### SSE 傳輸 (Ktor)
 ```kotlin
 embeddedServer(Netty, port = 8080) {
     mcp {
@@ -430,16 +430,16 @@ embeddedServer(Netty, port = 8080) {
 }.start(wait = true)
 ```
 
-## Multiplatform Configuration
+## 多平台設定
 
-For multiplatform projects, add to `build.gradle.kts`:
+對於多平台專案，在 `build.gradle.kts` 中新增：
 
 ```kotlin
 kotlin {
     jvm()
     js(IR) { nodejs() }
     wasmJs()
-    
+
     sourceSets {
         commonMain.dependencies {
             implementation("io.modelcontextprotocol:kotlin-sdk:0.7.2")

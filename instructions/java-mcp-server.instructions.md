@@ -3,13 +3,13 @@ description: 'Best practices and patterns for building Model Context Protocol (M
 applyTo: "**/*.java, **/pom.xml, **/build.gradle, **/build.gradle.kts"
 ---
 
-# Java MCP Server Development Guidelines
+# Java MCP 伺服器開發指南
 
-When building MCP servers in Java, follow these best practices and patterns using the official Java SDK.
+在 Java 中建構 MCP 伺服器時，請遵循使用官方 Java SDK 的以下最佳實踐和模式。
 
-## Dependencies
+## 依賴項
 
-Add the MCP Java SDK to your Maven project:
+將 MCP Java SDK 新增至你的 Maven 專案：
 
 ```xml
 <dependencies>
@@ -21,7 +21,7 @@ Add the MCP Java SDK to your Maven project:
 </dependencies>
 ```
 
-Or for Gradle:
+或使用 Gradle：
 
 ```kotlin
 dependencies {
@@ -29,9 +29,9 @@ dependencies {
 }
 ```
 
-## Server Setup
+## 伺服器設定
 
-Create an MCP server using the builder pattern:
+使用建構器模式建立 MCP 伺服器：
 
 ```java
 import io.mcp.server.McpServer;
@@ -46,21 +46,21 @@ McpServer server = McpServerBuilder.builder()
         .prompts(true))
     .build();
 
-// Start with stdio transport
+// 使用 stdio 傳輸啟動
 StdioServerTransport transport = new StdioServerTransport();
 server.start(transport).subscribe();
 ```
 
-## Adding Tools
+## 新增工具
 
-Register tool handlers with the server:
+向伺服器註冊工具處理器：
 
 ```java
 import io.mcp.server.tool.Tool;
 import io.mcp.server.tool.ToolHandler;
 import reactor.core.publisher.Mono;
 
-// Define a tool
+// 定義工具
 Tool searchTool = Tool.builder()
     .name("search")
     .description("Search for information")
@@ -73,31 +73,31 @@ Tool searchTool = Tool.builder()
             .defaultValue(10)))
     .build();
 
-// Register tool handler
+// 註冊工具處理器
 server.addToolHandler("search", (arguments) -> {
     String query = arguments.get("query").asText();
-    int limit = arguments.has("limit") 
-        ? arguments.get("limit").asInt() 
+    int limit = arguments.has("limit")
+        ? arguments.get("limit").asInt()
         : 10;
-    
-    // Perform search
+
+    // 執行搜尋
     List<String> results = performSearch(query, limit);
-    
+
     return Mono.just(ToolResponse.success()
         .addTextContent("Found " + results.size() + " results")
         .build());
 });
 ```
 
-## Adding Resources
+## 新增資源
 
-Implement resource handlers for data access:
+實現資源處理器以存取資料：
 
 ```java
 import io.mcp.server.resource.Resource;
 import io.mcp.server.resource.ResourceHandler;
 
-// Register resource list handler
+// 註冊資源清單處理器
 server.addResourceListHandler(() -> {
     List<Resource> resources = List.of(
         Resource.builder()
@@ -110,7 +110,7 @@ server.addResourceListHandler(() -> {
     return Mono.just(resources);
 });
 
-// Register resource read handler
+// 註冊資源讀取處理器
 server.addResourceReadHandler((uri) -> {
     if (uri.equals("resource://data/example.txt")) {
         String content = loadResourceContent(uri);
@@ -119,7 +119,7 @@ server.addResourceReadHandler((uri) -> {
     throw new ResourceNotFoundException(uri);
 });
 
-// Register resource subscribe handler
+// 註冊資源訂閱處理器
 server.addResourceSubscribeHandler((uri) -> {
     subscriptions.add(uri);
     log.info("Client subscribed to {}", uri);
@@ -127,16 +127,16 @@ server.addResourceSubscribeHandler((uri) -> {
 });
 ```
 
-## Adding Prompts
+## 新增提示
 
-Implement prompt handlers for templated conversations:
+實現提示處理器以進行模板化對話：
 
 ```java
 import io.mcp.server.prompt.Prompt;
 import io.mcp.server.prompt.PromptMessage;
 import io.mcp.server.prompt.PromptArgument;
 
-// Register prompt list handler
+// 註冊提示清單處理器
 server.addPromptListHandler(() -> {
     List<Prompt> prompts = List.of(
         Prompt.builder()
@@ -157,17 +157,17 @@ server.addPromptListHandler(() -> {
     return Mono.just(prompts);
 });
 
-// Register prompt get handler
+// 註冊提示取得處理器
 server.addPromptGetHandler((name, arguments) -> {
     if (name.equals("analyze")) {
         String topic = arguments.getOrDefault("topic", "general");
         String depth = arguments.getOrDefault("depth", "basic");
-        
+
         List<PromptMessage> messages = List.of(
             PromptMessage.user("Please analyze this topic: " + topic),
             PromptMessage.assistant("I'll provide a " + depth + " analysis of " + topic)
         );
-        
+
         return Mono.just(PromptResult.builder()
             .description("Analysis of " + topic + " at " + depth + " level")
             .messages(messages)
@@ -177,12 +177,12 @@ server.addPromptGetHandler((name, arguments) -> {
 });
 ```
 
-## Reactive Streams Pattern
+## 反應式串流模式
 
-The Java SDK uses Reactive Streams (Project Reactor) for asynchronous processing:
+Java SDK 使用反應式串流（Project Reactor）進行非同步處理：
 
 ```java
-// Return Mono for single results
+// 單一結果傳回 Mono
 server.addToolHandler("process", (args) -> {
     return Mono.fromCallable(() -> {
         String result = expensiveOperation(args);
@@ -192,7 +192,7 @@ server.addToolHandler("process", (args) -> {
     }).subscribeOn(Schedulers.boundedElastic());
 });
 
-// Return Flux for streaming results
+// 串流結果傳回 Flux
 server.addResourceListHandler(() -> {
     return Flux.fromIterable(getResources())
         .map(r -> Resource.builder()
@@ -203,16 +203,16 @@ server.addResourceListHandler(() -> {
 });
 ```
 
-## Synchronous Facade
+## 同步外觀
 
-For blocking use cases, use the synchronous API:
+對於阻塞使用案例，請使用同步 API：
 
 ```java
 import io.mcp.server.McpSyncServer;
 
 McpSyncServer syncServer = server.toSyncServer();
 
-// Blocking tool handler
+// 阻塞工具處理器
 syncServer.addToolHandler("greet", (args) -> {
     String name = args.get("name").asText();
     return ToolResponse.success()
@@ -221,11 +221,11 @@ syncServer.addToolHandler("greet", (args) -> {
 });
 ```
 
-## Transport Configuration
+## 傳輸設定
 
-### Stdio Transport
+### Stdio 傳輸
 
-For local subprocess communication:
+用於本機子程序通訊：
 
 ```java
 import io.mcp.server.transport.StdioServerTransport;
@@ -234,9 +234,9 @@ StdioServerTransport transport = new StdioServerTransport();
 server.start(transport).block();
 ```
 
-### HTTP Transport (Servlet)
+### HTTP 傳輸（Servlet）
 
-For HTTP-based servers:
+對於基於 HTTP 的伺服器：
 
 ```java
 import io.mcp.server.transport.ServletServerTransport;
@@ -245,12 +245,12 @@ import jakarta.servlet.http.HttpServlet;
 public class McpServlet extends HttpServlet {
     private final McpServer server;
     private final ServletServerTransport transport;
-    
+
     public McpServlet() {
         this.server = createMcpServer();
         this.transport = new ServletServerTransport();
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         transport.handleRequest(server, req, resp).block();
@@ -258,9 +258,9 @@ public class McpServlet extends HttpServlet {
 }
 ```
 
-## Spring Boot Integration
+## Spring Boot 整合
 
-Use the Spring Boot starter for seamless integration:
+使用 Spring Boot 啟動器以無縫整合：
 
 ```xml
 <dependency>
@@ -270,7 +270,7 @@ Use the Spring Boot starter for seamless integration:
 </dependency>
 ```
 
-Configure the server with Spring:
+使用 Spring 設定伺服器：
 
 ```java
 import org.springframework.context.annotation.Configuration;
@@ -278,7 +278,7 @@ import io.mcp.spring.McpServerConfigurer;
 
 @Configuration
 public class McpConfiguration {
-    
+
     @Bean
     public McpServerConfigurer mcpServerConfigurer() {
         return server -> server
@@ -291,7 +291,7 @@ public class McpConfiguration {
 }
 ```
 
-Register handlers as Spring beans:
+將處理器註冊為 Spring Bean：
 
 ```java
 import org.springframework.stereotype.Component;
@@ -299,12 +299,12 @@ import io.mcp.spring.ToolHandler;
 
 @Component
 public class SearchToolHandler implements ToolHandler {
-    
+
     @Override
     public String getName() {
         return "search";
     }
-    
+
     @Override
     public Tool getTool() {
         return Tool.builder()
@@ -314,7 +314,7 @@ public class SearchToolHandler implements ToolHandler {
                 .property("query", JsonSchema.string().required(true)))
             .build();
     }
-    
+
     @Override
     public Mono<ToolResponse> handle(JsonNode arguments) {
         String query = arguments.get("query").asText();
@@ -325,9 +325,9 @@ public class SearchToolHandler implements ToolHandler {
 }
 ```
 
-## Error Handling
+## 錯誤處理
 
-Use proper error handling with MCP exceptions:
+使用 MCP 例外進行適當的錯誤處理：
 
 ```java
 server.addToolHandler("risky", (args) -> {
@@ -351,9 +351,9 @@ server.addToolHandler("risky", (args) -> {
 });
 ```
 
-## JSON Schema Construction
+## JSON 架構建構
 
-Use the fluent schema builder:
+使用流暢的架構建構器：
 
 ```java
 import io.mcp.json.JsonSchema;
@@ -379,9 +379,9 @@ JsonSchema schema = JsonSchema.object()
     .build();
 ```
 
-## Logging and Observability
+## 日誌和可觀測性
 
-Use SLF4J for logging:
+使用 SLF4J 進行日誌記錄：
 
 ```java
 import org.slf4j.Logger;
@@ -391,7 +391,7 @@ private static final Logger log = LoggerFactory.getLogger(MyMcpServer.class);
 
 server.addToolHandler("process", (args) -> {
     log.info("Tool called: process, args: {}", args);
-    
+
     return Mono.fromCallable(() -> {
         String result = process(args);
         log.debug("Processing completed successfully");
@@ -404,7 +404,7 @@ server.addToolHandler("process", (args) -> {
 });
 ```
 
-Propagate context with Reactor:
+使用 Reactor 傳播內容：
 
 ```java
 import reactor.util.context.Context;
@@ -413,7 +413,7 @@ server.addToolHandler("traced", (args) -> {
     return Mono.deferContextual(ctx -> {
         String traceId = ctx.get("traceId");
         log.info("Processing with traceId: {}", traceId);
-        
+
         return Mono.just(ToolResponse.success()
             .addTextContent("Processed")
             .build());
@@ -421,35 +421,35 @@ server.addToolHandler("traced", (args) -> {
 });
 ```
 
-## Testing
+## 測試
 
-Write tests using the synchronous API:
+使用同步 API 編寫測試：
 
 ```java
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.Assertions.assertThat;
 
 class McpServerTest {
-    
+
     @Test
     void testToolHandler() {
         McpServer server = createTestServer();
         McpSyncServer syncServer = server.toSyncServer();
-        
+
         JsonNode args = objectMapper.createObjectNode()
             .put("query", "test");
-        
+
         ToolResponse response = syncServer.callTool("search", args);
-        
+
         assertThat(response.isError()).isFalse();
         assertThat(response.getContent()).hasSize(1);
     }
 }
 ```
 
-## Jackson Integration
+## Jackson 整合
 
-The SDK uses Jackson for JSON serialization. Customize as needed:
+SDK 使用 Jackson 進行 JSON 序列化。根據需要自訂：
 
 ```java
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -458,15 +458,15 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 ObjectMapper mapper = new ObjectMapper();
 mapper.registerModule(new JavaTimeModule());
 
-// Use custom mapper with server
+// 與伺服器使用自訂對應程式
 McpServer server = McpServerBuilder.builder()
     .objectMapper(mapper)
     .build();
 ```
 
-## Content Types
+## 內容型別
 
-Support multiple content types in responses:
+支援回應中的多個內容型別：
 
 ```java
 import io.mcp.server.content.Content;
@@ -480,16 +480,16 @@ server.addToolHandler("multi", (args) -> {
 });
 ```
 
-## Server Lifecycle
+## 伺服器生命週期
 
-Properly manage server lifecycle:
+正確管理伺服器生命週期：
 
 ```java
 import reactor.core.Disposable;
 
 Disposable serverDisposable = server.start(transport).subscribe();
 
-// Graceful shutdown
+// 妥善關閉
 Runtime.getRuntime().addShutdownHook(new Thread(() -> {
     log.info("Shutting down MCP server");
     serverDisposable.dispose();
@@ -497,9 +497,9 @@ Runtime.getRuntime().addShutdownHook(new Thread(() -> {
 }));
 ```
 
-## Common Patterns
+## 常見模式
 
-### Request Validation
+### 要求驗證
 
 ```java
 server.addToolHandler("validate", (args) -> {
@@ -508,18 +508,18 @@ server.addToolHandler("validate", (args) -> {
             .message("Missing required_field")
             .build());
     }
-    
+
     return processRequest(args);
 });
 ```
 
-### Async Operations
+### 非同步作業
 
 ```java
 server.addToolHandler("async", (args) -> {
     return Mono.fromCallable(() -> callExternalApi(args))
         .timeout(Duration.ofSeconds(30))
-        .onErrorResume(TimeoutException.class, e -> 
+        .onErrorResume(TimeoutException.class, e ->
             Mono.just(ToolResponse.error()
                 .message("Operation timed out")
                 .build()))
@@ -527,27 +527,27 @@ server.addToolHandler("async", (args) -> {
 });
 ```
 
-### Resource Caching
+### 資源快取
 
 ```java
 private final Map<String, String> cache = new ConcurrentHashMap<>();
 
 server.addResourceReadHandler((uri) -> {
-    return Mono.fromCallable(() -> 
+    return Mono.fromCallable(() ->
         cache.computeIfAbsent(uri, this::loadResource))
         .map(content -> ResourceContent.text(content, uri));
 });
 ```
 
-## Best Practices
+## 最佳實踐
 
-1. **Use Reactive Streams** for async operations and backpressure
-2. **Leverage Spring Boot** starter for enterprise applications
-3. **Implement proper error handling** with specific error messages
-4. **Use SLF4J** for logging, not System.out
-5. **Validate inputs** in tool and prompt handlers
-6. **Support graceful shutdown** with proper resource cleanup
-7. **Use bounded elastic scheduler** for blocking operations
-8. **Propagate context** for observability in reactive chains
-9. **Test with synchronous API** for simplicity
-10. **Follow Java naming conventions** (camelCase for methods, PascalCase for classes)
+1. **使用反應式串流**進行非同步作業和背壓處理
+2. **利用 Spring Boot** 啟動器用於企業應用程式
+3. **實現適當的錯誤處理**包含具體的錯誤訊息
+4. **使用 SLF4J** 進行日誌記錄，不是 System.out
+5. **驗證輸入**在工具和提示處理器中
+6. **支援妥善關閉**進行適當的資源清理
+7. **使用有限彈性排程器**用於阻塞作業
+8. **傳播內容**用於反應式鏈中的可觀測性
+9. **使用同步 API 進行測試**為了簡單起見
+10. **遵循 Java 命名慣例**（方法的駝峰大小寫，類別的 PascalCase）

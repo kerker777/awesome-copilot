@@ -3,20 +3,20 @@ description: 'Comprehensive Power BI report design and visualization best practi
 applyTo: '**/*.{pbix,md,json,txt}'
 ---
 
-# Power BI Report Design and Visualization Best Practices
+# Power BI 報告設計與視覺化最佳實踐
 
-## Overview
-This document provides comprehensive instructions for designing effective, accessible, and performant Power BI reports and dashboards following Microsoft's official guidance and user experience best practices.
+## 概述
+本文件提供設計有效、易於使用且效能優良的 Power BI 報告和儀表板的完整指導。內容遵循 Microsoft 官方指引與使用者體驗最佳實踐。
 
-## Fundamental Design Principles
+## 基本設計原則
 
-### 1. Information Architecture
-**Visual Hierarchy** - Organize information by importance:
-- **Primary**: Key metrics, KPIs, most critical insights (top-left, header area)
-- **Secondary**: Supporting details, trends, comparisons (main body)
-- **Tertiary**: Filters, controls, navigation elements (sidebars, footers)
+### 1. 資訊架構
+**視覺層級** - 依據重要性組織資訊：
+- **主要**: 關鍵指標、KPI、最重要的見解（左上方、標題區域）
+- **次要**: 輔助細節、趨勢、比較（主要內容區）
+- **第三級**: 篩選、控制項、導航元素（側邊欄、頁尾）
 
-**Content Structure**:
+**內容結構**:
 ```
 Report Page Layout:
 ┌─────────────────────────────────────┐
@@ -32,721 +32,721 @@ Report Page Layout:
 └─────────────────────────────────────┘
 ```
 
-### 2. User Experience Principles
-**Clarity**: Every element should have a clear purpose and meaning
-**Consistency**: Use consistent styling, colors, and interactions across all reports
-**Context**: Provide sufficient context for users to interpret data correctly
-**Action**: Guide users toward actionable insights and decisions
-
-## Chart Type Selection Guidelines
-
-### 1. Comparison Visualizations
+### 2. 使用者體驗原則
+**清晰性**: 每個元素都應有明確的目的和意義
+**一致性**: 在所有報告中使用一致的樣式、顏色和互動
+**脈絡**: 提供充分的背景資訊讓使用者正確解讀資料
+**行動**: 引導使用者朝向可行的見解和決策
+
+## 圖表類型選擇指南
+
+### 1. 比較視覺化
 ```
-Bar/Column Charts:
-✅ Comparing categories or entities
-✅ Ranking items by value
-✅ Showing changes over discrete time periods
-✅ When category names are long (use horizontal bars)
+長條/直條圖:
+✅ 比較類別或實體
+✅ 依數值排列項目
+✅ 顯示離散時間週期的變化
+✅ 類別名稱較長時使用（採用水平長條）
 
-Best Practices:
-- Start axis at zero for accurate comparison
-- Sort categories by value for ranking
-- Use consistent colors within category groups
-- Limit to 7-10 categories for readability
-
-Example Use Cases:
-- Sales by product category
-- Revenue by region  
-- Employee count by department
-- Customer satisfaction by service type
+最佳實踐:
+- 軸線從零開始以確保比較準確
+- 依數值排序以進行排名
+- 類別群組內使用一致色彩
+- 為保持可讀性，限制在 7-10 個類別
+
+使用案例示例:
+- 產品類別銷售額
+- 地區營收
+- 部門員工數量
+- 服務類型客戶滿意度
 ```
 
 ```
-Line Charts:
-✅ Showing trends over continuous time periods
-✅ Comparing multiple metrics over time
-✅ Identifying patterns, seasonality, cycles
-✅ Forecasting and projection scenarios
+折線圖:
+✅ 顯示連續時間週期的趨勢
+✅ 比較多個指標隨時間的變化
+✅ 識別模式、季節性、循環週期
+✅ 預測和投影情景
 
-Best Practices:
-- Use consistent time intervals
-- Start Y-axis at zero when showing absolute values
-- Use different line styles for multiple series
-- Include data point markers for sparse data
+最佳實踐:
+- 使用一致的時間間隔
+- 顯示絕對數值時，Y 軸從零開始
+- 多個數列使用不同的線條樣式
+- 稀疏資料時包含資料點標記
 
-Example Use Cases:
-- Monthly sales trends
-- Website traffic over time
-- Stock price movements
-- Performance metrics tracking
+使用案例示例:
+- 月度銷售趨勢
+- 網站流量隨時間的變化
+- 股票價格走勢
+- 效能指標追蹤
 ```
 
-### 2. Composition Visualizations
+### 2. 組成視覺化
 ```
-Pie/Donut Charts:
-✅ Parts-of-whole relationships
-✅ Maximum 5-7 categories
-✅ When percentages are more important than absolute values
-✅ Simple composition scenarios
+圓形/甜甜圈圖:
+✅ 部分與整體的關係
+✅ 最多 5-7 個類別
+✅ 百分比比絕對值更重要時
+✅ 簡單的組成情景
 
-Limitations:
-❌ Difficult to compare similar-sized segments
-❌ Not suitable for many categories
-❌ Hard to show changes over time
+限制:
+❌ 難以比較大小相似的分割
+❌ 不適合多個類別
+❌ 難以顯示隨時間的變化
 
-Alternative: Use stacked bar charts for better readability
+替代方案: 使用堆疊長條圖以獲得更好的可讀性
 
-Example Use Cases:
-- Market share by competitor
-- Budget allocation by category
-- Customer segments by type
+使用案例示例:
+- 競爭者的市場佔有率
+- 類別預算分配
+- 客戶群組類型分布
 ```
 
 ```
-Stacked Charts:
-✅ Showing composition and total simultaneously
-✅ Comparing composition across categories
-✅ Multiple sub-categories within main categories
-✅ When you need both part and whole perspective
+堆疊圖:
+✅ 同時顯示組成和總計
+✅ 比較各類別的組成
+✅ 主類別內有多個子類別
+✅ 當你需要部分和整體的視角時
 
-Types:
-- 100% Stacked: Focus on proportions
-- Regular Stacked: Show both absolute and relative values
-- Clustered: Compare sub-categories side-by-side
+類型:
+- 100% 堆疊: 專注於比例
+- 一般堆疊: 同時顯示絕對值和相對值
+- 並列: 並排比較子類別
 
-Example Use Cases:
-- Sales by product category and region
-- Revenue breakdown by service type over time
-- Employee distribution by department and level
+使用案例示例:
+- 產品類別和地區的銷售額
+- 服務類型營收隨時間的細分
+- 部門和職級的員工分佈
 ```
 
-### 3. Relationship and Distribution Visualizations
+### 3. 關係與分佈視覺化
 ```
-Scatter Plots:
-✅ Correlation between two continuous variables
-✅ Outlier identification
-✅ Clustering analysis
-✅ Performance quadrant analysis
+散點圖:
+✅ 兩個連續變數之間的相關性
+✅ 異常值識別
+✅ 聚類分析
+✅ 效能象限分析
 
-Best Practices:
-- Use size for third dimension (bubble chart)
-- Apply color coding for categories
-- Include trend lines when appropriate
-- Label outliers and key points
+最佳實踐:
+- 用大小表示第三個維度（泡泡圖）
+- 對類別應用色彩編碼
+- 適當時包含趨勢線
+- 標記異常值和關鍵點
 
-Example Use Cases:
-- Sales vs. marketing spend by product
-- Customer satisfaction vs. loyalty scores
-- Risk vs. return analysis
-- Performance vs. cost efficiency
+使用案例示例:
+- 按產品的銷售與行銷支出
+- 客戶滿意度與忠誠度分數
+- 風險與報酬分析
+- 效能與成本效率
 ```
 
 ```
-Heat Maps:
-✅ Showing patterns across two categorical dimensions
-✅ Performance matrices
-✅ Time-based pattern analysis
-✅ Dense data visualization
+熱力圖:
+✅ 跨越兩個分類維度顯示模式
+✅ 效能矩陣
+✅ 時間型態分析
+✅ 密集資料視覺化
 
-Configuration:
-- Use color scales that are colorblind-friendly
-- Include data labels when space permits
-- Provide clear legend with value ranges
-- Consider using conditional formatting
+設定:
+- 使用對色盲友善的色標
+- 在空間允許時包含資料標籤
+- 提供清晰的圖例和數值範圍
+- 考慮使用條件格式
 
-Example Use Cases:
-- Sales performance by month and product
-- Website traffic by hour and day of week
-- Employee performance ratings by department and quarter
+使用案例示例:
+- 按月份和產品的銷售效能
+- 按時間和星期幾的網站流量
+- 按部門和季度的員工效能評分
 ```
 
-## Report Layout and Navigation Design
+## 報告版面配置與導航設計
 
-### 1. Page Layout Strategies
+### 1. 頁面版面配置策略
 ```
-Single Page Dashboard:
-✅ Executive summaries
-✅ Real-time monitoring
-✅ Simple KPI tracking
-✅ Mobile-first scenarios
+單頁儀表板:
+✅ 主管摘要
+✅ 即時監控
+✅ 簡單的 KPI 追蹤
+✅ 行動優先的情景
 
-Design Guidelines:
-- Maximum 6-8 visuals per page
-- Clear visual hierarchy
-- Logical grouping of related content
-- Responsive design considerations
+設計指南:
+- 每頁最多 6-8 個視覺化
+- 清晰的視覺層級
+- 相關內容的邏輯分組
+- 回應式設計考量
 ```
 
 ```
-Multi-Page Report:
-✅ Complex analytical scenarios
-✅ Different user personas
-✅ Detailed drill-down analysis
-✅ Comprehensive business reporting
+多頁報告:
+✅ 複雜的分析情景
+✅ 不同的使用者角色
+✅ 詳細的鑽取分析
+✅ 全面的商業報告
 
-Page Organization:
-Page 1: Executive Summary (high-level KPIs)
-Page 2: Detailed Analysis (trends, comparisons)
-Page 3: Operational Details (transaction-level data)
-Page 4: Appendix (methodology, definitions)
+頁面組織:
+頁面 1: 主管摘要（高層級 KPI）
+頁面 2: 詳細分析（趨勢、比較）
+頁面 3: 營運細節（交易層級資料）
+頁面 4: 附錄（方法論、定義）
 ```
 
-### 2. Navigation Patterns
+### 2. 導航模式
 ```
-Tab Navigation:
-✅ Related content areas
-✅ Different views of same data
-✅ User role-based sections
-✅ Temporal analysis (daily, weekly, monthly)
+標籤導航:
+✅ 相關內容區域
+✅ 相同資料的不同視圖
+✅ 使用者角色型區段
+✅ 時間分析（日、週、月）
 
-Implementation:
-- Use descriptive tab names
-- Maintain consistent layout across tabs
-- Highlight active tab clearly
-- Consider tab ordering by importance
+實踐方式:
+- 使用描述性標籤名稱
+- 跨標籤保持一致的版面配置
+- 清晰地突出顯示活動標籤
+- 考慮按重要性排序標籤
 ```
 
 ```
-Bookmark Navigation:
-✅ Predefined scenarios
-✅ Filtered views
-✅ Story-telling sequences
-✅ Guided analysis paths
+書籤導航:
+✅ 預定義情景
+✅ 篩選視圖
+✅ 故事敘述序列
+✅ 引導式分析路徑
 
-Best Practices:
-- Create bookmarks for common filter combinations
-- Use descriptive bookmark names
-- Group related bookmarks
-- Test bookmark functionality thoroughly
+最佳實踐:
+- 為常見的篩選組合建立書籤
+- 使用描述性書籤名稱
+- 分組相關書籤
+- 徹底測試書籤功能
 ```
 
 ```
-Button Navigation:
-✅ Custom navigation flows
-✅ Action-oriented interactions
-✅ Drill-down scenarios
-✅ External link integration
+按鈕導航:
+✅ 自訂導航流程
+✅ 行動導向的互動
+✅ 鑽取情景
+✅ 外部連結整合
 
-Button Design:
-- Use consistent styling
-- Clear, action-oriented labels
-- Appropriate sizing for touch interfaces
-- Visual feedback for interactions
+按鈕設計:
+- 使用一致的樣式
+- 清晰的行動導向標籤
+- 觸控介面的適當大小
+- 互動的視覺回饋
 ```
 
-## Interactive Features Implementation
+## 互動功能實踐
 
-### 1. Tooltip Design Strategy
+### 1. 提示設計策略
 ```
-Default Tooltips:
-✅ Additional context information
-✅ Formatted numeric values
-✅ Related metrics not shown in visual
-✅ Explanatory text for complex measures
+預設提示:
+✅ 額外的背景資訊
+✅ 格式化的數值
+✅ 視覺化未顯示的相關指標
+✅ 複雜度量的說明文字
 
-Configuration:
-- Include relevant dimensions
-- Format numbers appropriately
-- Keep text concise and readable
-- Use consistent formatting
+設定:
+- 包含相關維度
+- 適當格式化數字
+- 保持文字簡潔易讀
+- 使用一致的格式
 
-Example:
-Visual: Sales by Product Category
-Tooltip: 
-- Product Category: Electronics
-- Total Sales: $2.3M (↑15% vs last year)
-- Order Count: 1,247 orders
-- Avg Order Value: $1,845
+示例:
+視覺化: 按產品類別銷售額
+提示:
+- 產品類別: 電子產品
+- 總銷售額: $2.3M (↑比去年增長 15%)
+- 訂單數: 1,247 筆
+- 平均訂單價值: $1,845
 ```
 
 ```
-Report Page Tooltips:
-✅ Complex additional information
-✅ Mini-dashboard for context
-✅ Detailed breakdowns
-✅ Visual explanations
+報告頁面提示:
+✅ 複雜的額外資訊
+✅ 背景迷你儀表板
+✅ 詳細細分
+✅ 視覺說明
 
-Design Requirements:
-- Optimal size: 320x240 pixels
-- Match main report styling
-- Fast loading performance
-- Meaningful additional insights
+設計要求:
+- 最佳大小: 320x240 像素
+- 符合主報告樣式
+- 快速載入效能
+- 有意義的額外見解
 
-Implementation:
-1. Create dedicated tooltip page
-2. Set page type to "Tooltip"
-3. Configure appropriate filters
-4. Enable tooltip on target visuals
-5. Test with realistic data
+實踐步驟:
+1. 建立專用提示頁面
+2. 將頁面類型設為「提示」
+3. 設定適當的篩選
+4. 在目標視覺化上啟用提示
+5. 用現實資料測試
 ```
 
-### 2. Drillthrough Implementation
+### 2. 鑽取實踐
 ```
-Drillthrough Scenarios:
+鑽取情景:
 
-Summary to Detail:
-Source: Monthly Sales Summary
-Target: Transaction-level details for selected month
-Filter: Month, Product Category, Region
+摘要到細節:
+來源: 月度銷售摘要
+目標: 選定月份的交易層級細節
+篩選: 月份、產品類別、地區
 
-Context Enhancement:
-Source: Product Performance Metric
-Target: Comprehensive product analysis
-Content: Sales trends, customer feedback, inventory levels
+背景增強:
+來源: 產品效能指標
+目標: 全面的產品分析
+內容: 銷售趨勢、客戶回饋、庫存水準
 
-Design Guidelines:
-✅ Clear visual indication of drillthrough availability
-✅ Consistent styling between source and target pages
-✅ Automatic back button (provided by Power BI)
-✅ Contextual filters properly applied
-✅ Hidden drillthrough pages from main navigation
+設計指南:
+✅ 清晰的鑽取可用性視覺指示
+✅ 來源和目標頁面之間的一致樣式
+✅ 自動返回按鈕（由 Power BI 提供）
+✅ 正確應用的背景篩選
+✅ 從主導航隱藏鑽取頁面
 
-Implementation Steps:
-1. Create target drillthrough page
-2. Add drillthrough filters in Fields pane
-3. Design page with filtered context in mind
-4. Test drillthrough functionality
-5. Configure source visuals for drillthrough
+實踐步驟:
+1. 建立目標鑽取頁面
+2. 在「欄位」窗格中新增鑽取篩選
+3. 考慮篩選背景設計頁面
+4. 測試鑽取功能
+5. 為來源視覺化設定鑽取
 ```
 
-### 3. Cross-Filtering Strategy
+### 3. 交叉篩選策略
 ```
-When to Enable Cross-Filtering:
-✅ Related visuals showing different perspectives
-✅ Clear logical connections between visuals
-✅ Enhanced analytical understanding
-✅ Reasonable performance impact
+何時啟用交叉篩選:
+✅ 相關視覺化顯示不同觀點
+✅ 視覺化之間的清晰邏輯連接
+✅ 增強分析理解
+✅ 合理的效能影響
 
-When to Disable Cross-Filtering:
-❌ Independent analysis requirements
-❌ Performance concerns with large datasets
-❌ Confusing or misleading interactions
-❌ Too many visuals causing cluttered highlighting
+何時停用交叉篩選:
+❌ 獨立分析需求
+❌ 大型資料集的效能顧慮
+❌ 令人困惑或誤導的互動
+❌ 過多視覺化導致亮點雜亂
 
-Configuration Best Practices:
-- Edit interactions thoughtfully for each visual pair
-- Test with realistic data volumes and user scenarios
-- Provide clear visual feedback for selections
-- Consider mobile touch interaction experience
-- Document interaction design decisions
+設定最佳實踐:
+- 為每個視覺化配對深思熟慮地編輯互動
+- 用現實資料量和使用者情景測試
+- 為選擇提供清晰的視覺回饋
+- 考慮行動觸控互動體驗
+- 記錄互動設計決策
 ```
 
-## Visual Design and Formatting
+## 視覺設計與格式
 
-### 1. Color Strategy
+### 1. 色彩策略
 ```
-Color Usage Hierarchy:
+色彩使用層級:
 
-Semantic Colors (Consistent Meaning):
-- Green: Positive performance, growth, success, on-target
-- Red: Negative performance, decline, alerts, over-budget
-- Blue: Neutral information, base metrics, corporate branding
-- Orange: Warnings, attention needed, moderate concern
-- Gray: Inactive, disabled, or reference information
+語義色彩（一致的意義）:
+- 綠色: 正面效能、成長、成功、達成目標
+- 紅色: 負面效能、衰退、警報、超支
+- 藍色: 中立資訊、基本度量、企業品牌
+- 橙色: 警告、需要注意、中度關注
+- 灰色: 非活躍、已停用或參考資訊
 
-Brand Integration:
-✅ Use corporate color palette consistently
-✅ Maintain accessibility standards (4.5:1 contrast ratio minimum)
-✅ Consider colorblind accessibility (8% of males affected)
-✅ Test colors in different contexts (projectors, mobile, print)
+品牌整合:
+✅ 一致地使用企業色彩調色盤
+✅ 維持可用性標準（最低 4.5:1 對比率）
+✅ 考慮色盲可用性（8% 的男性受影響）
+✅ 在不同背景中測試色彩（投影機、行動、列印）
 
-Color Application:
-Primary Color: Main brand color for key metrics and highlights
-Secondary Colors: Supporting brand colors for categories
-Accent Colors: High-contrast colors for alerts and callouts
-Neutral Colors: Backgrounds, text, borders, inactive states
+色彩應用:
+主色: 關鍵指標和高亮的主品牌色
+次要色: 類別的輔助品牌色
+強調色: 警報和標註的高對比色
+中性色: 背景、文字、邊框、非活躍狀態
 ```
 
 ```
-Accessibility-First Color Design:
+可用性優先的色彩設計:
 
-Colorblind Considerations:
-✅ Don't rely solely on color to convey information
-✅ Use patterns, shapes, or text labels as alternatives
-✅ Test with colorblind simulation tools
-✅ Use high contrast color combinations
-✅ Provide alternative visual cues (icons, patterns)
+色盲考慮:
+✅ 不要僅依靠色彩傳達資訊
+✅ 使用圖案、形狀或文字標籤作為替代方案
+✅ 用色盲模擬工具測試
+✅ 使用高對比色彩組合
+✅ 提供替代視覺線索（圖標、圖案）
 
-Implementation:
-- Red-Green combinations: Add blue or use different saturations
-- Use tools like Colour Oracle for testing
-- Include data labels where color is the primary differentiator
-- Consider grayscale versions of reports for printing
+實踐:
+- 紅綠組合: 添加藍色或使用不同飽和度
+- 使用 Colour Oracle 等工具測試
+- 在色彩是主要區分方式的地方包含資料標籤
+- 考慮報告的灰度版本以供列印
 ```
 
-### 2. Typography and Readability
+### 2. 字型和可讀性
 ```
-Font Hierarchy:
+字型層級:
 
-Report Titles: 18-24pt, Bold, Corporate font or clear sans-serif
-Page Titles: 16-20pt, Semi-bold, Consistent with report title
-Section Headers: 14-16pt, Semi-bold, Used for content grouping
-Visual Titles: 12-14pt, Semi-bold, Descriptive and concise
-Body Text: 10-12pt, Regular, Used in text boxes and descriptions
-Data Labels: 9-11pt, Regular, Clear and not overlapping
-Captions/Legends: 8-10pt, Regular, Supplementary information
+報告標題: 18-24pt、粗體、企業字型或清晰無襯線字型
+頁面標題: 16-20pt、半粗、與報告標題一致
+區段標題: 14-16pt、半粗、用於內容分組
+視覺化標題: 12-14pt、半粗、描述性且簡潔
+正文: 10-12pt、常規、用於文字方塊和說明
+資料標籤: 9-11pt、常規、清晰且不重疊
+圖說文字/圖例: 8-10pt、常規、補充資訊
 
-Readability Guidelines:
-✅ Minimum 10pt font size for data visualization
-✅ High contrast between text and background
-✅ Consistent font family throughout report (max 2 families)
-✅ Adequate white space around text elements
-✅ Left-align text for readability (except centered titles)
+可讀性指南:
+✅ 資料視覺化的最小 10pt 字型大小
+✅ 文字和背景之間的高對比
+✅ 整個報告中的一致字型家族（最多 2 個）
+✅ 文字元素周圍的充足白色空間
+✅ 文字左對齐以提高可讀性（居中標題除外）
 ```
 
 ```
-Content Writing Best Practices:
+內容撰寫最佳實踐:
 
-Titles and Labels:
-✅ Clear, descriptive, and action-oriented
-✅ Avoid jargon and technical abbreviations
-✅ Use consistent terminology throughout
-✅ Include time periods and context when relevant
+標題和標籤:
+✅ 清晰、描述性且行動導向
+✅ 避免術語和技術縮寫
+✅ 整個文件中使用一致的術語
+✅ 在相關時包含時間週期和背景
 
-Examples:
-Good: "Monthly Sales Revenue by Product Category"
-Poor: "Sales Data"
+示例:
+好: 「按產品類別的月度銷售收入」
+差: 「銷售資料」
 
-Good: "Customer Satisfaction Score (1-10 scale)"
-Poor: "CSAT"
+好: 「客戶滿意度分數（1-10 級）」
+差: 「CSAT」
 
-Data Storytelling:
-✅ Use subtitles to provide context
-✅ Include methodology notes where necessary
-✅ Explain unusual data points or outliers
-✅ Provide actionable insights in text boxes
+資料故事敘述:
+✅ 使用副標題提供背景
+✅ 在必要時包含方法論備註
+✅ 解釋異常資料點或異常值
+✅ 在文字方塊中提供可行的見解
 ```
 
-### 3. Layout and Spacing
+### 3. 版面配置和間距
 ```
-Visual Spacing:
-Grid System: Use consistent spacing multiples (8px, 16px, 24px)
-Padding: Adequate white space around content areas
-Margins: Consistent margins between visual elements
-Alignment: Use alignment guides for professional appearance
+視覺化間距:
+柵欄系統: 使用一致的間距倍數（8px、16px、24px）
+填充: 內容區域周圍的充足白色空間
+邊距: 視覺化元素之間的一致邊距
+對齐: 使用對齐參考線以獲得專業外觀
 
-Visual Grouping:
-Related Content: Group related visuals with consistent spacing
-Separation: Use white space to separate unrelated content areas
-Visual Hierarchy: Use size, color, and spacing to indicate importance
-Balance: Distribute visual weight evenly across the page
+視覺化分組:
+相關內容: 以一致間距分組相關視覺化
+分隔: 使用白色空間分隔無關的內容區域
+視覺層級: 使用大小、色彩和間距來表示重要性
+平衡: 在頁面上均勻分配視覺化權重
 ```
 
-## Performance Optimization for Reports
+## 報告效能優化
 
-### 1. Visual Performance Guidelines
+### 1. 視覺化效能指南
 ```
-Visual Count Management:
-✅ Maximum 6-8 visuals per page for optimal performance
-✅ Use tabbed navigation for complex scenarios
-✅ Implement drill-through instead of cramming details
-✅ Consider multiple focused pages vs. one cluttered page
+視覺化數量管理:
+✅ 每頁最多 6-8 個視覺化以獲得最佳效能
+✅ 在複雜情景中使用標籤導航
+✅ 實踐鑽取而不是塞滿細節
+✅ 考慮多個聚焦頁面與一個雜亂頁面
 
-Query Optimization:
-✅ Apply filters early in design process
-✅ Use page-level filters for common filtering scenarios
-✅ Avoid high-cardinality fields in slicers when possible
-✅ Pre-filter large datasets to relevant subsets
+查詢優化:
+✅ 在設計過程早期應用篩選
+✅ 在常見篩選情景中使用頁面級篩選
+✅ 盡可能避免在交叉分析篩選器中使用高基數欄位
+✅ 預先篩選大型資料集到相關子集
 
-Performance Testing:
-✅ Test with realistic data volumes
-✅ Monitor Performance Analyzer results
-✅ Test concurrent user scenarios
-✅ Validate mobile performance
-✅ Check different network conditions
+效能測試:
+✅ 用現實資料量測試
+✅ 監控效能分析器結果
+✅ 測試並行使用者情景
+✅ 驗證行動效能
+✅ 檢查不同網路條件
 ```
 
-### 2. Loading Performance Optimization
+### 2. 載入效能優化
 ```
-Initial Page Load:
-✅ Minimize visuals on landing page
-✅ Use summary views with drill-through to details
-✅ Apply default filters to reduce initial data volume
-✅ Consider progressive disclosure of information
+初始頁面載入:
+✅ 最小化登陸頁面上的視覺化
+✅ 使用摘要視圖和鑽取到詳細資料
+✅ 應用預設篩選以減少初始資料量
+✅ 考慮逐步揭露資訊
 
-Interaction Performance:
-✅ Optimize slicer queries and combinations
-✅ Use efficient cross-filtering patterns
-✅ Minimize complex calculated visuals
-✅ Implement appropriate caching strategies
+互動效能:
+✅ 優化交叉分析篩選器查詢和組合
+✅ 使用有效的交叉篩選模式
+✅ 最小化複雜的計算視覺化
+✅ 實踐適當的快取策略
 
-Visual Selection for Performance:
-Fast Loading: Card, KPI, Gauge (simple aggregations)
-Moderate: Bar, Column, Line charts (standard aggregations)
-Slower: Scatter plots, Maps, Custom visuals (complex calculations)
-Slowest: Matrix, Table with many columns (detailed data)
+視覺化選擇以提高效能:
+快速載入: 卡片、KPI、量表（簡單彙總）
+中等: 長條圖、直條圖、折線圖（標準彙總）
+較慢: 散點圖、地圖、自訂視覺化（複雜計算）
+最慢: 矩陣、有許多欄的表格（詳細資料）
 ```
 
-## Mobile and Responsive Design
+## 行動和回應式設計
 
-### 1. Mobile Layout Strategy
+### 1. 行動版面配置策略
 ```
-Mobile-First Design Principles:
-✅ Portrait orientation as primary layout
-✅ Touch-friendly interaction targets (minimum 44px)
-✅ Simplified navigation patterns
-✅ Reduced visual density and information overload
-✅ Key metrics prominently displayed
+行動優先設計原則:
+✅ 直向為主要版面配置
+✅ 觸控友善的互動目標（最小 44px）
+✅ 簡化的導航模式
+✅ 降低視覺化密度和資訊超載
+✅ 關鍵指標突出顯示
 
-Mobile Layout Considerations:
-Screen Sizes: Design for smallest target device first
-Touch Interactions: Ensure buttons and slicers are easily tappable
-Scrolling: Vertical scrolling acceptable, horizontal scrolling problematic
-Text Size: Increase font sizes for mobile readability
-Visual Selection: Prefer simple chart types for mobile
+行動版面配置考慮:
+螢幕尺寸: 先為最小目標裝置設計
+觸控互動: 確保按鈕和交叉分析篩選器易於點擊
+捲軸: 垂直捲軸可接受，水平捲軸有問題
+文字大小: 提高行動可讀性的字型大小
+視覺化選擇: 偏好行動的簡單圖表類型
 ```
 
-### 2. Responsive Design Implementation
+### 2. 回應式設計實踐
 ```
-Power BI Mobile Layout:
-1. Switch to Mobile layout view in Power BI Desktop
-2. Rearrange visuals for portrait orientation
-3. Resize and reposition for mobile screens
-4. Test key interactions work with touch
-5. Verify text remains readable at mobile sizes
+Power BI 行動版面配置:
+1. 在 Power BI Desktop 中切換到行動版面配置檢視
+2. 為直向重新排列視覺化
+3. 調整大小和重新定位以適應行動螢幕
+4. 測試關鍵互動是否適用於觸控
+5. 驗證文字在行動尺寸下保持可讀
 
-Adaptive Content:
-✅ Prioritize most important information
-✅ Hide or consolidate less critical visuals
-✅ Use drill-through for detailed analysis
-✅ Simplify filter interfaces
-✅ Ensure data refresh works on mobile connections
+調適內容:
+✅ 優先考慮最重要的資訊
+✅ 隱藏或合併較不重要的視覺化
+✅ 使用鑽取進行詳細分析
+✅ 簡化篩選介面
+✅ 確保資料刷新在行動連線上有效
 
-Testing Strategy:
-✅ Test on actual mobile devices
-✅ Verify performance on slower networks
-✅ Check battery usage during extended use
-✅ Validate offline capabilities where applicable
+測試策略:
+✅ 在實際行動裝置上測試
+✅ 驗證較慢網路上的效能
+✅ 檢查延長使用期間的電池使用量
+✅ 驗證離線功能（如適用）
 ```
 
-## Accessibility and Inclusive Design
+## 可用性和包容性設計
 
-### 1. Universal Design Principles
+### 1. 通用設計原則
 ```
-Visual Accessibility:
-✅ High contrast ratios (minimum 4.5:1)
-✅ Colorblind-friendly color schemes
-✅ Alternative text for images and icons
-✅ Consistent navigation patterns
-✅ Clear visual hierarchy
+視覺化可用性:
+✅ 高對比率（最小 4.5:1）
+✅ 對色盲友善的色彩方案
+✅ 影像和圖標的替代文字
+✅ 一致的導航模式
+✅ 清晰的視覺層級
 
-Interaction Accessibility:
-✅ Keyboard navigation support
-✅ Screen reader compatibility
-✅ Clear focus indicators
-✅ Logical tab order
-✅ Descriptive link text and button labels
+互動可用性:
+✅ 鍵盤導航支援
+✅ 螢幕閱讀器相容性
+✅ 清晰的焦點指標
+✅ 邏輯標籤順序
+✅ 描述性連結文字和按鈕標籤
 
-Content Accessibility:
-✅ Plain language explanations
-✅ Consistent terminology
-✅ Context for abbreviations and acronyms
-✅ Alternative formats when needed
+內容可用性:
+✅ 簡單語言說明
+✅ 一致的術語
+✅ 縮寫和縮略詞的背景
+✅ 必要時提供替代格式
 ```
 
-### 2. Inclusive Design Implementation
+### 2. 包容性設計實踐
 ```
-Multi-Sensory Design:
-✅ Don't rely solely on color to convey information
-✅ Use patterns, shapes, and text labels
-✅ Include audio descriptions for complex visuals
-✅ Provide data in multiple formats
+多感官設計:
+✅ 不要僅依靠色彩傳達資訊
+✅ 使用圖案、形狀和文字標籤
+✅ 為複雜視覺化包含音訊描述
+✅ 以多種格式提供資料
 
-Cognitive Accessibility:
-✅ Clear, simple language
-✅ Logical information flow
-✅ Consistent layouts and interactions
-✅ Progressive disclosure of complexity
-✅ Help and guidance text where needed
+認知可用性:
+✅ 清晰、簡單的語言
+✅ 邏輯資訊流程
+✅ 一致的版面配置和互動
+✅ 逐步揭露複雜度
+✅ 必要時提供說明和指導文字
 
-Testing for Accessibility:
-✅ Use screen readers to test navigation
-✅ Test keyboard-only navigation
-✅ Verify with colorblind simulation tools
-✅ Get feedback from users with disabilities
-✅ Regular accessibility audits
+可用性測試:
+✅ 使用螢幕閱讀器測試導航
+✅ 測試僅鍵盤導航
+✅ 用色盲模擬工具驗證
+✅ 取得殘障人士的回饋
+✅ 定期可用性審計
 ```
 
-## Advanced Visualization Techniques
+## 進階視覺化技術
 
-### 1. Conditional Formatting
-```
-Dynamic Visual Enhancement:
+### 1. 條件格式
+```
+動態視覺化增強:
 
-Data Bars:
-✅ Quick visual comparison within tables
-✅ Consistent scale across all rows
-✅ Appropriate color choices (light to dark)
-✅ Consider mobile visibility
-
-Background Colors:
-✅ Heat map-style formatting
-✅ Status-based coloring (red/yellow/green)
-✅ Performance thresholds
-✅ Trend indicators
+資料棒:
+✅ 表格內的快速視覺化比較
+✅ 跨所有行的一致標度
+✅ 適當的色彩選擇（淺色到深色）
+✅ 考慮行動可見性
+
+背景色彩:
+✅ 熱力圖樣式格式
+✅ 狀態型色彩（紅/黃/綠）
+✅ 效能閾值
+✅ 趨勢指標
 
-Font Formatting:
-✅ Size based on importance or values
-✅ Color based on performance metrics
-✅ Bold for emphasis and highlights
-✅ Italics for secondary information
-
-Implementation Examples:
-Sales Performance Table:
-- Green background: >110% of target
-- Yellow background: 90-110% of target  
-- Red background: <90% of target
-- Data bars: Relative performance within each category
-```
-
-### 2. Custom Visuals Integration
-```
-Custom Visual Selection Criteria:
-
-Evaluation Framework:
-✅ Active community support and regular updates
-✅ Microsoft AppSource certification (preferred)
-✅ Clear documentation and examples
-✅ Performance characteristics acceptable
-✅ Accessibility compliance
-
-Due Diligence:
-✅ Test thoroughly with your data types and volumes
-✅ Verify mobile compatibility
-✅ Check refresh and performance impact
-✅ Review security and data handling
-✅ Plan for maintenance and updates
-
-Governance:
-✅ Approval process for custom visuals
-✅ Standard set of approved custom visuals
-✅ Documentation of approved visuals and use cases
-✅ Monitoring and maintenance procedures
-✅ Fallback strategies if custom visual becomes unavailable
-```
-
-## Report Testing and Quality Assurance
-
-### 1. Functional Testing Checklist
-```
-Visual Functionality:
-□ All charts display data correctly
-□ Filters work as intended
-□ Cross-filtering behaves appropriately  
-□ Drill-through functions correctly
-□ Tooltips show relevant information
-□ Bookmarks restore correct state
-□ Export functions work properly
-
-Interaction Testing:
-□ Button navigation functions correctly
-□ Slicer combinations work as expected
-□ Report pages load within acceptable time
-□ Mobile layout displays properly
-□ Responsive design adapts correctly
-□ Print layouts are readable
-
-Data Accuracy:
-□ Totals match source systems
-□ Calculations produce expected results
-□ Filters don't inadvertently exclude data
-□ Date ranges are correct
-□ Business rules are properly implemented
-□ Edge cases handled appropriately
-```
-
-### 2. User Experience Testing
-```
-Usability Testing:
-✅ Test with actual business users
-✅ Observe user behavior and pain points
-✅ Time common tasks and interactions
-✅ Gather feedback on clarity and usefulness
-✅ Test with different user skill levels
-
-Performance Testing:
-✅ Load testing with realistic data volumes
-✅ Concurrent user testing
-✅ Network condition variations
-✅ Mobile device performance
-✅ Refresh performance during peak usage
-
-Cross-Platform Testing:
-✅ Desktop browsers (Chrome, Firefox, Edge, Safari)
-✅ Mobile devices (iOS, Android)
-✅ Power BI Mobile app
-✅ Different screen resolutions
-✅ Various network speeds
-```
-
-### 3. Quality Assurance Framework
-```
-Review Process:
-1. Developer Testing: Initial functionality verification
-2. Peer Review: Design and technical review by colleagues
-3. Business Review: Content accuracy and usefulness validation
-4. User Acceptance: Testing with end users
-5. Performance Review: Load and response time validation
-6. Accessibility Review: Compliance with accessibility standards
-
-Documentation:
-✅ Report purpose and target audience
-✅ Data sources and refresh schedule
-✅ Business rules and calculation explanations
-✅ User guide and training materials
-✅ Known limitations and workarounds
-✅ Maintenance and update procedures
-
-Continuous Improvement:
-✅ Regular usage analytics review
-✅ User feedback collection and analysis
-✅ Performance monitoring and optimization
-✅ Content relevance and accuracy updates
-✅ Technology and feature adoption
-```
-
-## Common Anti-Patterns to Avoid
-
-### 1. Design Anti-Patterns
-```
-❌ Chart Junk:
-- Unnecessary 3D effects
-- Excessive animation
-- Decorative elements that don't add value
-- Over-complicated visual effects
-
-❌ Information Overload:
-- Too many visuals on single page
-- Cluttered layouts with insufficient white space
-- Multiple competing focal points
-- Overwhelming color usage
-
-❌ Poor Color Choices:
-- Red-green combinations without alternatives
-- Low contrast ratios
-- Inconsistent color meanings
-- Over-use of bright or saturated colors
-```
-
-### 2. Interaction Anti-Patterns
-```
-❌ Navigation Confusion:
-- Inconsistent navigation patterns
-- Hidden or unclear navigation options
-- Broken or unexpected drill-through behavior
-- Circular navigation loops
-
-❌ Performance Problems:
-- Too many visuals causing slow loading
-- Inefficient cross-filtering
-- Unnecessary real-time refresh
-- Large datasets without proper filtering
-
-❌ Mobile Unfriendly:
-- Small touch targets
-- Horizontal scrolling requirements
-- Unreadable text on mobile
-- Non-functional mobile interactions
-```
-
-Remember: Always design with your specific users and use cases in mind. Test early and often with real users and realistic data to ensure your reports effectively communicate insights and enable data-driven decision making.
+字型格式:
+✅ 大小基於重要性或數值
+✅ 色彩基於效能指標
+✅ 粗體以強調和高亮
+✅ 斜體用於次要資訊
+
+實踐範例:
+銷售效能表:
+- 綠色背景: > 110% 的目標
+- 黃色背景: 90-110% 的目標
+- 紅色背景: < 90% 的目標
+- 資料棒: 各類別內的相對效能
+```
+
+### 2. 自訂視覺化整合
+```
+自訂視覺化選擇標準:
+
+評估框架:
+✅ 積極的社群支援和定期更新
+✅ Microsoft AppSource 認證（首選）
+✅ 清晰的文件和範例
+✅ 可接受的效能特性
+✅ 可用性合規
+
+盡職調查:
+✅ 使用您的資料類型和量徹底測試
+✅ 驗證行動相容性
+✅ 檢查刷新和效能影響
+✅ 審查安全和資料處理
+✅ 規劃維護和更新
+
+治理:
+✅ 自訂視覺化的批准流程
+✅ 一組標準認可的自訂視覺化
+✅ 認可視覺化和使用案例的文件
+✅ 監控和維護程序
+✅ 自訂視覺化不可用時的後備策略
+```
+
+## 報告測試和品質保證
+
+### 1. 功能測試檢查清單
+```
+視覺化功能:
+□ 所有圖表正確顯示資料
+□ 篩選如預期運作
+□ 交叉篩選行為適當
+□ 鑽取正確運作
+□ 提示顯示相關資訊
+□ 書籤恢復正確的狀態
+□ 匯出功能正常運作
+
+互動測試:
+□ 按鈕導航正確運作
+□ 交叉分析篩選器組合如預期運作
+□ 報告頁面在可接受的時間內載入
+□ 行動版面配置正確顯示
+□ 回應式設計適當調適
+□ 列印版面配置可讀
+
+資料準確性:
+□ 總計與來源系統相符
+□ 計算產生預期結果
+□ 篩選不會無意中排除資料
+□ 日期範圍正確
+□ 商業規則正確實施
+□ 邊界情況適當處理
+```
+
+### 2. 使用者體驗測試
+```
+可用性測試:
+✅ 與實際業務使用者測試
+✅ 觀察使用者行為和痛點
+✅ 計時常見任務和互動
+✅ 收集關於清晰度和有用性的回饋
+✅ 與不同技能等級的使用者測試
+
+效能測試:
+✅ 使用現實資料量進行負載測試
+✅ 並行使用者測試
+✅ 網路條件變化
+✅ 行動裝置效能
+✅ 高峰使用期間的刷新效能
+
+跨平台測試:
+✅ 桌面瀏覽器（Chrome、Firefox、Edge、Safari）
+✅ 行動裝置（iOS、Android）
+✅ Power BI 行動應用程式
+✅ 不同的螢幕解析度
+✅ 各種網路速度
+```
+
+### 3. 品質保證框架
+```
+審查程序:
+1. 開發人員測試: 初始功能驗證
+2. 同行審查: 同事的設計和技術審查
+3. 業務審查: 內容準確性和有用性驗證
+4. 使用者驗收: 與終端使用者的測試
+5. 效能審查: 負載和回應時間驗證
+6. 可用性審查: 可用性標準合規性
+
+文件:
+✅ 報告目的和目標受眾
+✅ 資料來源和刷新排程
+✅ 商業規則和計算說明
+✅ 使用者指南和培訓教材
+✅ 已知限制和因應措施
+✅ 維護和更新程序
+
+持續改進:
+✅ 定期使用分析審查
+✅ 使用者回饋收集和分析
+✅ 效能監控和優化
+✅ 內容相關性和準確性更新
+✅ 技術和功能採納
+```
+
+## 要避免的常見反模式
+
+### 1. 設計反模式
+```
+❌ 圖表垃圾:
+- 不必要的 3D 效果
+- 過多動畫
+- 不增加價值的裝飾元素
+- 過度複雜的視覺效果
+
+❌ 資訊超載:
+- 單頁上的視覺化過多
+- 版面配置雜亂且白色空間不足
+- 多個競爭的焦點
+- 壓倒性的色彩使用
+
+❌ 色彩選擇不當:
+- 紅綠組合而無替代方案
+- 對比率低
+- 色彩意義不一致
+- 過度使用鮮豔或飽和的色彩
+```
+
+### 2. 互動反模式
+```
+❌ 導航混亂:
+- 不一致的導航模式
+- 隱藏或不清楚的導航選項
+- 破損或意外的鑽取行為
+- 循環導航迴圈
+
+❌ 效能問題:
+- 視覺化過多導致載入緩慢
+- 效率低的交叉篩選
+- 不必要的即時刷新
+- 沒有適當篩選的大型資料集
+
+❌ 行動不友善:
+- 小觸控目標
+- 需要水平捲軸
+- 行動上的文字不可讀
+- 非功能性的行動互動
+```
+
+記住: 始終為您特定的使用者和使用案例而設計。與實際使用者進行早期和頻繁的測試，使用現實資料以確保您的報告有效地傳達見解並實現資料驅動決策。

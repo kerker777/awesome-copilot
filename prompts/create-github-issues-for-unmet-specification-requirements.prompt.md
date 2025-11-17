@@ -3,33 +3,33 @@ mode: 'agent'
 description: 'Create GitHub Issues for unimplemented requirements from specification files using feature_request.yml template.'
 tools: ['search/codebase', 'search', 'github', 'create_issue', 'search_issues', 'update_issue']
 ---
-# Create GitHub Issues for Unmet Specification Requirements
+# 為未實現的規格需求建立 GitHub Issues
 
-Create GitHub Issues for unimplemented requirements in the specification at `${file}`.
+為位於 `${file}` 的規格中未實現的需求建立 GitHub Issues。
 
-## Process
+## 流程
 
-1. Analyze specification file to extract all requirements
-2. Check codebase implementation status for each requirement
-3. Search existing issues using `search_issues` to avoid duplicates
-4. Create new issue per unimplemented requirement using `create_issue`
-5. Use `feature_request.yml` template (fallback to default)
+1. 分析規格文件以提取所有需求
+2. 檢查程式碼庫中每個需求的實現狀態
+3. 使用 `search_issues` 搜尋現有 Issues 以避免重複
+4. 使用 `create_issue` 為每個未實現的需求建立新 Issue
+5. 使用 `feature_request.yml` 範本（若無則使用預設）
 
-## Requirements
+## 需求
 
-- One issue per unimplemented requirement from specification
-- Clear requirement ID and description mapping
-- Include implementation guidance and acceptance criteria
-- Verify against existing issues before creation
+- 每個規格中的未實現需求建立一個 Issue
+- 清晰的需求 ID 與描述對應
+- 包含實現指南與驗收條件
+- 在建立前針對現有 Issues 進行驗證
 
-## Issue Content
+## Issue 內容
 
-- Title: Requirement ID and brief description
-- Description: Detailed requirement, implementation method, and context
-- Labels: feature, enhancement (as appropriate)
+- 標題：需求 ID 與簡要描述
+- 描述：詳細需求、實現方法與背景
+- 標籤：feature、enhancement（視情況而定）
 
-## Implementation Check
+## 實現檢查
 
-- Search codebase for related code patterns
-- Check related specification files in `/spec/` directory
-- Verify requirement isn't partially implemented
+- 搜尋程式碼庫中相關的程式碼模式
+- 檢查 `/spec/` 目錄中相關的規格文件
+- 驗證需求未被部分實現

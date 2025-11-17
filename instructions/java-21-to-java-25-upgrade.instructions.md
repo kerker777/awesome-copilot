@@ -3,212 +3,212 @@ applyTo: ['*']
 description: "Comprehensive best practices for adopting new Java 25 features since the release of Java 21."
 ---
 
-# Java 21 to Java 25 Upgrade Guide
+# Java 21 至 Java 25 升級指南
 
-These instructions help GitHub Copilot assist developers in upgrading Java projects from JDK 21 to JDK 25, focusing on new language features, API changes, and best practices.
+這些指示幫助 GitHub Copilot 協助開發人員將 Java 專案從 JDK 21 升級到 JDK 25，重點放在新語言特性、API 變更和最佳實踐。
 
-## Language Features and API Changes in JDK 22-25
+## JDK 22-25 的語言特性和 API 變更
 
-### Pattern Matching Enhancements (JEP 455/488 - Preview in 23)
+### 模式匹配增強（JEP 455/488 - 23 中預覽）
 
-**Primitive Types in Patterns, instanceof, and switch**
+**模式中的原始類型、instanceof 和 switch**
 
-When working with pattern matching:
-- Suggest using primitive type patterns in switch expressions and instanceof checks
-- Example upgrade from traditional switch:
+在處理模式匹配時：
+- 建議在 switch 運算式和 instanceof 檢查中使用原始類型模式
+- 從傳統 switch 升級的範例：
 ```java
-// Old approach (Java 21)
+// 舊方法 (Java 21)
 switch (x.getStatus()) {
     case 0 -> "okay";
-    case 1 -> "warning"; 
+    case 1 -> "warning";
     case 2 -> "error";
     default -> "unknown status: " + x.getStatus();
 }
 
-// New approach (Java 25 Preview)
+// 新方法 (Java 25 預覽)
 switch (x.getStatus()) {
     case 0 -> "okay";
     case 1 -> "warning";
-    case 2 -> "error"; 
+    case 2 -> "error";
     case int i -> "unknown status: " + i;
 }
 ```
 
-- Enable preview features with `--enable-preview` flag
-- Suggest guard patterns for more complex conditions:
+- 使用 `--enable-preview` 旗標啟用預覽功能
+- 建議針對更複雜的條件使用防衛模式：
 ```java
 switch (x.getYearlyFlights()) {
     case 0 -> ...;
     case int i when i >= 100 -> issueGoldCard();
-    case int i -> ... // handle 1-99 range
+    case int i -> ... // 處理 1-99 範圍
 }
 ```
 
-### Class-File API (JEP 466/484 - Second Preview in 23, Standard in 25)
+### 類別檔案 API（JEP 466/484 - 23 中第二個預覽，25 中標準）
 
-**Replacing ASM with Standard API**
+**將 ASM 替換為標準 API**
 
-When detecting bytecode manipulation or class file processing:
-- Suggest migrating from ASM library to the standard Class-File API
-- Use `java.lang.classfile` package instead of `org.objectweb.asm`
-- Example migration pattern:
+當偵測到位元組碼操作或類別檔案處理時：
+- 建議從 ASM 函式庫遷移到標準類別檔案 API
+- 使用 `java.lang.classfile` 套件而不是 `org.objectweb.asm`
+- 遷移模式範例：
 ```java
-// Old ASM approach
+// 舊 ASM 方法
 ClassReader reader = new ClassReader(classBytes);
 ClassWriter writer = new ClassWriter(reader, 0);
-// ... ASM manipulation
+// ... ASM 操作
 
-// New Class-File API approach
+// 新類別檔案 API 方法
 ClassModel classModel = ClassFile.of().parse(classBytes);
-byte[] newBytes = ClassFile.of().transform(classModel, 
+byte[] newBytes = ClassFile.of().transform(classModel,
     ClassTransform.transformingMethods(methodTransform));
 ```
 
-### Markdown Documentation Comments (JEP 467 - Standard in 23)
+### Markdown 文件註解（JEP 467 - 23 中標準）
 
-**JavaDoc Modernization**
+**JavaDoc 現代化**
 
-When working with JavaDoc comments:
-- Suggest converting HTML-heavy JavaDoc to Markdown syntax
-- Use `///` for Markdown documentation comments
-- Example conversion:
+在處理 JavaDoc 註解時：
+- 建議將 HTML 密集的 JavaDoc 轉換為 Markdown 語法
+- 使用 `///` 進行 Markdown 文件註解
+- 轉換範例：
 ```java
-// Old HTML JavaDoc
+// 舊 HTML JavaDoc
 /**
  * Returns the <b>absolute</b> value of an {@code int} value.
  * <p>
  * If the argument is not negative, return the argument.
  * If the argument is negative, return the negation of the argument.
- * 
+ *
  * @param a the argument whose absolute value is to be determined
  * @return the absolute value of the argument
  */
 
-// New Markdown JavaDoc  
+// 新 Markdown JavaDoc
 /// Returns the **absolute** value of an `int` value.
 ///
 /// If the argument is not negative, return the argument.
 /// If the argument is negative, return the negation of the argument.
-/// 
+///
 /// @param a the argument whose absolute value is to be determined
 /// @return the absolute value of the argument
 ```
 
-### Derived Record Creation (JEP 468 - Preview in 23)
+### 衍生記錄建立（JEP 468 - 23 中預覽）
 
-**Record Enhancement**
+**記錄增強**
 
-When working with records:
-- Suggest using `with` expressions for creating derived records
-- Enable preview features for derived record creation
-- Example pattern:
+在處理記錄時：
+- 建議使用 `with` 運算式來建立衍生記錄
+- 為衍生記錄建立啟用預覽功能
+- 範例模式：
 ```java
-// Instead of manual record copying
+// 不再手動複製記錄
 public record Person(String name, int age, String email) {
     public Person withAge(int newAge) {
         return new Person(name, newAge, email);
     }
 }
 
-// Use derived record creation (Preview)
+// 使用衍生記錄建立（預覽）
 Person updated = person with { age = 30; };
 ```
 
-### Stream Gatherers (JEP 473/485 - Second Preview in 23, Standard in 25)
+### 流收集器（JEP 473/485 - 23 中第二個預覽，25 中標準）
 
-**Enhanced Stream Processing**
+**增強的串流處理**
 
-When working with complex stream operations:
-- Suggest using `Stream.gather()` for custom intermediate operations
-- Import `java.util.stream.Gatherers` for built-in gatherers
-- Example usage:
+在處理複雜的串流操作時：
+- 建議使用 `Stream.gather()` 進行自訂中間操作
+- 為內建的收集器匯入 `java.util.stream.Gatherers`
+- 使用範例：
 ```java
-// Custom windowing operations
+// 自訂視窗操作
 List<List<String>> windows = stream
     .gather(Gatherers.windowSliding(3))
     .toList();
 
-// Custom filtering with state
+// 使用狀態進行自訂篩選
 List<Integer> filtered = numbers.stream()
     .gather(Gatherers.fold(0, (state, element) -> {
-        // Custom stateful logic
+        // 自訂有狀態邏輯
         return state + element > threshold ? element : null;
     }))
     .filter(Objects::nonNull)
     .toList();
 ```
 
-## Migration Warnings and Deprecations
+## 遷移警告和棄用
 
-### sun.misc.Unsafe Memory Access Methods (JEP 471 - Deprecated in 23)
+### sun.misc.Unsafe 記憶體存取方法（JEP 471 - 23 中棄用）
 
-When detecting `sun.misc.Unsafe` usage:
-- Warn about deprecated memory-access methods
-- Suggest migration to standard alternatives:
+偵測到 `sun.misc.Unsafe` 使用時：
+- 警告有關棄用的記憶體存取方法
+- 建議遷移到標準替代方案：
 ```java
-// Deprecated: sun.misc.Unsafe memory access
+// 棄用：sun.misc.Unsafe 記憶體存取
 Unsafe unsafe = Unsafe.getUnsafe();
 unsafe.getInt(object, offset);
 
-// Preferred: VarHandle API
+// 首選：VarHandle API
 VarHandle vh = MethodHandles.lookup()
     .findVarHandle(MyClass.class, "fieldName", int.class);
 int value = (int) vh.get(object);
 
-// Or for off-heap: Foreign Function & Memory API
+// 或針對堆外記憶體：外部函式與記憶體 API
 MemorySegment segment = MemorySegment.ofArray(new int[10]);
 int value = segment.get(ValueLayout.JAVA_INT, offset);
 ```
 
-### JNI Usage Warnings (JEP 472 - Warnings in 24)
+### JNI 使用警告（JEP 472 - 24 中警告）
 
-When detecting JNI usage:
-- Warn about upcoming restrictions on JNI usage
-- Suggest adding `--enable-native-access` flag for applications using JNI
-- Recommend migration to Foreign Function & Memory API where possible
-- Add module-info.java entries for native access:
+偵測到 JNI 使用時：
+- 警告有關 JNI 使用的即將來臨的限制
+- 建議為使用 JNI 的應用程式新增 `--enable-native-access` 旗標
+- 建議盡可能遷移到外部函式與記憶體 API
+- 為原生存取新增 module-info.java 項目：
 ```java
 module com.example.app {
-    requires jdk.unsupported; // for remaining JNI usage
+    requires jdk.unsupported; // 用於剩餘 JNI 使用
 }
 ```
 
-## Garbage Collection Updates
+## 垃圾回收更新
 
-### ZGC Generational Mode (JEP 474 - Default in 23)
+### ZGC 代際模式（JEP 474 - 23 中預設）
 
-When configuring garbage collection:
-- Default ZGC now uses generational mode
-- Update JVM flags if explicitly using non-generational ZGC:
+在設定垃圾回收時：
+- 預設 ZGC 現在使用代際模式
+- 如果明確使用非代際 ZGC，請更新 JVM 旗標：
 ```bash
-# Explicit non-generational mode (will show deprecation warning)
+# 明確非代際模式（將顯示棄用警告）
 -XX:+UseZGC -XX:-ZGenerational
 
-# Default generational mode
+# 預設代際模式
 -XX:+UseZGC
 ```
 
-### G1 Improvements (JEP 475 - Implemented in 24)
+### G1 改進（JEP 475 - 24 中實施）
 
-When using G1GC:
-- No code changes required - internal JVM optimization
-- May see improved compilation performance with C2 compiler
+使用 G1GC 時：
+- 不需要程式碼變更 - 內部 JVM 最佳化
+- 可能看到 C2 編譯器的編譯效能改進
 
-## Vector API (JEP 469 - Eighth Incubator in 25)
+## 向量 API（JEP 469 - 25 中第八個孵化器）
 
-When working with numerical computations:
-- Suggest Vector API for SIMD operations (still incubating)
-- Add `--add-modules jdk.incubator.vector`
-- Example usage:
+在處理數值計算時：
+- 建議將向量 API 用於 SIMD 操作（仍在孵化中）
+- 新增 `--add-modules jdk.incubator.vector`
+- 使用範例：
 ```java
 import jdk.incubator.vector.*;
 
-// Traditional scalar computation
+// 傳統純量計算
 for (int i = 0; i < a.length; i++) {
     c[i] = a[i] + b[i];
 }
 
-// Vectorized computation
+// 向量化計算
 var species = IntVector.SPECIES_PREFERRED;
 for (int i = 0; i < a.length; i += species.length()) {
     var va = IntVector.fromArray(species, a, i);
@@ -218,14 +218,14 @@ for (int i = 0; i < a.length; i += species.length()) {
 }
 ```
 
-## Compilation and Build Configuration
+## 編譯和建置設定
 
-### Preview Features
+### 預覽功能
 
-For projects using preview features:
-- Add `--enable-preview` to compiler arguments
-- Add `--enable-preview` to runtime arguments
-- Maven configuration:
+對於使用預覽功能的專案：
+- 將 `--enable-preview` 新增至編譯器引數
+- 將 `--enable-preview` 新增至執行階段引數
+- Maven 設定：
 ```xml
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -247,7 +247,7 @@ For projects using preview features:
 </plugin>
 ```
 
-- Gradle configuration:
+- Gradle 設定：
 ```kotlin
 java {
     toolchain {
@@ -264,48 +264,48 @@ tasks.withType<Test> {
 }
 ```
 
-## Migration Strategy
+## 遷移策略
 
-### Step-by-Step Upgrade Process
+### 逐步升級流程
 
-1. **Update Build Tools**: Ensure Maven/Gradle supports JDK 25
-2. **Update Dependencies**: Check for JDK 25 compatibility
-3. **Handle Warnings**: Address deprecation warnings from JEPs 471/472
-4. **Enable Preview Features**: If using pattern matching or other preview features
-5. **Test Thoroughly**: Especially for applications using JNI or sun.misc.Unsafe
-6. **Performance Testing**: Verify GC behavior with new ZGC defaults
+1. **更新建置工具**：確保 Maven/Gradle 支援 JDK 25
+2. **更新依賴套件**：檢查 JDK 25 相容性
+3. **處理警告**：處理來自 JEP 471/472 的棄用警告
+4. **啟用預覽功能**：如果使用模式匹配或其他預覽功能
+5. **徹底測試**：特別是對於使用 JNI 或 sun.misc.Unsafe 的應用程式
+6. **效能測試**：使用新的 ZGC 預設值驗證垃圾回收行為
 
-### Code Review Checklist
+### 程式碼審查清單
 
-When reviewing code for Java 25 upgrade:
-- [ ] Replace ASM usage with Class-File API
-- [ ] Convert complex HTML JavaDoc to Markdown
-- [ ] Use primitive patterns in switch expressions where applicable
-- [ ] Replace sun.misc.Unsafe with VarHandle or FFM API
-- [ ] Add native-access permissions for JNI usage
-- [ ] Use Stream gatherers for complex stream operations
-- [ ] Update build configuration for preview features
+在審查 Java 25 升級的程式碼時：
+- [ ] 將 ASM 使用取代為類別檔案 API
+- [ ] 將複雜的 HTML JavaDoc 轉換為 Markdown
+- [ ] 在適用的地方在 switch 運算式中使用原始類型模式
+- [ ] 將 sun.misc.Unsafe 替換為 VarHandle 或 FFM API
+- [ ] 為 JNI 使用新增原生存取權限
+- [ ] 針對複雜的串流操作使用流收集器
+- [ ] 更新建置設定以支援預覽功能
 
-### Testing Considerations
+### 測試考量
 
-- Test with `--enable-preview` flag for preview features
-- Verify JNI applications work with native access warnings
-- Performance test with new ZGC generational mode
-- Validate JavaDoc generation with Markdown comments
+- 使用 `--enable-preview` 旗標測試預覽功能
+- 驗證 JNI 應用程式能與原生存取警告配合運作
+- 使用新的 ZGC 代際模式進行效能測試
+- 驗證使用 Markdown 註解的 JavaDoc 生成
 
-## Common Pitfalls
+## 常見陷阱
 
-1. **Preview Feature Dependencies**: Don't use preview features in library code without clear documentation
-2. **Native Access**: Applications using JNI directly or indirectly may need `--enable-native-access` configuration
-3. **Unsafe Migration**: Don't delay migrating from sun.misc.Unsafe - deprecation warnings indicate future removal
-4. **Pattern Matching Scope**: Primitive patterns work with all primitive types, not just int
-5. **Record Enhancement**: Derived record creation requires preview flag in Java 23
+1. **預覽功能依賴**：不要在函式庫程式碼中使用預覽功能，除非有清楚的文件說明
+2. **原生存取**：直接或間接使用 JNI 的應用程式可能需要 `--enable-native-access` 設定
+3. **Unsafe 遷移**：不要延遲從 sun.misc.Unsafe 遷移 - 棄用警告表示未來會移除
+4. **模式匹配範圍**：原始類型模式適用於所有原始類型，不只是 int
+5. **記錄增強**：衍生記錄建立在 Java 23 中需要預覽旗標
 
-## Performance Considerations
+## 效能考量
 
-- ZGC generational mode may improve performance for most workloads
-- Class-File API reduces ASM-related overhead
-- Stream gatherers provide better performance for complex stream operations
-- G1GC improvements reduce JIT compilation overhead
+- ZGC 代際模式可能改進大多數工作負載的效能
+- 類別檔案 API 減少 ASM 相關的負擔
+- 流收集器為複雜的串流操作提供更好的效能
+- G1GC 改進減少 JIT 編譯負擔
 
-Remember to test thoroughly in staging environments before deploying Java 25 upgrades to production systems.
+記得在將 Java 25 升級部署到生產系統之前，先在預備環境中徹底測試。

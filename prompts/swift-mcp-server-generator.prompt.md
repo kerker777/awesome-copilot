@@ -3,13 +3,13 @@ description: 'Generate a complete Model Context Protocol server project in Swift
 mode: agent
 ---
 
-# Swift MCP Server Generator
+# Swift MCP 伺服器產生器
 
-Generate a complete, production-ready MCP server in Swift using the official Swift SDK package.
+使用官方 Swift SDK 套件產生一個完整、可用於生產環境的 MCP 伺服器。
 
-## Project Generation
+## 專案產生
 
-When asked to create a Swift MCP server, generate a complete project with this structure:
+當要求建立 Swift MCP 伺服器時，產生一個具有以下結構的完整專案：
 
 ```
 my-mcp-server/
@@ -33,7 +33,7 @@ my-mcp-server/
 └── README.md
 ```
 
-## Package.swift Template
+## Package.swift 樣板
 
 ```swift
 // swift-tools-version: 6.0
@@ -79,7 +79,7 @@ let package = Package(
 )
 ```
 
-## main.swift Template
+## main.swift 樣板
 
 ```swift
 import MCP
@@ -131,7 +131,7 @@ do {
 }
 ```
 
-## Server.swift Template
+## Server.swift 樣板
 
 ```swift
 import MCP
@@ -161,7 +161,7 @@ func createServer() async -> Server {
 }
 ```
 
-## ToolDefinitions.swift Template
+## ToolDefinitions.swift 樣板
 
 ```swift
 import MCP
@@ -218,7 +218,7 @@ func getToolDefinitions() -> [Tool] {
 }
 ```
 
-## ToolHandlers.swift Template
+## ToolHandlers.swift 樣板
 
 ```swift
 import MCP
@@ -314,7 +314,7 @@ private func handleCalculate(params: CallTool.Params) -> CallTool.Result {
 }
 ```
 
-## ResourceDefinitions.swift Template
+## ResourceDefinitions.swift 樣板
 
 ```swift
 import MCP
@@ -337,7 +337,7 @@ func getResourceDefinitions() -> [Resource] {
 }
 ```
 
-## ResourceHandlers.swift Template
+## ResourceHandlers.swift 樣板
 
 ```swift
 import MCP
@@ -416,7 +416,7 @@ func registerResourceHandlers(server: Server) async {
 }
 ```
 
-## PromptDefinitions.swift Template
+## PromptDefinitions.swift 樣板
 
 ```swift
 import MCP
@@ -435,7 +435,7 @@ func getPromptDefinitions() -> [Prompt] {
 }
 ```
 
-## PromptHandlers.swift Template
+## PromptHandlers.swift 樣板
 
 ```swift
 import MCP
@@ -489,7 +489,7 @@ private func handleCodeReviewPrompt(params: GetPrompt.Params) -> GetPrompt.Resul
 }
 ```
 
-## ServerTests.swift Template
+## ServerTests.swift 樣板
 
 ```swift
 import XCTest
@@ -553,110 +553,110 @@ final class ServerTests: XCTestCase {
 }
 ```
 
-## README.md Template
+## README.md 樣板
 
 ```markdown
 # MyMCPServer
 
-A Model Context Protocol server built with Swift.
+使用 Swift 建立的 Model Context Protocol 伺服器。
 
-## Features
+## 功能
 
-- ✅ Tools: greet, calculate
-- ✅ Resources: example data, configuration
-- ✅ Prompts: code-review
-- ✅ Graceful shutdown with ServiceLifecycle
-- ✅ Structured logging with swift-log
-- ✅ Full test coverage
+- ✅ 工具：greet、calculate
+- ✅ 資源：example data、configuration
+- ✅ 提示：code-review
+- ✅ 使用 ServiceLifecycle 的優雅關閉
+- ✅ 使用 swift-log 的結構化日誌
+- ✅ 完整的測試覆蓋範圍
 
-## Requirements
+## 需求
 
 - Swift 6.0+
-- macOS 13+, iOS 16+, or Linux
+- macOS 13+、iOS 16+ 或 Linux
 
-## Installation
+## 安裝
 
 ```bash
 swift build -c release
 ```
 
-## Usage
+## 用法
 
-Run the server:
+執行伺服器：
 
 ```bash
 swift run
 ```
 
-Or with logging:
+或使用日誌：
 
 ```bash
 LOG_LEVEL=debug swift run
 ```
 
-## Testing
+## 測試
 
 ```bash
 swift test
 ```
 
-## Development
+## 開發
 
-The server uses:
-- [MCP Swift SDK](https://github.com/modelcontextprotocol/swift-sdk) - MCP protocol implementation
-- [swift-log](https://github.com/apple/swift-log) - Structured logging
-- [swift-service-lifecycle](https://github.com/swift-server/swift-service-lifecycle) - Graceful shutdown
+伺服器使用：
+- [MCP Swift SDK](https://github.com/modelcontextprotocol/swift-sdk) - MCP 協定實作
+- [swift-log](https://github.com/apple/swift-log) - 結構化日誌
+- [swift-service-lifecycle](https://github.com/swift-server/swift-service-lifecycle) - 優雅關閉
 
-## Project Structure
+## 專案結構
 
-- `Sources/MyMCPServer/main.swift` - Entry point with ServiceLifecycle
-- `Sources/MyMCPServer/Server.swift` - Server configuration
-- `Sources/MyMCPServer/Tools/` - Tool definitions and handlers
-- `Sources/MyMCPServer/Resources/` - Resource definitions and handlers
-- `Sources/MyMCPServer/Prompts/` - Prompt definitions and handlers
-- `Tests/` - Unit tests
+- `Sources/MyMCPServer/main.swift` - 入口點，包含 ServiceLifecycle
+- `Sources/MyMCPServer/Server.swift` - 伺服器設定
+- `Sources/MyMCPServer/Tools/` - 工具定義與處理程式
+- `Sources/MyMCPServer/Resources/` - 資源定義與處理程式
+- `Sources/MyMCPServer/Prompts/` - 提示定義與處理程式
+- `Tests/` - 單位測試
 
-## License
+## 授權
 
 MIT
 ```
 
-## Generation Instructions
+## 產生指示
 
-1. **Ask for project name and description**
-2. **Generate all files** with proper naming
-3. **Use actor-based state** for thread safety
-4. **Include comprehensive logging** with swift-log
-5. **Implement graceful shutdown** with ServiceLifecycle
-6. **Add tests** for all handlers
-7. **Use modern Swift concurrency** (async/await)
-8. **Follow Swift naming conventions** (camelCase, PascalCase)
-9. **Include error handling** with proper MCPError usage
-10. **Document public APIs** with doc comments
+1. **詢問專案名稱與描述**
+2. **使用正確的命名產生所有檔案**
+3. **使用 Actor 型狀態**以保證執行緒安全
+4. **包含完整的日誌記錄**使用 swift-log
+5. **使用 ServiceLifecycle 實作優雅關閉**
+6. **為所有處理程式新增測試**
+7. **使用現代 Swift 並行機制** (async/await)
+8. **遵循 Swift 命名慣例** (camelCase、PascalCase)
+9. **包含錯誤處理**使用適當的 MCPError 用法
+10. **使用文件註解為公開 API 建立文件**
 
-## Build and Run
+## 建置與執行
 
 ```bash
-# Build
+# 建置
 swift build
 
-# Run
+# 執行
 swift run
 
-# Test
+# 測試
 swift test
 
-# Release build
+# 發行版本建置
 swift build -c release
 
-# Install
+# 安裝
 swift build -c release
 cp .build/release/MyMCPServer /usr/local/bin/
 ```
 
-## Integration with Claude Desktop
+## 與 Claude Desktop 整合
 
-Add to `claude_desktop_config.json`:
+新增至 `claude_desktop_config.json`：
 
 ```json
 {

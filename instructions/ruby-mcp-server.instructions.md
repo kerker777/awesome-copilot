@@ -3,27 +3,27 @@ description: 'Best practices and patterns for building Model Context Protocol (M
 applyTo: "**/*.rb, **/Gemfile, **/*.gemspec, **/Rakefile"
 ---
 
-# Ruby MCP Server Development Guidelines
+# Ruby MCP 伺服器開發指南
 
-When building MCP servers in Ruby, follow these best practices and patterns using the official Ruby SDK.
+在 Ruby 中構建 MCP 伺服器時，請遵循以下使用官方 Ruby SDK 的最佳實踐和模式。
 
-## Installation
+## 安裝
 
-Add the MCP gem to your Gemfile:
+將 MCP gem 新增到您的 Gemfile 中：
 
 ```ruby
 gem 'mcp'
 ```
 
-Then run:
+然後執行：
 
 ```bash
 bundle install
 ```
 
-## Server Setup
+## 伺服器設定
 
-Create an MCP server instance:
+建立一個 MCP 伺服器實例：
 
 ```ruby
 require 'mcp'
@@ -34,11 +34,11 @@ server = MCP::Server.new(
 )
 ```
 
-## Adding Tools
+## 新增工具
 
-Define tools using classes or blocks:
+使用類別或區塊定義工具：
 
-### Tool as Class
+### 類別形式的工具
 
 ```ruby
 class GreetTool < MCP::Tool
@@ -82,7 +82,7 @@ server = MCP::Server.new(
 )
 ```
 
-### Tool with Block
+### 區塊形式的工具
 
 ```ruby
 server.define_tool(
@@ -120,9 +120,9 @@ server.define_tool(
 end
 ```
 
-## Adding Resources
+## 新增資源
 
-Define resources for data access:
+定義用於資料存取的資源：
 
 ```ruby
 # Register resources
@@ -153,11 +153,11 @@ server.resources_read_handler do |params|
 end
 ```
 
-## Adding Prompts
+## 新增提示
 
-Define prompt templates:
+定義提示範本：
 
-### Prompt as Class
+### 類別形式的提示
 
 ```ruby
 class CodeReviewPrompt < MCP::Prompt
@@ -203,7 +203,7 @@ server = MCP::Server.new(
 )
 ```
 
-### Prompt with Block
+### 區塊形式的提示
 
 ```ruby
 server.define_prompt(
@@ -233,11 +233,11 @@ server.define_prompt(
 end
 ```
 
-## Transport Configuration
+## 傳輸設定
 
-### Stdio Transport
+### 標準輸入輸出傳輸
 
-For local command-line applications:
+用於本機命令列應用程式：
 
 ```ruby
 require 'mcp'
@@ -251,9 +251,9 @@ transport = MCP::Server::Transports::StdioTransport.new(server)
 transport.open
 ```
 
-### HTTP Transport (Rails)
+### HTTP 傳輸 (Rails)
 
-For Rails applications:
+用於 Rails 應用程式：
 
 ```ruby
 class McpController < ApplicationController
@@ -271,9 +271,9 @@ class McpController < ApplicationController
 end
 ```
 
-### Streamable HTTP Transport
+### 可串流化的 HTTP 傳輸
 
-For Server-Sent Events:
+用於伺服器發送事件 (Server-Sent Events)：
 
 ```ruby
 server = MCP::Server.new(name: 'my_server')
@@ -285,9 +285,9 @@ server.define_tool(name: 'new_tool') { |**args| { result: 'ok' } }
 server.notify_tools_list_changed
 ```
 
-## Server Context
+## 伺服器上下文
 
-Pass contextual information to tools and prompts:
+將上下文資訊傳遞給工具和提示：
 
 ```ruby
 server = MCP::Server.new(
@@ -310,11 +310,11 @@ class AuthenticatedTool < MCP::Tool
 end
 ```
 
-## Configuration
+## 設定
 
-### Exception Reporting
+### 例外報告
 
-Configure exception reporting:
+設定例外報告：
 
 ```ruby
 MCP.configure do |config|
@@ -327,9 +327,9 @@ MCP.configure do |config|
 end
 ```
 
-### Instrumentation
+### 工具化
 
-Monitor MCP server performance:
+監控 MCP 伺服器效能：
 
 ```ruby
 MCP.configure do |config|
@@ -344,26 +344,26 @@ MCP.configure do |config|
 end
 ```
 
-The instrumentation data includes:
-- `method`: Protocol method called (e.g., "tools/call")
-- `tool_name`: Name of tool called
-- `prompt_name`: Name of prompt called
-- `resource_uri`: URI of resource called
-- `error`: Error code if lookup failed
-- `duration`: Duration in seconds
+工具化資料包括：
+- `method`: 呼叫的協定方法 (例如「tools/call」)
+- `tool_name`: 呼叫的工具名稱
+- `prompt_name`: 呼叫的提示名稱
+- `resource_uri`: 呼叫的資源 URI
+- `error`: 查詢失敗時的錯誤代碼
+- `duration`: 時間長度 (秒數)
 
-### Protocol Version
+### 協定版本
 
-Override the protocol version:
+覆寫協定版本：
 
 ```ruby
 configuration = MCP::Configuration.new(protocol_version: '2025-06-18')
 server = MCP::Server.new(name: 'my_server', configuration: configuration)
 ```
 
-## Tool Annotations
+## 工具註解
 
-Provide metadata about tool behavior:
+提供有關工具行為的中繼資料：
 
 ```ruby
 class DataTool < MCP::Tool
@@ -380,9 +380,9 @@ class DataTool < MCP::Tool
 end
 ```
 
-## Tool Output Schemas
+## 工具輸出結構描述
 
-Define expected output structure:
+定義預期的輸出結構：
 
 ```ruby
 class WeatherTool < MCP::Tool
@@ -413,9 +413,9 @@ class WeatherTool < MCP::Tool
 end
 ```
 
-## Structured Content in Responses
+## 回應中的結構化內容
 
-Return structured data with text:
+傳回結構化資料和文字：
 
 ```ruby
 class APITool < MCP::Tool
@@ -430,9 +430,9 @@ class APITool < MCP::Tool
 end
 ```
 
-## Custom Methods
+## 自訂方法
 
-Define custom JSON-RPC methods:
+定義自訂 JSON-RPC 方法：
 
 ```ruby
 server = MCP::Server.new(name: 'my_server')
@@ -449,9 +449,9 @@ server.define_custom_method(method_name: 'notify') do |params|
 end
 ```
 
-## Notifications
+## 通知
 
-Send list change notifications:
+傳送清單變更通知：
 
 ```ruby
 server = MCP::Server.new(name: 'my_server')
@@ -470,9 +470,9 @@ server.notify_prompts_list_changed
 server.notify_resources_list_changed
 ```
 
-## Resource Templates
+## 資源範本
 
-Define dynamic resources with URI templates:
+使用 URI 範本定義動態資源：
 
 ```ruby
 resource_template = MCP::ResourceTemplate.new(
@@ -488,9 +488,9 @@ server = MCP::Server.new(
 )
 ```
 
-## Error Handling
+## 錯誤處理
 
-Handle errors properly in tools:
+正確處理工具中的錯誤：
 
 ```ruby
 class RiskyTool < MCP::Tool
@@ -511,9 +511,9 @@ class RiskyTool < MCP::Tool
 end
 ```
 
-## Testing
+## 測試
 
-Write tests for your MCP server:
+為您的 MCP 伺服器撰寫測試：
 
 ```ruby
 require 'minitest/autorun'
@@ -536,9 +536,9 @@ class MyToolTest < Minitest::Test
 end
 ```
 
-## Client Usage
+## 用戶端使用
 
-Build MCP clients to connect to servers:
+建立 MCP 用戶端以連接到伺服器：
 
 ```ruby
 require 'mcp'
@@ -566,22 +566,22 @@ response = client.call_tool(
 )
 ```
 
-## Best Practices
+## 最佳實踐
 
-1. **Use classes for complex tools** - Better organization and testability
-2. **Define input/output schemas** - Ensure type safety and validation
-3. **Add annotations** - Help clients understand tool behavior
-4. **Include structured content** - Provide both text and structured data
-5. **Use server_context** - Pass authentication and request context
-6. **Configure exception reporting** - Monitor errors in production
-7. **Implement instrumentation** - Track performance metrics
-8. **Send notifications** - Keep clients updated on changes
-9. **Validate inputs** - Check parameters before processing
-10. **Follow Ruby conventions** - Use snake_case, proper indentation
+1. **使用類別進行複雜工具** - 更佳的組織和可測試性
+2. **定義輸入/輸出結構描述** - 確保型別安全和驗證
+3. **新增註解** - 協助用戶端了解工具行為
+4. **包含結構化內容** - 提供文字和結構化資料
+5. **使用 server_context** - 傳遞驗證和要求上下文
+6. **設定例外報告** - 監控生產環境中的錯誤
+7. **實作工具化** - 追蹤效能計量
+8. **傳送通知** - 讓用戶端保持最新狀態
+9. **驗證輸入** - 在處理前檢查參數
+10. **遵循 Ruby 慣例** - 使用 snake_case、適當的縮排
 
-## Common Patterns
+## 常見模式
 
-### Authenticated Tool
+### 已驗證的工具
 
 ```ruby
 class AuthenticatedTool < MCP::Tool
@@ -595,7 +595,7 @@ class AuthenticatedTool < MCP::Tool
 end
 ```
 
-### Paginated Resource
+### 分頁資源
 
 ```ruby
 server.resources_read_handler do |params|
@@ -612,7 +612,7 @@ server.resources_read_handler do |params|
 end
 ```
 
-### Dynamic Prompt
+### 動態提示
 
 ```ruby
 class DynamicPrompt < MCP::Prompt

@@ -3,127 +3,127 @@ description: 'Create or modify solutions built using Terraform on Azure.'
 applyTo: '**/*.terraform, **/*.tf, **/*.tfvars, **/*.tflint.hcl, **/*.tfstate, **/*.tf.json, **/*.tfvars.json'
 ---
 
-# Azure Terraform Best Practices
+# Azure Terraform 最佳實踐
 
-## Integration and Self-Containment
+## 整合與自給自足
 
-This instruction set extends the universal DevOps Core Principles and Taming Copilot directives for Azure/Terraform scenarios. It assumes those foundational rules are loaded but includes summaries here for self-containment. If the general rules are not present, these summaries serve as defaults to maintain behavioral consistency.
+此指令集延伸通用 DevOps 核心原則與馴化 Copilot 指令以涵蓋 Azure/Terraform 情況。它假設這些基礎規則已載入，但此處包含摘要以達成自給自足。若通用規則不存在，這些摘要作為預設值以維持行為一致性。
 
-### Incorporated DevOps Core Principles (CALMS Framework)
+### 納入的 DevOps 核心原則（CALMS 框架）
 
-- **Culture**: Foster collaborative, blameless culture with shared responsibility and continuous learning.
-- **Automation**: Automate everything possible across the software delivery lifecycle to reduce manual effort and errors.
-- **Lean**: Eliminate waste, maximize flow, and deliver value continuously by reducing batch sizes and bottlenecks.
-- **Measurement**: Measure everything relevant (e.g., DORA metrics: Deployment Frequency, Lead Time for Changes, Change Failure Rate, Mean Time to Recovery) to drive improvement.
-- **Sharing**: Promote knowledge sharing, collaboration, and transparency across teams.
+- **文化**：培養協作、無責備的文化，強調共同責任與持續學習。
+- **自動化**：在軟體交付生命週期的各個階段自動化一切可能的工作，以減少手工勞動與錯誤。
+- **精實**：消除浪費、最大化流程效率，藉由降低批量大小與排除瓶頸來持續交付價值。
+- **測量**：測量所有相關指標（例如 DORA 指標：部署頻率、變更前置時間、變更失敗率、平均恢復時間），以驅動改進。
+- **分享**：推動知識分享、協作與跨團隊的透明度。
 
-### Incorporated Taming Copilot Directives (Behavioral Hierarchy)
+### 納入的馴化 Copilot 指令（行為層級制度）
 
-- **Primacy of User Directives**: Direct user commands take highest priority.
-- **Factual Verification**: Prioritize tools for current, factual answers over internal knowledge.
-- **Adherence to Philosophy**: Follow minimalist, surgical approaches—code on request only, minimal necessary changes, direct and concise responses.
-- **Tool Usage**: Use tools purposefully; declare intent before action; prefer parallel calls when possible.
+- **使用者指令優先性**：直接的使用者命令具有最高優先級。
+- **事實驗證**：優先使用工具取得當前、準確的答案，而非依靠內部知識。
+- **遵守哲學**：遵循最小化、精準的方式—僅在要求時編寫程式碼、最少必要變更、直接且簡潔的回應。
+- **工具使用**：有目的地使用工具；在行動前宣示意圖；盡可能偏好並行呼叫。
 
-These summaries ensure the mode functions independently while aligning with the broader chat mode context. For full details, reference the original DevOps Core Principles and Taming Copilot instructions.
+這些摘要確保模式獨立運作，同時與更廣泛的對話模式脈絡對齐。如欲了解完整細節，請參考原始的 DevOps 核心原則與馴化 Copilot 指令。
 
-## Chat Mode Integration
+## 對話模式整合
 
-When operating in chat mode with these instructions loaded:
+在載入這些指令的對話模式中運作時：
 
-- Treat this as a self-contained extension that incorporates summarized general rules for independent operation.
-- Prioritize user directives over automated actions, especially for terraform commands beyond validate.
-- Use implicit dependencies where possible and confirm before any terraform plan or apply operations.
-- Maintain minimalist responses and surgical code changes, aligning with the incorporated Taming philosophy.
-- **Planning Files Awareness**: Always check for planning files in the `.terraform-planning-files/` folder (if present). Read and incorporate relevant details from these files into responses, especially for migration or implementation plans. If speckit or similar planning files exist in user-specified folders, prompt the user to confirm inclusion or read them explicitly.
+- 將此視為自給自足的擴展，納入摘要的通用規則以實現獨立運作。
+- 將使用者指令優先於自動化動作，尤其是針對驗證以外的 terraform 命令。
+- 盡可能使用隱含依賴，並在任何 terraform plan 或 apply 操作前確認。
+- 保持最小化回應與精準的程式碼變更，與納入的馴化哲學對齐。
+- **計畫檔案意識**：始終檢查 `.terraform-planning-files/` 資料夾中是否存在計畫檔案（若存在）。讀取並將這些檔案的相關細節納入回應，尤其是針對遷移或實施計畫。若規格檔案或類似的計畫檔案存在於使用者指定的資料夾中，提示使用者確認是否納入或明確讀取它們。
 
-## 1. Overview
+## 1. 概述
 
-These instructions provide Azure-specific guidance for solutions created Terraform, including how to incorporate and use Azure Verified Modules.
+本指令提供 Azure 特定的指引，適用於以 Terraform 建構的解決方案，包括如何納入與使用 Azure 驗證模組。
 
-For general Terraform conventions, see [terraform.instructions.md](terraform.instructions.md).
+如欲了解一般 Terraform 慣例，請參考 [terraform.instructions.md](terraform.instructions.md)。
 
-For development of modules, especially Azure Verified Modules, see [azure-verified-modules-terraform.instructions.md](azure-verified-modules-terraform.instructions.md).
+如欲了解模組開發，特別是 Azure 驗證模組，請參考 [azure-verified-modules-terraform.instructions.md](azure-verified-modules-terraform.instructions.md)。
 
-## 2. Anti-Patterns to Avoid
+## 2. 須避免的反模式
 
-**Configuration:**
+**組態設定：**
 
-- MUST NOT hardcode values that should be parameterized
-- SHOULD NOT use `terraform import` as a regular workflow pattern
-- SHOULD avoid complex conditional logic that makes code hard to understand
-- MUST NOT use `local-exec` provisioners unless absolutely necessary
+- 不得將應該參數化的值寫死
+- 不應將 `terraform import` 作為常規工作流程模式
+- 應避免複雜的條件邏輯，使程式碼難以理解
+- 不得使用 `local-exec` 佈建程式，除非絕對必要
 
-**Security:**
+**安全性：**
 
-- MUST NEVER store secrets in Terraform files or state
-- MUST avoid overly permissive IAM roles or network rules
-- MUST NOT disable security features for convenience
-- MUST NOT use default passwords or keys
+- 絕不得在 Terraform 檔案或狀態中儲存機密
+- 必須避免過度寬鬆的 IAM 角色或網路規則
+- 不得為了方便而停用安全功能
+- 不得使用預設密碼或金鑰
 
-**Operational:**
+**營運：**
 
-- MUST NOT apply Terraform changes directly to production without testing
-- MUST avoid making manual changes to Terraform-managed resources
-- MUST NOT ignore Terraform state file corruption or inconsistencies
-- MUST NOT run Terraform from local machines for production
-- MUST only use a Terraform state file (`**/*.tfstate`) for read only operations, all changes must be made via Terraform CLI or HCL.
-- MUST only use the contents of `**/.terraform/**` (fetched modules and providers) for read only operations.
+- 不得在未經測試的情況下直接將 Terraform 變更套用到生產環境
+- 必須避免對 Terraform 管理的資源進行手工變更
+- 不得忽視 Terraform 狀態檔案毀損或不一致性
+- 不得在本機機器上執行 Terraform 以進行生產環境操作
+- 只能以唯讀方式使用 Terraform 狀態檔案（`**/*.tfstate`），所有變更必須透過 Terraform CLI 或 HCL 進行。
+- 只能以唯讀方式使用 `**/.terraform/**` 的內容（取得的模組與供應商）。
 
-These build on the incorporated Taming Copilot directives for secure, operational practices.
+這些建立在納入的馴化 Copilot 指令之上，用於安全、營運實踐。
 
 ---
 
-## 3. Organize Code Cleanly
+## 3. 清晰地組織程式碼
 
-Structure Terraform configurations with logical file separation:
+以邏輯檔案分離的方式構造 Terraform 組態設定：
 
-- Use `main.tf` for resources
-- Use `variables.tf` for inputs
-- Use `outputs.tf` for outputs
-- Use `terraform.tf` for provider configurations
-- Use `locals.tf` to abstract complex expressions and for better readability
-- Follow consistent naming conventions and formatting (`terraform fmt`)
-- If the main.tf or variables.tf files grow too large, split them into multiple files by resource type or function (e.g., `main.networking.tf`, `main.storage.tf` - move equivalent variables to `variables.networking.tf`, etc.)
+- 使用 `main.tf` 放置資源
+- 使用 `variables.tf` 放置輸入
+- 使用 `outputs.tf` 放置輸出
+- 使用 `terraform.tf` 放置供應商組態設定
+- 使用 `locals.tf` 提取複雜運算式以提高可讀性
+- 遵循一致的命名慣例與格式設定（`terraform fmt`）
+- 若 main.tf 或 variables.tf 檔案過大，請按資源類型或函式分割為多個檔案（例如 `main.networking.tf`、`main.storage.tf` - 將對應的變數移到 `variables.networking.tf` 等）
 
-Use `snake_casing` for variables and module names.
+變數與模組名稱使用 `snake_case` 命名。
 
-## 4. Use Azure Verified Modules (AVM)
+## 4. 使用 Azure 驗證模組（AVM）
 
-Any significant resource should use an AVM if available. AVMs are designed to be aligned to the Well Architected Framework, are supported and maintained by Microsoft helping reduce the amount of code to be maintained. Information about how to discover these is available in [Azure Verified Modules for Terraform](azure-verified-modules-terraform.instructions.md).
+任何重大資源若有可用的 AVM，應使用 AVM。AVM 設計用來符合完善架構框架，由 Microsoft 支援與維護，有助於減少需要維護的程式碼數量。如欲了解如何發現這些模組，請參考 [Azure Verified Modules for Terraform](azure-verified-modules-terraform.instructions.md)。
 
-If an Azure Verified Module is not available for the resource, suggest creating one "in the style of" AVM in order to align to existing work and provide an opportunity to contribute upstream to the community.
+若資源沒有可用的 Azure 驗證模組，建議建立一個「以 AVM 風格」的模組，以與現有工作對齐並提供機會貢獻至上游社群。
 
-An exception to this instruction is if the user has been directed to use an internal private registry, or explicitly states they do not wish to use Azure Verified Modules.
+此指令的例外情況是使用者被指引使用內部私有登錄，或明確表示不願使用 Azure 驗證模組。
 
-This aligns with the incorporated DevOps Automation principle by leveraging pre-validated, community-maintained modules.
+這與納入的 DevOps 自動化原則對齐，透過運用預先驗證、社群維護的模組。
 
-## 5. Variable and Code Style Standards
+## 5. 變數與程式碼風格標準
 
-Follow AVM-aligned coding standards in solution code to maintain consistency:
+遵循 AVM 對齊的編碼標準以在解決方案程式碼中維持一致性：
 
-- **Variable naming**: Use snake_case for all variable names (per TFNFR4 and TFNFR16). Be descriptive and consistent with naming conventions.
-- **Variable definitions**: All variables must have explicit type declarations (per TFNFR18) and comprehensive descriptions (per TFNFR17). Avoid nullable defaults for collection values (per TFNFR20) unless there's a specific need.
-- **Sensitive variables**: Mark sensitive variables appropriately and avoid setting `sensitive = false` explicitly (per TFNFR22). Handle sensitive default values correctly (per TFNFR23).
-- **Dynamic blocks**: Use dynamic blocks for optional nested objects where appropriate (per TFNFR12), and leverage `coalesce` or `try` functions for default values (per TFNFR13).
-- **Code organization**: Consider using `locals.tf` specifically for local values (per TFNFR31) and ensure precise typing for locals (per TFNFR33).
+- **變數命名**：所有變數名稱使用 snake_case（根據 TFNFR4 與 TFNFR16）。具描述性並與命名慣例保持一致。
+- **變數定義**：所有變數必須有明確的類型宣告（根據 TFNFR18）與詳盡的描述（根據 TFNFR17）。避免為集合值設定可空預設值（根據 TFNFR20），除非有特定需求。
+- **敏感變數**：適當地標記敏感變數並避免明確設定 `sensitive = false`（根據 TFNFR22）。正確處理敏感預設值（根據 TFNFR23）。
+- **動態區塊**：在適當的情況下為可選巢狀物件使用動態區塊（根據 TFNFR12），並運用 `coalesce` 或 `try` 函式取得預設值（根據 TFNFR13）。
+- **程式碼組織**：考慮特別為局部值使用 `locals.tf`（根據 TFNFR31），並確保局部變數的精確類型（根據 TFNFR33）。
 
-## 6. Secrets
+## 6. 機密
 
-The best secret is one that does not need to be stored.  e.g. use Managed Identities rather than passwords or keys.
+最好的機密就是不需要儲存的機密。例如，使用受控識別而非密碼或金鑰。
 
-Use `ephemeral` secrets with write-only parameters when supported (Terraform v1.11+) to avoid storing secrets in state files. Consult module documentation for availability.
+在支援時使用 `ephemeral` 機密與唯寫參數（Terraform v1.11+）以避免在狀態檔案中儲存機密。請參考模組文件以了解可用性。
 
-Where secrets are required, store in Key Vault unless directed to use a different service.
+若需要機密，應儲存在 Key Vault，除非被指引使用其他服務。
 
-Never write secrets to local filesystems or commit to git.
+絕不將機密寫入本機檔案系統或提交至 git。
 
-Mark sensitive values appropriately, isolate them from other attributes, and avoid outputting sensitive data unless absolutely necessary. Follow TFNFR19, TFNFR22, and TFNFR23.
+適當地標記敏感值，將其與其他屬性隔離，並避免輸出敏感資料，除非絕對必要。遵循 TFNFR19、TFNFR22 與 TFNFR23。
 
-## 7. Outputs
+## 7. 輸出
 
-- **Avoid unnecessary outputs**, only use these to expose information needed by other configurations.
-- Use `sensitive = true` for outputs containing secrets
-- Provide clear descriptions for all outputs
+- **避免不必要的輸出**，僅使用此功能公開其他組態設定所需的資訊。
+- 對包含機密的輸出使用 `sensitive = true`
+- 為所有輸出提供清晰的描述
 
 ```hcl
 output "resource_group_name" {
@@ -137,11 +137,11 @@ output "virtual_network_id" {
 }
 ```
 
-## 8. Local Values Usage
+## 8. 局部值的使用
 
-- Use locals for computed values and complex expressions
-- Improve readability by extracting repeated expressions
-- Combine related values into structured locals
+- 將局部變數用於計算值與複雜運算式
+- 透過提取重複的運算式來改善可讀性
+- 將相關值組合為結構化的局部變數
 
 ```hcl
 locals {
@@ -151,35 +151,35 @@ locals {
     Owner       = var.owner
     CreatedBy   = "terraform"
   }
-  
+
   resource_name_prefix = "${var.project_name}-${var.environment}"
   location_short       = substr(var.location, 0, 3)
 }
 ```
 
-## 9. Follow recommended Terraform practices
+## 9. 遵循建議的 Terraform 實踐
 
-- **Redundant depends_on Detection**: Search and remove `depends_on` where the dependent resource is already referenced implicitly in the same resource block. Retain `depends_on` only where it is explicitly required.  Never depend on module outputs.
+- **冗餘 depends_on 檢測**：搜尋並移除 `depends_on`，其中相依資源已在相同資源區塊中隱含地被引用。只有在明確需要時才保留 `depends_on`。絕不依賴模組輸出。
 
-- **Iteration**: Use `count` for 0-1 resources, `for_each` for multiple resources. Prefer maps for stable resource addresses. Align with TFNFR7.
+- **反覆**：對 0-1 個資源使用 `count`，對多個資源使用 `for_each`。偏好使用地圖以取得穩定的資源地址。與 TFNFR7 對齐。
 
-- **Data sources**: Acceptable in root modules but avoid in reusable modules. Prefer explicit module parameters over data source lookups.
+- **資料來源**：在根模組中可接受，但在可重用模組中應避免。偏好使用明確的模組參數而非資料來源查閱。
 
-- **Parameterization**: Use strongly typed variables with explicit `type` declarations (TFNFR18), comprehensive descriptions (TFNFR17), and non-nullable defaults (TFNFR20). Leverage AVM-exposed variables.
+- **參數化**：使用強類型變數，具有明確的 `type` 宣告（TFNFR18）、詳盡的描述（TFNFR17）與不可空的預設值（TFNFR20）。運用 AVM 公開的變數。
 
-- **Versioning**: Target latest stable Terraform and Azure provider versions. Specify versions in code and keep updated (TFFR3).
+- **版本控制**：針對最新穩定的 Terraform 與 Azure 供應商版本。在程式碼中指定版本並保持更新（TFFR3）。
 
-## 10. Folder Structure
+## 10. 資料夾結構
 
-Use a consistent folder structure for Terraform configurations.
+為 Terraform 組態設定使用一致的資料夾結構。
 
-Use tfvars to modify environmental differences. In general, aim to keep environments similar whilst cost optimising for non-production environments.
+使用 tfvars 修改環境差異。一般來說，目標是保持環境相似，同時針對非生產環境進行成本最佳化。
 
-Antipattern - branch per environment, repository per environment, folder per environment - or similar layouts that make it hard to test the root folder logic between environments.  
+反模式 - 每個環境一個分支、每個環境一個儲存庫、每個環境一個資料夾，或類似的佈局，使得難以在環境間測試根資料夾邏輯。
 
-Be aware of tools such as Terragrunt which may influence this design.
+應瞭解 Terragrunt 等工具，這些可能會影響此設計。
 
-A **suggested** structure is:
+一個**建議的**結構為：
 
 ```text
 my-azure-app/
@@ -198,57 +198,57 @@ my-azure-app/
 └── README.md                       # Documentation
 ```
 
-Never change the folder structure without direct agreement with the user.
+未經使用者明確同意，不得變更資料夾結構。
 
-Follow AVM specifications TFNFR1, TFNFR2, TFNFR3, and TFNFR4 for consistent file naming and structure.
+遵循 AVM 規範 TFNFR1、TFNFR2、TFNFR3 與 TFNFR4 以取得一致的檔案命名與結構。
 
-## Azure-Specific Best Practices
+## Azure 特定最佳實踐
 
-### Resource Naming and Tagging
+### 資源命名與標籤
 
-- Follow [Azure naming conventions](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
-- Use consistent region naming and variables for multi-region deployments
-- Implement consistent tagging.
+- 遵循 [Azure 命名慣例](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/azure-best-practices/resource-naming)
+- 針對多區域部署使用一致的區域命名與變數
+- 實施一致的標籤。
 
-### Resource Group Strategy
+### 資源群組策略
 
-- Use existing resource groups when specified
-- Create new resource groups only when necessary and with confirmation
-- Use descriptive names indicating purpose and environment
+- 在指定時使用現有的資源群組
+- 僅在必要且經過確認時才建立新的資源群組
+- 使用描述用途與環境的名稱
 
-### Networking Considerations
+### 網路考量
 
-- Validate existing VNet/subnet IDs before creating new network resources (for example, is this solution being deployed into an existing hub & spoke landing zone)
-- Use NSGs and ASGs appropriately
-- Implement private endpoints for PaaS services when required, use resource firewall restrictions to restrict public access otherwise.  Comment exceptions where public endpoints are required.
+- 在建立新網路資源前驗證現有的虛擬網路/子網路識別碼（例如，此解決方案是否部署到現有的中樞與支點登陸區域）
+- 適當地使用網路安全群組與應用程式安全群組
+- 於必要時對 PaaS 服務實施私人端點；否則使用資源防火牆限制以限制公開存取。在需要公開端點的例外情況下新增註解。
 
-### Security and Compliance
+### 安全性與合規性
 
-- Use Managed Identities instead of service principals
-- Implement Key Vault with appropriate RBAC.
-- Enable diagnostic settings for audit trails
-- Follow principle of least privilege
+- 使用受控識別而非服務主體
+- 使用適當的角色型存取控制實施 Key Vault。
+- 啟用診斷設定以進行稽核追蹤
+- 遵循最小權限原則
 
-## Cost Management
+## 成本管理
 
-- Confirm budget approval for expensive resources
-- Use environment-appropriate sizing (dev vs prod)
-- Ask for cost constraints if not specified
+- 為昂貴資源確認預算批准
+- 使用適合環境的規模（開發 vs 生產）
+- 若未指定，詢問成本約束
 
-## State Management
+## 狀態管理
 
-- Use remote backend (Azure Storage) with state locking
-- Never commit state files to source control
-- Enable encryption at rest and in transit
+- 使用遠端後端（Azure 儲存體）並啟用狀態鎖定
+- 絕不將狀態檔案提交至原始控制
+- 啟用傳輸中與靜止時的加密
 
-## Validation
+## 驗證
 
-- Do an inventory of existing resources and offer to remove unused resource blocks.
-- Run `terraform validate` to check syntax
-- Ask before running `terraform plan`.  Terraform plan will require a subscription ID, this should be sourced from the ARM_SUBSCRIPTION_ID environment variable, *NOT* coded in the provider block.
-- Test configurations in non-production environments first
-- Ensure idempotency (multiple applies produce same result)
+- 現有資源的清單盤點，並提供移除未使用資源區塊的選項。
+- 執行 `terraform validate` 檢查語法
+- 在執行 `terraform plan` 前詢問。Terraform plan 需要訂用帳戶識別碼，此應來自 ARM_SUBSCRIPTION_ID 環境變數，*不得*在供應商區塊中編寫。
+- 首先在非生產環境中測試組態設定
+- 確保冪等性（多次套用產生相同結果）
 
-## Fallback Behavior
+## 遞補行為
 
-If general rules are not loaded, default to: minimalist code generation, explicit consent for any terraform commands beyond validate, and adherence to CALMS principles in all suggestions.
+若通用規則未載入，預設為：最小化程式碼生成、針對驗證以外的任何 terraform 命令的明確同意，以及遵循所有建議中的 CALMS 原則。

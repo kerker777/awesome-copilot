@@ -3,13 +3,13 @@ description: 'Best practices and patterns for building Model Context Protocol (M
 applyTo: "**/*.swift, **/Package.swift, **/Package.resolved"
 ---
 
-# Swift MCP Server Development Guidelines
+# Swift MCP 伺服器開發指南
 
-When building MCP servers in Swift, follow these best practices and patterns using the official Swift SDK.
+在 Swift 中建構 MCP 伺服器時，請遵循以下使用官方 Swift SDK 的最佳實踐和模式。
 
-## Server Setup
+## 伺服器設定
 
-Create an MCP server using the `Server` class with capabilities:
+使用具有功能的 `Server` 類別建立 MCP 伺服器：
 
 ```swift
 import MCP
@@ -25,12 +25,12 @@ let server = Server(
 )
 ```
 
-## Adding Tools
+## 新增工具
 
-Use `withMethodHandler` to register tool handlers:
+使用 `withMethodHandler` 註冊工具處理程式：
 
 ```swift
-// Register tool list handler
+// 註冊工具列表處理程式
 await server.withMethodHandler(ListTools.self) { _ in
     let tools = [
         Tool(
@@ -48,14 +48,14 @@ await server.withMethodHandler(ListTools.self) { _ in
     return .init(tools: tools)
 }
 
-// Register tool call handler
+// 註冊工具呼叫處理程式
 await server.withMethodHandler(CallTool.self) { params in
     switch params.name {
     case "search":
         let query = params.arguments?["query"]?.stringValue ?? ""
         let limit = params.arguments?["limit"]?.intValue ?? 10
-        
-        // Perform search
+
+        // 執行搜尋
         let results = performSearch(query: query, limit: limit)
         
         return .init(
@@ -72,12 +72,12 @@ await server.withMethodHandler(CallTool.self) { params in
 }
 ```
 
-## Adding Resources
+## 新增資源
 
-Implement resource handlers for data access:
+實作資源處理程式以進行資料存取：
 
 ```swift
-// Register resource list handler
+// 註冊資源列表處理程式
 await server.withMethodHandler(ListResources.self) { params in
     let resources = [
         Resource(
@@ -90,7 +90,7 @@ await server.withMethodHandler(ListResources.self) { params in
     return .init(resources: resources, nextCursor: nil)
 }
 
-// Register resource read handler
+// 註冊資源讀取處理程式
 await server.withMethodHandler(ReadResource.self) { params in
     switch params.uri {
     case "resource://data/example.txt":
@@ -108,21 +108,21 @@ await server.withMethodHandler(ReadResource.self) { params in
     }
 }
 
-// Register resource subscribe handler
+// 註冊資源訂閱處理程式
 await server.withMethodHandler(ResourceSubscribe.self) { params in
-    // Track subscription for notifications
+    // 追蹤訂閱以接收通知
     subscriptions.insert(params.uri)
     print("Client subscribed to \(params.uri)")
     return .init()
 }
 ```
 
-## Adding Prompts
+## 新增提示
 
-Implement prompt handlers for templated conversations:
+實作提示處理程式以進行樣板化對話：
 
 ```swift
-// Register prompt list handler
+// 註冊提示列表處理程式
 await server.withMethodHandler(ListPrompts.self) { params in
     let prompts = [
         Prompt(
@@ -137,7 +137,7 @@ await server.withMethodHandler(ListPrompts.self) { params in
     return .init(prompts: prompts, nextCursor: nil)
 }
 
-// Register prompt get handler
+// 註冊提示取得處理程式
 await server.withMethodHandler(GetPrompt.self) { params in
     switch params.name {
     case "analyze":
@@ -158,11 +158,11 @@ await server.withMethodHandler(GetPrompt.self) { params in
 }
 ```
 
-## Transport Configuration
+## 傳輸設定
 
-### Stdio Transport
+### 標準輸入/輸出傳輸
 
-For local subprocess communication:
+用於本地子程序通訊：
 
 ```swift
 import MCP
@@ -174,9 +174,9 @@ let transport = StdioTransport(logger: logger)
 try await server.start(transport: transport)
 ```
 
-### HTTP Transport (Client Side)
+### HTTP 傳輸（用戶端側）
 
-For remote server connections:
+用於遠端伺服器連線：
 
 ```swift
 let transport = HTTPClientTransport(
@@ -187,9 +187,9 @@ let transport = HTTPClientTransport(
 try await client.connect(transport: transport)
 ```
 
-## Concurrency and Actors
+## 並行與角色
 
-The server is an actor, ensuring thread-safe access:
+伺服器是一個角色，確保執行緒安全的存取：
 
 ```swift
 actor ServerState {
@@ -213,9 +213,9 @@ await server.withMethodHandler(ResourceSubscribe.self) { params in
 }
 ```
 
-## Error Handling
+## 錯誤處理
 
-Use Swift's error handling with `MCPError`:
+使用 Swift 的錯誤處理搭配 `MCPError`：
 
 ```swift
 await server.withMethodHandler(CallTool.self) { params in
@@ -244,9 +244,9 @@ await server.withMethodHandler(CallTool.self) { params in
 }
 ```
 
-## JSON Schema with Value Type
+## JSON 結構描述與 Value 型別
 
-Use the `Value` type for JSON schemas:
+使用 `Value` 型別來定義 JSON 結構描述：
 
 ```swift
 let schema = Value.object([
@@ -270,9 +270,9 @@ let schema = Value.object([
 ])
 ```
 
-## Swift Package Manager Setup
+## Swift 套件管理器設定
 
-Create your `Package.swift`:
+建立你的 `Package.swift`：
 
 ```swift
 // swift-tools-version: 6.0
@@ -306,9 +306,9 @@ let package = Package(
 )
 ```
 
-## Graceful Shutdown with ServiceLifecycle
+## 使用 ServiceLifecycle 進行優雅關閉
 
-Use Swift Service Lifecycle for proper shutdown:
+使用 Swift Service Lifecycle 以進行適當的關閉：
 
 ```swift
 import MCP
@@ -344,9 +344,9 @@ let serviceGroup = ServiceGroup(
 try await serviceGroup.run()
 ```
 
-## Async/Await Patterns
+## 非同步/等待模式
 
-All server operations use Swift concurrency:
+所有伺服器操作都使用 Swift 並行機制：
 
 ```swift
 await server.withMethodHandler(CallTool.self) { params in
@@ -362,9 +362,9 @@ await server.withMethodHandler(CallTool.self) { params in
 }
 ```
 
-## Logging
+## 日誌記錄
 
-Use swift-log for structured logging:
+使用 swift-log 進行結構化日誌記錄：
 
 ```swift
 import Logging
@@ -385,9 +385,9 @@ await server.withMethodHandler(CallTool.self) { params in
 }
 ```
 
-## Testing
+## 測試
 
-Test your server with async/await:
+使用非同步/等待測試你的伺服器：
 
 ```swift
 import XCTest
@@ -397,34 +397,34 @@ final class ServerTests: XCTestCase {
     func testToolCall() async throws {
         let server = createTestServer()
         
-        // Test tool call logic
+        // 測試工具呼叫邏輯
         let params = CallTool.Params(
             name: "search",
             arguments: ["query": .string("test")]
         )
-        
-        // Verify behavior
+
+        // 驗證行為
         XCTAssertNoThrow(try await processToolCall(params))
     }
 }
 ```
 
-## Initialize Hook
+## 初始化掛鉤
 
-Validate client connections with an initialize hook:
+使用初始化掛鉤驗證用戶端連線：
 
 ```swift
 try await server.start(transport: transport) { clientInfo, clientCapabilities in
-    // Validate client
+    // 驗證用戶端
     guard clientInfo.name != "BlockedClient" else {
         throw MCPError.invalidRequest("Client not allowed")
     }
-    
-    // Check capabilities
+
+    // 檢查功能
     if clientCapabilities.sampling == nil {
         logger.warning("Client doesn't support sampling")
     }
-    
+
     logger.info("Client connected", metadata: [
         "name": .string(clientInfo.name),
         "version": .string(clientInfo.version)
@@ -432,11 +432,11 @@ try await server.start(transport: transport) { clientInfo, clientCapabilities in
 }
 ```
 
-## Common Patterns
+## 常見模式
 
-### Content Types
+### 內容型別
 
-Handle different content types:
+處理不同的內容型別：
 
 ```swift
 return .init(
@@ -456,9 +456,9 @@ return .init(
 )
 ```
 
-### Strict Configuration
+### 嚴格設定
 
-Use strict mode to fail fast on missing capabilities:
+使用嚴格模式在缺少功能時快速失敗：
 
 ```swift
 let client = Client(
@@ -467,13 +467,13 @@ let client = Client(
     configuration: .strict
 )
 
-// Will throw immediately if capability not available
+// 如果功能無法使用，將立即拋出例外
 try await client.listTools()
 ```
 
-### Request Batching
+### 請求批次
 
-Send multiple requests efficiently:
+有效率地傳送多個請求：
 
 ```swift
 var tasks: [Task<CallTool.Result, Error>] = []

@@ -3,79 +3,79 @@ description: 'Guidelines for building Java base applications'
 applyTo: '**/*.java'
 ---
 
-# Java Development
+# Java 開發
 
-## General Instructions
+## 一般指示
 
-- First, prompt the user if they want to integrate static analysis tools (SonarQube, PMD, Checkstyle) into their project setup.
-  - If yes, document a recommended static-analysis setup. 
-    - Prefer SonarQube/SonarCloud (SonarLint in IDE + `sonar-scanner` in CI).
-    - Create a Sonar project key.
-    - Store the scanner token in CI secrets.
-    - Provide a sample CI job that runs the scanner.
-    - If the team declines Sonar, note this in the project README and continue.
-  - If Sonar is bound to the project:
-    - Use Sonar as the primary source of actionable issues.
-    - Reference Sonar rule keys in remediation guidance.
-  - If Sonar is unavailable:
-    - Perform up to 3 troubleshooting checks:
-      1. Verify project binding and token.
-      2. Ensure SonarScanner runs in CI.
-      3. Confirm SonarLint is installed and configured.
-    - If still failing after 3 attempts:
-      - Enable SpotBugs, PMD, or Checkstyle as CI fallbacks.
-      - Open a short tracker issue documenting the blocker and next steps.
-- If the user declines static analysis tools or wants to proceed without them, continue with implementing the Best practices, bug patterns and code smell prevention guidelines outlined below.
-- Address code smells proactively during development rather than accumulating technical debt.
-- Focus on readability, maintainability, and performance when refactoring identified issues.
-- Use IDE / Code editor reported warnings and suggestions to catch common patterns early in development.
+- 首先，詢問使用者是否想將靜態分析工具（SonarQube、PMD、Checkstyle）整合到他們的專案設定中。
+  - 如果是的話，請記錄一個建議的靜態分析設定。
+    - 優先選擇 SonarQube/SonarCloud（IDE 中的 SonarLint + CI 中的 `sonar-scanner`）。
+    - 建立 Sonar 專案金鑰。
+    - 將掃描器權杖存放在 CI 秘密中。
+    - 提供執行掃描器的範例 CI 工作。
+    - 如果團隊拒絕 Sonar，請在專案 README 中記下此事項並繼續進行。
+  - 如果 Sonar 已繫結到專案：
+    - 使用 Sonar 作為可操作問題的主要來源。
+    - 在修復指南中參考 Sonar 規則金鑰。
+  - 如果 Sonar 無法使用：
+    - 執行最多 3 次故障排除檢查：
+      1. 驗證專案繫結和權杖。
+      2. 確保 SonarScanner 在 CI 中執行。
+      3. 確認 SonarLint 已安裝並設定。
+    - 如果嘗試 3 次後仍然失敗：
+      - 啟用 SpotBugs、PMD 或 Checkstyle 作為 CI 後備選項。
+      - 開啟簡短的追蹤問題，記錄阻礙和後續步驟。
+- 如果使用者拒絕靜態分析工具或想在沒有這些工具的情況下進行，請繼續實施下面概述的最佳實踐、錯誤樣式和程式碼異味預防指南。
+- 在開發期間主動解決程式碼異味，而不是累積技術債。
+- 在重構已識別的問題時，專注於可讀性、可維護性和效能。
+- 使用 IDE / 程式碼編輯器報告的警告和建議，在開發早期捕捉常見的樣式。
 
-## Best practices
+## 最佳實踐
 
-- **Records**: For classes primarily intended to store data (e.g., DTOs, immutable data structures), **Java Records should be used instead of traditional classes**.
-- **Pattern Matching**: Utilize pattern matching for `instanceof` and `switch` expression to simplify conditional logic and type casting.
-- **Type Inference**: Use `var` for local variable declarations to improve readability, but only when the type is explicitly clear from the right-hand side of the expression.
-- **Immutability**: Favor immutable objects. Make classes and fields `final` where possible. Use collections from `List.of()`/`Map.of()` for fixed data. Use `Stream.toList()` to create immutable lists.
-- **Streams and Lambdas**: Use the Streams API and lambda expressions for collection processing. Employ method references (e.g., `stream.map(Foo::toBar)`).
-- **Null Handling**: Avoid returning or accepting `null`. Use `Optional<T>` for possibly-absent values and `Objects` utility methods like `equals()` and `requireNonNull()`.
+- **Records**：對於主要用於存儲資料的類別（例如 DTO、不可變資料結構），**應使用 Java Records 而不是傳統類別**。
+- **樣式匹配**：利用 `instanceof` 和 `switch` 運算式的樣式匹配來簡化條件邏輯和型別轉換。
+- **型別推斷**：對本地變數宣告使用 `var` 以提高可讀性，但僅當型別從運算式右側明確清楚時才使用。
+- **不可變性**：偏好不可變物件。盡可能將類別和欄位設定為 `final`。對固定資料使用來自 `List.of()`/`Map.of()` 的集合。使用 `Stream.toList()` 建立不可變清單。
+- **串流和 Lambda**：使用 Streams API 和 Lambda 運算式進行集合處理。採用方法參考（例如 `stream.map(Foo::toBar)`）。
+- **Null 處理**：避免傳回或接受 `null`。對可能缺失的值使用 `Optional<T>` 以及 `Objects` 公用程式方法，如 `equals()` 和 `requireNonNull()`。
 
-### Naming Conventions
+### 命名規範
 
-- Follow Google's Java style guide:
-  - `UpperCamelCase` for class and interface names.
-  - `lowerCamelCase` for method and variable names.
-  - `UPPER_SNAKE_CASE` for constants.
-  - `lowercase` for package names.
-- Use nouns for classes (`UserService`) and verbs for methods (`getUserById`).
-- Avoid abbreviations and Hungarian notation.
+- 遵循 Google Java 風格指南：
+  - 類別和介面名稱使用 `UpperCamelCase`。
+  - 方法和變數名稱使用 `lowerCamelCase`。
+  - 常數使用 `UPPER_SNAKE_CASE`。
+  - 套件名稱使用 `lowercase`。
+- 對類別使用名詞（`UserService`），對方法使用動詞（`getUserById`）。
+- 避免縮寫和匈牙利標記法。
 
-### Common Bug Patterns
+### 常見的錯誤樣式
 
-Below are concise, human-readable rules you can apply regardless of which static analysis tool you use. If you run Sonar/SonarLint, the IDE will show the matching rule and location — direct Sonar connections are preferred and should override this ruleset.
+下面是一些簡潔、易讀的規則，無論使用哪種靜態分析工具都可應用。如果執行 Sonar/SonarLint，IDE 將顯示相符的規則和位置——優先使用直接的 Sonar 連線，應覆蓋此規則集。
 
-- Resource management — Always close resources (files, sockets, streams). Use try-with-resources where possible so resources are closed automatically.
-- Equality checks — Compare object equality with `.equals()` or `Objects.equals(...)` rather than `==` for non-primitives; this avoids reference-equality bugs.
-- Redundant casts — Remove unnecessary casts; prefer correct generic typing and let the compiler infer types where possible.
-- Reachable conditions — Avoid conditional expressions that are always true or false; they indicate bugs or dead code and should be corrected.
+- 資源管理——始終關閉資源（檔案、通訊端、串流）。盡可能使用 try-with-resources，以便自動關閉資源。
+- 相等檢查——對於非原始型別，使用 `.equals()` 或 `Objects.equals(...)` 比較物件相等性，而不是使用 `==`；這可避免參考相等性錯誤。
+- 冗餘轉換——移除不必要的轉換；優先使用正確的泛型型別，並讓編譯器盡可能推斷型別。
+- 可到達條件——避免始終為真或為假的條件運算式；它們表示錯誤或死碼，應予以更正。
 
-For contributors who *do* use Sonar or SonarLint: the IDE/scan will show the specific rule key (for example, S2095 for resource leaks) and the affected file/line. Use that information to navigate to the exact location, then apply the recommended remediation.
+對於*確實*使用 Sonar 或 SonarLint 的貢獻者：IDE/掃描將顯示特定的規則金鑰（例如 S2095 用於資源洩漏）和受影響的檔案/行。使用該資訊導航至確切位置，然後套用建議的修復。
 
-### Common Code Smells
+### 常見的程式碼異味
 
-These patterns are phrased for humans; they map cleanly to checks in Sonar, SpotBugs, PMD, or Checkstyle but do not require those tools to be useful.
+這些樣式針對人類表述；它們可清楚對應到 Sonar、SpotBugs、PMD 或 Checkstyle 中的檢查，但不需要這些工具才能發揮作用。
 
-- Parameter count — Keep method parameter lists short. If a method needs many params, consider grouping into a value object or using the builder pattern.
-- Method size — Keep methods focused and small. Extract helper methods to improve readability and testability.
-- Cognitive complexity — Reduce nested conditionals and heavy branching by extracting methods, using polymorphism, or applying the Strategy pattern.
-- Duplicated literals — Extract repeated strings and numbers into named constants or enums to reduce errors and ease changes.
-- Dead code — Remove unused variables and assignments. They confuse readers and can hide bugs.
-- Magic numbers — Replace numeric literals with named constants that explain intent (e.g., MAX_RETRIES).
+- 參數計數——保持方法參數清單簡短。如果方法需要許多參數，請考慮將其分組到值物件中或使用構建器模式。
+- 方法大小——保持方法專注且小巧。提取輔助方法以改進可讀性和可測試性。
+- 認知複雜性——通過提取方法、使用多形性或套用 Strategy 模式來減少嵌套條件和重量級分支。
+- 重複的字面常值——將重複的字串和數字提取到具名常數或列舉中，以減少錯誤和簡化變更。
+- 死碼——移除未使用的變數和指派。它們會混淆讀者並可能隱藏錯誤。
+- 魔術數字——用解釋意圖的具名常數替換數字字面常值（例如 MAX_RETRIES）。
 
-If you run a static analyzer like Sonar or SonarLint — direct Sonar connections are preferred and should override this ruleset. Sonar rule keys are useful for automation and suppression, but they are not required in day-to-day developer guidance.
+如果執行靜態分析器（如 Sonar 或 SonarLint）——優先使用直接的 Sonar 連線，應覆蓋此規則集。Sonar 規則金鑰適用於自動化和抑制，但在日常開發人員指導中不是必需的。
 
-## Build and Verification
+## 構建與驗證
 
-- After adding or modifying code, verify the project continues to build successfully.
-- If the project uses Maven, run `mvn clean install`.
-- If the project uses Gradle, run `./gradlew build` (or `gradlew.bat build` on Windows).
-- Ensure all tests pass as part of the build.
+- 新增或修改程式碼後，驗證專案是否繼續成功構建。
+- 如果專案使用 Maven，執行 `mvn clean install`。
+- 如果專案使用 Gradle，執行 `./gradlew build`（或在 Windows 上執行 `gradlew.bat build`）。
+- 確保所有測試都作為構建的一部分通過。

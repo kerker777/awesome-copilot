@@ -3,94 +3,93 @@ description: 'R language and document formats (R, Rmd, Quarto): coding standards
 applyTo: '**/*.R, **/*.r, **/*.Rmd, **/*.rmd, **/*.qmd'
 ---
 
-# R Programming Language Instructions
+# R 程式語言指引
 
-## Purpose
+## 目的
 
-Help GitHub Copilot generate idiomatic, safe, and maintainable R code across projects.
+協助 GitHub Copilot 在各個專案中生成習慣用法、安全且可維護的 R 程式碼。
 
-## Core Conventions
+## 核心慣例
 
-- **Match the project’s style.** If the file shows a preference (tidyverse vs. base R, `%>%` vs. `|>`), follow it.
-- **Prefer clear, vectorized code.** Keep functions small and avoid hidden side effects.
-- **Qualify non-base functions in examples/snippets**, e.g., `dplyr::mutate()`, `stringr::str_detect()`. In project code, using `library()` is acceptable when that’s the repo norm.
-- **Naming:** `lower_snake_case` for objects/files; avoid dots in names.
-- **Side effects:** Never call `setwd()`; prefer project-relative paths (e.g., `here::here()`).
-- **Reproducibility:** Set seeds locally around stochastic operations using `withr::with_seed()`.
-- **Validation:** Validate and constrain user inputs; use typed checks and allowlists where possible.
-- **Safety:** Avoid `eval(parse())`, unvalidated shell calls, and unparameterized SQL.
+- **配合專案風格。** 如果檔案顯示偏好（tidyverse 與 base R、`%>%` 與 `|>`），就遵循它。
+- **優先使用清晰、向量化的程式碼。** 保持函數簡潔，避免隱藏的副作用。
+- **在例子或片段中限定非基礎函數**，例如 `dplyr::mutate()`、`stringr::str_detect()`。在專案程式碼中，當符合倉庫規範時，使用 `library()` 是可以接受的。
+- **命名：** 物件或檔案使用 `lower_snake_case`；避免在名稱中使用點。
+- **副作用：** 永遠不要呼叫 `setwd()`；優先使用相對於專案的路徑（例如 `here::here()`）。
+- **可重複性：** 使用 `withr::with_seed()` 在隨機操作周圍本地設定種子。
+- **驗證：** 驗證並限制使用者輸入；盡可能使用類型檢查和允許清單。
+- **安全性：** 避免 `eval(parse())`、未驗證的 shell 呼叫和未參數化的 SQL。
 
-### Pipe Operators
+### 管道運算子
 
-- **Native pipe `|>` (R ≥ 4.1.0):** Prefer in R ≥ 4.1 (no extra dependency).
-- **Magrittr pipe `%>%`:** Continue using in projects already committed to magrittr or when you need features like `.`, `%T>%`, or `%$%`.
-- **Be consistent:** Don't mix `|>` and `%>%` within the same script unless there's a clear technical reason.
+- **原生管道 `|>` (R ≥ 4.1.0)：** 在 R ≥ 4.1 中優先使用（無額外依賴）。
+- **Magrittr 管道 `%>%`：** 在已經採用 magrittr 的專案中繼續使用，或當你需要 `.`、`%T>%` 或 `%$%` 功能時。
+- **保持一致：** 在同一指令碼中不要混合 `|>` 和 `%>%`，除非有明確的技術原因。
 
-## Performance Considerations
+## 效能考慮
 
-- **Large datasets:** consider `data.table`; benchmark with your workload.
-- **dplyr compatibility:** Use `dtplyr` to write dplyr syntax that translates to data.table operations automatically for performance gains.
-- **Profiling:** Use `profvis::profvis()` to identify performance bottlenecks in your code. Profile before optimizing.
-- **Caching:** Use `memoise::memoise()` to cache expensive function results. Particularly useful for repeated API calls or complex computations.
-- **Vectorization:** Prefer vectorized operations over loops. Use `purrr::map_*()` family or `apply()` family for remaining iteration needs.
+- **大型資料集：** 考慮使用 `data.table`；使用你的工作負載進行基準測試。
+- **dplyr 相容性：** 使用 `dtplyr` 編寫 dplyr 語法，自動轉譯為 data.table 操作以獲得效能增益。
+- **分析：** 使用 `profvis::profvis()` 來識別程式碼中的效能瓶頸。在最佳化前先進行分析。
+- **快取：** 使用 `memoise::memoise()` 來快取昂貴的函數結果。特別適用於重複的 API 呼叫或複雜的計算。
+- **向量化：** 優先使用向量化操作而不是迴圈。對於剩餘的重複需求，使用 `purrr::map_*()` 系列或 `apply()` 系列。
 
-## Tooling & Quality
+## 工具與品質
 
-- **Formatting:** `styler` (tidyverse style), two-space indents, ~100-char lines.
-- **Linting:** `lintr` configured via `.lintr`.
-- **Pre-commit:** consider `precommit` hooks to lint/format automatically.
-- **Docs:** roxygen2 for exported functions (`@param`, `@return`, `@examples`).
-- **Tests:** prefer small, pure, composable functions that are easy to unit test.
-- **Dependencies:** manage with `renv`; snapshot after adding packages.
-- **Paths:** prefer `fs` and `here` for portability.
+- **格式化：** `styler`（tidyverse 風格）、兩空格縮進、約 100 字元行寬。
+- **Linting：** `lintr` 透過 `.lintr` 配置。
+- **預提交：** 考慮使用 `precommit` hooks 以自動進行 linting 和格式化。
+- **文件：** 使用 roxygen2 為匯出函數編寫文件（`@param`、`@return`、`@examples`）。
+- **測試：** 優先使用小型、純粹、可組合的函數，易於進行單元測試。
+- **依賴項：** 使用 `renv` 管理；新增套件後執行快照。
+- **路徑：** 優先使用 `fs` 和 `here` 以提高可攜性。
 
-## Data Wrangling & I/O
+## 資料整理與 I/O
 
-- **Data frames:** prefer tibbles in tidyverse-heavy files; otherwise base `data.frame()` is fine.
-- **Iteration:** use `purrr` in tidyverse code. In base-style code, prefer type-stable, vectorized patterns such as `vapply()`
-   (for atomic outputs) or `Map()` (for elementwise operations) instead of explicit `for` loops when they improve clarity or performance.
-- **Strings & Dates:** use `stringr`/`lubridate` where already present; otherwise use clear base helpers (e.g., `nchar()`, `substr()`, `as.Date()` with explicit format).
-- **I/O:** prefer explicit, typed readers (e.g., `readr::read_csv()`); make parsing assumptions explicit.
+- **資料框：** 在 tidyverse 重型檔案中優先使用 tibbles；否則基礎 `data.frame()` 也可以。
+- **重複操作：** 在 tidyverse 程式碼中使用 `purrr`。在基礎風格的程式碼中，優先使用類型穩定、向量化的模式，例如 `vapply()`（用於原子輸出）或 `Map()`（用於元素級操作），而不是明確的 `for` 迴圈（當它們提高清晰度或效能時）。
+- **字串與日期：** 在已經存在的地方使用 `stringr` 或 `lubridate`；否則使用清晰的基礎協助函數（例如 `nchar()`、`substr()`、`as.Date()`，並指定明確的格式）。
+- **I/O：** 優先使用明確、類型化的讀取函數（例如 `readr::read_csv()`）；明確說明解析假設。
 
-## Plotting
+## 製圖
 
-- Prefer `ggplot2` for publication-quality plots. Keep layers readable and label axes and units.
+- 對於發佈品質的圖表，優先使用 `ggplot2`。保持圖層易於閱讀，標註軸和單位。
 
-## Error Handling
+## 錯誤處理
 
-- In tidyverse contexts, use `rlang::abort()` / `rlang::warn()` for structured conditions; in base-only code, use `stop()` / `warning()`.
-- For recoverable operations:
-- Use `purrr::possibly()` when you want a typed fallback value of the same type (simpler).
-- Use `purrr::safely()` when you need to capture both results and errors for later inspection or logging.
-- Use `tryCatch()` in base R for fine-grained control or compatibility with non-tidyverse code.
-- Prefer consistent return structures—typed outputs for normal flows, structured lists only when error details are required.
+- 在 tidyverse 語境中，使用 `rlang::abort()` 或 `rlang::warn()` 進行結構化條件；在純基礎程式碼中，使用 `stop()` 或 `warning()`。
+- 對於可恢復的操作：
+- 當你想要相同類型的類型化回退值時，使用 `purrr::possibly()`（更簡單）。
+- 當你需要捕捉結果和錯誤供後續檢查或記錄時，使用 `purrr::safely()`。
+- 在基礎 R 中使用 `tryCatch()` 以獲得細粒度的控制或與非 tidyverse 程式碼的相容性。
+- 優先使用一致的回傳結構—對於正常流程使用類型化輸出，僅當需要錯誤詳細資訊時使用結構化清單。
 
-## Security Best Practices
+## 安全最佳實踐
 
-- **Command execution:** Prefer `processx::run()` or `sys::exec_wait()` over `system()`; validate and sanitize all arguments.
-- **Database queries:** Use parameterized `DBI` queries to prevent SQL injection.
-- **File paths:** Normalize and sanitize user-provided paths (e.g., `fs::path_sanitize()`), and validate against allowlists.
-- **Credentials:** Never hardcode secrets. Use env vars (`Sys.getenv()`), config outside VCS, or `keyring`.
+- **命令執行：** 優先使用 `processx::run()` 或 `sys::exec_wait()`，而不是 `system()`；驗證和清理所有引數。
+- **資料庫查詢：** 使用參數化的 `DBI` 查詢以防止 SQL 注入。
+- **檔案路徑：** 規範化和清理使用者提供的路徑（例如 `fs::path_sanitize()`），並對允許清單進行驗證。
+- **認證：** 永遠不要對秘密進行硬編碼。使用環境變數（`Sys.getenv()`）、VCS 外的配置或 `keyring`。
 
 ## Shiny
 
-- Modularize UI and server logic for non-trivial apps. Use `eventReactive()` / `observeEvent()` for explicit dependencies.
-- Validate inputs with `req()` and clear, user-friendly messages.
-- Use connection pooling (`pool`) for databases; avoid long-lived global objects.
-- Isolate expensive computations and prefer `reactiveVal()` / `reactiveValues()` for small state.
+- 對於非瑣碎的應用程式，模組化 UI 和伺服器邏輯。對於明確的依賴項，使用 `eventReactive()` 或 `observeEvent()`。
+- 使用 `req()` 驗證輸入並提供清晰、使用者友善的訊息。
+- 為資料庫使用連接池（`pool`）；避免長期存在的全域物件。
+- 隔離昂貴的計算，並優先使用 `reactiveVal()` 或 `reactiveValues()` 進行小型狀態管理。
 
-## R Markdown / Quarto
+## R Markdown 和 Quarto
 
-- Keep chunks focused; prefer explicit chunk options (`echo`, `message`, `warning`).
-- Avoid global state; prefer local helpers. Use `withr::with_seed()` for deterministic chunks.
+- 保持區塊聚焦；優先使用明確的區塊選項（`echo`、`message`、`warning`）。
+- 避免全域狀態；優先使用本地協助函數。對於確定性區塊，使用 `withr::with_seed()`。
 
-## Copilot-Specific Guidance
+## Copilot 特定指導
 
-- If the current file uses tidyverse, **suggest tidyverse-first patterns** (e.g., `dplyr::across()` instead of superseded verbs). If base-R style is present, **use base idioms**.
-- Qualify non-base calls in suggestions (e.g., `dplyr::mutate()`).
-- Suggest vectorized or tidy solutions over loops when idiomatic.
-- Prefer small helper functions over long pipelines.
-- When multiple approaches are equivalent, prefer readability and type stability and explain the trade-offs.
+- 如果目前檔案使用 tidyverse，**建議 tidyverse 優先模式**（例如 `dplyr::across()`，而不是已棄用的動詞）。如果存在基礎 R 風格，**使用基礎習慣用法**。
+- 在建議中限定非基礎呼叫（例如 `dplyr::mutate()`）。
+- 當符合習慣用法時，建議向量化或整潔的解決方案而不是迴圈。
+- 優先使用小型協助函數而不是長管道。
+- 當多種方法等效時，優先考慮可讀性和類型穩定性，並解釋權衡。
 
 ---
 

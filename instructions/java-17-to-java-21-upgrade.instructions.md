@@ -3,20 +3,20 @@ applyTo: ['*']
 description: "Comprehensive best practices for adopting new Java 21 features since the release of Java 17."
 ---
 
-# Java 17 to Java 21 Upgrade Guide
+# Java 17 升級至 Java 21 指南
 
-These instructions help GitHub Copilot assist developers in upgrading Java projects from JDK 17 to JDK 21, focusing on new language features, API changes, and best practices.
+這些指示可協助 GitHub Copilot 協助開發人員將 Java 專案從 JDK 17 升級至 JDK 21，重點著重於新語言功能、API 變更及最佳實踐。
 
-## Major Language Features in JDK 18-21
+## JDK 18-21 主要語言功能
 
-### Pattern Matching for switch (JEP 441 - Standard in 21)
+### switch 的模式匹配 (JEP 441 - Java 21 標準功能)
 
-**Enhanced switch Expressions and Statements**
+**增強的 switch 表達式和陳述句**
 
-When working with switch constructs:
-- Suggest converting traditional switch to pattern matching where appropriate
-- Use pattern matching for type checking and destructuring
-- Example upgrade patterns:
+使用 switch 結構時：
+- 在適當的地方建議將傳統 switch 轉換為模式匹配
+- 使用模式匹配進行型別檢查和解構
+- 升級模式範例：
 ```java
 // Old approach (Java 17)
 public String processObject(Object obj) {
@@ -41,7 +41,7 @@ public String processObject(Object obj) {
 }
 ```
 
-- Support guarded patterns:
+- 支援受保護的模式：
 ```java
 switch (obj) {
     case String s when s.length() > 10 -> "Long string: " + s;
@@ -52,14 +52,14 @@ switch (obj) {
 }
 ```
 
-### Record Patterns (JEP 440 - Standard in 21)
+### 記錄模式 (JEP 440 - Java 21 標準功能)
 
-**Destructuring Records in Pattern Matching**
+**在模式匹配中解構記錄**
 
-When working with records:
-- Suggest using record patterns for destructuring
-- Combine with switch expressions for powerful data processing
-- Example usage:
+使用記錄時：
+- 建議使用記錄模式進行解構
+- 與 switch 表達式結合以實現強大的資料處理
+- 使用範例：
 ```java
 public record Point(int x, int y) {}
 public record ColoredPoint(Point point, Color color) {}
@@ -75,7 +75,7 @@ public String describe(Object obj) {
 }
 ```
 
-- Use in complex pattern matching:
+- 在複雜模式匹配中使用：
 ```java
 // Nested record patterns
 switch (shape) {
@@ -86,14 +86,14 @@ switch (shape) {
 }
 ```
 
-### Virtual Threads (JEP 444 - Standard in 21)
+### 虛擬執行緒 (JEP 444 - Java 21 標準功能)
 
-**Lightweight Concurrency**
+**輕量級並行處理**
 
-When working with concurrency:
-- Suggest Virtual Threads for high-throughput, concurrent applications
-- Use `Thread.ofVirtual()` for creating virtual threads
-- Example migration patterns:
+使用並行處理時：
+- 建議在高吞吐量的並行應用程式中使用虛擬執行緒
+- 使用 `Thread.ofVirtual()` 建立虛擬執行緒
+- 遷移模式範例：
 ```java
 // Old platform thread approach
 ExecutorService executor = Executors.newFixedThreadPool(100);
@@ -111,7 +111,7 @@ try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
 }
 ```
 
-- Use structured concurrency patterns:
+- 使用結構化並行模式：
 ```java
 // Structured concurrency (Preview)
 try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
@@ -125,14 +125,14 @@ try (var scope = new StructuredTaskScope.ShutdownOnFailure()) {
 }
 ```
 
-### String Templates (JEP 430 - Preview in 21)
+### 字串模板 (JEP 430 - Java 21 預覽功能)
 
-**Safe String Interpolation**
+**安全的字串插補**
 
-When working with string formatting:
-- Suggest String Templates for safe string interpolation (preview feature)
-- Enable preview features with `--enable-preview`
-- Example usage:
+使用字串格式化時：
+- 建議使用字串模板進行安全的字串插補（預覽功能）
+- 使用 `--enable-preview` 啟用預覽功能
+- 使用範例：
 ```java
 // Traditional concatenation
 String message = "Hello, " + name + "! You have " + count + " messages.";
@@ -147,14 +147,14 @@ String html = HTML."<p>User: \{username}</p>";
 PreparedStatement stmt = SQL."SELECT * FROM users WHERE id = \{userId}";
 ```
 
-### Sequenced Collections (JEP 431 - Standard in 21)
+### 有序集合 (JEP 431 - Java 21 標準功能)
 
-**Enhanced Collection Interfaces**
+**增強的集合介面**
 
-When working with collections:
-- Use new `SequencedCollection`, `SequencedSet`, `SequencedMap` interfaces
-- Access first/last elements uniformly across collection types
-- Example usage:
+使用集合時：
+- 使用新的 `SequencedCollection`、`SequencedSet`、`SequencedMap` 介面
+- 在不同集合型別間統一地存取第一個和最後一個元素
+- 使用範例：
 ```java
 // New methods available on Lists, Deques, LinkedHashSet, etc.
 List<String> list = List.of("first", "middle", "last");
@@ -169,14 +169,14 @@ set.addLast("end");
 String firstElement = set.getFirst();
 ```
 
-### Unnamed Patterns and Variables (JEP 443 - Preview in 21)
+### 未命名模式和變數 (JEP 443 - Java 21 預覽功能)
 
-**Simplified Pattern Matching**
+**簡化的模式匹配**
 
-When working with pattern matching:
-- Use unnamed patterns `_` for values you don't need
-- Simplify switch expressions and record patterns
-- Example usage:
+使用模式匹配時：
+- 對於不需要的值使用未命名模式 `_`
+- 簡化 switch 表達式和記錄模式
+- 使用範例：
 ```java
 // Ignore unused variables
 switch (ball) {
@@ -199,14 +199,14 @@ try {
 }
 ```
 
-### Scoped Values (JEP 446 - Preview in 21)
+### 有限範圍的值 (JEP 446 - Java 21 預覽功能)
 
-**Improved Context Propagation**
+**改進的上下文傳播**
 
-When working with thread-local data:
-- Consider Scoped Values as a modern alternative to ThreadLocal
-- Better performance and clearer semantics for virtual threads
-- Example usage:
+使用執行緒本地資料時：
+- 考慮使用有限範圍的值作為 ThreadLocal 的現代替代方案
+- 對虛擬執行緒提供更好的效能和更清晰的語義
+- 使用範例：
 ```java
 // Define scoped value
 private static final ScopedValue<String> USER_ID = ScopedValue.newInstance();
@@ -224,14 +224,14 @@ public void processRequest() {
 }
 ```
 
-## API Enhancements and New Features
+## API 增強和新功能
 
-### UTF-8 by Default (JEP 400 - Standard in 18)
+### 預設 UTF-8 (JEP 400 - Java 18 標準功能)
 
-When working with file I/O:
-- UTF-8 is now the default charset on all platforms
-- Remove explicit charset specifications where UTF-8 was intended
-- Example simplification:
+使用檔案 I/O 時：
+- UTF-8 現在是所有平台上的預設字元集
+- 移除預期使用 UTF-8 的明確字元集規格
+- 簡化範例：
 ```java
 // Old explicit UTF-8 specification
 Files.readString(path, StandardCharsets.UTF_8);
@@ -242,12 +242,12 @@ Files.readString(path);  // Uses UTF-8 by default
 Files.writeString(path, content);  // Uses UTF-8 by default
 ```
 
-### Simple Web Server (JEP 408 - Standard in 18)
+### 簡單網頁伺服器 (JEP 408 - Java 18 標準功能)
 
-When needing basic HTTP server:
-- Use built-in `jwebserver` command or `com.sun.net.httpserver` enhancements
-- Great for testing and development
-- Example usage:
+需要基本 HTTP 伺服器時：
+- 使用內建的 `jwebserver` 命令或 `com.sun.net.httpserver` 增強
+- 適合測試和開發
+- 使用範例：
 ```java
 // Command line
 $ jwebserver -p 8080 -d /path/to/files
@@ -258,17 +258,17 @@ server.createContext("/", new SimpleFileHandler(Path.of("/tmp")));
 server.start();
 ```
 
-### Internet-Address Resolution SPI (JEP 418 - Standard in 19)
+### 網際網路位址解析 SPI (JEP 418 - Java 19 標準功能)
 
-When working with custom DNS resolution:
-- Implement `InetAddressResolverProvider` for custom address resolution
-- Useful for service discovery and testing scenarios
+使用自訂 DNS 解析時：
+- 實作 `InetAddressResolverProvider` 進行自訂位址解析
+- 適用於服務發現和測試案例
 
-### Key Encapsulation Mechanism API (JEP 452 - Standard in 21)
+### 金鑰封裝機制 API (JEP 452 - Java 21 標準功能)
 
-When working with post-quantum cryptography:
-- Use KEM API for key encapsulation mechanisms
-- Example usage:
+使用後量子密碼學時：
+- 使用 KEM API 進行金鑰封裝機制
+- 使用範例：
 ```java
 KeyPairGenerator kpg = KeyPairGenerator.getInstance("ML-KEM");
 KeyPair kp = kpg.generateKeyPair();
@@ -278,14 +278,14 @@ KEM.Encapsulator encapsulator = kem.newEncapsulator(kp.getPublic());
 KEM.Encapsulated encapsulated = encapsulator.encapsulate();
 ```
 
-## Deprecations and Warnings
+## 棄用和警告
 
-### Finalization Deprecation (JEP 421 - Deprecated in 18)
+### 終止化棄用 (JEP 421 - Java 18 棄用)
 
-When encountering `finalize()` methods:
-- Remove finalize methods and use alternatives
-- Suggest Cleaner API or try-with-resources
-- Example migration:
+遇到 `finalize()` 方法時：
+- 移除 finalize 方法並使用替代方案
+- 建議使用 Cleaner API 或 try-with-resources
+- 遷移範例：
 ```java
 // Deprecated finalize approach
 @Override
@@ -313,20 +313,20 @@ private static class CleanupTask implements Runnable {
 }
 ```
 
-### Dynamic Agent Loading (JEP 451 - Warnings in 21)
+### 動態代理載入 (JEP 451 - Java 21 警告)
 
-When working with agents or instrumentation:
-- Add `-XX:+EnableDynamicAgentLoading` to suppress warnings if needed
-- Consider loading agents at startup instead of dynamically
-- Update tooling to use startup agent loading
+使用代理或工具時：
+- 在需要時新增 `-XX:+EnableDynamicAgentLoading` 以抑制警告
+- 考慮在啟動時載入代理而非動態載入
+- 更新工具以使用啟動時代理載入
 
-## Build Configuration Updates
+## 建置設定更新
 
-### Preview Features
+### 預覽功能
 
-For projects using preview features:
-- Add `--enable-preview` to compiler and runtime
-- Maven configuration:
+對於使用預覽功能的專案：
+- 在編譯器和執行時新增 `--enable-preview`
+- Maven 設定：
 ```xml
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
@@ -348,7 +348,7 @@ For projects using preview features:
 </plugin>
 ```
 
-- Gradle configuration:
+- Gradle 設定：
 ```kotlin
 java {
     toolchain {
@@ -365,53 +365,53 @@ tasks.withType<Test> {
 }
 ```
 
-### Virtual Threads Configuration
+### 虛擬執行緒設定
 
-For applications using Virtual Threads:
-- No special JVM flags required (standard feature in 21)
-- Consider these system properties for debugging:
+對於使用虛擬執行緒的應用程式：
+- 不需要特殊的 JVM 旗標（Java 21 中的標準功能）
+- 考慮這些系統屬性用於除錯：
 ```bash
 -Djdk.virtualThreadScheduler.parallelism=N  # Set carrier thread count
 -Djdk.virtualThreadScheduler.maxPoolSize=N  # Set max pool size
 ```
 
-## Runtime and GC Improvements
+## 執行時和垃圾回收改進
 
-### Generational ZGC (JEP 439 - Available in 21)
+### 世代制 ZGC (JEP 439 - Java 21 可用)
 
-When configuring garbage collection:
-- Try Generational ZGC for better performance
-- Enable with: `-XX:+UseZGC -XX:+ZGenerational`
-- Monitor allocation patterns and GC behavior
+設定垃圾回收時：
+- 嘗試世代制 ZGC 以改進效能
+- 使用以下方式啟用：`-XX:+UseZGC -XX:+ZGenerational`
+- 監控配置模式和垃圾回收行為
 
-## Migration Strategy
+## 遷移策略
 
-### Step-by-Step Upgrade Process
+### 逐步升級程序
 
-1. **Update Build Tools**: Ensure Maven/Gradle supports JDK 21
-2. **Language Feature Adoption**: 
-   - Start with pattern matching for switch (standard)
-   - Add record patterns where beneficial
-   - Consider Virtual Threads for I/O heavy applications
-3. **Preview Features**: Enable only if needed for specific use cases
-4. **Testing**: Comprehensive testing especially for concurrency changes
-5. **Performance**: Benchmark with new GC options
+1. **更新建置工具**：確保 Maven/Gradle 支援 JDK 21
+2. **語言功能採用**：
+   - 從 switch 的模式匹配開始（標準功能）
+   - 在有益處的地方新增記錄模式
+   - 針對 I/O 密集型應用程式考慮使用虛擬執行緒
+3. **預覽功能**：只在特定用途需要時啟用
+4. **測試**：全面測試，特別是並行處理的變更
+5. **效能**：使用新的垃圾回收選項進行基準測試
 
-### Code Review Checklist
+### 程式碼審查檢查清單
 
-When reviewing code for Java 21 upgrade:
-- [ ] Convert appropriate instanceof chains to switch expressions
-- [ ] Use record patterns for data destructuring
-- [ ] Replace ThreadLocal with ScopedValues where appropriate
-- [ ] Consider Virtual Threads for high-concurrency scenarios
-- [ ] Remove explicit UTF-8 charset specifications
-- [ ] Replace finalize() methods with Cleaner or try-with-resources
-- [ ] Use SequencedCollection methods for first/last access patterns
-- [ ] Add preview flags only for preview features in use
+審查 Java 21 升級的程式碼時：
+- [ ] 將適當的 instanceof 鏈轉換為 switch 表達式
+- [ ] 使用記錄模式進行資料解構
+- [ ] 在適當的地方將 ThreadLocal 替換為 ScopedValues
+- [ ] 針對高並行案例考慮使用虛擬執行緒
+- [ ] 移除明確的 UTF-8 字元集規格
+- [ ] 使用 Cleaner 或 try-with-resources 替換 finalize() 方法
+- [ ] 使用 SequencedCollection 方法進行第一個/最後一個元素存取模式
+- [ ] 只為使用中的預覽功能新增預覽旗標
 
-### Common Migration Patterns
+### 常見遷移模式
 
-1. **Switch Enhancement**:
+1. **Switch 增強**：
    ```java
    // From instanceof chains to switch expressions
    if (obj instanceof String s) return processString(s);
@@ -424,7 +424,7 @@ When reviewing code for Java 21 upgrade:
    };
    ```
 
-2. **Virtual Thread Adoption**:
+2. **虛擬執行緒採用**：
    ```java
    // From platform threads to virtual threads
    Executors.newFixedThreadPool(200)
@@ -432,7 +432,7 @@ When reviewing code for Java 21 upgrade:
    Executors.newVirtualThreadPerTaskExecutor()
    ```
 
-3. **Record Pattern Usage**:
+3. **記錄模式使用**：
    ```java
    // From manual destructuring to record patterns
    if (point instanceof Point p) {
@@ -445,20 +445,20 @@ When reviewing code for Java 21 upgrade:
    }
    ```
 
-## Performance Considerations
+## 效能考量
 
-- Virtual Threads excel with blocking I/O but may not benefit CPU-intensive tasks
-- Generational ZGC can reduce GC overhead for most applications
-- Pattern matching in switch is generally more efficient than instanceof chains
-- SequencedCollection methods provide O(1) access to first/last elements
-- Scoped Values have lower overhead than ThreadLocal for virtual threads
+- 虛擬執行緒在阻止 I/O 時表現出色，但可能不利於 CPU 密集型任務
+- 世代制 ZGC 可以減少大多數應用程式的垃圾回收開銷
+- switch 中的模式匹配通常比 instanceof 鏈更有效率
+- SequencedCollection 方法提供對第一個/最後一個元素的 O(1) 存取
+- Scoped Values 對虛擬執行緒的開銷比 ThreadLocal 低
 
-## Testing Recommendations
+## 測試建議
 
-- Test Virtual Thread applications under high concurrency
-- Verify pattern matching covers all expected cases
-- Performance test with Generational ZGC vs other collectors
-- Validate UTF-8 default behavior across different platforms
-- Test preview features thoroughly before production use
+- 在高並行狀況下測試虛擬執行緒應用程式
+- 驗證模式匹配涵蓋所有預期的案例
+- 進行世代制 ZGC 與其他回收器的效能測試
+- 驗證 UTF-8 預設行為在不同平台上的表現
+- 在生產環境使用前徹底測試預覽功能
 
-Remember to enable preview features only when specifically needed and test thoroughly in staging environments before deploying to production.
+請記得只在特別需要時啟用預覽功能，並在暫存環境中徹底測試後再部署到生產環境。
