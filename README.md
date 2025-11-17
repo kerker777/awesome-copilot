@@ -1,40 +1,40 @@
-# 🤖 Awesome GitHub Copilot Customizations
+# 🤖 Awesome GitHub Copilot 客製化
 
 [![Powered by Awesome Copilot](https://img.shields.io/badge/Powered_by-Awesome_Copilot-blue?logo=githubcopilot)](https://aka.ms/awesome-github-copilot)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-93-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-A community created collection of custom agents, prompts, and instructions to supercharge your GitHub Copilot experience across different domains, languages, and use cases.
+由社群打造的自訂代理程式、提示詞與指令集合，讓您的 GitHub Copilot 體驗在不同領域、語言與應用場景中更上一層樓。
 
-## 🚀 What is Awesome GitHub Copilot?
+## 🚀 什麼是 Awesome GitHub Copilot？
 
-This repository provides a comprehensive toolkit for enhancing GitHub Copilot with specialized:
+本專案提供一套完整的工具組，透過以下專業資源強化您的 GitHub Copilot 體驗：
 
-- **👉 [Awesome Agents](docs/README.agents.md)** - Specialized GitHub Copilot agents that integrate with MCP servers to provide enhanced capabilities for specific workflows and tools
-- **👉 [Awesome Prompts](docs/README.prompts.md)** - Focused, task-specific prompts for generating code, documentation, and solving specific problems
-- **👉 [Awesome Instructions](docs/README.instructions.md)** - Comprehensive coding standards and best practices that apply to specific file patterns or entire projects
-- **👉 [Awesome Chat Modes](docs/README.chatmodes.md)** - Specialized AI personas and conversation modes for different roles and contexts
-- **👉 [Awesome Collections](docs/README.collections.md)** - Curated collections of related prompts, instructions, and chat modes organized around specific themes and workflows
+- **👉 [Awesome Agents](docs/README.agents.md)** - 專業的 GitHub Copilot 代理程式，整合 MCP 伺服器為特定工作流程與工具提供強化功能
+- **👉 [Awesome Prompts](docs/README.prompts.md)** - 針對特定任務設計的提示詞，用於產生程式碼、文件與解決特定問題
+- **👉 [Awesome Instructions](docs/README.instructions.md)** - 完整的程式碼規範與最佳實踐，適用於特定檔案模式或整個專案
+- **👉 [Awesome Chat Modes](docs/README.chatmodes.md)** - 專業的 AI 角色與對話模式，適用於不同角色與情境
+- **👉 [Awesome Collections](docs/README.collections.md)** - 精選的相關提示詞、指令與對話模式集合，依特定主題與工作流程分類組織
 
-## 🌟 Featured Collections
+## 🌟 精選集合
 
-Discover our curated collections of prompts, instructions, and chat modes organized around specific themes and workflows.
+探索我們依特定主題與工作流程精心整理的提示詞、指令與對話模式集合。
 
-| Name | Description | Items | Tags |
+| 名稱 | 說明 | 項目 | 標籤 |
 | ---- | ----------- | ----- | ---- |
-| [Awesome Copilot](collections/awesome-copilot.md) | Meta prompts that help you discover and generate curated GitHub Copilot chat modes, collections, instructions, prompts, and agents. | 6 items | github-copilot, discovery, meta, prompt-engineering, agents |
-| [Partners](collections/partners.md) | Custom agents that have been created by GitHub partners | 17 items | devops, security, database, cloud, infrastructure, observability, feature-flags, cicd, migration, performance |
+| [Awesome Copilot](collections/awesome-copilot.md) | 元提示詞，協助您探索並產生精選的 GitHub Copilot 對話模式、集合、指令、提示詞與代理程式。 | 6 項 | github-copilot, discovery, meta, prompt-engineering, agents |
+| [Partners](collections/partners.md) | GitHub 合作夥伴建立的自訂代理程式 | 17 項 | devops, security, database, cloud, infrastructure, observability, feature-flags, cicd, migration, performance |
 
 
 ## MCP Server
 
-To make it easy to add these customizations to your editor, we have created a [MCP Server](https://developer.microsoft.com/blog/announcing-awesome-copilot-mcp-server) that provides a prompt for searching and installing prompts, instructions, and chat modes directly from this repository. You'll need to have Docker installed and running to run the server.
+為了讓您輕鬆將這些客製化內容加入編輯器，我們建立了 [MCP Server](https://developer.microsoft.com/blog/announcing-awesome-copilot-mcp-server)，提供直接從本專案搜尋與安裝提示詞、指令與對話模式的功能。執行伺服器前，您需要先安裝並啟動 Docker。
 
 [![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/mcp/vscode) [![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/mcp/vscode-insiders) [![Install in Visual Studio](https://img.shields.io/badge/Visual_Studio-Install-C16FDE?logo=visualstudio&logoColor=white)](https://aka.ms/awesome-copilot/mcp/vs)
 
 <details>
-<summary>Show MCP Server JSON configuration</summary>
+<summary>顯示 MCP Server JSON 設定</summary>
 
 ```json
 {
@@ -55,81 +55,81 @@ To make it easy to add these customizations to your editor, we have created a [M
 
 </details>
 
-## 🔧 How to Use
+## 🔧 使用方式
 
-### 🤖 Custom Agents
+### 🤖 自訂代理程式
 
-Custom agents can be used in Copilot coding agent (CCA), VS Code, and Copilot CLI (coming soon). For CCA, when assigning an issue to Copilot, select the custom agent from the provided list. In VS Code, you can activate the custom agent in the agents session, alongside built-in agents like Plan and Agent.
+自訂代理程式可在 Copilot 程式碼代理（CCA）、VS Code 與 Copilot CLI（即將推出）中使用。在 CCA 中，將議題指派給 Copilot 時，請從清單中選擇自訂代理程式。在 VS Code 中，您可以在代理程式工作階段中啟用自訂代理程式，與 Plan 和 Agent 等內建代理程式並用。
 
-### 🎯 Prompts
+### 🎯 提示詞
 
-Use the `/` command in GitHub Copilot Chat to access prompts:
+在 GitHub Copilot Chat 中使用 `/` 指令來存取提示詞：
 
 ```plaintext
 /awesome-copilot create-readme
 ```
 
-### 📋 Instructions
+### 📋 指令
 
-Instructions automatically apply to files based on their patterns and provide contextual guidance for coding standards, frameworks, and best practices.
+指令會根據檔案模式自動套用，並提供程式碼規範、框架與最佳實踐的情境指引。
 
-### 💭 Chat Modes
+### 💭 對話模式
 
-Activate chat modes to get specialized assistance from AI personas tailored for specific roles like architects, DBAs, or security experts.
+啟用對話模式，取得針對特定角色（如架構師、DBA 或資安專家）量身打造的 AI 角色協助。
 
-## 🎯 Why Use Awesome GitHub Copilot?
+## 🎯 為什麼要使用 Awesome GitHub Copilot？
 
-- **Productivity**: Pre-built agents, prompts and instructions save time and provide consistent results.
-- **Best Practices**: Benefit from community-curated coding standards and patterns.
-- **Specialized Assistance**: Access expert-level guidance through specialized custom agents.
-- **Continuous Learning**: Stay updated with the latest patterns and practices across technologies.
+- **提升生產力**：預先建立的代理程式、提示詞與指令節省時間並提供一致的成果。
+- **最佳實踐**：受益於社群精選的程式碼規範與模式。
+- **專業協助**：透過專業的自訂代理程式取得專家級的指引。
+- **持續學習**：隨時掌握各項技術的最新模式與實踐。
 
-## 🤝 Contributing
+## 🤝 貢獻
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details on how to:
+我們歡迎您的貢獻！請參閱我們的[貢獻指南](CONTRIBUTING.md)，了解如何：
 
-- Add new prompts, instructions, or chat modes
-- Improve existing content
-- Report issues or suggest enhancements
+- 新增提示詞、指令或對話模式
+- 改善現有內容
+- 回報問題或提出改進建議
 
-### Quick Contribution Guide
+### 快速貢獻指南
 
-1. Follow our file naming conventions and frontmatter requirements
-2. Test your contributions thoroughly
-3. Update the appropriate README tables
-4. Submit a pull request with a clear description
+1. 遵循我們的檔案命名慣例與 frontmatter 需求
+2. 徹底測試您的貢獻
+3. 更新相應的 README 表格
+4. 提交附有明確說明的 pull request
 
-## 📖 Repository Structure
+## 📖 專案結構
 
 ```plaintext
-├── prompts/          # Task-specific prompts (.prompt.md)
-├── instructions/     # Coding standards and best practices (.instructions.md)
-├── chatmodes/        # AI personas and specialized modes (.chatmode.md)
-├── collections/      # Curated collections of related items (.collection.yml)
-└── scripts/          # Utility scripts for maintenance
+├── prompts/          # 特定任務的提示詞 (.prompt.md)
+├── instructions/     # 程式碼規範與最佳實踐 (.instructions.md)
+├── chatmodes/        # AI 角色與專業模式 (.chatmode.md)
+├── collections/      # 相關項目的精選集合 (.collection.yml)
+└── scripts/          # 維護用的實用工具腳本
 ```
 
-## 📄 License
+## 📄 授權
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+本專案採用 MIT 授權 - 詳情請見 [LICENSE](LICENSE) 檔案。
 
-## 🛡️ Security & Support
+## 🛡️ 安全性與支援
 
-- **Security Issues**: Please see our [Security Policy](SECURITY.md)
-- **Support**: Check our [Support Guide](SUPPORT.md) for getting help
-- **Code of Conduct**: We follow the [Contributor Covenant](CODE_OF_CONDUCT.md)
+- **安全性問題**：請參閱我們的[安全性政策](SECURITY.md)
+- **支援**：查看我們的[支援指南](SUPPORT.md)以取得協助
+- **行為準則**：我們遵循 [Contributor Covenant](CODE_OF_CONDUCT.md)
 
-## ℹ️ Disclaimer
+## ℹ️ 免責聲明
 
-The customizations in this repository are sourced from and created by third-party developers. GitHub does not verify, endorse, or guarantee the functionality or security of these agents. Please carefully inspect any agent and its documentation before installing to understand permissions it may require and actions it may perform.
+本專案中的客製化內容來源於第三方開發者的貢獻。GitHub 不驗證、背書或保證這些代理程式的功能或安全性。安裝前請仔細檢查任何代理程式及其文件，以了解其可能需要的權限與執行的操作。
 
 ---
 
-**Ready to supercharge your coding experience?** Start exploring our [prompts](docs/README.prompts.md), [instructions](docs/README.instructions.md), and [chat modes](docs/README.chatmodes.md)!
+**準備好提升您的程式開發體驗了嗎？**開始探索我們的[提示詞](docs/README.prompts.md)、[指令](docs/README.instructions.md)與[對話模式](docs/README.chatmodes.md)！
 
 ## Contributors ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+感謝這些傑出的貢獻者（[emoji key](https://allcontributors.org/docs/en/emoji-key)）：
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -274,19 +274,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+本專案遵循 [all-contributors](https://github.com/all-contributors/all-contributors) 規範。歡迎各種形式的貢獻！
 
-## 📚 Additional Resources
+## 📚 延伸資源
 
-- [VS Code Copilot Customization Documentation](https://code.visualstudio.com/docs/copilot/copilot-customization) - Official Microsoft documentation
-- [GitHub Copilot Chat Documentation](https://code.visualstudio.com/docs/copilot/chat/copilot-chat) - Complete chat feature guide
-- [Custom Chat Modes](https://code.visualstudio.com/docs/copilot/chat/chat-modes) - Advanced chat configuration
-- [VS Code Settings](https://code.visualstudio.com/docs/getstarted/settings) - General VS Code configuration guide
+- [VS Code Copilot 客製化文件](https://code.visualstudio.com/docs/copilot/copilot-customization) - Microsoft 官方文件
+- [GitHub Copilot Chat 文件](https://code.visualstudio.com/docs/copilot/chat/copilot-chat) - 完整的對話功能指南
+- [自訂對話模式](https://code.visualstudio.com/docs/copilot/chat/chat-modes) - 進階對話設定
+- [VS Code 設定](https://code.visualstudio.com/docs/getstarted/settings) - 一般 VS Code 設定指南
 
-## ™️ Trademarks
+## ™️ 商標
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
-trademarks or logos is subject to and must follow
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+本專案可能包含專案、產品或服務的商標或標誌。Microsoft 商標或標誌的授權使用須遵守 [Microsoft 商標與品牌指南](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general)。在本專案的修改版本中使用 Microsoft 商標或標誌時，不得造成混淆或暗示 Microsoft 的贊助。任何第三方商標或標誌的使用須遵守各該第三方的政策。

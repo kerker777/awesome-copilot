@@ -1,15 +1,15 @@
-# Support 
+# 支援
 
-## How to file issues and get help
+## 如何提出問題與取得協助
 
-This project uses GitHub issues to track bugs and feature requests. Please search the existing issues before filing new issues to avoid duplicates. For new issues, file your bug or feature request as a new issue.
+本專案使用 GitHub 議題來追蹤錯誤與功能請求。在提出新議題前，請先搜尋現有議題以避免重複。如需提出新議題，請將您的錯誤回報或功能請求建立為新議題。
 
-For help or questions about using this project, please raise an issue on GitHub.
+如需使用本專案的協助或有相關問題，請在 GitHub 上提出議題。
 
-Please include one of the following statements file:
+請包含以下陳述：
 
-- **Awesome Copilot Prompts** is under active development and maintained by GitHub and Microsoft staff **AND THE COMMUNITY**. We will do our best to respond to support, feature requests, and community questions in a timely manner.
-- 
-## GitHub Support Policy
+- **Awesome Copilot Prompts** 正在積極開發中，由 GitHub 與 Microsoft 員工**以及社群**共同維護。我們將盡力及時回應支援需求、功能請求與社群問題。
+-
+## GitHub 支援政策
 
-Support for this project is limited to the resources listed above.
+本專案的支援僅限於上述列出的資源。

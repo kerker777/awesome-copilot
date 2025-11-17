@@ -1,127 +1,127 @@
-# Contributing to Awesome GitHub Copilot
+# 為 Awesome GitHub Copilot 做出貢獻
 
-Thank you for your interest in contributing to the Awesome GitHub Copilot repository! We welcome contributions from the community to help expand our collection of custom instructions and prompts.
+感謝您有興趣為 Awesome GitHub Copilot 專案做出貢獻！我們歡迎社群的貢獻，協助擴充我們的自訂指令與提示詞集合。
 
-## How to Contribute
+## 如何貢獻
 
-### Adding Instructions
+### 新增指令
 
-Instructions help customize GitHub Copilot's behavior for specific technologies, coding practices, or domains.
+指令協助針對特定技術、程式碼實踐或領域自訂 GitHub Copilot 的行為。
 
-1. **Create your instruction file**: Add a new `.md` file in the `instructions/` directory
-2. **Follow the naming convention**: Use descriptive, lowercase filenames with hyphens (e.g., `python-django.instructions.md`)
-3. **Structure your content**: Start with a clear heading and organize your instructions logically
-4. **Test your instructions**: Make sure your instructions work well with GitHub Copilot
+1. **建立您的指令檔案**：在 `instructions/` 目錄中新增一個 `.md` 檔案
+2. **遵循命名慣例**：使用描述性的小寫檔名並以連字號分隔（例如：`python-django.instructions.md`）
+3. **組織您的內容**：從清楚的標題開始，並邏輯性地組織您的指令
+4. **測試您的指令**：確保您的指令與 GitHub Copilot 運作良好
 
-#### Example instruction format
+#### 指令範例格式
 
 ```markdown
 ---
-description: 'Instructions for customizing GitHub Copilot behavior for specific technologies and practices'
+description: '針對特定技術與實踐自訂 GitHub Copilot 行為的指令'
 ---
 
-# Your Technology/Framework Name
+# 您的技術/框架名稱
 
-## Instructions
+## 指令
 
-- Provide clear, specific guidance for GitHub Copilot
-- Include best practices and conventions
-- Use bullet points for easy reading
+- 為 GitHub Copilot 提供清楚、明確的指引
+- 包含最佳實踐與慣例
+- 使用條列式清單便於閱讀
 
-## Additional Guidelines
+## 額外指引
 
-- Any additional context or examples
+- 任何額外的情境或範例
 ```
 
-### Adding Prompts
+### 新增提示詞
 
-Prompts are ready-to-use templates for specific development scenarios and tasks.
+提示詞是針對特定開發情境與任務的即用模板。
 
-1. **Create your prompt file**: Add a new `.prompt.md` file in the `prompts/` directory
-2. **Follow the naming convention**: Use descriptive, lowercase filenames with hyphens and the `.prompt.md` extension (e.g., `react-component-generator.prompt.md`)
-3. **Include frontmatter**: Add metadata at the top of your file (optional but recommended)
-4. **Structure your prompt**: Provide clear context and specific instructions
+1. **建立您的提示詞檔案**：在 `prompts/` 目錄中新增一個 `.prompt.md` 檔案
+2. **遵循命名慣例**：使用描述性的小寫檔名並以連字號分隔，副檔名為 `.prompt.md`（例如：`react-component-generator.prompt.md`）
+3. **包含 frontmatter**：在檔案開頭新增中繼資料（選用但建議加上）
+4. **組織您的提示詞**：提供清楚的情境與明確的指示
 
-#### Example prompt format
+#### 提示詞範例格式
 
 ```markdown
 ---
 mode: 'agent'
 tools: ['codebase', 'terminalCommand']
-description: 'Brief description of what this prompt does'
+description: '此提示詞功能的簡要說明'
 ---
 
-# Prompt Title
+# 提示詞標題
 
-Your goal is to...
+您的目標是...
 
-## Specific Instructions
+## 具體指示
 
-- Clear, actionable instructions
-- Include examples where helpful
+- 清楚、可執行的指示
+- 適時包含範例
 ```
 
-### Adding Chat Modes
+### 新增對話模式
 
-Chat modes are specialized configurations that transform GitHub Copilot Chat into domain-specific assistants or personas for particular development scenarios.
+對話模式是專業的設定，能將 GitHub Copilot Chat 轉換為特定領域的助手或角色，用於特定的開發情境。
 
-1. **Create your chat mode file**: Add a new `.chatmode.md` file in the `chatmodes/` directory
-2. **Follow the naming convention**: Use descriptive, lowercase filenames with hyphens and the `.chatmode.md` extension (e.g., `react-performance-expert.chatmode.md`)
-3. **Include frontmatter**: Add metadata at the top of your file with required fields
-4. **Define the persona**: Create a clear identity and expertise area for the chat mode
-5. **Test your chat mode**: Ensure the chat mode provides helpful, accurate responses in its domain
+1. **建立您的對話模式檔案**：在 `chatmodes/` 目錄中新增一個 `.chatmode.md` 檔案
+2. **遵循命名慣例**：使用描述性的小寫檔名並以連字號分隔，副檔名為 `.chatmode.md`（例如：`react-performance-expert.chatmode.md`）
+3. **包含 frontmatter**：在檔案開頭新增包含必要欄位的中繼資料
+4. **定義角色**：為對話模式建立清楚的身分與專業領域
+5. **測試您的對話模式**：確保對話模式在其領域中提供有用且準確的回應
 
-#### Example chat mode format
+#### 對話模式範例格式
 
 ```markdown
 ---
-description: 'Brief description of the chat mode and its purpose'
+description: '對話模式與其用途的簡要說明'
 model: 'gpt-5'
 tools: ['codebase', 'terminalCommand']
 ---
 
-# Chat Mode Title
+# 對話模式標題
 
-You are an expert [domain/role] with deep knowledge in [specific areas].
+您是 [領域/角色] 專家，在 [特定領域] 擁有深入的知識。
 
-## Your Expertise
+## 您的專業
 
-- [Specific skill 1]
-- [Specific skill 2]
-- [Specific skill 3]
+- [特定技能 1]
+- [特定技能 2]
+- [特定技能 3]
 
-## Your Approach
+## 您的方法
 
-- [How you help users]
-- [Your communication style]
-- [What you prioritize]
+- [如何協助使用者]
+- [您的溝通風格]
+- [您優先考慮的事項]
 
-## Guidelines
+## 指引
 
-- [Specific instructions for responses]
-- [Constraints or limitations]
-- [Best practices to follow]
+- [回應的具體指示]
+- [限制或約束]
+- [應遵循的最佳實踐]
 ```
 
-### Adding Collections
+### 新增集合
 
-Collections group related prompts, instructions, and chat modes around specific themes or workflows, making it easier for users to discover and adopt comprehensive toolkits.
+集合將相關的提示詞、指令與對話模式依特定主題或工作流程組織起來，讓使用者更容易探索並採用完整的工具組。
 
-1. **Create your collection manifest**: Add a new `.collection.yml` file in the `collections/` directory
-2. **Follow the naming convention**: Use descriptive, lowercase filenames with hyphens (e.g., `python-web-development.collection.yml`)
-3. **Reference existing items**: Collections should only reference files that already exist in the repository
-4. **Test your collection**: Verify all referenced files exist and work well together
+1. **建立您的集合清單**：在 `collections/` 目錄中新增一個 `.collection.yml` 檔案
+2. **遵循命名慣例**：使用描述性的小寫檔名並以連字號分隔（例如：`python-web-development.collection.yml`）
+3. **參照現有項目**：集合應該只參照專案中已存在的檔案
+4. **測試您的集合**：驗證所有參照的檔案都存在且能良好協作
 
-#### Creating a collection
+#### 建立集合
 
 ```bash
-# Using the creation script
+# 使用建立腳本
 node create-collection.js my-collection-id
 
-# Or using VS Code Task: Ctrl+Shift+P > "Tasks: Run Task" > "create-collection"
+# 或使用 VS Code 任務：Ctrl+Shift+P > "Tasks: Run Task" > "create-collection"
 ```
 
-#### Example collection format
+#### 集合範例格式
 
 ```yaml
 id: my-collection-id
@@ -166,85 +166,85 @@ display:
   show_badge: false # set to true to show collection badge
 ```
 
-For full example of usage checkout edge-ai tasks collection:
+完整使用範例請參考 edge-ai tasks 集合：
 - [edge-ai-tasks.collection.yml](./collections/edge-ai-tasks.collection.yml)
 - [edge-ai-tasks.md](./collections/edge-ai-tasks.md)
 
-#### Collection Guidelines
+#### 集合指引
 
-- **Focus on workflows**: Group items that work together for specific use cases
-- **Reasonable size**: Typically 3-10 items work well
-- **Test combinations**: Ensure the items complement each other effectively
-- **Clear purpose**: The collection should solve a specific problem or workflow
-- **Validate before submitting**: Run `node validate-collections.js` to ensure your manifest is valid
+- **專注於工作流程**：將特定使用情境中能協作的項目組合在一起
+- **合理的大小**：通常 3-10 個項目效果最佳
+- **測試組合**：確保項目之間能有效互補
+- **明確的目的**：集合應該解決特定的問題或工作流程
+- **提交前驗證**：執行 `node validate-collections.js` 以確保您的清單有效
 
-## Submitting Your Contribution
+## 提交您的貢獻
 
-1. **Fork this repository**
-2. **Create a new branch** for your contribution
-3. **Add your instruction, prompt file, chatmode, or collection** following the guidelines above
-4. **Run the update script**: `npm start` to update the README with your new file (make sure you run `npm install` first if you haven't already)
-   - A GitHub Actions workflow will verify that this step was performed correctly
-   - If the README.md would be modified by running the script, the PR check will fail with a comment showing the required changes
-5. **Submit a pull request** with:
-   - A clear title describing your contribution
-   - A brief description of what your instruction/prompt does
-   - Any relevant context or usage notes
+1. **Fork 此專案**
+2. **建立新分支**供您的貢獻使用
+3. **依照上述指引新增您的指令、提示詞檔案、對話模式或集合**
+4. **執行更新腳本**：執行 `npm start` 以用您的新檔案更新 README（如果還沒執行過，請先執行 `npm install`）
+   - GitHub Actions 工作流程會驗證此步驟是否正確執行
+   - 如果執行腳本會修改 README.md，PR 檢查將會失敗並顯示需要的變更註解
+5. **提交 pull request**，包含：
+   - 描述您貢獻的清楚標題
+   - 您的指令/提示詞功能的簡要說明
+   - 任何相關的情境或使用說明
 
-**Note**: Once your contribution is merged, you'll automatically be added to our [Contributors](./README.md#contributors-) section! We use [all-contributors](https://github.com/all-contributors/all-contributors) to recognize all types of contributions to the project.
+**注意**：您的貢獻合併後，您將自動被加入我們的[貢獻者](./README.md#contributors-)區段！我們使用 [all-contributors](https://github.com/all-contributors/all-contributors) 來表彰各類貢獻。
 
-## What We Accept
+## 我們接受的內容
 
-We welcome contributions covering any technology, framework, or development practice that helps developers work more effectively with GitHub Copilot. This includes:
+我們歡迎任何能協助開發者更有效使用 GitHub Copilot 的技術、框架或開發實踐的貢獻。包括：
 
-- Programming languages and frameworks
-- Development methodologies and best practices
-- Architecture patterns and design principles
-- Testing strategies and quality assurance
-- DevOps and deployment practices
-- Accessibility and inclusive design
-- Performance optimization techniques
+- 程式語言與框架
+- 開發方法論與最佳實踐
+- 架構模式與設計原則
+- 測試策略與品質保證
+- DevOps 與部署實踐
+- 無障礙設計與包容性設計
+- 效能最佳化技術
 
-## What We Don't Accept
+## 我們不接受的內容
 
-To maintain a safe, responsible, and constructive community, we will **not accept** contributions that:
+為了維護安全、負責任且具建設性的社群，我們**不接受**以下貢獻：
 
-- **Violate Responsible AI Principles**: Content that attempts to circumvent Microsoft/GitHub's Responsible AI guidelines or promotes harmful AI usage
-- **Compromise Security**: Instructions designed to bypass security policies, exploit vulnerabilities, or weaken system security
-- **Enable Malicious Activities**: Content intended to harm other systems, users, or organizations
-- **Exploit Weaknesses**: Instructions that take advantage of vulnerabilities in other platforms or services
-- **Promote Harmful Content**: Guidance that could lead to the creation of harmful, discriminatory, or inappropriate content
-- **Circumvent Platform Policies**: Attempts to work around GitHub, Microsoft, or other platform terms of service
+- **違反負責任 AI 原則**：試圖規避 Microsoft/GitHub 負責任 AI 指引或推廣有害 AI 使用的內容
+- **危害安全性**：旨在繞過安全性政策、利用漏洞或削弱系統安全性的指令
+- **啟用惡意活動**：意圖傷害其他系統、使用者或組織的內容
+- **利用弱點**：利用其他平台或服務漏洞的指令
+- **推廣有害內容**：可能導致建立有害、歧視性或不當內容的指引
+- **規避平台政策**：試圖繞過 GitHub、Microsoft 或其他平台服務條款的內容
 
-## Quality Guidelines
+## 品質指引
 
-- **Be specific**: Generic instructions are less helpful than specific, actionable guidance
-- **Test your content**: Ensure your instructions or prompts work well with GitHub Copilot
-- **Follow conventions**: Use consistent formatting and naming
-- **Keep it focused**: Each file should address a specific technology, framework, or use case
-- **Write clearly**: Use simple, direct language
-- **Promote best practices**: Encourage secure, maintainable, and ethical development practices
+- **明確具體**：明確且可執行的指引比籠統的指令更有幫助
+- **測試您的內容**：確保您的指令或提示詞與 GitHub Copilot 運作良好
+- **遵循慣例**：使用一致的格式與命名
+- **保持專注**：每個檔案應該針對特定的技術、框架或使用情境
+- **清楚書寫**：使用簡單、直接的語言
+- **推廣最佳實踐**：鼓勵安全、可維護且符合道德的開發實踐
 
-## Contributors Recognition
+## 貢獻者表彰
 
-This project uses [all-contributors](https://github.com/all-contributors/all-contributors) to recognize contributors. When you make a contribution, you'll automatically be recognized in our contributors list!
+本專案使用 [all-contributors](https://github.com/all-contributors/all-contributors) 來表彰貢獻者。當您做出貢獻時，您將自動被納入我們的貢獻者清單！
 
-We welcome contributions of all types, including:
+我們歡迎各類貢獻，包括：
 
-- 📝 Documentation improvements
-- 💻 Code contributions
-- 🐛 Bug reports and fixes
-- 🎨 Design improvements
-- 💡 Ideas and suggestions
-- 🤔 Answering questions
-- 📢 Promoting the project
+- 📝 改善文件
+- 💻 程式碼貢獻
+- 🐛 錯誤回報與修復
+- 🎨 設計改善
+- 💡 想法與建議
+- 🤔 回答問題
+- 📢 推廣專案
 
-Your contributions help make this resource better for the entire GitHub Copilot community!
+您的貢獻讓這個資源對整個 GitHub Copilot 社群更有幫助！
 
-## Code of Conduct
+## 行為準則
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+請注意，本專案發布時附有[貢獻者行為準則](CODE_OF_CONDUCT.md)。參與本專案即表示您同意遵守其條款。
 
-## License
+## 授權
 
-By contributing to this repository, you agree that your contributions will be licensed under the MIT License.
+向本專案做出貢獻，即表示您同意您的貢獻將以 MIT 授權釋出。
