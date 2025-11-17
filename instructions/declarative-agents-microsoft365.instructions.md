@@ -1,67 +1,67 @@
 ---
-description: Comprehensive development guidelines for Microsoft 365 Copilot declarative agents with schema v1.5, TypeSpec integration, and Microsoft 365 Agents Toolkit workflows
+description: Microsoft 365 Copilot 宣告式代理程式的完整開發指南，包含 schema v1.5、TypeSpec 整合及 Microsoft 365 Agents Toolkit 工作流程
 applyTo: "**.json, **.ts, **.tsp, **manifest.json, **agent.json, **declarative-agent.json"
 ---
 
-# Microsoft 365 Declarative Agents Development Guidelines
+# Microsoft 365 宣告式代理程式開發指南
 
-## Overview
+## 概述
 
-Microsoft 365 Copilot declarative agents are powerful custom AI assistants that extend Microsoft 365 Copilot with specialized capabilities, enterprise data access, and custom behaviors. These guidelines provide comprehensive development practices for creating production-ready agents using the latest v1.5 JSON schema specification with full Microsoft 365 Agents Toolkit integration.
+Microsoft 365 Copilot 宣告式代理程式是功能強大的自訂 AI 助理，可以透過專門的功能、企業資料存取和自訂行為來擴充 Microsoft 365 Copilot。本指南提供完整的開發實務，協助建立可用於生產環境的代理程式，使用最新的 v1.5 JSON schema 規格並完整整合 Microsoft 365 Agents Toolkit。
 
-## Schema Specification v1.5
+## Schema 規格 v1.5
 
-### Core Properties
+### 核心屬性
 
 ```json
 {
   "$schema": "https://developer.microsoft.com/json-schemas/copilot/declarative-agent/v1.5/schema.json",
   "version": "v1.5",
-  "name": "string (max 100 characters)",
-  "description": "string (max 1000 characters)", 
-  "instructions": "string (max 8000 characters)",
-  "capabilities": ["array (max 5 items)"],
-  "conversation_starters": ["array (max 4 items, optional)"]
+  "name": "string (最多 100 字元)",
+  "description": "string (最多 1000 字元)",
+  "instructions": "string (最多 8000 字元)",
+  "capabilities": ["array (最多 5 個項目)"],
+  "conversation_starters": ["array (最多 4 個項目，選填)"]
 }
 ```
 
-### Character Limits & Constraints
-- **Name**: Maximum 100 characters, required
-- **Description**: Maximum 1000 characters, required  
-- **Instructions**: Maximum 8000 characters, required
-- **Capabilities**: Maximum 5 items, minimum 1 item
-- **Conversation Starters**: Maximum 4 items, optional
+### 字元限制與約束
+- **Name**：最多 100 字元，必填
+- **Description**：最多 1000 字元，必填
+- **Instructions**：最多 8000 字元，必填
+- **Capabilities**：最多 5 個項目，至少 1 個項目
+- **Conversation Starters**：最多 4 個項目，選填
 
-## Available Capabilities
+## 可用功能
 
-### Core Capabilities
-1. **WebSearch**: Internet search and real-time information access
-2. **OneDriveAndSharePoint**: File access, document search, content management
-3. **GraphConnectors**: Enterprise data integration from third-party systems
-4. **MicrosoftGraph**: Access to Microsoft 365 services and data
+### 核心功能
+1. **WebSearch**：網際網路搜尋和即時資訊存取
+2. **OneDriveAndSharePoint**：檔案存取、文件搜尋、內容管理
+3. **GraphConnectors**：從第三方系統整合企業資料
+4. **MicrosoftGraph**：存取 Microsoft 365 服務和資料
 
-### Communication & Collaboration
-5. **TeamsAndOutlook**: Teams chat, meetings, email integration
-6. **CopilotForMicrosoft365**: Advanced Copilot features and workflows
+### 溝通與協作
+5. **TeamsAndOutlook**：Teams 聊天、會議、電子郵件整合
+6. **CopilotForMicrosoft365**：進階 Copilot 功能和工作流程
 
-### Business Applications
-7. **PowerPlatform**: Power Apps, Power Automate, Power BI integration
-8. **BusinessDataProcessing**: Advanced data analysis and processing
-9. **WordAndExcel**: Document creation, editing, analysis
-10. **EnterpriseApplications**: Third-party business system integration
-11. **CustomConnectors**: Custom API and service integrations
+### 商務應用程式
+7. **PowerPlatform**：Power Apps、Power Automate、Power BI 整合
+8. **BusinessDataProcessing**：進階資料分析和處理
+9. **WordAndExcel**：文件建立、編輯、分析
+10. **EnterpriseApplications**：第三方商務系統整合
+11. **CustomConnectors**：自訂 API 和服務整合
 
-## Microsoft 365 Agents Toolkit Integration
+## Microsoft 365 Agents Toolkit 整合
 
-### VS Code Extension Setup
+### VS Code 擴充功能設定
 ```bash
-# Install Microsoft 365 Agents Toolkit
-# Extension ID: teamsdevapp.ms-teams-vscode-extension
+# 安裝 Microsoft 365 Agents Toolkit
+# 擴充功能 ID: teamsdevapp.ms-teams-vscode-extension
 ```
 
-### TypeSpec Development Workflow
+### TypeSpec 開發工作流程
 
-#### 1. Modern Agent Definition
+#### 1. 現代化代理程式定義
 ```typespec
 import "@typespec/json-schema";
 
@@ -70,44 +70,44 @@ using TypeSpec.JsonSchema;
 @jsonSchema("/schemas/declarative-agent/v1.5/schema.json")
 namespace DeclarativeAgent;
 
-/** Microsoft 365 Declarative Agent */
+/** Microsoft 365 宣告式代理程式 */
 model Agent {
-  /** Schema version */
+  /** Schema 版本 */
   @minLength(1)
   $schema: "https://developer.microsoft.com/json-schemas/copilot/declarative-agent/v1.5/schema.json";
-  
-  /** Agent version */
+
+  /** 代理程式版本 */
   version: "v1.5";
-  
-  /** Agent name (max 100 characters) */
+
+  /** 代理程式名稱 (最多 100 字元) */
   @maxLength(100)
   @minLength(1)
   name: string;
-  
-  /** Agent description (max 1000 characters) */
+
+  /** 代理程式描述 (最多 1000 字元) */
   @maxLength(1000)
-  @minLength(1)  
+  @minLength(1)
   description: string;
-  
-  /** Agent instructions (max 8000 characters) */
+
+  /** 代理程式指示 (最多 8000 字元) */
   @maxLength(8000)
   @minLength(1)
   instructions: string;
-  
-  /** Agent capabilities (1-5 items) */
+
+  /** 代理程式功能 (1-5 個項目) */
   @minItems(1)
   @maxItems(5)
   capabilities: AgentCapability[];
-  
-  /** Conversation starters (max 4 items) */
+
+  /** 對話起始語 (最多 4 個項目) */
   @maxItems(4)
   conversation_starters?: ConversationStarter[];
 }
 
-/** Available agent capabilities */
+/** 可用的代理程式功能 */
 union AgentCapability {
   "WebSearch",
-  "OneDriveAndSharePoint", 
+  "OneDriveAndSharePoint",
   "GraphConnectors",
   "MicrosoftGraph",
   "TeamsAndOutlook",
@@ -119,34 +119,34 @@ union AgentCapability {
   "CustomConnectors"
 }
 
-/** Conversation starter definition */
+/** 對話起始語定義 */
 model ConversationStarter {
-  /** Starter text (max 100 characters) */
+  /** 起始語文字 (最多 100 字元) */
   @maxLength(100)
   @minLength(1)
   text: string;
 }
 ```
 
-#### 2. Compilation to JSON
+#### 2. 編譯為 JSON
 ```bash
-# Compile TypeSpec to JSON manifest
+# 將 TypeSpec 編譯為 JSON manifest
 tsp compile agent.tsp --emit=@typespec/json-schema
 ```
 
-### Environment Configuration
+### 環境設定
 
-#### Development Environment
+#### 開發環境
 ```json
 {
   "name": "${DEV_AGENT_NAME}",
-  "description": "Development version: ${AGENT_DESCRIPTION}",
+  "description": "開發版本：${AGENT_DESCRIPTION}",
   "instructions": "${AGENT_INSTRUCTIONS}",
   "capabilities": ["${REQUIRED_CAPABILITIES}"]
 }
 ```
 
-#### Production Environment
+#### 生產環境
 ```json
 {
   "name": "${PROD_AGENT_NAME}",
@@ -156,19 +156,19 @@ tsp compile agent.tsp --emit=@typespec/json-schema
 }
 ```
 
-## Development Best Practices
+## 開發最佳實務
 
-### 1. Schema Validation
+### 1. Schema 驗證
 ```typescript
-// Validate against v1.5 schema
+// 針對 v1.5 schema 進行驗證
 const schema = await fetch('https://developer.microsoft.com/json-schemas/copilot/declarative-agent/v1.5/schema.json');
 const validator = new JSONSchema(schema);
 const isValid = validator.validate(agentManifest);
 ```
 
-### 2. Character Limit Management
+### 2. 字元限制管理
 ```typescript
-// Validation helper functions
+// 驗證輔助函式
 function validateName(name: string): boolean {
   return name.length > 0 && name.length <= 100;
 }
@@ -182,44 +182,44 @@ function validateInstructions(instructions: string): boolean {
 }
 ```
 
-### 3. Capability Selection Strategy
-- **Start Simple**: Begin with 1-2 core capabilities
-- **Incremental Addition**: Add capabilities based on user feedback
-- **Performance Testing**: Test each capability combination thoroughly
-- **Enterprise Readiness**: Consider compliance and security implications
+### 3. 功能選擇策略
+- **從簡單開始**：從 1-2 個核心功能開始
+- **逐步增加**：根據使用者回饋增加功能
+- **效能測試**：徹底測試每個功能組合
+- **企業就緒**：考慮合規性和安全性影響
 
-## Agents Playground Testing
+## Agents Playground 測試
 
-### Local Testing Setup
+### 本地測試設定
 ```bash
-# Start Agents Playground
+# 啟動 Agents Playground
 npm install -g @microsoft/agents-playground
 agents-playground start --manifest=./agent.json
 ```
 
-### Testing Scenarios
-1. **Capability Validation**: Test each declared capability
-2. **Conversation Flow**: Validate conversation starters
-3. **Error Handling**: Test invalid inputs and edge cases
-4. **Performance**: Measure response times and reliability
+### 測試情境
+1. **功能驗證**：測試每個已宣告的功能
+2. **對話流程**：驗證對話起始語
+3. **錯誤處理**：測試無效輸入和邊緣情況
+4. **效能**：測量回應時間和可靠性
 
-## Deployment & Lifecycle Management
+## 部署與生命週期管理
 
-### 1. Development Lifecycle
+### 1. 開發生命週期
 ```mermaid
 graph LR
-    A[TypeSpec Definition] --> B[JSON Compilation]
-    B --> C[Local Testing]
-    C --> D[Validation]
-    D --> E[Staging Deployment]
-    E --> F[Production Release]
+    A[TypeSpec 定義] --> B[JSON 編譯]
+    B --> C[本地測試]
+    C --> D[驗證]
+    D --> E[預備環境部署]
+    E --> F[正式環境發布]
 ```
 
-### 2. Version Management
+### 2. 版本管理
 ```json
 {
   "name": "MyAgent v1.2.0",
-  "description": "Production agent with enhanced capabilities",
+  "description": "具備增強功能的生產代理程式",
   "version": "v1.5",
   "metadata": {
     "version": "1.2.0",
@@ -229,17 +229,17 @@ graph LR
 }
 ```
 
-### 3. Environment Promotion
-- **Development**: Full debugging, verbose logging
-- **Staging**: Production-like testing, performance monitoring  
-- **Production**: Optimized performance, minimal logging
+### 3. 環境升級
+- **開發環境**：完整除錯、詳細記錄
+- **預備環境**：類生產環境測試、效能監控
+- **正式環境**：最佳化效能、最少記錄
 
-## Advanced Features
+## 進階功能
 
-### Behavior Overrides
+### 行為覆寫
 ```json
 {
-  "instructions": "You are a specialized financial analyst agent. Always provide disclaimers for financial advice.",
+  "instructions": "您是專業的財務分析代理程式。請務必為財務建議提供免責聲明。",
   "behavior_overrides": {
     "response_tone": "professional",
     "max_response_length": 2000,
@@ -248,7 +248,7 @@ graph LR
 }
 ```
 
-### Localization Support
+### 在地化支援
 ```json
 {
   "name": {
@@ -264,17 +264,17 @@ graph LR
 }
 ```
 
-## Monitoring & Analytics
+## 監控與分析
 
-### Performance Metrics
-- Response time per capability
-- User engagement with conversation starters
-- Error rates and failure patterns
-- Capability utilization statistics
+### 效能指標
+- 每個功能的回應時間
+- 使用者對對話起始語的互動程度
+- 錯誤率和失敗模式
+- 功能使用統計
 
-### Logging Strategy
+### 記錄策略
 ```typescript
-// Structured logging for agent interactions
+// 代理程式互動的結構化記錄
 const log = {
   timestamp: new Date().toISOString(),
   agentName: "MyAgent",
@@ -286,31 +286,31 @@ const log = {
 };
 ```
 
-## Security & Compliance
+## 安全性與合規性
 
-### Data Privacy
-- Implement proper data handling for sensitive information
-- Ensure compliance with GDPR, CCPA, and organizational policies
-- Use appropriate access controls for enterprise capabilities
+### 資料隱私
+- 為敏感資訊實作適當的資料處理
+- 確保符合 GDPR、CCPA 和組織政策
+- 為企業功能使用適當的存取控制
 
-### Security Considerations  
-- Validate all inputs and outputs
-- Implement rate limiting and abuse prevention
-- Monitor for suspicious activity patterns
-- Regular security audits and updates
+### 安全性考量
+- 驗證所有輸入和輸出
+- 實作速率限制和濫用防護
+- 監控可疑活動模式
+- 定期進行安全性稽核和更新
 
-## Troubleshooting
+## 疑難排解
 
-### Common Issues
-1. **Schema Validation Errors**: Check character limits and required fields
-2. **Capability Conflicts**: Verify capability combinations are supported
-3. **Performance Issues**: Monitor response times and optimize instructions
-4. **Deployment Failures**: Validate environment configuration and permissions
+### 常見問題
+1. **Schema 驗證錯誤**：檢查字元限制和必填欄位
+2. **功能衝突**：確認功能組合是否受支援
+3. **效能問題**：監控回應時間並最佳化指示
+4. **部署失敗**：驗證環境設定和權限
 
-### Debug Tools
-- TypeSpec compiler diagnostics
-- Agents Playground debugging
-- Microsoft 365 Agents Toolkit logs
-- Schema validation utilities
+### 除錯工具
+- TypeSpec 編譯器診斷
+- Agents Playground 除錯
+- Microsoft 365 Agents Toolkit 記錄
+- Schema 驗證工具
 
-This comprehensive guide ensures robust, scalable, and maintainable Microsoft 365 Copilot declarative agents with full TypeSpec and Microsoft 365 Agents Toolkit integration.
+本完整指南確保能建立穩健、可擴充且易於維護的 Microsoft 365 Copilot 宣告式代理程式，並完整整合 TypeSpec 和 Microsoft 365 Agents Toolkit。

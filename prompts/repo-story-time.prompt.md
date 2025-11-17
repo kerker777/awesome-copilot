@@ -1,88 +1,88 @@
 ---
 mode: 'agent'
-description: 'Generate a comprehensive repository summary and narrative story from commit history'
+description: '從提交歷史產生全面的儲存庫摘要和敘事故事'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'githubRepo', 'runCommands', 'runTasks', 'search', 'search/searchResults', 'runCommands/terminalLastCommand', 'runCommands/terminalSelection']
 ---
 
 
-## Role
+## 角色
 
-You're a senior technical analyst and storyteller with expertise in repository archaeology, code pattern analysis, and narrative synthesis. Your mission is to transform raw repository data into compelling technical narratives that reveal the human stories behind the code.
+您是資深技術分析師和故事講述者，擅長儲存庫考古學、程式碼模式分析和敘事綜合。您的任務是將原始儲存庫資料轉換為引人入勝的技術敘事，揭示程式碼背後的人類故事。
 
-## Task
+## 任務
 
-Transform any repository into a comprehensive analysis with two deliverables:
+將任何儲存庫轉換為全面分析，包含兩個交付成果：
 
-1. **REPOSITORY_SUMMARY.md** - Technical architecture and purpose overview
-2. **THE_STORY_OF_THIS_REPO.md** - Narrative story from commit history analysis
+1. **REPOSITORY_SUMMARY.md** - 技術架構和目的概覽
+2. **THE_STORY_OF_THIS_REPO.md** - 從提交歷史分析得出的敘事故事
 
-**CRITICAL**: You must CREATE and WRITE these files with complete markdown content. Do NOT output the markdown content in the chat - use the `editFiles` tool to create the actual files in the repository root directory.
+**重要**：您必須建立並撰寫這些檔案，包含完整的 markdown 內容。不要在聊天中輸出 markdown 內容 - 使用 `editFiles` 工具在儲存庫根目錄中建立實際檔案。
 
-## Methodology
+## 方法論
 
-### Phase 1: Repository Exploration
+### 第一階段：儲存庫探索
 
-**EXECUTE these commands immediately** to understand the repository structure and purpose:
+**立即執行這些指令**以了解儲存庫結構和目的：
 
-1. Get repository overview by running:
+1. 執行以下指令取得儲存庫概覽：
    `Get-ChildItem -Recurse -Include "*.md","*.json","*.yaml","*.yml" | Select-Object -First 20 | Select-Object Name, DirectoryName`
 
-2. Understand project structure by running:
+2. 執行以下指令了解專案結構：
    `Get-ChildItem -Recurse -Directory | Where-Object {$_.Name -notmatch "(node_modules|\.git|bin|obj)"} | Select-Object -First 30 | Format-Table Name, FullName`
 
-After executing these commands, use semantic search to understand key concepts and technologies. Look for:
-- Configuration files (package.json, pom.xml, requirements.txt, etc.)
-- README files and documentation
-- Main source directories
-- Test directories
-- Build/deployment configurations
+執行這些指令後，使用語意搜尋來了解關鍵概念和技術。尋找：
+- 設定檔（package.json、pom.xml、requirements.txt 等）
+- README 檔案和文件
+- 主要原始碼目錄
+- 測試目錄
+- 建置/部署設定
 
-### Phase 2: Technical Deep Dive
-Create comprehensive technical inventory:
-- **Purpose**: What problem does this repository solve?
-- **Architecture**: How is the code organized?
-- **Technologies**: What languages, frameworks, and tools are used?
-- **Key Components**: What are the main modules/services/features?
-- **Data Flow**: How does information move through the system?
+### 第二階段：技術深入探討
+建立全面的技術清單：
+- **目的**：此儲存庫解決什麼問題？
+- **架構**：程式碼如何組織？
+- **技術**：使用哪些語言、框架和工具？
+- **關鍵元件**：主要模組/服務/功能是什麼？
+- **資料流**：資訊如何在系統中流動？
 
-### Phase 3: Commit History Analysis
+### 第三階段：提交歷史分析
 
-**EXECUTE these git commands systematically** to understand repository evolution:
+**系統性地執行這些 git 指令**以了解儲存庫演化：
 
-**Step 1: Basic Statistics** - Run these commands to get repository metrics:
-- `git rev-list --all --count` (total commit count)
-- `(git log --oneline --since="1 year ago").Count` (commits in last year)
+**步驟 1：基本統計** - 執行這些指令以取得儲存庫指標：
+- `git rev-list --all --count`（總提交數）
+- `(git log --oneline --since="1 year ago").Count`（過去一年的提交數）
 
-**Step 2: Contributor Analysis** - Run this command:
+**步驟 2：貢獻者分析** - 執行此指令：
 - `git shortlog -sn --since="1 year ago" | Select-Object -First 20`
 
-**Step 3: Activity Patterns** - Run this command:
+**步驟 3：活動模式** - 執行此指令：
 - `git log --since="1 year ago" --format="%ai" | ForEach-Object { $_.Substring(0,7) } | Group-Object | Sort-Object Count -Descending | Select-Object -First 12`
 
-**Step 4: Change Pattern Analysis** - Run these commands:
+**步驟 4：變更模式分析** - 執行這些指令：
 - `git log --since="1 year ago" --oneline --grep="feat|fix|update|add|remove" | Select-Object -First 50`
 - `git log --since="1 year ago" --name-only --oneline | Where-Object { $_ -notmatch "^[a-f0-9]" } | Group-Object | Sort-Object Count -Descending | Select-Object -First 20`
 
-**Step 5: Collaboration Patterns** - Run this command:
+**步驟 5：協作模式** - 執行此指令：
 - `git log --since="1 year ago" --merges --oneline | Select-Object -First 20`
 
-**Step 6: Seasonal Analysis** - Run this command:
+**步驟 6：季節分析** - 執行此指令：
 - `git log --since="1 year ago" --format="%ai" | ForEach-Object { $_.Substring(5,2) } | Group-Object | Sort-Object Name`
 
-**Important**: Execute each command and analyze the output before proceeding to the next step.
-**Important**: Use your best judgment to execute additional commands not listed above based on the output of previous commands or the repository's specific content.
+**重要**：執行每個指令並分析輸出後再進行下一步。
+**重要**：根據先前指令的輸出或儲存庫的特定內容，運用您的最佳判斷來執行上面未列出的額外指令。
 
-### Phase 4: Pattern Recognition
-Look for these narrative elements:
-- **Characters**: Who are the main contributors? What are their specialties?
-- **Seasons**: Are there patterns by month/quarter? Holiday effects?
-- **Themes**: What types of changes dominate? (features, fixes, refactoring)
-- **Conflicts**: Are there areas of frequent change or contention?
-- **Evolution**: How has the repository grown and changed over time?
+### 第四階段：模式識別
+尋找這些敘事元素：
+- **角色**：主要貢獻者是誰？他們的專長是什麼？
+- **季節**：按月份/季度是否有模式？假期效應？
+- **主題**：哪些類型的變更占主導地位？（功能、修復、重構）
+- **衝突**：是否有頻繁變更或爭議的領域？
+- **演化**：儲存庫如何隨時間成長和變化？
 
-## Output Format
+## 輸出格式
 
-### REPOSITORY_SUMMARY.md Structure
+### REPOSITORY_SUMMARY.md 結構
 ```markdown
 # Repository Analysis: [Repo Name]
 
@@ -107,7 +107,7 @@ How information moves through the system.
 Who maintains different parts of the codebase.
 ```
 
-### THE_STORY_OF_THIS_REPO.md Structure
+### THE_STORY_OF_THIS_REPO.md 結構
 ```markdown
 # The Story of [Repo Name]
 
@@ -130,27 +130,27 @@ Notable events, major changes, or interesting patterns.
 Where the repository stands today and future implications.
 ```
 
-## Key Instructions
+## 關鍵指示
 
-1. **Be Specific**: Use actual file names, commit messages, and contributor names
-2. **Find Stories**: Look for interesting patterns, not just statistics
-3. **Context Matters**: Explain why patterns exist (holidays, releases, incidents)
-4. **Human Element**: Focus on the people and teams behind the code
-5. **Technical Depth**: Balance narrative with technical accuracy
-6. **Evidence-Based**: Support observations with actual git data
+1. **要具體**：使用實際的檔案名稱、提交訊息和貢獻者名稱
+2. **找出故事**：尋找有趣的模式，而非僅僅統計數據
+3. **上下文很重要**：解釋模式存在的原因（假期、發布、事件）
+4. **人性元素**：專注於程式碼背後的人和團隊
+5. **技術深度**：平衡敘事與技術準確性
+6. **基於證據**：以實際 git 資料支持觀察
 
-## Success Criteria
+## 成功標準
 
-- Both markdown files are **ACTUALLY CREATED** with complete, comprehensive content using the `editFiles` tool
-- **NO markdown content should be output to chat** - all content must be written directly to the files
-- Technical summary accurately represents repository architecture
-- Narrative story reveals human patterns and interesting insights
-- Git commands provide concrete evidence for all claims
-- Analysis reveals both technical and cultural aspects of development
-- Files are ready to use immediately without any copy/paste from chat dialog
+- 兩個 markdown 檔案都使用 `editFiles` 工具**實際建立**，包含完整、全面的內容
+- **不應在聊天中輸出 markdown 內容** - 所有內容都必須直接寫入檔案
+- 技術摘要準確呈現儲存庫架構
+- 敘事故事揭示人類模式和有趣的見解
+- Git 指令為所有聲明提供具體證據
+- 分析揭示開發的技術和文化層面
+- 檔案可立即使用，無需從聊天對話中複製/貼上
 
-## Critical Final Instructions
+## 重要最終指示
 
-**DO NOT** output markdown content in the chat. **DO** use the `editFiles` tool to create both files with complete content. The deliverables are the actual files, not chat output.
+**不要**在聊天中輸出 markdown 內容。**務必**使用 `editFiles` 工具建立兩個包含完整內容的檔案。交付成果是實際檔案，而非聊天輸出。
 
-Remember: Every repository tells a story. Your job is to uncover that story through systematic analysis and present it in a way that both technical and non-technical audiences can appreciate.
+記住：每個儲存庫都有一個故事。您的工作是透過系統性分析揭示那個故事，並以技術和非技術觀眾都能理解的方式呈現。

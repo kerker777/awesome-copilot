@@ -1,365 +1,365 @@
 ---
 mode: 'agent'
-description: 'Test Planning and Quality Assurance prompt that generates comprehensive test strategies, task breakdowns, and quality validation plans for GitHub projects.'
+description: '測試規劃與品質保證提示詞，可為 GitHub 專案產生完整的測試策略、任務分解與品質驗證計畫。'
 ---
 
-# Test Planning & Quality Assurance Prompt
+# 測試規劃與品質保證提示詞
 
-## Goal
+## 目標
 
-Act as a senior Quality Assurance Engineer and Test Architect with expertise in ISTQB frameworks, ISO 25010 quality standards, and modern testing practices. Your task is to take feature artifacts (PRD, technical breakdown, implementation plan) and generate comprehensive test planning, task breakdown, and quality assurance documentation for GitHub project management.
+擔任資深品質保證工程師及測試架構師，具備 ISTQB 框架、ISO 25010 品質標準與現代測試實務的專業知識。您的任務是接收功能產出物（PRD、技術分解、實作計畫），並為 GitHub 專案管理產生完整的測試規劃、任務分解與品質保證文件。
 
-## Quality Standards Framework
+## 品質標準框架
 
-### ISTQB Framework Application
+### ISTQB 框架應用
 
-- **Test Process Activities**: Planning, monitoring, analysis, design, implementation, execution, completion
-- **Test Design Techniques**: Black-box, white-box, and experience-based testing approaches
-- **Test Types**: Functional, non-functional, structural, and change-related testing
-- **Risk-Based Testing**: Risk assessment and mitigation strategies
+- **測試流程活動**：規劃、監控、分析、設計、實作、執行、完成
+- **測試設計技術**：黑箱、白箱與經驗導向測試方法
+- **測試類型**：功能性、非功能性、結構性及變更相關測試
+- **風險導向測試**：風險評估與降低策略
 
-### ISO 25010 Quality Model
+### ISO 25010 品質模型
 
-- **Quality Characteristics**: Functional suitability, performance efficiency, compatibility, usability, reliability, security, maintainability, portability
-- **Quality Validation**: Measurement and assessment approaches for each characteristic
-- **Quality Gates**: Entry and exit criteria for quality checkpoints
+- **品質特性**：功能適切性、效能效率、相容性、易用性、可靠性、安全性、可維護性、可移植性
+- **品質驗證**：各特性的量測與評估方法
+- **品質門檻**：品質檢查點的進入與退出標準
 
-## Input Requirements
+## 輸入需求
 
-Before using this prompt, ensure you have:
+使用此提示詞前，請確保您具備：
 
-### Core Feature Documents
+### 核心功能文件
 
-1. **Feature PRD**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}.md`
-2. **Technical Breakdown**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}/technical-breakdown.md`
-3. **Implementation Plan**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}/implementation-plan.md`
-4. **GitHub Project Plan**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}/project-plan.md`
+1. **功能 PRD**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}.md`
+2. **技術分解**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}/technical-breakdown.md`
+3. **實作計畫**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}/implementation-plan.md`
+4. **GitHub 專案計畫**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}/project-plan.md`
 
-## Output Format
+## 輸出格式
 
-Create comprehensive test planning documentation:
+建立完整的測試規劃文件：
 
-1. **Test Strategy**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}/test-strategy.md`
-2. **Test Issues Checklist**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}/test-issues-checklist.md`
-3. **Quality Assurance Plan**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}/qa-plan.md`
+1. **測試策略**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}/test-strategy.md`
+2. **測試議題檢核清單**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}/test-issues-checklist.md`
+3. **品質保證計畫**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}/qa-plan.md`
 
-### Test Strategy Structure
+### 測試策略結構
 
-#### 1. Test Strategy Overview
+#### 1. 測試策略概覽
 
-- **Testing Scope**: Features and components to be tested
-- **Quality Objectives**: Measurable quality goals and success criteria
-- **Risk Assessment**: Identified risks and mitigation strategies
-- **Test Approach**: Overall testing methodology and framework application
+- **測試範圍**：待測試的功能與元件
+- **品質目標**：可量測的品質目標與成功標準
+- **風險評估**：已識別的風險與降低策略
+- **測試方法**：整體測試方法論與框架應用
 
-#### 2. ISTQB Framework Implementation
+#### 2. ISTQB 框架實作
 
-##### Test Design Techniques Selection
+##### 測試設計技術選擇
 
-Create a comprehensive analysis of which ISTQB test design techniques to apply:
+建立全面的分析，決定應用哪些 ISTQB 測試設計技術：
 
-- **Equivalence Partitioning**: Input domain partitioning strategy
-- **Boundary Value Analysis**: Edge case identification and testing
-- **Decision Table Testing**: Complex business rule validation
-- **State Transition Testing**: System state behavior validation
-- **Experience-Based Testing**: Exploratory and error guessing approaches
+- **等價類別劃分**：輸入域劃分策略
+- **邊界值分析**：邊界案例識別與測試
+- **決策表測試**：複雜業務規則驗證
+- **狀態轉換測試**：系統狀態行為驗證
+- **經驗導向測試**：探索性測試與錯誤猜測方法
 
-##### Test Types Coverage Matrix
+##### 測試類型涵蓋矩陣
 
-Define comprehensive test type coverage:
+定義全面的測試類型涵蓋範圍：
 
-- **Functional Testing**: Feature behavior validation
-- **Non-Functional Testing**: Performance, usability, security validation
-- **Structural Testing**: Code coverage and architecture validation
-- **Change-Related Testing**: Regression and confirmation testing
+- **功能性測試**：功能行為驗證
+- **非功能性測試**：效能、易用性、安全性驗證
+- **結構性測試**：程式碼涵蓋率與架構驗證
+- **變更相關測試**：回歸測試與確認測試
 
-#### 3. ISO 25010 Quality Characteristics Assessment
+#### 3. ISO 25010 品質特性評估
 
-Create a quality characteristics prioritization matrix:
+建立品質特性優先級矩陣：
 
-- **Functional Suitability**: Completeness, correctness, appropriateness assessment
-- **Performance Efficiency**: Time behavior, resource utilization, capacity validation
-- **Compatibility**: Co-existence and interoperability testing
-- **Usability**: User interface, accessibility, and user experience validation
-- **Reliability**: Fault tolerance, recoverability, and availability testing
-- **Security**: Confidentiality, integrity, authentication, and authorization validation
-- **Maintainability**: Modularity, reusability, and testability assessment
-- **Portability**: Adaptability, installability, and replaceability validation
+- **功能適切性**：完整性、正確性、適當性評估
+- **效能效率**：時間行為、資源使用率、容量驗證
+- **相容性**：共存性與互通性測試
+- **易用性**：使用者介面、無障礙性與使用者體驗驗證
+- **可靠性**：容錯性、可恢復性與可用性測試
+- **安全性**：機密性、完整性、認證與授權驗證
+- **可維護性**：模組化、可重用性與可測試性評估
+- **可移植性**：適應性、可安裝性與可替換性驗證
 
-#### 4. Test Environment and Data Strategy
+#### 4. 測試環境與資料策略
 
-- **Test Environment Requirements**: Hardware, software, and network configurations
-- **Test Data Management**: Data preparation, privacy, and maintenance strategies
-- **Tool Selection**: Testing tools, frameworks, and automation platforms
-- **CI/CD Integration**: Continuous testing pipeline integration
+- **測試環境需求**：硬體、軟體與網路配置
+- **測試資料管理**：資料準備、隱私保護與維護策略
+- **工具選擇**：測試工具、框架與自動化平台
+- **CI/CD 整合**：持續測試流程整合
 
-### Test Issues Checklist
+### 測試議題檢核清單
 
-#### Test Level Issues Creation
+#### 測試層級議題建立
 
-- [ ] **Test Strategy Issue**: Overall testing approach and quality validation plan
-- [ ] **Unit Test Issues**: Component-level testing for each implementation task
-- [ ] **Integration Test Issues**: Interface and interaction testing between components
-- [ ] **End-to-End Test Issues**: Complete user workflow validation using Playwright
-- [ ] **Performance Test Issues**: Non-functional requirement validation
-- [ ] **Security Test Issues**: Security requirement and vulnerability testing
-- [ ] **Accessibility Test Issues**: WCAG compliance and inclusive design validation
-- [ ] **Regression Test Issues**: Change impact and existing functionality preservation
+- [ ] **測試策略議題**：整體測試方法與品質驗證計畫
+- [ ] **單元測試議題**：每個實作任務的元件層級測試
+- [ ] **整合測試議題**：元件間的介面與互動測試
+- [ ] **端對端測試議題**：使用 Playwright 進行完整使用者工作流程驗證
+- [ ] **效能測試議題**：非功能性需求驗證
+- [ ] **安全性測試議題**：安全性需求與漏洞測試
+- [ ] **無障礙性測試議題**：WCAG 合規性與包容性設計驗證
+- [ ] **回歸測試議題**：變更影響與既有功能保護
 
-#### Test Types Identification and Prioritization
+#### 測試類型識別與優先級設定
 
-- [ ] **Functional Testing Priority**: Critical user paths and core business logic
-- [ ] **Non-Functional Testing Priority**: Performance, security, and usability requirements
-- [ ] **Structural Testing Priority**: Code coverage targets and architecture validation
-- [ ] **Change-Related Testing Priority**: Risk-based regression testing scope
+- [ ] **功能性測試優先級**：關鍵使用者路徑與核心業務邏輯
+- [ ] **非功能性測試優先級**：效能、安全性與易用性需求
+- [ ] **結構性測試優先級**：程式碼涵蓋率目標與架構驗證
+- [ ] **變更相關測試優先級**：風險導向回歸測試範圍
 
-#### Test Dependencies Documentation
+#### 測試相依性文件化
 
-- [ ] **Implementation Dependencies**: Tests blocked by specific development tasks
-- [ ] **Environment Dependencies**: Test environment and data requirements
-- [ ] **Tool Dependencies**: Testing framework and automation tool setup
-- [ ] **Cross-Team Dependencies**: Dependencies on external systems or teams
+- [ ] **實作相依性**：被特定開發任務阻擋的測試
+- [ ] **環境相依性**：測試環境與資料需求
+- [ ] **工具相依性**：測試框架與自動化工具設定
+- [ ] **跨團隊相依性**：對外部系統或團隊的相依性
 
-#### Test Coverage Targets and Metrics
+#### 測試涵蓋率目標與指標
 
-- [ ] **Code Coverage Targets**: >80% line coverage, >90% branch coverage for critical paths
-- [ ] **Functional Coverage Targets**: 100% acceptance criteria validation
-- [ ] **Risk Coverage Targets**: 100% high-risk scenario validation
-- [ ] **Quality Characteristics Coverage**: Validation approach for each ISO 25010 characteristic
+- [ ] **程式碼涵蓋率目標**：關鍵路徑 >80% 行涵蓋率、>90% 分支涵蓋率
+- [ ] **功能涵蓋率目標**：100% 驗收標準驗證
+- [ ] **風險涵蓋率目標**：100% 高風險情境驗證
+- [ ] **品質特性涵蓋率**：各 ISO 25010 特性的驗證方法
 
-### Task Level Breakdown
+### 任務層級分解
 
-#### Implementation Task Creation and Estimation
+#### 實作任務建立與估計
 
-- [ ] **Test Implementation Tasks**: Detailed test case development and automation tasks
-- [ ] **Test Environment Setup Tasks**: Infrastructure and configuration tasks
-- [ ] **Test Data Preparation Tasks**: Data generation and management tasks
-- [ ] **Test Automation Framework Tasks**: Tool setup and framework development
+- [ ] **測試實作任務**：詳細的測試案例開發與自動化任務
+- [ ] **測試環境設定任務**：基礎設施與配置任務
+- [ ] **測試資料準備任務**：資料產生與管理任務
+- [ ] **測試自動化框架任務**：工具設定與框架開發
 
-#### Task Estimation Guidelines
+#### 任務估計指引
 
-- [ ] **Unit Test Tasks**: 0.5-1 story point per component
-- [ ] **Integration Test Tasks**: 1-2 story points per interface
-- [ ] **E2E Test Tasks**: 2-3 story points per user workflow
-- [ ] **Performance Test Tasks**: 3-5 story points per performance requirement
-- [ ] **Security Test Tasks**: 2-4 story points per security requirement
+- [ ] **單元測試任務**：每個元件 0.5-1 故事點
+- [ ] **整合測試任務**：每個介面 1-2 故事點
+- [ ] **端對端測試任務**：每個使用者工作流程 2-3 故事點
+- [ ] **效能測試任務**：每個效能需求 3-5 故事點
+- [ ] **安全性測試任務**：每個安全性需求 2-4 故事點
 
-#### Task Dependencies and Sequencing
+#### 任務相依性與排序
 
-- [ ] **Sequential Dependencies**: Tests that must be implemented in specific order
-- [ ] **Parallel Development**: Tests that can be developed simultaneously
-- [ ] **Critical Path Identification**: Testing tasks on the critical path to delivery
-- [ ] **Resource Allocation**: Task assignment based on team skills and capacity
+- [ ] **循序相依性**：必須以特定順序實作的測試
+- [ ] **平行開發**：可同時開發的測試
+- [ ] **關鍵路徑識別**：在交付關鍵路徑上的測試任務
+- [ ] **資源配置**：基於團隊技能與產能的任務分配
 
-#### Task Assignment Strategy
+#### 任務分配策略
 
-- [ ] **Skill-Based Assignment**: Matching tasks to team member expertise
-- [ ] **Capacity Planning**: Balancing workload across team members
-- [ ] **Knowledge Transfer**: Pairing junior and senior team members
-- [ ] **Cross-Training Opportunities**: Skill development through task assignment
+- [ ] **技能導向分配**：將任務與團隊成員專長配對
+- [ ] **產能規劃**：平衡團隊成員間的工作量
+- [ ] **知識轉移**：將資淺與資深團隊成員配對
+- [ ] **交叉訓練機會**：透過任務分配進行技能發展
 
-### Quality Assurance Plan
+### 品質保證計畫
 
-#### Quality Gates and Checkpoints
+#### 品質門檻與檢查點
 
-Create comprehensive quality validation checkpoints:
+建立全面的品質驗證檢查點：
 
-- **Entry Criteria**: Requirements for beginning each testing phase
-- **Exit Criteria**: Quality standards required for phase completion
-- **Quality Metrics**: Measurable indicators of quality achievement
-- **Escalation Procedures**: Process for addressing quality failures
+- **進入標準**：開始各測試階段的需求
+- **退出標準**：階段完成所需的品質標準
+- **品質指標**：品質達成的可量測指標
+- **升級程序**：處理品質失敗的流程
 
-#### GitHub Issue Quality Standards
+#### GitHub 議題品質標準
 
-- [ ] **Template Compliance**: All test issues follow standardized templates
-- [ ] **Required Field Completion**: Mandatory fields populated with accurate information
-- [ ] **Label Consistency**: Standardized labeling across all test work items
-- [ ] **Priority Assignment**: Risk-based priority assignment using defined criteria
-- [ ] **Value Assessment**: Business value and quality impact assessment
+- [ ] **範本合規性**：所有測試議題遵循標準化範本
+- [ ] **必填欄位完成度**：必填欄位填入正確資訊
+- [ ] **標籤一致性**：所有測試工作項目使用標準化標籤
+- [ ] **優先級分配**：使用既定標準進行風險導向優先級分配
+- [ ] **價值評估**：業務價值與品質影響評估
 
-#### Labeling and Prioritization Standards
+#### 標籤與優先級標準
 
-- [ ] **Test Type Labels**: `unit-test`, `integration-test`, `e2e-test`, `performance-test`, `security-test`
-- [ ] **Quality Labels**: `quality-gate`, `iso25010`, `istqb-technique`, `risk-based`
-- [ ] **Priority Labels**: `test-critical`, `test-high`, `test-medium`, `test-low`
-- [ ] **Component Labels**: `frontend-test`, `backend-test`, `api-test`, `database-test`
+- [ ] **測試類型標籤**：`unit-test`、`integration-test`、`e2e-test`、`performance-test`、`security-test`
+- [ ] **品質標籤**：`quality-gate`、`iso25010`、`istqb-technique`、`risk-based`
+- [ ] **優先級標籤**：`test-critical`、`test-high`、`test-medium`、`test-low`
+- [ ] **元件標籤**：`frontend-test`、`backend-test`、`api-test`、`database-test`
 
-#### Dependency Validation and Management
+#### 相依性驗證與管理
 
-- [ ] **Circular Dependency Detection**: Validation to prevent blocking relationships
-- [ ] **Critical Path Analysis**: Identification of testing dependencies on delivery timeline
-- [ ] **Risk Assessment**: Impact analysis of dependency delays on quality validation
-- [ ] **Mitigation Strategies**: Alternative approaches for blocked testing activities
+- [ ] **循環相依性偵測**：驗證以防止阻礙關係
+- [ ] **關鍵路徑分析**：識別測試相依性對交付時程的影響
+- [ ] **風險評估**：相依性延遲對品質驗證的影響分析
+- [ ] **降低策略**：被阻擋測試活動的替代方法
 
-#### Estimation Accuracy and Review
+#### 估計準確度與審查
 
-- [ ] **Historical Data Analysis**: Using past project data for estimation accuracy
-- [ ] **Technical Lead Review**: Expert validation of test complexity estimates
-- [ ] **Risk Buffer Allocation**: Additional time allocation for high-uncertainty tasks
-- [ ] **Estimate Refinement**: Iterative improvement of estimation accuracy
+- [ ] **歷史資料分析**：使用過去專案資料提升估計準確度
+- [ ] **技術主管審查**：專家驗證測試複雜度估計
+- [ ] **風險緩衝配置**：為高不確定性任務配置額外時間
+- [ ] **估計改善**：迭代改善估計準確度
 
-## GitHub Issue Templates for Testing
+## 測試的 GitHub 議題範本
 
-### Test Strategy Issue Template
+### 測試策略議題範本
 
 ```markdown
-# Test Strategy: {Feature Name}
+# 測試策略：{功能名稱}
 
-## Test Strategy Overview
+## 測試策略概覽
 
-{Summary of testing approach based on ISTQB and ISO 25010}
+{基於 ISTQB 與 ISO 25010 的測試方法摘要}
 
-## ISTQB Framework Application
+## ISTQB 框架應用
 
-**Test Design Techniques Used:**
-- [ ] Equivalence Partitioning
-- [ ] Boundary Value Analysis
-- [ ] Decision Table Testing
-- [ ] State Transition Testing
-- [ ] Experience-Based Testing
+**使用的測試設計技術：**
+- [ ] 等價類別劃分
+- [ ] 邊界值分析
+- [ ] 決策表測試
+- [ ] 狀態轉換測試
+- [ ] 經驗導向測試
 
-**Test Types Coverage:**
-- [ ] Functional Testing
-- [ ] Non-Functional Testing
-- [ ] Structural Testing
-- [ ] Change-Related Testing (Regression)
+**測試類型涵蓋範圍：**
+- [ ] 功能性測試
+- [ ] 非功能性測試
+- [ ] 結構性測試
+- [ ] 變更相關測試（回歸）
 
-## ISO 25010 Quality Characteristics
+## ISO 25010 品質特性
 
-**Priority Assessment:**
-- [ ] Functional Suitability: {Critical/High/Medium/Low}
-- [ ] Performance Efficiency: {Critical/High/Medium/Low}
-- [ ] Compatibility: {Critical/High/Medium/Low}
-- [ ] Usability: {Critical/High/Medium/Low}
-- [ ] Reliability: {Critical/High/Medium/Low}
-- [ ] Security: {Critical/High/Medium/Low}
-- [ ] Maintainability: {Critical/High/Medium/Low}
-- [ ] Portability: {Critical/High/Medium/Low}
+**優先級評估：**
+- [ ] 功能適切性：{關鍵/高/中/低}
+- [ ] 效能效率：{關鍵/高/中/低}
+- [ ] 相容性：{關鍵/高/中/低}
+- [ ] 易用性：{關鍵/高/中/低}
+- [ ] 可靠性：{關鍵/高/中/低}
+- [ ] 安全性：{關鍵/高/中/低}
+- [ ] 可維護性：{關鍵/高/中/低}
+- [ ] 可移植性：{關鍵/高/中/低}
 
-## Quality Gates
-- [ ] Entry criteria defined
-- [ ] Exit criteria established
-- [ ] Quality thresholds documented
+## 品質門檻
+- [ ] 已定義進入標準
+- [ ] 已建立退出標準
+- [ ] 已記錄品質門檻值
 
-## Labels
-`test-strategy`, `istqb`, `iso25010`, `quality-gates`
+## 標籤
+`test-strategy`、`istqb`、`iso25010`、`quality-gates`
 
-## Estimate
-{Strategic planning effort: 2-3 story points}
+## 估計
+{策略規劃工作量：2-3 故事點}
 ```
 
-### Playwright Test Implementation Issue Template
+### Playwright 測試實作議題範本
 
 ```markdown
-# Playwright Tests: {Story/Component Name}
+# Playwright 測試：{故事/元件名稱}
 
-## Test Implementation Scope
-{Specific user story or component being tested}
+## 測試實作範圍
+{待測試的特定使用者故事或元件}
 
-## ISTQB Test Case Design
-**Test Design Technique**: {Selected ISTQB technique}
-**Test Type**: {Functional/Non-Functional/Structural/Change-Related}
+## ISTQB 測試案例設計
+**測試設計技術**：{選擇的 ISTQB 技術}
+**測試類型**：{功能性/非功能性/結構性/變更相關}
 
-## Test Cases to Implement
-**Functional Tests:**
-- [ ] Happy path scenarios
-- [ ] Error handling validation
-- [ ] Boundary value testing
-- [ ] Input validation testing
+## 待實作的測試案例
+**功能性測試：**
+- [ ] 正常路徑情境
+- [ ] 錯誤處理驗證
+- [ ] 邊界值測試
+- [ ] 輸入驗證測試
 
-**Non-Functional Tests:**
-- [ ] Performance testing (response time < {threshold})
-- [ ] Accessibility testing (WCAG compliance)
-- [ ] Cross-browser compatibility
-- [ ] Mobile responsiveness
+**非功能性測試：**
+- [ ] 效能測試（回應時間 < {門檻值}）
+- [ ] 無障礙性測試（WCAG 合規性）
+- [ ] 跨瀏覽器相容性
+- [ ] 行動裝置響應式設計
 
-## Playwright Implementation Tasks
-- [ ] Page Object Model development
-- [ ] Test fixture setup
-- [ ] Test data management
-- [ ] Test case implementation
-- [ ] Visual regression tests
-- [ ] CI/CD integration
+## Playwright 實作任務
+- [ ] 頁面物件模型開發
+- [ ] 測試夾具設定
+- [ ] 測試資料管理
+- [ ] 測試案例實作
+- [ ] 視覺回歸測試
+- [ ] CI/CD 整合
 
-## Acceptance Criteria
-- [ ] All test cases pass
-- [ ] Code coverage targets met (>80%)
-- [ ] Performance thresholds validated
-- [ ] Accessibility standards verified
+## 驗收標準
+- [ ] 所有測試案例通過
+- [ ] 達到程式碼涵蓋率目標（>80%）
+- [ ] 效能門檻值已驗證
+- [ ] 無障礙性標準已驗證
 
-## Labels
-`playwright`, `e2e-test`, `quality-validation`
+## 標籤
+`playwright`、`e2e-test`、`quality-validation`
 
-## Estimate
-{Test implementation effort: 2-5 story points}
+## 估計
+{測試實作工作量：2-5 故事點}
 ```
 
-### Quality Assurance Issue Template
+### 品質保證議題範本
 
 ```markdown
-# Quality Assurance: {Feature Name}
+# 品質保證：{功能名稱}
 
-## Quality Validation Scope
-{Overall quality validation for feature/epic}
+## 品質驗證範圍
+{功能/史詩的整體品質驗證}
 
-## ISO 25010 Quality Assessment
-**Quality Characteristics Validation:**
-- [ ] Functional Suitability: Completeness, correctness, appropriateness
-- [ ] Performance Efficiency: Time behavior, resource utilization, capacity
-- [ ] Usability: Interface aesthetics, accessibility, learnability, operability
-- [ ] Security: Confidentiality, integrity, authentication, authorization
-- [ ] Reliability: Fault tolerance, recovery, availability
-- [ ] Compatibility: Browser, device, integration compatibility
-- [ ] Maintainability: Code quality, modularity, testability
-- [ ] Portability: Environment adaptability, installation procedures
+## ISO 25010 品質評估
+**品質特性驗證：**
+- [ ] 功能適切性：完整性、正確性、適當性
+- [ ] 效能效率：時間行為、資源使用率、容量
+- [ ] 易用性：介面美感、無障礙性、可學習性、可操作性
+- [ ] 安全性：機密性、完整性、認證、授權
+- [ ] 可靠性：容錯性、恢復能力、可用性
+- [ ] 相容性：瀏覽器、裝置、整合相容性
+- [ ] 可維護性：程式碼品質、模組化、可測試性
+- [ ] 可移植性：環境適應性、安裝程序
 
-## Quality Gates Validation
-**Entry Criteria:**
-- [ ] All implementation tasks completed
-- [ ] Unit tests passing
-- [ ] Code review approved
+## 品質門檻驗證
+**進入標準：**
+- [ ] 所有實作任務已完成
+- [ ] 單元測試通過
+- [ ] 程式碼審查已核准
 
-**Exit Criteria:**
-- [ ] All test types completed with >95% pass rate
-- [ ] No critical/high severity defects
-- [ ] Performance benchmarks met
-- [ ] Security validation passed
+**退出標準：**
+- [ ] 所有測試類型完成且 >95% 通過率
+- [ ] 無關鍵/高嚴重性缺陷
+- [ ] 效能基準已達成
+- [ ] 安全性驗證已通過
 
-## Quality Metrics
-- [ ] Test coverage: {target}%
-- [ ] Defect density: <{threshold} defects/KLOC
-- [ ] Performance: Response time <{threshold}ms
-- [ ] Accessibility: WCAG {level} compliance
-- [ ] Security: Zero critical vulnerabilities
+## 品質指標
+- [ ] 測試涵蓋率：{目標}%
+- [ ] 缺陷密度：<{門檻值} 缺陷/KLOC
+- [ ] 效能：回應時間 <{門檻值}ms
+- [ ] 無障礙性：WCAG {等級} 合規性
+- [ ] 安全性：零關鍵漏洞
 
-## Labels
-`quality-assurance`, `iso25010`, `quality-gates`
+## 標籤
+`quality-assurance`、`iso25010`、`quality-gates`
 
-## Estimate
-{Quality validation effort: 3-5 story points}
+## 估計
+{品質驗證工作量：3-5 故事點}
 ```
 
-## Success Metrics
+## 成功指標
 
-### Test Coverage Metrics
+### 測試涵蓋率指標
 
-- **Code Coverage**: >80% line coverage, >90% branch coverage for critical paths
-- **Functional Coverage**: 100% acceptance criteria validation
-- **Risk Coverage**: 100% high-risk scenario testing
-- **Quality Characteristics Coverage**: Validation for all applicable ISO 25010 characteristics
+- **程式碼涵蓋率**：關鍵路徑 >80% 行涵蓋率、>90% 分支涵蓋率
+- **功能涵蓋率**：100% 驗收標準驗證
+- **風險涵蓋率**：100% 高風險情境測試
+- **品質特性涵蓋率**：所有適用的 ISO 25010 特性驗證
 
-### Quality Validation Metrics
+### 品質驗證指標
 
-- **Defect Detection Rate**: >95% of defects found before production
-- **Test Execution Efficiency**: >90% test automation coverage
-- **Quality Gate Compliance**: 100% quality gates passed before release
-- **Risk Mitigation**: 100% identified risks addressed with mitigation strategies
+- **缺陷偵測率**：>95% 的缺陷在上線前發現
+- **測試執行效率**：>90% 測試自動化涵蓋率
+- **品質門檻合規性**：發布前 100% 品質門檻通過
+- **風險降低**：100% 已識別風險已採取降低策略
 
-### Process Efficiency Metrics
+### 流程效率指標
 
-- **Test Planning Time**: <2 hours to create comprehensive test strategy
-- **Test Implementation Speed**: <1 day per story point of test development
-- **Quality Feedback Time**: <2 hours from test completion to quality assessment
-- **Documentation Completeness**: 100% test issues have complete template information
+- **測試規劃時間**：<2 小時建立完整測試策略
+- **測試實作速度**：<1 天/故事點的測試開發時間
+- **品質回饋時間**：測試完成到品質評估 <2 小時
+- **文件完整性**：100% 測試議題具備完整範本資訊
 
-This comprehensive test planning approach ensures thorough quality validation aligned with industry standards while maintaining efficient project management and clear accountability for all testing activities.
+此全面的測試規劃方法確保徹底的品質驗證符合業界標準，同時維持高效的專案管理與所有測試活動的明確責任歸屬。

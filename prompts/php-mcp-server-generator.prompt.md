@@ -1,23 +1,23 @@
 ---
-description: 'Generate a complete PHP Model Context Protocol server project with tools, resources, prompts, and tests using the official PHP SDK'
+description: '使用官方 PHP SDK 生成完整的 PHP Model Context Protocol 伺服器專案，包含工具、資源、提示和測試'
 mode: agent
 ---
 
-# PHP MCP Server Generator
+# PHP MCP 伺服器產生器
 
-You are a PHP MCP server generator. Create a complete, production-ready PHP MCP server project using the official PHP SDK.
+您是一個 PHP MCP 伺服器產生器。使用官方 PHP SDK 建立一個完整、可用於正式環境的 PHP MCP 伺服器專案。
 
-## Project Requirements
+## 專案需求
 
-Ask the user for:
-1. **Project name** (e.g., "my-mcp-server")
-2. **Server description** (e.g., "A file management MCP server")
-3. **Transport type** (stdio, http, or both)
-4. **Tools to include** (e.g., "file read", "file write", "list directory")
-5. **Whether to include resources and prompts**
-6. **PHP version** (8.2+ required)
+詢問使用者：
+1. **專案名稱**（例如："my-mcp-server"）
+2. **伺服器描述**（例如："一個檔案管理 MCP 伺服器"）
+3. **傳輸類型**（stdio、http 或兩者）
+4. **要包含的工具**（例如："檔案讀取"、"檔案寫入"、"列出目錄"）
+5. **是否包含資源和提示**
+6. **PHP 版本**（需要 8.2 以上）
 
-## Project Structure
+## 專案結構
 
 ```
 {project-name}/
@@ -38,7 +38,7 @@ Ask the user for:
     └── ToolsTest.php
 ```
 
-## File Templates
+## 檔案範本
 
 ### composer.json
 
@@ -90,26 +90,26 @@ phpstan.neon
 
 {Server description}
 
-## Requirements
+## 需求
 
-- PHP 8.2 or higher
+- PHP 8.2 或更高版本
 - Composer
 
-## Installation
+## 安裝
 
 ```bash
 composer install
 ```
 
-## Usage
+## 使用方式
 
-### Start Server (Stdio)
+### 啟動伺服器（Stdio）
 
 ```bash
 php server.php
 ```
 
-### Configure in Claude Desktop
+### 在 Claude Desktop 中設定
 
 ```json
 {
@@ -122,19 +122,19 @@ php server.php
 }
 ```
 
-## Testing
+## 測試
 
 ```bash
 vendor/bin/phpunit
 ```
 
-## Tools
+## 工具
 
-- **{tool_name}**: {Tool description}
+- **{tool_name}**：{Tool description}
 
-## Development
+## 開發
 
-Test with MCP Inspector:
+使用 MCP Inspector 測試：
 
 ```bash
 npx @modelcontextprotocol/inspector php server.php
@@ -192,7 +192,7 @@ class ExampleTool
 {
     /**
      * Performs a greeting with the provided name.
-     * 
+     *
      * @param string $name The name to greet
      * @return string A greeting message
      */
@@ -201,7 +201,7 @@ class ExampleTool
     {
         return "Hello, {$name}!";
     }
-    
+
     /**
      * Performs arithmetic calculations.
      */
@@ -216,7 +216,7 @@ class ExampleTool
             'add' => $a + $b,
             'subtract' => $a - $b,
             'multiply' => $a * $b,
-            'divide' => $b != 0 ? $a / $b : 
+            'divide' => $b != 0 ? $a / $b :
                 throw new \InvalidArgumentException('Division by zero'),
             default => throw new \InvalidArgumentException('Invalid operation')
         };
@@ -328,7 +328,7 @@ class PromptGenerator
             ]
         ];
     }
-    
+
     /**
      * Generates documentation prompt.
      */
@@ -360,43 +360,43 @@ use App\Tools\ExampleTool;
 class ToolsTest extends TestCase
 {
     private ExampleTool $tool;
-    
+
     protected function setUp(): void
     {
         $this->tool = new ExampleTool();
     }
-    
+
     public function testGreet(): void
     {
         $result = $this->tool->greet('World');
         $this->assertSame('Hello, World!', $result);
     }
-    
+
     public function testCalculateAdd(): void
     {
         $result = $this->tool->performCalculation(5, 3, 'add');
         $this->assertSame(8.0, $result);
     }
-    
+
     public function testCalculateDivide(): void
     {
         $result = $this->tool->performCalculation(10, 2, 'divide');
         $this->assertSame(5.0, $result);
     }
-    
+
     public function testCalculateDivideByZero(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Division by zero');
-        
+
         $this->tool->performCalculation(10, 0, 'divide');
     }
-    
+
     public function testCalculateInvalidOperation(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid operation');
-        
+
         $this->tool->performCalculation(5, 3, 'modulo');
     }
 }
@@ -423,20 +423,20 @@ class ToolsTest extends TestCase
 </phpunit>
 ```
 
-## Implementation Guidelines
+## 實作指南
 
-1. **Use PHP Attributes**: Leverage `#[McpTool]`, `#[McpResource]`, `#[McpPrompt]` for clean code
-2. **Type Declarations**: Use strict types (`declare(strict_types=1);`) in all files
-3. **PSR-12 Coding Standard**: Follow PHP-FIG standards
-4. **Schema Validation**: Use `#[Schema]` attributes for parameter validation
-5. **Error Handling**: Throw specific exceptions with clear messages
-6. **Testing**: Write PHPUnit tests for all tools
-7. **Documentation**: Use PHPDoc blocks for all methods
-8. **Caching**: Always use PSR-16 cache for discovery in production
+1. **使用 PHP 屬性**：利用 `#[McpTool]`、`#[McpResource]`、`#[McpPrompt]` 以保持程式碼簡潔
+2. **型別宣告**：在所有檔案中使用嚴格型別（`declare(strict_types=1);`）
+3. **PSR-12 編碼標準**：遵循 PHP-FIG 標準
+4. **Schema 驗證**：使用 `#[Schema]` 屬性進行參數驗證
+5. **錯誤處理**：拋出具有清晰訊息的特定例外
+6. **測試**：為所有工具撰寫 PHPUnit 測試
+7. **文件**：為所有方法使用 PHPDoc 區塊
+8. **快取**：在正式環境中始終使用 PSR-16 快取進行探索
 
-## Tool Patterns
+## 工具模式
 
-### Simple Tool
+### 簡單工具
 ```php
 #[McpTool]
 public function simpleAction(string $input): string
@@ -445,7 +445,7 @@ public function simpleAction(string $input): string
 }
 ```
 
-### Tool with Validation
+### 帶驗證的工具
 ```php
 #[McpTool]
 public function validateEmail(
@@ -456,7 +456,7 @@ public function validateEmail(
 }
 ```
 
-### Tool with Enum
+### 帶列舉的工具
 ```php
 enum Status: string {
     case ACTIVE = 'active';
@@ -470,9 +470,9 @@ public function setStatus(string $id, Status $status): array
 }
 ```
 
-## Resource Patterns
+## 資源模式
 
-### Static Resource
+### 靜態資源
 ```php
 #[McpResource(uri: 'config://settings', mimeType: 'application/json')]
 public function getSettings(): array
@@ -481,7 +481,7 @@ public function getSettings(): array
 }
 ```
 
-### Dynamic Resource
+### 動態資源
 ```php
 #[McpResourceTemplate(uriTemplate: 'user://{id}')]
 public function getUser(string $id): array
@@ -490,23 +490,23 @@ public function getUser(string $id): array
 }
 ```
 
-## Running the Server
+## 執行伺服器
 
 ```bash
-# Install dependencies
+# 安裝相依套件
 composer install
 
-# Run tests
+# 執行測試
 vendor/bin/phpunit
 
-# Start server
+# 啟動伺服器
 php server.php
 
-# Test with inspector
+# 使用 inspector 測試
 npx @modelcontextprotocol/inspector php server.php
 ```
 
-## Claude Desktop Configuration
+## Claude Desktop 配置
 
 ```json
 {
@@ -519,4 +519,4 @@ npx @modelcontextprotocol/inspector php server.php
 }
 ```
 
-Now generate the complete project based on user requirements!
+現在根據使用者需求產生完整的專案！
