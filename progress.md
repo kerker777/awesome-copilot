@@ -2,9 +2,9 @@
 
 ## 統計
 - 總文件數：376
-- 已完成：5
+- 已完成：6
 - 進行中：0
-- 待翻譯：371
+- 待翻譯：370
 
 ## 翻譯狀態
 
@@ -164,7 +164,7 @@
 - [ ] collections/typescript-mcp-development.md
 
 ### docs (5)
-- [ ] docs/README.agents.md
+- [x] docs/README.agents.md
 - [ ] docs/README.chatmodes.md
 - [ ] docs/README.collections.md
 - [ ] docs/README.instructions.md

@@ -1,23 +1,23 @@
-# 🤖 Custom Agents
+# 🤖 自訂代理程式
 
-Custom agents for GitHub Copilot, making it easy for users and organizations to "specialize" their Copilot coding agent (CCA) through simple file-based configuration.
-### How to Use Custom Agents
+GitHub Copilot 的自訂代理程式，讓使用者與組織能透過簡單的檔案設定「專業化」他們的 Copilot 程式碼代理（CCA）。
+### 如何使用自訂代理程式
 
-**To Install:**
-- Click the **VS Code** or **VS Code Insiders** install button for the agent you want to use
-- Download the `*.agent.md` file and add it to your repository
+**安裝方式：**
+- 點選您想使用的代理程式的 **VS Code** 或 **VS Code Insiders** 安裝按鈕
+- 下載 `*.agent.md` 檔案並加入您的專案
 
-**MCP Server Setup:**
-- Each agent may require one or more MCP servers to function
-- Click the MCP server to view it on the GitHub MCP registry
-- Follow the guide on how to add the MCP server to your repository
+**MCP Server 設定：**
+- 每個代理程式可能需要一個或多個 MCP 伺服器才能運作
+- 點選 MCP 伺服器以在 GitHub MCP 註冊表中檢視
+- 依照指南將 MCP 伺服器加入您的專案
 
-**To Activate/Use:**
-- Access installed agents through the VS Code Chat interface, assign them in CCA, or through Copilot CLI (coming soon)
-- Agents will have access to tools from configured MCP servers
-- Follow agent-specific instructions for optimal usage
+**啟用/使用方式：**
+- 透過 VS Code Chat 介面存取已安裝的代理程式、在 CCA 中指派它們，或透過 Copilot CLI（即將推出）
+- 代理程式將能存取已設定 MCP 伺服器的工具
+- 遵循特定代理程式的指示以獲得最佳使用效果
 
-| Title | Description | MCP Servers |
+| 標題 | 說明 | MCP Servers |
 | ----- | ----------- | ----------- |
 | [ADR Generator](../agents/adr-generator.agent.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/agent?url=vscode%3Achat-agent%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fagents%2Fadr-generator.agent.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/agent?url=vscode-insiders%3Achat-agent%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fagents%2Fadr-generator.agent.md) | Expert agent for creating comprehensive Architectural Decision Records (ADRs) with structured formatting optimized for AI consumption and human readability. |  |
 | [Amplitude Experiment Implementation](../agents/amplitude-experiment-implementation.agent.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/agent?url=vscode%3Achat-agent%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fagents%2Famplitude-experiment-implementation.agent.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/agent?url=vscode-insiders%3Achat-agent%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fagents%2Famplitude-experiment-implementation.agent.md) | This custom agent uses Amplitude's MCP tools to deploy new experiments inside of Amplitude, enabling seamless variant testing capabilities and rollout of product features. |  |
