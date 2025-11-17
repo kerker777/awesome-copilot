@@ -1,19 +1,19 @@
-# 💭 Custom Chat Modes
+# 💭 自訂聊天模式
 
-Custom chat modes define specific behaviors and tools for GitHub Copilot Chat, enabling enhanced context-aware assistance for particular tasks or workflows.
-### How to Use Custom Chat Modes
+自訂聊天模式為 GitHub Copilot Chat 定義特定行為和工具，為特定任務或工作流程提供增強的情境感知協助。
+### 如何使用自訂聊天模式
 
-**To Install:**
-- Click the **VS Code** or **VS Code Insiders** install button for the chat mode you want to use
-- Download the `*.chatmode.md` file and manually install it in VS Code using the Command Palette
+**安裝方式：**
+- 點擊您想使用的聊天模式的 **VS Code** 或 **VS Code Insiders** 安裝按鈕
+- 下載 `*.chatmode.md` 檔案並使用命令選擇區在 VS Code 中手動安裝
 
-**To Activate/Use:**
-- Import the chat mode configuration into your VS Code settings
-- Access the installed chat modes through the VS Code Chat interface
-- Select the desired chat mode from the available options in VS Code Chat
+**啟用/使用：**
+- 將聊天模式設定匯入您的 VS Code 設定
+- 透過 VS Code 聊天介面存取已安裝的聊天模式
+- 從 VS Code 聊天中的可用選項中選擇所需的聊天模式
 
-| Title | Description |
-| ----- | ----------- |
+| 標題 | 說明 |
+| ---- | ---- |
 | [.NET Upgrade Collection](../chatmodes/dotnet-upgrade.chatmode.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/chatmode?url=vscode%3Achat-mode%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fchatmodes%2Fdotnet-upgrade.chatmode.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/chatmode?url=vscode-insiders%3Achat-mode%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fchatmodes%2Fdotnet-upgrade.chatmode.md) | Perform janitorial tasks on C#/.NET code including cleanup, modernization, and tech debt remediation. |
 | [4.1 Beast Mode v3.1](../chatmodes/4.1-Beast.chatmode.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/chatmode?url=vscode%3Achat-mode%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fchatmodes%2F4.1-Beast.chatmode.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/chatmode?url=vscode-insiders%3Achat-mode%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fchatmodes%2F4.1-Beast.chatmode.md) | GPT 4.1 as a top-notch coding agent. |
 | [Accessibility Expert](../chatmodes/accessibility.chatmode.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/chatmode?url=vscode%3Achat-mode%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fchatmodes%2Faccessibility.chatmode.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/chatmode?url=vscode-insiders%3Achat-mode%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fchatmodes%2Faccessibility.chatmode.md) | Expert assistant for web accessibility (WCAG 2.1/2.2), inclusive UX, and a11y testing |

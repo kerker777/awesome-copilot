@@ -1,52 +1,52 @@
 ---
-description: 'Create, update, or review Azure IaC in Terraform using Azure Verified Modules (AVM).'
+description: '使用 Azure Verified Modules (AVM) 建立、更新或審查 Terraform 中的 Azure IaC。'
 tools: ['changes', 'codebase', 'edit/editFiles', 'extensions', 'fetch', 'findTestFiles', 'githubRepo', 'new', 'openSimpleBrowser', 'problems', 'runCommands', 'runTasks', 'runTests', 'search', 'searchResults', 'terminalLastCommand', 'terminalSelection', 'testFailure', 'usages', 'vscodeAPI', 'microsoft.docs.mcp', 'azure_get_deployment_best_practices', 'azure_get_schema_for_Bicep']
 ---
 
-# Azure AVM Terraform mode
+# Azure AVM Terraform 模式
 
-Use Azure Verified Modules for Terraform to enforce Azure best practices via pre-built modules.
+使用 Azure Verified Modules for Terraform 透過預建模組來執行 Azure 最佳實踐。
 
-## Discover modules
+## 探索模組
 
-- Terraform Registry: search "avm" + resource, filter by Partner tag.
+- Terraform Registry：搜尋「avm」+ 資源，按 Partner 標籤篩選。
 - AVM Index: `https://azure.github.io/Azure-Verified-Modules/indexes/terraform/tf-resource-modules/`
 
-## Usage
+## 使用方式
 
-- **Examples**: Copy example, replace `source = "../../"` with `source = "Azure/avm-res-{service}-{resource}/azurerm"`, add `version`, set `enable_telemetry`.
-- **Custom**: Copy Provision Instructions, set inputs, pin `version`.
+- **範例**：複製範例，將 `source = "../../"` 替換為 `source = "Azure/avm-res-{service}-{resource}/azurerm"`，新增 `version`，設定 `enable_telemetry`。
+- **自訂**：複製 Provision Instructions，設定輸入，固定 `version`。
 
-## Versioning
+## 版本控制
 
 - Endpoint: `https://registry.terraform.io/v1/modules/Azure/{module}/azurerm/versions`
 
-## Sources
+## 來源
 
 - Registry: `https://registry.terraform.io/modules/Azure/{module}/azurerm/latest`
 - GitHub: `https://github.com/Azure/terraform-azurerm-avm-res-{service}-{resource}`
 
-## Naming conventions
+## 命名慣例
 
 - Resource: Azure/avm-res-{service}-{resource}/azurerm
 - Pattern: Azure/avm-ptn-{pattern}/azurerm
 - Utility: Azure/avm-utl-{utility}/azurerm
 
-## Best practices
+## 最佳實踐
 
-- Pin module and provider versions
-- Start with official examples
-- Review inputs and outputs
-- Enable telemetry
-- Use AVM utility modules
-- Follow AzureRM provider requirements
-- Always run `terraform fmt` and `terraform validate` after making changes
-- Use `azure_get_deployment_best_practices` tool for deployment guidance
-- Use `microsoft.docs.mcp` tool to look up Azure service-specific guidance
+- 固定模組和提供者版本
+- 從官方範例開始
+- 審查輸入和輸出
+- 啟用遙測
+- 使用 AVM utility 模組
+- 遵循 AzureRM provider 要求
+- 進行變更後始終執行 `terraform fmt` 和 `terraform validate`
+- 使用 `azure_get_deployment_best_practices` 工具取得部署指導
+- 使用 `microsoft.docs.mcp` 工具查詢 Azure 服務特定指導
 
-## Custom Instructions for GitHub Copilot Agents
+## GitHub Copilot Agents 的自訂指示
 
-**IMPORTANT**: When GitHub Copilot Agent or GitHub Copilot Coding Agent is working on this repository, the following local unit tests MUST be executed to comply with PR checks. Failure to run these tests will cause PR validation failures:
+**重要**：當 GitHub Copilot Agent 或 GitHub Copilot Coding Agent 在此儲存庫上工作時，必須執行以下本地單元測試以符合 PR 檢查。未執行這些測試將導致 PR 驗證失敗：
 
 ```bash
 ./avm pre-commit
@@ -54,5 +54,5 @@ Use Azure Verified Modules for Terraform to enforce Azure best practices via pre
 ./avm pr-check
 ```
 
-These commands must be run before any pull request is created or updated to ensure compliance with the Azure Verified Modules standards and prevent CI/CD pipeline failures.
-More details on the AVM process can be found in the [Azure Verified Modules Contribution documentation](https://azure.github.io/Azure-Verified-Modules/contributing/terraform/testing/).
+在建立或更新任何 pull request 之前必須執行這些命令，以確保符合 Azure Verified Modules 標準並防止 CI/CD pipeline 失敗。
+有關 AVM 流程的更多詳細資訊，請參閱 [Azure Verified Modules Contribution documentation](https://azure.github.io/Azure-Verified-Modules/contributing/terraform/testing/)。

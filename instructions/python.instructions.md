@@ -1,55 +1,55 @@
 ---
-description: 'Python coding conventions and guidelines'
+description: 'Python 編碼慣例和指南'
 applyTo: '**/*.py'
 ---
 
-# Python Coding Conventions
+# Python 編碼慣例
 
-## Python Instructions
+## Python 指引
 
-- Write clear and concise comments for each function.
-- Ensure functions have descriptive names and include type hints.
-- Provide docstrings following PEP 257 conventions.
-- Use the `typing` module for type annotations (e.g., `List[str]`, `Dict[str, int]`).
-- Break down complex functions into smaller, more manageable functions.
+- 為每個函式撰寫清晰簡潔的註解。
+- 確保函式具有描述性名稱並包含型別提示。
+- 遵循 PEP 257 慣例提供文檔字串。
+- 使用 `typing` 模組進行型別註解（例如 `List[str]`、`Dict[str, int]`）。
+- 將複雜函式分解為更小、更易於管理的函式。
 
-## General Instructions
+## 一般指引
 
-- Always prioritize readability and clarity.
-- For algorithm-related code, include explanations of the approach used.
-- Write code with good maintainability practices, including comments on why certain design decisions were made.
-- Handle edge cases and write clear exception handling.
-- For libraries or external dependencies, mention their usage and purpose in comments.
-- Use consistent naming conventions and follow language-specific best practices.
-- Write concise, efficient, and idiomatic code that is also easily understandable.
+- 始終優先考慮可讀性和清晰度。
+- 對於演算法相關的程式碼，包含所使用方法的說明。
+- 撰寫具有良好可維護性實踐的程式碼，包括對某些設計決策原因的註解。
+- 處理邊緣情況並撰寫清晰的例外處理。
+- 對於函式庫或外部依賴項，在註解中提及其用途和目的。
+- 使用一致的命名慣例並遵循特定語言的最佳實踐。
+- 撰寫簡潔、高效且符合語言習慣的程式碼，同時也易於理解。
 
-## Code Style and Formatting
+## 程式碼風格和格式
 
-- Follow the **PEP 8** style guide for Python.
-- Maintain proper indentation (use 4 spaces for each level of indentation).
-- Ensure lines do not exceed 79 characters.
-- Place function and class docstrings immediately after the `def` or `class` keyword.
-- Use blank lines to separate functions, classes, and code blocks where appropriate.
+- 遵循 **PEP 8** Python 風格指南。
+- 保持適當的縮排（每個縮排層級使用 4 個空格）。
+- 確保行數不超過 79 個字元。
+- 將函式和類別的文檔字串緊接在 `def` 或 `class` 關鍵字之後。
+- 在適當的地方使用空白行分隔函式、類別和程式碼區塊。
 
-## Edge Cases and Testing
+## 邊緣情況和測試
 
-- Always include test cases for critical paths of the application.
-- Account for common edge cases like empty inputs, invalid data types, and large datasets.
-- Include comments for edge cases and the expected behavior in those cases.
-- Write unit tests for functions and document them with docstrings explaining the test cases.
+- 始終為應用程式的關鍵路徑包含測試案例。
+- 考慮常見的邊緣情況，如空輸入、無效資料型別和大型資料集。
+- 為邊緣情況及其預期行為包含註解。
+- 為函式撰寫單元測試，並使用文檔字串記錄測試案例。
 
-## Example of Proper Documentation
+## 適當文檔的範例
 
 ```python
 def calculate_area(radius: float) -> float:
     """
-    Calculate the area of a circle given the radius.
-    
-    Parameters:
-    radius (float): The radius of the circle.
-    
-    Returns:
-    float: The area of the circle, calculated as π * radius^2.
+    計算給定半徑的圓形面積。
+
+    參數：
+    radius (float): 圓的半徑。
+
+    回傳：
+    float: 圓的面積，計算公式為 π * 半徑^2。
     """
     import math
     return math.pi * radius ** 2

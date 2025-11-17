@@ -1,114 +1,114 @@
 ---
-description: 'Guidelines for building C# applications'
+description: '建立 C# 應用程式的指南'
 applyTo: '**/*.cs'
 ---
 
-# C# Development
+# C# 開發
 
-## C# Instructions
-- Always use the latest version C#, currently C# 14 features.
-- Write clear and concise comments for each function.
+## C# 指引
+- 始終使用最新版本的 C#，目前為 C# 14 功能。
+- 為每個函式撰寫清晰簡潔的註解。
 
-## General Instructions
-- Make only high confidence suggestions when reviewing code changes.
-- Write code with good maintainability practices, including comments on why certain design decisions were made.
-- Handle edge cases and write clear exception handling.
-- For libraries or external dependencies, mention their usage and purpose in comments.
+## 一般指引
+- 在審查程式碼變更時僅提供高信心的建議。
+- 撰寫具有良好可維護性實踐的程式碼，包括關於某些設計決策原因的註解。
+- 處理邊緣情況並撰寫清晰的例外處理。
+- 對於程式庫或外部依賴項，在註解中提及其用途和目的。
 
-## Naming Conventions
+## 命名慣例
 
-- Follow PascalCase for component names, method names, and public members.
-- Use camelCase for private fields and local variables.
-- Prefix interface names with "I" (e.g., IUserService).
+- 對於元件名稱、方法名稱和公共成員使用 PascalCase。
+- 對於私有欄位和區域變數使用 camelCase。
+- 介面名稱使用 "I" 前綴（例如，IUserService）。
 
-## Formatting
+## 格式化
 
-- Apply code-formatting style defined in `.editorconfig`.
-- Prefer file-scoped namespace declarations and single-line using directives.
-- Insert a newline before the opening curly brace of any code block (e.g., after `if`, `for`, `while`, `foreach`, `using`, `try`, etc.).
-- Ensure that the final return statement of a method is on its own line.
-- Use pattern matching and switch expressions wherever possible.
-- Use `nameof` instead of string literals when referring to member names.
-- Ensure that XML doc comments are created for any public APIs. When applicable, include `<example>` and `<code>` documentation in the comments.
+- 套用 `.editorconfig` 中定義的程式碼格式樣式。
+- 優先使用檔案範圍的命名空間宣告和單行 using 指令。
+- 在任何程式碼區塊的左大括號之前插入換行（例如，在 `if`、`for`、`while`、`foreach`、`using`、`try` 等之後）。
+- 確保方法的最終回傳陳述式在其自己的行上。
+- 盡可能使用模式比對和 switch 運算式。
+- 在引用成員名稱時使用 `nameof` 而非字串字面值。
+- 確保為任何公共 API 建立 XML 文件註解。適用時，在註解中包含 `<example>` 和 `<code>` 文件。
 
-## Project Setup and Structure
+## 專案設定和結構
 
-- Guide users through creating a new .NET project with the appropriate templates.
-- Explain the purpose of each generated file and folder to build understanding of the project structure.
-- Demonstrate how to organize code using feature folders or domain-driven design principles.
-- Show proper separation of concerns with models, services, and data access layers.
-- Explain the Program.cs and configuration system in ASP.NET Core 10 including environment-specific settings.
+- 引導使用者使用適當的範本建立新的 .NET 專案。
+- 解釋每個產生的檔案和資料夾的目的，以建立對專案結構的理解。
+- 示範如何使用功能資料夾或領域驅動設計原則來組織程式碼。
+- 展示使用模型、服務和資料存取層的適當關注點分離。
+- 解釋 ASP.NET Core 10 中的 Program.cs 和配置系統，包括特定環境的設定。
 
-## Nullable Reference Types
+## 可為 Null 的參考型別
 
-- Declare variables non-nullable, and check for `null` at entry points.
-- Always use `is null` or `is not null` instead of `== null` or `!= null`.
-- Trust the C# null annotations and don't add null checks when the type system says a value cannot be null.
+- 宣告變數為非可為 null，並在進入點檢查 `null`。
+- 始終使用 `is null` 或 `is not null` 而非 `== null` 或 `!= null`。
+- 信任 C# 的 null 註解，當型別系統表示值不能為 null 時，不要新增 null 檢查。
 
-## Data Access Patterns
+## 資料存取模式
 
-- Guide the implementation of a data access layer using Entity Framework Core.
-- Explain different options (SQL Server, SQLite, In-Memory) for development and production.
-- Demonstrate repository pattern implementation and when it's beneficial.
-- Show how to implement database migrations and data seeding.
-- Explain efficient query patterns to avoid common performance issues.
+- 引導實作使用 Entity Framework Core 的資料存取層。
+- 解釋用於開發和生產的不同選項（SQL Server、SQLite、記憶體中）。
+- 示範儲存庫模式實作以及何時有益。
+- 展示如何實作資料庫遷移和資料植入。
+- 解釋高效的查詢模式以避免常見的效能問題。
 
-## Authentication and Authorization
+## 驗證和授權
 
-- Guide users through implementing authentication using JWT Bearer tokens.
-- Explain OAuth 2.0 and OpenID Connect concepts as they relate to ASP.NET Core.
-- Show how to implement role-based and policy-based authorization.
-- Demonstrate integration with Microsoft Entra ID (formerly Azure AD).
-- Explain how to secure both controller-based and Minimal APIs consistently.
+- 引導使用者使用 JWT Bearer 權杖實作驗證。
+- 解釋 OAuth 2.0 和 OpenID Connect 概念，因為它們與 ASP.NET Core 相關。
+- 展示如何實作基於角色和基於原則的授權。
+- 示範與 Microsoft Entra ID（前身為 Azure AD）的整合。
+- 解釋如何一致地保護基於控制器和 Minimal API。
 
-## Validation and Error Handling
+## 驗證和錯誤處理
 
-- Guide the implementation of model validation using data annotations and FluentValidation.
-- Explain the validation pipeline and how to customize validation responses.
-- Demonstrate a global exception handling strategy using middleware.
-- Show how to create consistent error responses across the API.
-- Explain problem details (RFC 7807) implementation for standardized error responses.
+- 引導使用資料註解和 FluentValidation 實作模型驗證。
+- 解釋驗證管道以及如何自訂驗證回應。
+- 示範使用中介軟體的全域例外處理策略。
+- 展示如何在整個 API 中建立一致的錯誤回應。
+- 解釋針對標準化錯誤回應的問題詳細資訊（RFC 7807）實作。
 
-## API Versioning and Documentation
+## API 版本控制和文件
 
-- Guide users through implementing and explaining API versioning strategies.
-- Demonstrate Swagger/OpenAPI implementation with proper documentation.
-- Show how to document endpoints, parameters, responses, and authentication.
-- Explain versioning in both controller-based and Minimal APIs.
-- Guide users on creating meaningful API documentation that helps consumers.
+- 引導使用者實作和解釋 API 版本控制策略。
+- 示範使用適當文件的 Swagger/OpenAPI 實作。
+- 展示如何記錄端點、參數、回應和驗證。
+- 解釋基於控制器和 Minimal API 中的版本控制。
+- 引導使用者建立有意義的 API 文件以幫助消費者。
 
-## Logging and Monitoring
+## 日誌記錄和監控
 
-- Guide the implementation of structured logging using Serilog or other providers.
-- Explain the logging levels and when to use each.
-- Demonstrate integration with Application Insights for telemetry collection.
-- Show how to implement custom telemetry and correlation IDs for request tracking.
-- Explain how to monitor API performance, errors, and usage patterns.
+- 引導使用 Serilog 或其他提供者實作結構化日誌記錄。
+- 解釋日誌記錄層級以及何時使用每個層級。
+- 示範與 Application Insights 的整合以進行遙測收集。
+- 展示如何實作自訂遙測和相關 ID 以進行請求追蹤。
+- 解釋如何監控 API 效能、錯誤和使用模式。
 
-## Testing
+## 測試
 
-- Always include test cases for critical paths of the application.
-- Guide users through creating unit tests.
-- Do not emit "Act", "Arrange" or "Assert" comments.
-- Copy existing style in nearby files for test method names and capitalization.
-- Explain integration testing approaches for API endpoints.
-- Demonstrate how to mock dependencies for effective testing.
-- Show how to test authentication and authorization logic.
-- Explain test-driven development principles as applied to API development.
+- 始終為應用程式的關鍵路徑包含測試案例。
+- 引導使用者建立單元測試。
+- 不要發出 "Act"、"Arrange" 或 "Assert" 註解。
+- 複製附近檔案中測試方法名稱和大小寫的現有樣式。
+- 解釋 API 端點的整合測試方法。
+- 示範如何模擬依賴項以進行有效測試。
+- 展示如何測試驗證和授權邏輯。
+- 解釋套用於 API 開發的測試驅動開發原則。
 
-## Performance Optimization
+## 效能優化
 
-- Guide users on implementing caching strategies (in-memory, distributed, response caching).
-- Explain asynchronous programming patterns and why they matter for API performance.
-- Demonstrate pagination, filtering, and sorting for large data sets.
-- Show how to implement compression and other performance optimizations.
-- Explain how to measure and benchmark API performance.
+- 引導使用者實作快取策略（記憶體中、分散式、回應快取）。
+- 解釋非同步程式設計模式以及它們對 API 效能的重要性。
+- 示範大型資料集的分頁、篩選和排序。
+- 展示如何實作壓縮和其他效能優化。
+- 解釋如何測量和基準測試 API 效能。
 
-## Deployment and DevOps
+## 部署和 DevOps
 
-- Guide users through containerizing their API using .NET's built-in container support (`dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer`).
-- Explain the differences between manual Dockerfile creation and .NET's container publishing features.
-- Explain CI/CD pipelines for NET applications.
-- Demonstrate deployment to Azure App Service, Azure Container Apps, or other hosting options.
-- Show how to implement health checks and readiness probes.
-- Explain environment-specific configurations for different deployment stages.
+- 引導使用者使用 .NET 的內建容器支援容器化其 API（`dotnet publish --os linux --arch x64 -p:PublishProfile=DefaultContainer`）。
+- 解釋手動 Dockerfile 建立和 .NET 的容器發佈功能之間的差異。
+- 解釋 .NET 應用程式的 CI/CD 管道。
+- 示範部署到 Azure App Service、Azure Container Apps 或其他託管選項。
+- 展示如何實作健康檢查和就緒探測。
+- 解釋不同部署階段的特定環境配置。

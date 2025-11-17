@@ -1,59 +1,59 @@
 ---
 mode: 'agent'
-description: 'Generate a complete MCP server project in C# with tools, prompts, and proper configuration'
+description: '產生完整的 C# MCP 伺服器專案，包含工具、提示詞和適當的設定'
 ---
 
-# Generate C# MCP Server
+# 產生 C# MCP 伺服器
 
-Create a complete Model Context Protocol (MCP) server in C# with the following specifications:
+建立具有以下規格的完整 Model Context Protocol (MCP) 伺服器（使用 C#）：
 
-## Requirements
+## 需求
 
-1. **Project Structure**: Create a new C# console application with proper directory structure
-2. **NuGet Packages**: Include ModelContextProtocol (prerelease) and Microsoft.Extensions.Hosting
-3. **Logging Configuration**: Configure all logs to stderr to avoid interfering with stdio transport
-4. **Server Setup**: Use the Host builder pattern with proper DI configuration
-5. **Tools**: Create at least one useful tool with proper attributes and descriptions
-6. **Error Handling**: Include proper error handling and validation
+1. **專案結構**：建立具有適當目錄結構的新 C# 主控台應用程式
+2. **NuGet 套件**：包含 ModelContextProtocol（預發行版本）和 Microsoft.Extensions.Hosting
+3. **日誌設定**：將所有日誌設定為輸出到 stderr，以避免干擾 stdio 傳輸
+4. **伺服器設定**：使用 Host 建構器模式搭配適當的 DI 設定
+5. **工具**：建立至少一個有用的工具，並加上適當的屬性和描述
+6. **錯誤處理**：包含適當的錯誤處理和驗證
 
-## Implementation Details
+## 實作細節
 
-### Basic Project Setup
-- Use .NET 8.0 or later
-- Create a console application
-- Add necessary NuGet packages with --prerelease flag
-- Configure logging to stderr
+### 基本專案設定
+- 使用 .NET 8.0 或更新版本
+- 建立主控台應用程式
+- 使用 --prerelease 旗標加入必要的 NuGet 套件
+- 將日誌設定為輸出到 stderr
 
-### Server Configuration
-- Use `Host.CreateApplicationBuilder` for DI and lifecycle management
-- Configure `AddMcpServer()` with stdio transport
-- Use `WithToolsFromAssembly()` for automatic tool discovery
-- Ensure the server runs with `RunAsync()`
+### 伺服器設定
+- 使用 `Host.CreateApplicationBuilder` 進行 DI 和生命週期管理
+- 使用 stdio 傳輸設定 `AddMcpServer()`
+- 使用 `WithToolsFromAssembly()` 進行自動工具探索
+- 確保伺服器使用 `RunAsync()` 執行
 
-### Tool Implementation
-- Use `[McpServerToolType]` attribute on tool classes
-- Use `[McpServerTool]` attribute on tool methods
-- Add `[Description]` attributes to tools and parameters
-- Support async operations where appropriate
-- Include proper parameter validation
+### 工具實作
+- 在工具類別上使用 `[McpServerToolType]` 屬性
+- 在工具方法上使用 `[McpServerTool]` 屬性
+- 將 `[Description]` 屬性加入工具和參數
+- 適當的地方支援非同步操作
+- 包含適當的參數驗證
 
-### Code Quality
-- Follow C# naming conventions
-- Include XML documentation comments
-- Use nullable reference types
-- Implement proper error handling with McpProtocolException
-- Use structured logging for debugging
+### 程式碼品質
+- 遵循 C# 命名慣例
+- 包含 XML 文件註解
+- 使用可為 null 的參考類型
+- 使用 McpProtocolException 實作適當的錯誤處理
+- 使用結構化日誌進行偵錯
 
-## Example Tool Types to Consider
-- File operations (read, write, search)
-- Data processing (transform, validate, analyze)
-- External API integrations (HTTP requests)
-- System operations (execute commands, check status)
-- Database operations (query, update)
+## 考慮的工具類型範例
+- 檔案操作（讀取、寫入、搜尋）
+- 資料處理（轉換、驗證、分析）
+- 外部 API 整合（HTTP 請求）
+- 系統操作（執行命令、檢查狀態）
+- 資料庫操作（查詢、更新）
 
-## Testing Guidance
-- Explain how to run the server
-- Provide example commands to test with MCP clients
-- Include troubleshooting tips
+## 測試指南
+- 說明如何執行伺服器
+- 提供使用 MCP 用戶端測試的範例命令
+- 包含疑難排解提示
 
-Generate a complete, production-ready MCP server with comprehensive documentation and error handling.
+產生具有完整文件和錯誤處理的完整、可用於生產環境的 MCP 伺服器。

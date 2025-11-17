@@ -3,71 +3,71 @@ description: 'Guidelines for creating high-quality prompt files for GitHub Copil
 applyTo: '**/*.prompt.md'
 ---
 
-# Copilot Prompt Files Guidelines
+# Copilot 提示檔案指南
 
-Instructions for creating effective and maintainable prompt files that guide GitHub Copilot in delivering consistent, high-quality outcomes across any repository.
+建立有效且可維護的提示檔案的指示，用於引導 GitHub Copilot 在任何儲存庫中提供一致、高品質的結果。
 
-## Scope and Principles
-- Target audience: maintainers and contributors authoring reusable prompts for Copilot Chat.
-- Goals: predictable behaviour, clear expectations, minimal permissions, and portability across repositories.
-- Primary references: VS Code documentation on prompt files and organization-specific conventions.
+## 範圍和原則
+- 目標受眾：為 Copilot Chat 編寫可重複使用提示的維護者和貢獻者。
+- 目標：可預測的行為、清晰的期望、最小權限和跨儲存庫的可移植性。
+- 主要參考：VS Code 關於提示檔案和組織特定慣例的文件。
 
-## Frontmatter Requirements
-- Include `description` (single sentence, actionable outcome), `mode` (explicitly choose `ask`, `edit`, or `agent`), and `tools` (minimal set of tool bundles required to fulfill the prompt).
-- Declare `model` when the prompt depends on a specific capability tier; otherwise inherit the active model.
-- Preserve any additional metadata (`language`, `tags`, `visibility`, etc.) required by your organization.
-- Use consistent quoting (single quotes recommended) and keep one field per line for readability and version control clarity.
+## Frontmatter 要求
+- 包含 `description`（單句、可操作的結果）、`mode`（明確選擇 `ask`、`edit` 或 `agent`）和 `tools`（完成提示所需的最小工具組合）。
+- 當提示依賴特定能力層級時聲明 `model`；否則繼承活動模型。
+- 保留組織所需的任何額外中繼資料（`language`、`tags`、`visibility` 等）。
+- 使用一致的引號（建議使用單引號）並保持每行一個欄位以提高可讀性和版本控制清晰度。
 
-## File Naming and Placement
-- Use kebab-case filenames ending with `.prompt.md` and store them under `.github/prompts/` unless your workspace standard specifies another directory.
-- Provide a short filename that communicates the action (for example, `generate-readme.prompt.md` rather than `prompt1.prompt.md`).
+## 檔案命名和放置
+- 使用以 `.prompt.md` 結尾的 kebab-case 檔名，並將它們儲存在 `.github/prompts/` 下，除非您的工作區標準指定其他目錄。
+- 提供傳達動作的簡短檔名（例如 `generate-readme.prompt.md` 而非 `prompt1.prompt.md`）。
 
-## Body Structure
-- Start with an `#` level heading that matches the prompt intent so it surfaces well in Quick Pick search.
-- Organize content with predictable sections. Recommended baseline: `Mission` or `Primary Directive`, `Scope & Preconditions`, `Inputs`, `Workflow` (step-by-step), `Output Expectations`, and `Quality Assurance`.
-- Adjust section names to fit the domain, but retain the logical flow: why → context → inputs → actions → outputs → validation.
-- Reference related prompts or instruction files using relative links to aid discoverability.
+## 主體結構
+- 從與提示意圖匹配的 `#` 級標題開始，以便在快速選擇搜尋中良好顯示。
+- 使用可預測的區段組織內容。建議的基準：`任務` 或 `主要指令`、`範圍與前提條件`、`輸入`、`工作流程`（逐步）、`輸出期望` 和 `品質保證`。
+- 調整區段名稱以適應領域，但保留邏輯流程：為什麼 → 上下文 → 輸入 → 動作 → 輸出 → 驗證。
+- 使用相對連結參考相關提示或指示檔案以幫助可發現性。
 
-## Input and Context Handling
-- Use `${input:variableName[:placeholder]}` for required values and explain when the user must supply them. Provide defaults or alternatives where possible.
-- Call out contextual variables such as `${selection}`, `${file}`, `${workspaceFolder}` only when they are essential, and describe how Copilot should interpret them.
-- Document how to proceed when mandatory context is missing (for example, “Request the file path and stop if it remains undefined”).
+## 輸入和上下文處理
+- 對於必需值使用 `${input:variableName[:placeholder]}`，並說明使用者何時必須提供它們。盡可能提供預設值或替代方案。
+- 僅在必要時呼叫上下文變數，例如 `${selection}`、`${file}`、`${workspaceFolder}`，並描述 Copilot 應如何解釋它們。
+- 記錄缺少強制上下文時如何進行（例如「請求檔案路徑，如果仍未定義則停止」）。
 
-## Tool and Permission Guidance
-- Limit `tools` to the smallest set that enables the task. List them in the preferred execution order when the sequence matters.
-- If the prompt inherits tools from a chat mode, mention that relationship and state any critical tool behaviours or side effects.
-- Warn about destructive operations (file creation, edits, terminal commands) and include guard rails or confirmation steps in the workflow.
+## 工具和權限指導
+- 將 `tools` 限制為能夠完成任務的最小集合。當順序重要時，按首選執行順序列出它們。
+- 如果提示從聊天模式繼承工具，請提及該關係並說明任何關鍵工具行為或副作用。
+- 警告破壞性操作（檔案建立、編輯、終端命令）並在工作流程中包括防護措施或確認步驟。
 
-## Instruction Tone and Style
-- Write in direct, imperative sentences targeted at Copilot (for example, “Analyze”, “Generate”, “Summarize”).
-- Keep sentences short and unambiguous, following Google Developer Documentation translation best practices to support localization.
-- Avoid idioms, humor, or culturally specific references; favor neutral, inclusive language.
+## 指示語氣和風格
+- 使用針對 Copilot 的直接祈使句（例如「分析」、「生成」、「總結」）。
+- 保持句子簡短且明確，遵循 Google 開發者文件翻譯最佳實踐以支援本地化。
+- 避免慣用語、幽默或文化特定參考；優先使用中性、包容性語言。
 
-## Output Definition
-- Specify the format, structure, and location of expected results (for example, “Create `docs/adr/adr-XXXX.md` using the template below”).
-- Include success criteria and failure triggers so Copilot knows when to halt or retry.
-- Provide validation steps—manual checks, automated commands, or acceptance criteria lists—that reviewers can execute after running the prompt.
+## 輸出定義
+- 指定預期結果的格式、結構和位置（例如「使用下面的範本建立 `docs/adr/adr-XXXX.md`」）。
+- 包含成功標準和失敗觸發器，以便 Copilot 知道何時停止或重試。
+- 提供驗證步驟——手動檢查、自動命令或驗收標準清單——審查者可以在執行提示後執行。
 
-## Examples and Reusable Assets
-- Embed Good/Bad examples or scaffolds (Markdown templates, JSON stubs) that the prompt should produce or follow.
-- Maintain reference tables (capabilities, status codes, role descriptions) inline to keep the prompt self-contained. Update these tables when upstream resources change.
-- Link to authoritative documentation instead of duplicating lengthy guidance.
+## 範例和可重複使用資產
+- 嵌入良好/不良範例或腳手架（Markdown 範本、JSON 存根），提示應產生或遵循。
+- 保持參考表（功能、狀態碼、角色描述）內聯，以保持提示的自包含性。當上游資源變更時更新這些表。
+- 連結到權威文件，而不是複製冗長的指導。
 
-## Quality Assurance Checklist
-- [ ] Frontmatter fields are complete, accurate, and least-privilege.
-- [ ] Inputs include placeholders, default behaviours, and fallbacks.
-- [ ] Workflow covers preparation, execution, and post-processing without gaps.
-- [ ] Output expectations include formatting and storage details.
-- [ ] Validation steps are actionable (commands, diff checks, review prompts).
-- [ ] Security, compliance, and privacy policies referenced by the prompt are current.
-- [ ] Prompt executes successfully in VS Code (`Chat: Run Prompt`) using representative scenarios.
+## 品質保證檢查清單
+- [ ] Frontmatter 欄位完整、準確且符合最小權限。
+- [ ] 輸入包括佔位符、預設行為和後備。
+- [ ] 工作流程涵蓋準備、執行和後處理，無間隙。
+- [ ] 輸出期望包括格式和儲存詳細資訊。
+- [ ] 驗證步驟是可操作的（命令、差異檢查、審查提示）。
+- [ ] 提示引用的安全、合規和隱私政策是最新的。
+- [ ] 提示在 VS Code 中成功執行（`Chat: Run Prompt`），使用代表性情境。
 
-## Maintenance Guidance
-- Version-control prompts alongside the code they affect; update them when dependencies, tooling, or review processes change.
-- Review prompts periodically to ensure tool lists, model requirements, and linked documents remain valid.
-- Coordinate with other repositories: when a prompt proves broadly useful, extract common guidance into instruction files or shared prompt packs.
+## 維護指導
+- 與它們影響的程式碼一起對提示進行版本控制；當依賴項、工具或審查流程變更時更新它們。
+- 定期審查提示，以確保工具清單、模型要求和連結文件保持有效。
+- 與其他儲存庫協調：當提示被證明廣泛有用時，將通用指導提取到指示檔案或共享提示包中。
 
-## Additional Resources
-- [Prompt Files Documentation](https://code.visualstudio.com/docs/copilot/customization/prompt-files#_prompt-file-format)
-- [Awesome Copilot Prompt Files](https://github.com/github/awesome-copilot/tree/main/prompts)
-- [Tool Configuration](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode#_agent-mode-tools)
+## 其他資源
+- [提示檔案文件](https://code.visualstudio.com/docs/copilot/customization/prompt-files#_prompt-file-format)
+- [Awesome Copilot 提示檔案](https://github.com/github/awesome-copilot/tree/main/prompts)
+- [工具設定](https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode#_agent-mode-tools)

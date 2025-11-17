@@ -1,26 +1,26 @@
 ---
-description: 'Transform this Python script into a polished, beginner-friendly project by refactoring the code, adding clear instructional comments, and generating a complete markdown tutorial.'
+description: '透過重構程式碼、加入清晰的教學註解以及生成完整的 markdown 教學，將此 Python 腳本轉換為精緻、適合初學者的專案。'
 mode: 'agent'
 ---
 
-Transform this Python script into a polished, beginner-friendly project by refactoring the code, adding clear instructional comments, and generating a complete markdown tutorial.
+透過重構程式碼、加入清晰的教學註解以及生成完整的 markdown 教學，將此 Python 腳本轉換為精緻、適合初學者的專案。
 
-1. **Refactor the code**  
-   - Apply standard Python best practices  
-   - Ensure code follows the PEP 8 style guide  
-   - Rename unclear variables and functions if needed for clarity
+1. **重構程式碼**
+   - 套用標準的 Python 最佳實踐
+   - 確保程式碼遵循 PEP 8 風格指南
+   - 如需要，重新命名不清楚的變數和函數以提高清晰度
 
-1. **Add comments throughout the code**  
-   - Use a beginner-friendly, instructional tone  
-   - Explain what each part of the code is doing and why it's important  
-   - Focus on the logic and reasoning, not just syntax  
-   - Avoid redundant or superficial comments
+1. **在整個程式碼中加入註解**
+   - 使用適合初學者且具教學性的語調
+   - 解釋程式碼的每個部分在做什麼以及為什麼重要
+   - 專注於邏輯和推理，而不僅僅是語法
+   - 避免冗餘或膚淺的註解
 
-1. **Generate a tutorial as a `README.md` file**  
-   Include the following sections:
-   - **Project Overview:** What the script does and why it's useful  
-   - **Setup Instructions:** Prerequisites, dependencies, and how to run the script  
-   - **How It Works:** A breakdown of the code logic based on the comments  
-   - **Example Usage:** A code snippet showing how to use it  
-   - **Sample Output:** (Optional) Include if the script returns visible results  
-   - Use clear, readable Markdown formatting
+1. **生成一個 `README.md` 檔案作為教學**
+   包含以下章節：
+   - **專案概述：** 腳本的作用以及為什麼有用
+   - **設定指示：** 先決條件、相依性以及如何執行腳本
+   - **運作原理：** 根據註解對程式碼邏輯進行分解
+   - **使用範例：** 顯示如何使用的程式碼片段
+   - **範例輸出：**（可選）如果腳本返回可見結果則包含
+   - 使用清晰、可讀的 Markdown 格式

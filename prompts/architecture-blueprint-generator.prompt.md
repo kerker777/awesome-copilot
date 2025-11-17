@@ -1,322 +1,322 @@
 ---
-description: 'Comprehensive project architecture blueprint generator that analyzes codebases to create detailed architectural documentation. Automatically detects technology stacks and architectural patterns, generates visual diagrams, documents implementation patterns, and provides extensible blueprints for maintaining architectural consistency and guiding new development.'
+description: '全面的專案架構藍圖生成器，分析程式碼庫以創建詳細的架構文件。自動偵測技術堆疊和架構模式，生成視覺化圖表，記錄實作模式，並提供可擴展的藍圖以維護架構一致性並指導新開發。'
 mode: 'agent'
 ---
 
-# Comprehensive Project Architecture Blueprint Generator
+# 全面的專案架構藍圖生成器
 
-## Configuration Variables
-${PROJECT_TYPE="Auto-detect|.NET|Java|React|Angular|Python|Node.js|Flutter|Other"} <!-- Primary technology -->
-${ARCHITECTURE_PATTERN="Auto-detect|Clean Architecture|Microservices|Layered|MVVM|MVC|Hexagonal|Event-Driven|Serverless|Monolithic|Other"} <!-- Primary architectural pattern -->
-${DIAGRAM_TYPE="C4|UML|Flow|Component|None"} <!-- Architecture diagram type -->
-${DETAIL_LEVEL="High-level|Detailed|Comprehensive|Implementation-Ready"} <!-- Level of detail to include -->
-${INCLUDES_CODE_EXAMPLES=true|false} <!-- Include sample code to illustrate patterns -->
-${INCLUDES_IMPLEMENTATION_PATTERNS=true|false} <!-- Include detailed implementation patterns -->
-${INCLUDES_DECISION_RECORDS=true|false} <!-- Include architectural decision records -->
-${FOCUS_ON_EXTENSIBILITY=true|false} <!-- Emphasize extension points and patterns -->
+## 配置變數
+${PROJECT_TYPE="Auto-detect|.NET|Java|React|Angular|Python|Node.js|Flutter|Other"} <!-- 主要技術 -->
+${ARCHITECTURE_PATTERN="Auto-detect|Clean Architecture|Microservices|Layered|MVVM|MVC|Hexagonal|Event-Driven|Serverless|Monolithic|Other"} <!-- 主要架構模式 -->
+${DIAGRAM_TYPE="C4|UML|Flow|Component|None"} <!-- 架構圖類型 -->
+${DETAIL_LEVEL="High-level|Detailed|Comprehensive|Implementation-Ready"} <!-- 要包含的詳細程度 -->
+${INCLUDES_CODE_EXAMPLES=true|false} <!-- 包含範例程式碼以說明模式 -->
+${INCLUDES_IMPLEMENTATION_PATTERNS=true|false} <!-- 包含詳細的實作模式 -->
+${INCLUDES_DECISION_RECORDS=true|false} <!-- 包含架構決策記錄 -->
+${FOCUS_ON_EXTENSIBILITY=true|false} <!-- 強調擴展點和模式 -->
 
-## Generated Prompt
+## 生成的提示
 
-"Create a comprehensive 'Project_Architecture_Blueprint.md' document that thoroughly analyzes the architectural patterns in the codebase to serve as a definitive reference for maintaining architectural consistency. Use the following approach:
+"創建一份全面的 'Project_Architecture_Blueprint.md' 文件，徹底分析程式碼庫中的架構模式，作為維護架構一致性的權威參考。使用以下方法：
 
-### 1. Architecture Detection and Analysis
-- ${PROJECT_TYPE == "Auto-detect" ? "Analyze the project structure to identify all technology stacks and frameworks in use by examining:
-  - Project and configuration files
-  - Package dependencies and import statements
-  - Framework-specific patterns and conventions
-  - Build and deployment configurations" : "Focus on ${PROJECT_TYPE} specific patterns and practices"}
-  
-- ${ARCHITECTURE_PATTERN == "Auto-detect" ? "Determine the architectural pattern(s) by analyzing:
-  - Folder organization and namespacing
-  - Dependency flow and component boundaries
-  - Interface segregation and abstraction patterns
-  - Communication mechanisms between components" : "Document how the ${ARCHITECTURE_PATTERN} architecture is implemented"}
+### 1. 架構偵測與分析
+- ${PROJECT_TYPE == "Auto-detect" ? "分析專案結構以識別所有使用的技術堆疊和框架，透過檢查：
+  - 專案和配置檔案
+  - 套件依賴和匯入語句
+  - 框架特定的模式和慣例
+  - 建置和部署配置" : "專注於 ${PROJECT_TYPE} 特定的模式和實踐"}
 
-### 2. Architectural Overview
-- Provide a clear, concise explanation of the overall architectural approach
-- Document the guiding principles evident in the architectural choices
-- Identify architectural boundaries and how they're enforced
-- Note any hybrid architectural patterns or adaptations of standard patterns
+- ${ARCHITECTURE_PATTERN == "Auto-detect" ? "透過分析以下來確定架構模式：
+  - 資料夾組織和命名空間
+  - 依賴流和元件邊界
+  - 介面隔離和抽象模式
+  - 元件之間的通訊機制" : "記錄 ${ARCHITECTURE_PATTERN} 架構的實作方式"}
 
-### 3. Architecture Visualization
-${DIAGRAM_TYPE != "None" ? `Create ${DIAGRAM_TYPE} diagrams at multiple levels of abstraction:
-- High-level architectural overview showing major subsystems
-- Component interaction diagrams showing relationships and dependencies
-- Data flow diagrams showing how information moves through the system
-- Ensure diagrams accurately reflect the actual implementation, not theoretical patterns` : "Describe the component relationships based on actual code dependencies, providing clear textual explanations of:
-- Subsystem organization and boundaries
-- Dependency directions and component interactions
-- Data flow and process sequences"}
+### 2. 架構概述
+- 提供清晰、簡潔的整體架構方法說明
+- 記錄架構選擇中明顯的指導原則
+- 識別架構邊界以及如何強制執行
+- 注意任何混合架構模式或標準模式的調整
 
-### 4. Core Architectural Components
-For each architectural component discovered in the codebase:
+### 3. 架構視覺化
+${DIAGRAM_TYPE != "None" ? `在多個抽象層級創建 ${DIAGRAM_TYPE} 圖表：
+- 顯示主要子系統的高層架構概述
+- 顯示關係和依賴的元件互動圖
+- 顯示資訊如何在系統中流動的資料流圖
+- 確保圖表準確反映實際實作，而非理論模式` : "根據實際程式碼依賴描述元件關係，提供清晰的文字說明：
+- 子系統組織和邊界
+- 依賴方向和元件互動
+- 資料流和處理序列"}
 
-- **Purpose and Responsibility**:
-  - Primary function within the architecture
-  - Business domains or technical concerns addressed
-  - Boundaries and scope limitations
+### 4. 核心架構元件
+對於在程式碼庫中發現的每個架構元件：
 
-- **Internal Structure**:
-  - Organization of classes/modules within the component
-  - Key abstractions and their implementations
-  - Design patterns utilized
+- **目的和職責**：
+  - 在架構中的主要功能
+  - 處理的業務領域或技術關注點
+  - 邊界和範圍限制
 
-- **Interaction Patterns**:
-  - How the component communicates with others
-  - Interfaces exposed and consumed
-  - Dependency injection patterns
-  - Event publishing/subscription mechanisms
+- **內部結構**：
+  - 元件內類別/模組的組織
+  - 關鍵抽象及其實作
+  - 使用的設計模式
 
-- **Evolution Patterns**:
-  - How the component can be extended
-  - Variation points and plugin mechanisms
-  - Configuration and customization approaches
+- **互動模式**：
+  - 元件如何與其他元件通訊
+  - 公開和消費的介面
+  - 依賴注入模式
+  - 事件發布/訂閱機制
 
-### 5. Architectural Layers and Dependencies
-- Map the layer structure as implemented in the codebase
-- Document the dependency rules between layers
-- Identify abstraction mechanisms that enable layer separation
-- Note any circular dependencies or layer violations
-- Document dependency injection patterns used to maintain separation
+- **演進模式**：
+  - 如何擴展元件
+  - 變化點和插件機制
+  - 配置和自訂方法
 
-### 6. Data Architecture
-- Document domain model structure and organization
-- Map entity relationships and aggregation patterns
-- Identify data access patterns (repositories, data mappers, etc.)
-- Document data transformation and mapping approaches
-- Note caching strategies and implementations
-- Document data validation patterns
+### 5. 架構層次和依賴
+- 映射程式碼庫中實作的層次結構
+- 記錄層次之間的依賴規則
+- 識別實現層次分離的抽象機制
+- 注意任何循環依賴或層次違規
+- 記錄用於維護分離的依賴注入模式
 
-### 7. Cross-Cutting Concerns Implementation
-Document implementation patterns for cross-cutting concerns:
+### 6. 資料架構
+- 記錄領域模型結構和組織
+- 映射實體關係和聚合模式
+- 識別資料存取模式（儲存庫、資料映射器等）
+- 記錄資料轉換和映射方法
+- 注意快取策略和實作
+- 記錄資料驗證模式
 
-- **Authentication & Authorization**:
-  - Security model implementation
-  - Permission enforcement patterns
-  - Identity management approach
-  - Security boundary patterns
+### 7. 橫切關注點實作
+記錄橫切關注點的實作模式：
 
-- **Error Handling & Resilience**:
-  - Exception handling patterns
-  - Retry and circuit breaker implementations
-  - Fallback and graceful degradation strategies
-  - Error reporting and monitoring approaches
+- **認證與授權**：
+  - 安全模型實作
+  - 權限執行模式
+  - 身份管理方法
+  - 安全邊界模式
 
-- **Logging & Monitoring**:
-  - Instrumentation patterns
-  - Observability implementation
-  - Diagnostic information flow
-  - Performance monitoring approach
+- **錯誤處理與韌性**：
+  - 異常處理模式
+  - 重試和斷路器實作
+  - 後備和優雅降級策略
+  - 錯誤報告和監控方法
 
-- **Validation**:
-  - Input validation strategies
-  - Business rule validation implementation
-  - Validation responsibility distribution
-  - Error reporting patterns
+- **日誌與監控**：
+  - 儀器模式
+  - 可觀察性實作
+  - 診斷資訊流
+  - 效能監控方法
 
-- **Configuration Management**:
-  - Configuration source patterns
-  - Environment-specific configuration strategies
-  - Secret management approach
-  - Feature flag implementation
+- **驗證**：
+  - 輸入驗證策略
+  - 業務規則驗證實作
+  - 驗證責任分配
+  - 錯誤報告模式
 
-### 8. Service Communication Patterns
-- Document service boundary definitions
-- Identify communication protocols and formats
-- Map synchronous vs. asynchronous communication patterns
-- Document API versioning strategies
-- Identify service discovery mechanisms
-- Note resilience patterns in service communication
+- **配置管理**：
+  - 配置來源模式
+  - 環境特定配置策略
+  - 秘密管理方法
+  - 功能標誌實作
 
-### 9. Technology-Specific Architectural Patterns
-${PROJECT_TYPE == "Auto-detect" ? "For each detected technology stack, document specific architectural patterns:" : `Document ${PROJECT_TYPE}-specific architectural patterns:`}
+### 8. 服務通訊模式
+- 記錄服務邊界定義
+- 識別通訊協定和格式
+- 映射同步與非同步通訊模式
+- 記錄 API 版本控制策略
+- 識別服務發現機制
+- 注意服務通訊中的韌性模式
 
-${(PROJECT_TYPE == ".NET" || PROJECT_TYPE == "Auto-detect") ? 
-"#### .NET Architectural Patterns (if detected)
-- Host and application model implementation
-- Middleware pipeline organization
-- Framework service integration patterns
-- ORM and data access approaches
-- API implementation patterns (controllers, minimal APIs, etc.)
-- Dependency injection container configuration" : ""}
+### 9. 技術特定架構模式
+${PROJECT_TYPE == "Auto-detect" ? "對於每個偵測到的技術堆疊，記錄特定的架構模式：" : `記錄 ${PROJECT_TYPE} 特定的架構模式：`}
 
-${(PROJECT_TYPE == "Java" || PROJECT_TYPE == "Auto-detect") ? 
-"#### Java Architectural Patterns (if detected)
-- Application container and bootstrap process
-- Dependency injection framework usage (Spring, CDI, etc.)
-- AOP implementation patterns
-- Transaction boundary management
-- ORM configuration and usage patterns
-- Service implementation patterns" : ""}
+${(PROJECT_TYPE == ".NET" || PROJECT_TYPE == "Auto-detect") ?
+"#### .NET 架構模式（如果偵測到）
+- 主機和應用程式模型實作
+- 中介軟體管線組織
+- 框架服務整合模式
+- ORM 和資料存取方法
+- API 實作模式（控制器、最小 API 等）
+- 依賴注入容器配置" : ""}
 
-${(PROJECT_TYPE == "React" || PROJECT_TYPE == "Auto-detect") ? 
-"#### React Architectural Patterns (if detected)
-- Component composition and reuse strategies
-- State management architecture
-- Side effect handling patterns
-- Routing and navigation approach
-- Data fetching and caching patterns
-- Rendering optimization strategies" : ""}
+${(PROJECT_TYPE == "Java" || PROJECT_TYPE == "Auto-detect") ?
+"#### Java 架構模式（如果偵測到）
+- 應用程式容器和啟動過程
+- 依賴注入框架使用（Spring、CDI 等）
+- AOP 實作模式
+- 交易邊界管理
+- ORM 配置和使用模式
+- 服務實作模式" : ""}
 
-${(PROJECT_TYPE == "Angular" || PROJECT_TYPE == "Auto-detect") ? 
-"#### Angular Architectural Patterns (if detected)
-- Module organization strategy
-- Component hierarchy design
-- Service and dependency injection patterns
-- State management approach
-- Reactive programming patterns
-- Route guard implementation" : ""}
+${(PROJECT_TYPE == "React" || PROJECT_TYPE == "Auto-detect") ?
+"#### React 架構模式（如果偵測到）
+- 元件組合和重用策略
+- 狀態管理架構
+- 副作用處理模式
+- 路由和導航方法
+- 資料獲取和快取模式
+- 渲染優化策略" : ""}
 
-${(PROJECT_TYPE == "Python" || PROJECT_TYPE == "Auto-detect") ? 
-"#### Python Architectural Patterns (if detected)
-- Module organization approach
-- Dependency management strategy
-- OOP vs. functional implementation patterns
-- Framework integration patterns
-- Asynchronous programming approach" : ""}
+${(PROJECT_TYPE == "Angular" || PROJECT_TYPE == "Auto-detect") ?
+"#### Angular 架構模式（如果偵測到）
+- 模組組織策略
+- 元件階層設計
+- 服務和依賴注入模式
+- 狀態管理方法
+- 反應式程式設計模式
+- 路由守衛實作" : ""}
 
-### 10. Implementation Patterns
-${INCLUDES_IMPLEMENTATION_PATTERNS ? 
-"Document concrete implementation patterns for key architectural components:
+${(PROJECT_TYPE == "Python" || PROJECT_TYPE == "Auto-detect") ?
+"#### Python 架構模式（如果偵測到）
+- 模組組織方法
+- 依賴管理策略
+- OOP 與函數式實作模式
+- 框架整合模式
+- 非同步程式設計方法" : ""}
 
-- **Interface Design Patterns**:
-  - Interface segregation approaches
-  - Abstraction level decisions
-  - Generic vs. specific interface patterns
-  - Default implementation patterns
+### 10. 實作模式
+${INCLUDES_IMPLEMENTATION_PATTERNS ?
+"記錄關鍵架構元件的具體實作模式：
 
-- **Service Implementation Patterns**:
-  - Service lifetime management
-  - Service composition patterns
-  - Operation implementation templates
-  - Error handling within services
+- **介面設計模式**：
+  - 介面隔離方法
+  - 抽象層級決策
+  - 泛型與特定介面模式
+  - 預設實作模式
 
-- **Repository Implementation Patterns**:
-  - Query pattern implementations
-  - Transaction management
-  - Concurrency handling
-  - Bulk operation patterns
+- **服務實作模式**：
+  - 服務生命週期管理
+  - 服務組合模式
+  - 操作實作模板
+  - 服務內的錯誤處理
 
-- **Controller/API Implementation Patterns**:
-  - Request handling patterns
-  - Response formatting approaches
-  - Parameter validation
-  - API versioning implementation
+- **儲存庫實作模式**：
+  - 查詢模式實作
+  - 交易管理
+  - 並發處理
+  - 批量操作模式
 
-- **Domain Model Implementation**:
-  - Entity implementation patterns
-  - Value object patterns
-  - Domain event implementation
-  - Business rule enforcement" : "Mention that detailed implementation patterns vary across the codebase."}
+- **控制器/API 實作模式**：
+  - 請求處理模式
+  - 回應格式化方法
+  - 參數驗證
+  - API 版本控制實作
 
-### 11. Testing Architecture
-- Document testing strategies aligned with the architecture
-- Identify test boundary patterns (unit, integration, system)
-- Map test doubles and mocking approaches
-- Document test data strategies
-- Note testing tools and frameworks integration
+- **領域模型實作**：
+  - 實體實作模式
+  - 值物件模式
+  - 領域事件實作
+  - 業務規則執行" : "提及詳細的實作模式在整個程式碼庫中有所不同。"}
 
-### 12. Deployment Architecture
-- Document deployment topology derived from configuration
-- Identify environment-specific architectural adaptations
-- Map runtime dependency resolution patterns
-- Document configuration management across environments
-- Identify containerization and orchestration approaches
-- Note cloud service integration patterns
+### 11. 測試架構
+- 記錄與架構對齊的測試策略
+- 識別測試邊界模式（單元、整合、系統）
+- 映射測試替身和模擬方法
+- 記錄測試資料策略
+- 注意測試工具和框架整合
 
-### 13. Extension and Evolution Patterns
-${FOCUS_ON_EXTENSIBILITY ? 
-"Provide detailed guidance for extending the architecture:
+### 12. 部署架構
+- 記錄從配置衍生的部署拓撲
+- 識別環境特定的架構調整
+- 映射執行時期依賴解析模式
+- 記錄跨環境的配置管理
+- 識別容器化和編排方法
+- 注意雲端服務整合模式
 
-- **Feature Addition Patterns**:
-  - How to add new features while preserving architectural integrity
-  - Where to place new components by type
-  - Dependency introduction guidelines
-  - Configuration extension patterns
+### 13. 擴展和演進模式
+${FOCUS_ON_EXTENSIBILITY ?
+"提供擴展架構的詳細指導：
 
-- **Modification Patterns**:
-  - How to safely modify existing components
-  - Strategies for maintaining backward compatibility
-  - Deprecation patterns
-  - Migration approaches
+- **功能新增模式**：
+  - 如何在保持架構完整性的同時新增功能
+  - 按類型放置新元件的位置
+  - 依賴引入指南
+  - 配置擴展模式
 
-- **Integration Patterns**:
-  - How to integrate new external systems
-  - Adapter implementation patterns
-  - Anti-corruption layer patterns
-  - Service facade implementation" : "Document key extension points in the architecture."}
+- **修改模式**：
+  - 如何安全地修改現有元件
+  - 維護向後相容性的策略
+  - 棄用模式
+  - 遷移方法
 
-${INCLUDES_CODE_EXAMPLES ? 
-"### 14. Architectural Pattern Examples
-Extract representative code examples that illustrate key architectural patterns:
+- **整合模式**：
+  - 如何整合新的外部系統
+  - 適配器實作模式
+  - 防腐層模式
+  - 服務門面實作" : "記錄架構中的關鍵擴展點。"}
 
-- **Layer Separation Examples**:
-  - Interface definition and implementation separation
-  - Cross-layer communication patterns
-  - Dependency injection examples
+${INCLUDES_CODE_EXAMPLES ?
+"### 14. 架構模式範例
+提取說明關鍵架構模式的代表性程式碼範例：
 
-- **Component Communication Examples**:
-  - Service invocation patterns
-  - Event publication and handling
-  - Message passing implementation
+- **層次分離範例**：
+  - 介面定義和實作分離
+  - 跨層通訊模式
+  - 依賴注入範例
 
-- **Extension Point Examples**:
-  - Plugin registration and discovery
-  - Extension interface implementations
-  - Configuration-driven extension patterns
+- **元件通訊範例**：
+  - 服務呼叫模式
+  - 事件發布和處理
+  - 訊息傳遞實作
 
-Include enough context with each example to show the pattern clearly, but keep examples concise and focused on architectural concepts." : ""}
+- **擴展點範例**：
+  - 插件註冊和發現
+  - 擴展介面實作
+  - 配置驅動的擴展模式
 
-${INCLUDES_DECISION_RECORDS ? 
-"### 15. Architectural Decision Records
-Document key architectural decisions evident in the codebase:
+每個範例包含足夠的上下文以清楚顯示模式，但保持範例簡潔並專注於架構概念。" : ""}
 
-- **Architectural Style Decisions**:
-  - Why the current architectural pattern was chosen
-  - Alternatives considered (based on code evolution)
-  - Constraints that influenced the decision
+${INCLUDES_DECISION_RECORDS ?
+"### 15. 架構決策記錄
+記錄程式碼庫中明顯的關鍵架構決策：
 
-- **Technology Selection Decisions**:
-  - Key technology choices and their architectural impact
-  - Framework selection rationales
-  - Custom vs. off-the-shelf component decisions
+- **架構風格決策**：
+  - 為什麼選擇當前的架構模式
+  - 考慮的替代方案（基於程式碼演進）
+  - 影響決策的約束
 
-- **Implementation Approach Decisions**:
-  - Specific implementation patterns chosen
-  - Standard pattern adaptations
-  - Performance vs. maintainability tradeoffs
+- **技術選擇決策**：
+  - 關鍵技術選擇及其架構影響
+  - 框架選擇理由
+  - 自訂與現成元件決策
 
-For each decision, note:
-- Context that made the decision necessary
-- Factors considered in making the decision
-- Resulting consequences (positive and negative)
-- Future flexibility or limitations introduced" : ""}
+- **實作方法決策**：
+  - 選擇的特定實作模式
+  - 標準模式調整
+  - 效能與可維護性權衡
 
-### ${INCLUDES_DECISION_RECORDS ? "16" : INCLUDES_CODE_EXAMPLES ? "15" : "14"}. Architecture Governance
-- Document how architectural consistency is maintained
-- Identify automated checks for architectural compliance
-- Note architectural review processes evident in the codebase
-- Document architectural documentation practices
+對於每個決策，注意：
+- 使決策必要的背景
+- 做出決策時考慮的因素
+- 結果影響（正面和負面）
+- 引入的未來靈活性或限制" : ""}
 
-### ${INCLUDES_DECISION_RECORDS ? "17" : INCLUDES_CODE_EXAMPLES ? "16" : "15"}. Blueprint for New Development
-Create a clear architectural guide for implementing new features:
+### ${INCLUDES_DECISION_RECORDS ? "16" : INCLUDES_CODE_EXAMPLES ? "15" : "14"}. 架構治理
+- 記錄如何維護架構一致性
+- 識別架構合規性的自動檢查
+- 注意程式碼庫中明顯的架構審查流程
+- 記錄架構文件實踐
 
-- **Development Workflow**:
-  - Starting points for different feature types
-  - Component creation sequence
-  - Integration steps with existing architecture
-  - Testing approach by architectural layer
+### ${INCLUDES_DECISION_RECORDS ? "17" : INCLUDES_CODE_EXAMPLES ? "16" : "15"}. 新開發藍圖
+為實作新功能創建清晰的架構指南：
 
-- **Implementation Templates**:
-  - Base class/interface templates for key architectural components
-  - Standard file organization for new components
-  - Dependency declaration patterns
-  - Documentation requirements
+- **開發工作流程**：
+  - 不同功能類型的起點
+  - 元件創建順序
+  - 與現有架構的整合步驟
+  - 按架構層次的測試方法
 
-- **Common Pitfalls**:
-  - Architecture violations to avoid
-  - Common architectural mistakes
-  - Performance considerations
-  - Testing blind spots
+- **實作模板**：
+  - 關鍵架構元件的基礎類別/介面模板
+  - 新元件的標準檔案組織
+  - 依賴聲明模式
+  - 文件要求
 
-Include information about when this blueprint was generated and recommendations for keeping it updated as the architecture evolves."
+- **常見陷阱**：
+  - 要避免的架構違規
+  - 常見的架構錯誤
+  - 效能考慮
+  - 測試盲點
+
+包含此藍圖生成時間的資訊以及隨著架構演進保持更新的建議。"

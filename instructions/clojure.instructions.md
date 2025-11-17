@@ -1,19 +1,19 @@
 ---
-description: 'Clojure-specific coding patterns, inline def usage, code block templates, and namespace handling for Clojure development.'
+description: 'Clojure 特定的程式碼模式、內聯 def 使用方式、程式碼區塊範本，以及 Clojure 開發的命名空間處理。'
 applyTo: '**/*.{clj,cljs,cljc,bb,edn.mdx?}'
 ---
 
-# Clojure Development Instructions
+# Clojure 開發指引
 
-## Code Evaluation Tool usage
+## 程式碼評估工具使用
 
-“Use the repl” means to use the **Evaluate Clojure Code** tool from Calva Backseat Driver. It connects you to the same REPL as the user is connected to via Calva.
+「使用 repl」代表使用 Calva Backseat Driver 的 **Evaluate Clojure Code** 工具。它會連接到與使用者透過 Calva 連接的相同 REPL。
 
-- Always stay inside Calva's REPL instead of launching a second one from the terminal.
-- If there is no REPL connection, ask the user to connect the REPL instead of trying to start and connect it yourself.
+- 始終保持在 Calva 的 REPL 內，而非從終端機啟動第二個 REPL。
+- 如果沒有 REPL 連線，請要求使用者連接 REPL，而非嘗試自行啟動和連接。
 
-### JSON Strings in REPL Tool Calls
-Do not over-escape JSON arguments when invoking REPL tools.
+### REPL 工具呼叫中的 JSON 字串
+在呼叫 REPL 工具時，不要過度跳脫 JSON 參數。
 
 ```json
 {
@@ -23,8 +23,8 @@ Do not over-escape JSON arguments when invoking REPL tools.
 }
 ```
 
-## Docstrings in `defn`
-Docstrings belong immediately after the function name and before the argument vector.
+## `defn` 中的文件字串
+文件字串應該緊接在函式名稱之後、參數向量之前。
 
 ```clojure
 (defn my-function
@@ -34,80 +34,80 @@ Docstrings belong immediately after the function name and before the argument ve
   )
 ```
 
-- Define functions before they are used—prefer ordering over `declare` except when truly necessary.
+- 在使用函式之前定義它們——優先使用排序而非 `declare`，除非確實必要。
 
-## Interactive Programming (a.k.a. REPL Driven Development)
+## 互動式程式設計（又稱 REPL 驅動開發）
 
-### Align Data Structure Elements for Bracket Balancing
-**Always align multi-line elements vertically in all data structures: vectors, maps, lists, sets, all code (since Clojure code is data). Misalignment causes the bracket balancer to close brackets incorrectly, creating invalid forms.**
+### 對齊資料結構元素以進行括號平衡
+**始終在所有資料結構中垂直對齊多行元素：向量、對映、列表、集合、所有程式碼（因為 Clojure 程式碼就是資料）。錯位會導致括號平衡器錯誤地閉合括號，建立無效的形式。**
 
 ```clojure
-;; ❌ Wrong - misaligned vector elements
+;; ❌ 錯誤 - 向量元素錯位
 (select-keys m [:key-a
                 :key-b
-               :key-c])  ; Misalignment → incorrect ] placement
+               :key-c])  ; 錯位 → 錯誤的 ] 位置
 
-;; ✅ Correct - aligned vector elements
+;; ✅ 正確 - 向量元素對齊
 (select-keys m [:key-a
                 :key-b
-                :key-c])  ; Proper alignment → correct ] placement
+                :key-c])  ; 適當對齊 → 正確的 ] 位置
 
-;; ❌ Wrong - misaligned map entries
+;; ❌ 錯誤 - 對映條目錯位
 {:name "Alice"
  :age 30
-:city "Oslo"}  ; Misalignment → incorrect } placement
+:city "Oslo"}  ; 錯位 → 錯誤的 } 位置
 
-;; ✅ Correct - aligned map entries
+;; ✅ 正確 - 對映條目對齊
 {:name "Alice"
  :age 30
- :city "Oslo"}  ; Proper alignment → correct } placement
+ :city "Oslo"}  ; 適當對齊 → 正確的 } 位置
 ```
 
-**Critical**: The bracket balancer relies on consistent indentation to determine structure.
+**關鍵**：括號平衡器依賴一致的縮排來確定結構。
 
-### REPL Dependency Management
-Use `clojure.repl.deps/add-libs` for dynamic dependency loading during REPL sessions.
+### REPL 依賴管理
+在 REPL 會話期間使用 `clojure.repl.deps/add-libs` 進行動態依賴載入。
 
 ```clojure
 (require '[clojure.repl.deps :refer [add-libs]])
 (add-libs '{dk.ative/docjure {:mvn/version "1.15.0"}})
 ```
 
-- Dynamic dependency loading requires Clojure 1.12 or later
-- Perfect for library exploration and prototyping
+- 動態依賴載入需要 Clojure 1.12 或更高版本
+- 非常適合程式庫探索和原型設計
 
-### Checking Clojure Version
+### 檢查 Clojure 版本
 
 ```clojure
 *clojure-version*
 ;; => {:major 1, :minor 12, :incremental 1, :qualifier nil}
 ```
 
-### REPL Availability Discipline
+### REPL 可用性規範
 
-**Never edit code files when the REPL is unavailable.** When REPL evaluation returns errors indicating that the REPL is unavailable, stop immediately and inform the user. Let the user restore REPL before continuing.
+**當 REPL 不可用時，絕不編輯程式碼檔案。** 當 REPL 評估回傳錯誤表示 REPL 不可用時，立即停止並通知使用者。讓使用者在繼續之前恢復 REPL。
 
-#### Why This Matters
-- **Interactive Programming requires a working REPL** - You cannot verify behavior without evaluation
-- **Guessing creates bugs** - Code changes without testing introduce errors
+#### 為什麼這很重要
+- **互動式程式設計需要可運作的 REPL** - 沒有評估就無法驗證行為
+- **猜測會產生錯誤** - 未經測試的程式碼變更會引入錯誤
 
-## Structural Editing and REPL-First Habit
-- Develop changes in the REPL before touching files.
-- When editing Clojure files, always use structural editing tools such as **Insert Top Level Form**, **Replace Top Level Form**, **Create Clojure File**, and **Append Code**, and always read their instructions first.
+## 結構化編輯和 REPL 優先習慣
+- 在觸及檔案之前，在 REPL 中開發變更。
+- 編輯 Clojure 檔案時，始終使用結構化編輯工具，如 **Insert Top Level Form**、**Replace Top Level Form**、**Create Clojure File** 和 **Append Code**，並始終先閱讀其說明。
 
-### Creating New Files
-- Use the **Create Clojure File** tool with initial content
-- Follow Clojure naming rules: namespaces in kebab-case, file paths in matching snake_case (e.g., `my.project.ns` → `my/project/ns.clj`).
+### 建立新檔案
+- 使用 **Create Clojure File** 工具並提供初始內容
+- 遵循 Clojure 命名規則：命名空間使用 kebab-case，檔案路徑使用匹配的 snake_case（例如，`my.project.ns` → `my/project/ns.clj`）。
 
-### Reloading Namespaces
-After editing files, reload the edited namespace in the REPL so updated definitions are active.
+### 重新載入命名空間
+編輯檔案後，在 REPL 中重新載入已編輯的命名空間，以便更新的定義生效。
 
 ```clojure
 (require 'my.namespace :reload)
 ```
 
-## Code Indentation Before Evaluation
-Consistent indentation is crucial to help the bracket balancer.
+## 評估前的程式碼縮排
+一致的縮排對於幫助括號平衡器至關重要。
 
 ```clojure
 ;; ❌
@@ -119,16 +119,16 @@ Consistent indentation is crucial to help the bracket balancer.
   (+ x 2))
 ```
 
-## Indentation preferences
+## 縮排偏好
 
-Keep the condition and body on separate lines:
+將條件和主體保持在不同行：
 
 ```clojure
 (when limit
   (println "Limit set to:" limit))
 ```
 
-Keep the `and` and `or` arguments on separate lines:
+將 `and` 和 `or` 參數保持在不同行：
 
 ```clojure
 (if (and condition-a
@@ -137,13 +137,13 @@ Keep the `and` and `or` arguments on separate lines:
   that)
 ```
 
-## Inline Def Pattern
+## 內聯 Def 模式
 
-Prefer inline def debugging over println/console.log.
+優先使用內聯 def 除錯而非 println/console.log。
 
-### Inline `def` for Debugging
-- Inline `def` bindings keep intermediate state inspectable during REPL work.
-- Leave inline bindings in place when they continue to aid exploration.
+### 用於除錯的內聯 `def`
+- 內聯 `def` 綁定在 REPL 工作期間保持中間狀態可檢查。
+- 當內聯綁定繼續幫助探索時，保留它們。
 
 ```clojure
 (defn process-instructions [instructions]
@@ -152,26 +152,26 @@ Prefer inline def debugging over println/console.log.
     grouped))
 ```
 
-- Real-time inspection stays available.
-- Debugging cycles stay fast.
-- Iterative development remains smooth.
+- 實時檢查保持可用。
+- 除錯週期保持快速。
+- 迭代開發保持順暢。
 
-You can also use "inline def" when showing the user code in the chat, to make it easy for the user to experiment with the code from within the code blocks. The user can use Calva to evaluate the code directly in your code blocks. (But the user can't edit the code there.)
+您也可以在聊天中向使用者展示程式碼時使用「內聯 def」，使使用者能夠輕鬆地在程式碼區塊中進行實驗。使用者可以使用 Calva 直接在您的程式碼區塊中評估程式碼。（但使用者無法在那裡編輯程式碼。）
 
-## Return values > print side effects
+## 回傳值 > 列印副作用
 
-Prefer using the REPL and return values from your evaluations, over printing things to stdout.
+優先使用 REPL 和評估的回傳值，而非將內容列印到 stdout。
 
-## Reading from `stdin`
-- When Clojure code uses `(read-line)`, it will prompt the user through VS Code.
-- Avoid stdin reads in Babashka's nREPL because it lacks stdin support.
-- Ask the user to restart the REPL if it blocks.
+## 從 `stdin` 讀取
+- 當 Clojure 程式碼使用 `(read-line)` 時，它會透過 VS Code 提示使用者。
+- 避免在 Babashka 的 nREPL 中使用 stdin 讀取，因為它缺乏 stdin 支援。
+- 如果 REPL 阻塞，請要求使用者重新啟動。
 
-## Data Structure Preferences
+## 資料結構偏好
 
-We try to keep our data structures as flat as possible, leaning heavily on namespaced keywords and optimizing for easy destructuring. Generally in the app we use namespaced keywords, and most often "synthetic" namespaces.
+我們試圖保持資料結構盡可能扁平，大量依賴命名空間關鍵字並優化易於解構。通常在應用程式中我們使用命名空間關鍵字，最常見的是「合成」命名空間。
 
-Destructure keys directly in the parameter list.
+直接在參數列表中解構鍵。
 
 ```clojure
 (defn handle-user-request
@@ -182,10 +182,10 @@ Destructure keys directly in the parameter list.
     (println "Processing" method path "for" name)))
 ```
 
-Among many benefits this keeps function signatures transparent.
+在許多好處中，這使函式簽名保持透明。
 
-### Avoid Shadowing Built-ins
-Rename incoming keys when necessary to avoid hiding core functions.
+### 避免遮蔽內建函式
+必要時重新命名傳入的鍵，以避免隱藏核心函式。
 
 ```clojure
 (defn create-item
@@ -196,7 +196,7 @@ Rename incoming keys when necessary to avoid hiding core functions.
        :type file-type})
 ```
 
-Common symbols to keep free:
+要保持自由的常見符號：
 - `class`
 - `count`
 - `empty?`
@@ -216,27 +216,27 @@ Common symbols to keep free:
 - `type`
 - `update`
 
-## Avoid Unnecessary Wrapper Functions
-Do not wrap core functions unless a name genuinely clarifies composition.
+## 避免不必要的包裝函式
+除非名稱真正釐清組合，否則不要包裝核心函式。
 
 ```clojure
-(remove (set exclusions) items) ; a wrapper function would not make this clearer
+(remove (set exclusions) items) ; 包裝函式不會使這更清楚
 ```
 
-## Rich Comment Forms (RCF) for Documentation
+## 用於文件的豐富註解形式 (RCF)
 
-Rich Comment Forms `(comment ...)` serve a different purpose than direct REPL evaluation. Use RCFs in file editing to **document usage patterns and examples** for functions you've already validated in the REPL.
+豐富註解形式 `(comment ...)` 與直接 REPL 評估有不同的目的。在檔案編輯中使用 RCF 來 **記錄您已在 REPL 中驗證的函式的使用模式和範例**。
 
-### When to Use RCFs
-- **After REPL validation** - Document working examples in files
-- **Usage documentation** - Show how functions are intended to be used
-- **Exploration preservation** - Keep useful REPL discoveries in the codebase
-- **Example scenarios** - Demonstrate edge cases and typical usage
+### 何時使用 RCF
+- **在 REPL 驗證之後** - 在檔案中記錄有效的範例
+- **使用文件** - 展示函式的預期使用方式
+- **探索保存** - 在程式碼庫中保留有用的 REPL 發現
+- **範例場景** - 演示邊緣情況和典型用法
 
-### RCF Patterns
-RCF = Rich Comment Forms.
+### RCF 模式
+RCF = 豐富註解形式。
 
-When files are loaded code in RCFs is not evaluated, making them perfect for documenting example usage, since humans easily can evaluate the code in there at will.
+當載入檔案時，RCF 中的程式碼不會被評估，這使它們非常適合記錄範例用法，因為人類可以隨意評估其中的程式碼。
 
 ```clojure
 (defn process-user-data
@@ -260,7 +260,7 @@ When files are loaded code in RCFs is not evaluated, making them perfect for doc
   :rcf) ; Optional marker for end of comment block
 ```
 
-### RCF vs REPL Tool Usage
+### RCF vs REPL 工具使用
 ```clojure
 ;; In chat - show direct REPL evaluation:
 (in-ns 'my.namespace)
@@ -273,10 +273,10 @@ When files are loaded code in RCFs is not evaluated, making them perfect for doc
   :rcf)
 ```
 
-## Testing
+## 測試
 
-### Run Tests from the REPL
-Reload the target namespace and execute tests from the REPL for immediate feedback.
+### 從 REPL 執行測試
+重新載入目標命名空間並從 REPL 執行測試以獲得即時回饋。
 
 ```clojure
 (require '[my.project.some-test] :reload)
@@ -284,15 +284,15 @@ Reload the target namespace and execute tests from the REPL for immediate feedba
 (cljs.test/run-tests 'my.project.some-test)
 ```
 
-- Tighter REPL integration.
-- Focused execution.
-- Simpler debugging.
-- Direct access to test data.
+- 更緊密的 REPL 整合。
+- 集中執行。
+- 更簡單的除錯。
+- 直接存取測試資料。
 
-Prefer running individual test vars from within the test namespace when investigating failures.
+在調查失敗時，優先從測試命名空間內執行個別測試變數。
 
-### Use REPL-First TDD Workflow
-Iterate with real data before editing files.
+### 使用 REPL 優先的 TDD 工作流程
+在編輯檔案之前，使用真實資料進行迭代。
 
 ```clojure
 (def sample-text "line 1\nline 2\nline 3\nline 4\nline 5")
@@ -310,17 +310,17 @@ Iterate with real data before editing files.
       "Double digit with padding 3, no marker space"))
 ```
 
-#### Benefits
-- Verified behavior before committing changes
-- Incremental development with immediate feedback
-- Tests that capture known-good behavior
-- Start new work with failing tests to lock in intent
+#### 好處
+- 在提交變更之前驗證行為
+- 透過即時回饋進行增量開發
+- 捕獲已知良好行為的測試
+- 從失敗的測試開始新工作以鎖定意圖
 
-### Test Naming and Messaging
-Keep `deftest` names descriptive (area/thing style) without redundant `-test` suffixes.
+### 測試命名和訊息傳遞
+保持 `deftest` 名稱具描述性（區域/事物樣式），不使用冗餘的 `-test` 後綴。
 
-### Test Assertion Message Style
-Attach expectation messages directly to `is`, using `testing` blocks only when grouping multiple related assertions.
+### 測試斷言訊息風格
+將期望訊息直接附加到 `is`，僅在分組多個相關斷言時使用 `testing` 區塊。
 
 ```clojure
 (deftest line-marker-formatting
@@ -338,12 +338,11 @@ Attach expectation messages directly to `is`, using `testing` blocks only when g
           "Should have marker"))))
 ```
 
-Guidelines:
-- Keep assertion messages explicit about expectations.
-- Use `testing` for grouping related checks.
-- Maintain kebab-case names like `line-marker-formatting` or `context-line-extraction`.
+指導方針：
+- 保持斷言訊息對期望明確。
+- 使用 `testing` 來分組相關檢查。
+- 維護 kebab-case 名稱，如 `line-marker-formatting` 或 `context-line-extraction`。
 
-## Happy Interactive Programming
+## 快樂的互動式程式設計
 
-Remember to prefer the REPL in your work. Keep in mind that the user does not see what you evaluate. Nor the results. Communicate with the user in the chat about what you evaluate and what you get back.
-
+記住在工作中優先使用 REPL。請記住，使用者看不到您評估的內容，也看不到結果。在聊天中與使用者溝通您評估的內容和得到的回應。

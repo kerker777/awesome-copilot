@@ -1,116 +1,116 @@
 ---
-name: ".NET Upgrade Analysis Prompts"
-description: "Ready-to-use prompts for comprehensive .NET framework upgrade analysis and execution"
+name: ".NET 升級分析提示詞"
+description: "用於全面 .NET 框架升級分析和執行的即用型提示詞"
 prompts:
 ---
-  # Project Discovery & Assessment
-  - name: "Project Classification Analysis"
-    prompt: "Identify all projects in the solution and classify them by type (`.NET Framework`, `.NET Core`, `.NET Standard`). Analyze each `.csproj` for its current `TargetFramework` and SDK usage."
-  
-  - name: "Dependency Compatibility Review"
-    prompt: "Review external and internal dependencies for framework compatibility. Determine the upgrade complexity based on dependency graph depth."
-  
-  - name: "Legacy Package Detection"
-    prompt: "Identify legacy `packages.config` projects needing migration to `PackageReference` format."
+  # 專案探索與評估
+  - name: "專案分類分析"
+    prompt: "識別解決方案中的所有專案，並依類型（`.NET Framework`、`.NET Core`、`.NET Standard`）分類。分析每個 `.csproj` 的當前 `TargetFramework` 和 SDK 使用情況。"
 
-  # Upgrade Strategy & Sequencing
-  - name: "Project Upgrade Ordering"
-    prompt: "Recommend a project upgrade order from least to most dependent components. Suggest how to isolate class library upgrades before API or Azure Function migrations."
-  
-  - name: "Incremental Strategy Planning"
-    prompt: "Propose an incremental upgrade strategy with rollback checkpoints. Evaluate the use of **Upgrade Assistant** or **manual upgrades** based on project structure."
-  
-  - name: "Progress Tracking Setup"
-    prompt: "Generate an upgrade checklist for tracking build, test, and deployment readiness across all projects."
+  - name: "相依性相容性審查"
+    prompt: "審查外部和內部相依性的框架相容性。根據相依性圖深度確定升級複雜度。"
 
-  # Framework Targeting & Code Adjustments
-  - name: "Target Framework Selection"
-    prompt: "Suggest the correct `TargetFramework` for each project (e.g., `net8.0`). Review and update deprecated SDK or build configurations."
-  
-  - name: "Code Modernization Analysis"
-    prompt: "Identify code patterns needing modernization (e.g., `WebHostBuilder` → `HostBuilder`). Suggest replacements for deprecated .NET APIs and third-party libraries."
-  
-  - name: "Async Pattern Conversion"
-    prompt: "Recommend conversion of synchronous calls to async where appropriate for improved performance and scalability."
+  - name: "舊版套件偵測"
+    prompt: "識別需要遷移至 `PackageReference` 格式的舊版 `packages.config` 專案。"
 
-  # NuGet & Dependency Management
-  - name: "Package Compatibility Analysis"
-    prompt: "Analyze outdated or incompatible NuGet packages and suggest compatible versions. Identify third-party libraries that lack .NET 8 support and provide migration paths."
-  
-  - name: "Shared Dependency Strategy"
-    prompt: "Recommend strategies for handling shared dependency upgrades across projects. Evaluate usage of legacy packages and suggest alternatives in Microsoft-supported namespaces."
-  
-  - name: "Transitive Dependency Review"
-    prompt: "Review transitive dependencies and potential version conflicts after upgrade. Suggest resolution strategies for dependency conflicts."
+  # 升級策略與排序
+  - name: "專案升級順序"
+    prompt: "建議從最少相依元件到最多相依元件的專案升級順序。建議如何在 API 或 Azure Function 遷移之前隔離類別庫升級。"
 
-  # CI/CD & Build Pipeline Updates
-  - name: "Pipeline Configuration Analysis"
-    prompt: "Analyze YAML build definitions for SDK version pinning and recommend updates. Suggest modifications for `UseDotNet@2` and `NuGetToolInstaller` tasks."
-  
-  - name: "Build Pipeline Modernization"
-    prompt: "Generate updated build pipeline snippets for .NET 8 migration. Recommend validation builds on feature branches before merging to main."
-  
-  - name: "CI Automation Enhancement"
-    prompt: "Identify opportunities to automate test and build verification in CI pipelines. Suggest strategies for continuous integration validation."
+  - name: "漸進式策略規劃"
+    prompt: "提出具有回溯檢查點的漸進升級策略。根據專案結構評估使用 **Upgrade Assistant** 或**手動升級**。"
 
-  # Testing & Validation
-  - name: "Build Validation Strategy"
-    prompt: "Propose validation checks to ensure the upgraded solution builds and runs successfully. Recommend automated test execution for unit and integration suites post-upgrade."
-  
-  - name: "Service Integration Verification"
-    prompt: "Generate validation steps to verify logging, telemetry, and service connectivity. Suggest strategies for verifying backward compatibility and runtime behavior."
-  
-  - name: "Deployment Readiness Check"
-    prompt: "Recommend UAT deployment verification steps before production rollout. Create comprehensive testing scenarios for upgraded components."
+  - name: "進度追蹤設定"
+    prompt: "產生升級檢查清單，用於追蹤所有專案的建置、測試和部署就緒狀態。"
 
-  # Breaking Change Analysis
-  - name: "API Deprecation Detection"
-    prompt: "Identify deprecated APIs or removed namespaces between target versions. Suggest automated scanning using `.NET Upgrade Assistant` and API Analyzer."
-  
-  - name: "API Replacement Strategy"
-    prompt: "Recommend replacement APIs or libraries for known breaking areas. Review configuration changes such as `Startup.cs` → `Program.cs` refactoring."
-  
-  - name: "Regression Testing Focus"
-    prompt: "Suggest regression testing scenarios focused on upgraded API endpoints or services. Create test plans for critical functionality validation."
+  # 框架目標與程式碼調整
+  - name: "目標框架選擇"
+    prompt: "為每個專案建議正確的 `TargetFramework`（例如，`net8.0`）。審查並更新已棄用的 SDK 或建置設定。"
 
-  # Version Control & Commit Strategy
-  - name: "Branching Strategy Planning"
-    prompt: "Recommend branching strategy for safe upgrade with rollback capability. Generate commit templates for partial and complete project upgrades."
-  
-  - name: "PR Structure Optimization"
-    prompt: "Suggest best practices for creating structured PRs (`Upgrade to .NET [Version]`). Identify tagging strategies for PRs involving breaking changes."
-  
-  - name: "Code Review Guidelines"
-    prompt: "Recommend peer review focus areas (build, test, and dependency validation). Create checklists for effective upgrade reviews."
+  - name: "程式碼現代化分析"
+    prompt: "識別需要現代化的程式碼模式（例如，`WebHostBuilder` → `HostBuilder`）。建議已棄用的 .NET API 和第三方程式庫的替代方案。"
 
-  # Documentation & Communication
-  - name: "Upgrade Documentation Strategy"
-    prompt: "Suggest how to document each project's framework change in the PR. Propose automated release note generation summarizing upgrades and test results."
-  
-  - name: "Stakeholder Communication"
-    prompt: "Recommend communicating version upgrades and migration timelines to consumers. Generate documentation templates for dependency updates and validation results."
-  
-  - name: "Progress Tracking Systems"
-    prompt: "Suggest maintaining an upgrade summary dashboard or markdown checklist. Create templates for tracking upgrade progress across multiple projects."
+  - name: "非同步模式轉換"
+    prompt: "建議將同步呼叫轉換為非同步呼叫，以提高效能和可擴展性。"
 
-  # Tools & Automation
-  - name: "Upgrade Tool Selection"
-    prompt: "Recommend when and how to use: `.NET Upgrade Assistant`, `dotnet list package --outdated`, `dotnet migrate`, and `graph.json` dependency visualization."
-  
-  - name: "Analysis Script Generation"
-    prompt: "Generate scripts or prompts for analyzing dependency graphs before upgrading. Propose AI-assisted prompts for Copilot to identify upgrade issues automatically."
-  
-  - name: "Multi-Repository Validation"
-    prompt: "Suggest how to validate automation output across multiple repositories. Create standardized validation workflows for enterprise-scale upgrades."
+  # NuGet 與相依性管理
+  - name: "套件相容性分析"
+    prompt: "分析過時或不相容的 NuGet 套件，並建議相容版本。識別缺少 .NET 8 支援的第三方程式庫，並提供遷移路徑。"
 
-  # Final Validation & Delivery
-  - name: "Final Solution Validation"
-    prompt: "Generate validation steps to confirm the final upgraded solution passes all validation checks. Suggest production deployment verification steps post-upgrade."
-  
-  - name: "Deployment Readiness Confirmation"
-    prompt: "Recommend generating final test results and build artifacts. Create a checklist summarizing completion across projects (builds/tests/deployment)."
-  
-  - name: "Release Documentation"
-    prompt: "Generate a release note summarizing framework changes and CI/CD updates. Create comprehensive upgrade summary documentation."
+  - name: "共享相依性策略"
+    prompt: "建議跨專案處理共享相依性升級的策略。評估舊版套件的使用情況，並建議 Microsoft 支援命名空間中的替代方案。"
+
+  - name: "傳遞相依性審查"
+    prompt: "審查升級後的傳遞相依性和潛在版本衝突。建議相依性衝突的解決策略。"
+
+  # CI/CD 與建置管線更新
+  - name: "管線設定分析"
+    prompt: "分析 YAML 建置定義中的 SDK 版本固定，並建議更新。建議修改 `UseDotNet@2` 和 `NuGetToolInstaller` 任務。"
+
+  - name: "建置管線現代化"
+    prompt: "為 .NET 8 遷移產生更新的建置管線片段。建議在合併至主分支之前在功能分支上進行驗證建置。"
+
+  - name: "CI 自動化增強"
+    prompt: "識別在 CI 管線中自動化測試和建置驗證的機會。建議持續整合驗證的策略。"
+
+  # 測試與驗證
+  - name: "建置驗證策略"
+    prompt: "提出驗證檢查，以確保升級的解決方案成功建置和執行。建議升級後自動執行單元和整合測試套件。"
+
+  - name: "服務整合驗證"
+    prompt: "產生驗證步驟以驗證日誌記錄、遙測和服務連線。建議驗證向後相容性和執行階段行為的策略。"
+
+  - name: "部署就緒檢查"
+    prompt: "建議生產環境推出前的 UAT 部署驗證步驟。為升級的元件建立全面的測試情境。"
+
+  # 重大變更分析
+  - name: "API 棄用偵測"
+    prompt: "識別目標版本之間已棄用的 API 或已移除的命名空間。建議使用 `.NET Upgrade Assistant` 和 API Analyzer 進行自動掃描。"
+
+  - name: "API 替換策略"
+    prompt: "建議已知重大變更領域的替代 API 或程式庫。審查設定變更，例如 `Startup.cs` → `Program.cs` 重構。"
+
+  - name: "迴歸測試重點"
+    prompt: "建議針對升級的 API 端點或服務的迴歸測試情境。為關鍵功能驗證建立測試計畫。"
+
+  # 版本控制與提交策略
+  - name: "分支策略規劃"
+    prompt: "建議具有回溯能力的安全升級分支策略。為部分和完整專案升級產生提交範本。"
+
+  - name: "PR 結構最佳化"
+    prompt: "建議建立結構化 PR 的最佳實踐（`升級至 .NET [版本]`）。識別涉及重大變更的 PR 標記策略。"
+
+  - name: "程式碼審查指南"
+    prompt: "建議同儕審查重點領域（建置、測試和相依性驗證）。建立有效升級審查的檢查清單。"
+
+  # 文件與溝通
+  - name: "升級文件策略"
+    prompt: "建議如何在 PR 中記錄每個專案的框架變更。提出自動產生發行說明的方案，總結升級和測試結果。"
+
+  - name: "利害關係人溝通"
+    prompt: "建議向消費者傳達版本升級和遷移時程。為相依性更新和驗證結果產生文件範本。"
+
+  - name: "進度追蹤系統"
+    prompt: "建議維護升級摘要儀表板或 markdown 檢查清單。建立用於追蹤多個專案升級進度的範本。"
+
+  # 工具與自動化
+  - name: "升級工具選擇"
+    prompt: "建議何時及如何使用：`.NET Upgrade Assistant`、`dotnet list package --outdated`、`dotnet migrate` 和 `graph.json` 相依性視覺化。"
+
+  - name: "分析腳本產生"
+    prompt: "產生升級前分析相依性圖的腳本或提示詞。提出 AI 輔助提示詞，讓 Copilot 自動識別升級問題。"
+
+  - name: "多儲存庫驗證"
+    prompt: "建議如何跨多個儲存庫驗證自動化輸出。為企業規模升級建立標準化驗證工作流程。"
+
+  # 最終驗證與交付
+  - name: "最終解決方案驗證"
+    prompt: "產生驗證步驟以確認最終升級的解決方案通過所有驗證檢查。建議升級後的生產環境部署驗證步驟。"
+
+  - name: "部署就緒確認"
+    prompt: "建議產生最終測試結果和建置成品。建立總結專案完成情況（建置/測試/部署）的檢查清單。"
+
+  - name: "發行文件"
+    prompt: "產生總結框架變更和 CI/CD 更新的發行說明。建立全面的升級摘要文件。"
 
 ---

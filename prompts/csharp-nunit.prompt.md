@@ -1,72 +1,72 @@
 ---
 mode: 'agent'
 tools: ['changes', 'search/codebase', 'edit/editFiles', 'problems', 'search']
-description: 'Get best practices for NUnit unit testing, including data-driven tests'
+description: '取得 NUnit 單元測試的最佳實踐，包括資料驅動測試'
 ---
 
-# NUnit Best Practices
+# NUnit 最佳實踐
 
-Your goal is to help me write effective unit tests with NUnit, covering both standard and data-driven testing approaches.
+您的目標是協助我使用 NUnit 撰寫有效的單元測試，涵蓋標準和資料驅動測試方法。
 
-## Project Setup
+## 專案設定
 
-- Use a separate test project with naming convention `[ProjectName].Tests`
-- Reference Microsoft.NET.Test.Sdk, NUnit, and NUnit3TestAdapter packages
-- Create test classes that match the classes being tested (e.g., `CalculatorTests` for `Calculator`)
-- Use .NET SDK test commands: `dotnet test` for running tests
+- 使用單獨的測試專案，命名慣例為 `[專案名稱].Tests`
+- 參考 Microsoft.NET.Test.Sdk、NUnit 和 NUnit3TestAdapter 套件
+- 建立與被測試類別相符的測試類別（例如，`Calculator` 對應 `CalculatorTests`）
+- 使用 .NET SDK 測試命令：`dotnet test` 執行測試
 
-## Test Structure
+## 測試結構
 
-- Apply `[TestFixture]` attribute to test classes
-- Use `[Test]` attribute for test methods
-- Follow the Arrange-Act-Assert (AAA) pattern
-- Name tests using the pattern `MethodName_Scenario_ExpectedBehavior`
-- Use `[SetUp]` and `[TearDown]` for per-test setup and teardown
-- Use `[OneTimeSetUp]` and `[OneTimeTearDown]` for per-class setup and teardown
-- Use `[SetUpFixture]` for assembly-level setup and teardown
+- 在測試類別上套用 `[TestFixture]` 屬性
+- 在測試方法上使用 `[Test]` 屬性
+- 遵循 Arrange-Act-Assert (AAA) 模式
+- 使用 `方法名稱_情境_預期行為` 模式命名測試
+- 使用 `[SetUp]` 和 `[TearDown]` 進行每個測試的設定和清理
+- 使用 `[OneTimeSetUp]` 和 `[OneTimeTearDown]` 進行每個類別的設定和清理
+- 使用 `[SetUpFixture]` 進行組件層級的設定和清理
 
-## Standard Tests
+## 標準測試
 
-- Keep tests focused on a single behavior
-- Avoid testing multiple behaviors in one test method
-- Use clear assertions that express intent
-- Include only the assertions needed to verify the test case
-- Make tests independent and idempotent (can run in any order)
-- Avoid test interdependencies
+- 保持測試專注於單一行為
+- 避免在一個測試方法中測試多個行為
+- 使用表達意圖的清晰斷言
+- 僅包含驗證測試案例所需的斷言
+- 使測試獨立且具有冪等性（可以任意順序執行）
+- 避免測試相依性
 
-## Data-Driven Tests
+## 資料驅動測試
 
-- Use `[TestCase]` for inline test data
-- Use `[TestCaseSource]` for programmatically generated test data
-- Use `[Values]` for simple parameter combinations
-- Use `[ValueSource]` for property or method-based data sources
-- Use `[Random]` for random numeric test values
-- Use `[Range]` for sequential numeric test values
-- Use `[Combinatorial]` or `[Pairwise]` for combining multiple parameters
+- 使用 `[TestCase]` 提供行內測試資料
+- 使用 `[TestCaseSource]` 提供程式化產生的測試資料
+- 使用 `[Values]` 進行簡單參數組合
+- 使用 `[ValueSource]` 提供基於屬性或方法的資料來源
+- 使用 `[Random]` 提供隨機數值測試值
+- 使用 `[Range]` 提供連續數值測試值
+- 使用 `[Combinatorial]` 或 `[Pairwise]` 組合多個參數
 
-## Assertions
+## 斷言
 
-- Use `Assert.That` with constraint model (preferred NUnit style)
-- Use constraints like `Is.EqualTo`, `Is.SameAs`, `Contains.Item`
-- Use `Assert.AreEqual` for simple value equality (classic style)
-- Use `CollectionAssert` for collection comparisons
-- Use `StringAssert` for string-specific assertions
-- Use `Assert.Throws<T>` or `Assert.ThrowsAsync<T>` to test exceptions
-- Use descriptive messages in assertions for clarity on failure
+- 使用 `Assert.That` 搭配約束模型（NUnit 偏好的風格）
+- 使用 `Is.EqualTo`、`Is.SameAs`、`Contains.Item` 等約束
+- 使用 `Assert.AreEqual` 進行簡單值相等性比較（傳統風格）
+- 使用 `CollectionAssert` 進行集合比較
+- 使用 `StringAssert` 進行字串特定斷言
+- 使用 `Assert.Throws<T>` 或 `Assert.ThrowsAsync<T>` 測試例外
+- 在斷言中使用描述性訊息，以便在失敗時清楚說明
 
-## Mocking and Isolation
+## 模擬和隔離
 
-- Consider using Moq or NSubstitute alongside NUnit
-- Mock dependencies to isolate units under test
-- Use interfaces to facilitate mocking
-- Consider using a DI container for complex test setups
+- 考慮搭配 NUnit 使用 Moq 或 NSubstitute
+- 模擬相依性以隔離待測單元
+- 使用介面來促進模擬
+- 對於複雜的測試設定，考慮使用 DI 容器
 
-## Test Organization
+## 測試組織
 
-- Group tests by feature or component
-- Use categories with `[Category("CategoryName")]`
-- Use `[Order]` to control test execution order when necessary
-- Use `[Author("DeveloperName")]` to indicate ownership
-- Use `[Description]` to provide additional test information
-- Consider `[Explicit]` for tests that shouldn't run automatically
-- Use `[Ignore("Reason")]` to temporarily skip tests
+- 按功能或元件分組測試
+- 使用 `[Category("分類名稱")]` 進行分類
+- 使用 `[Order]` 在必要時控制測試執行順序
+- 使用 `[Author("開發者名稱")]` 表示擁有者
+- 使用 `[Description]` 提供額外的測試資訊
+- 對於不應自動執行的測試，考慮使用 `[Explicit]`
+- 使用 `[Ignore("原因")]` 暫時跳過測試

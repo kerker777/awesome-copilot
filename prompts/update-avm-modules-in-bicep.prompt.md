@@ -1,60 +1,60 @@
 ---
 mode: 'agent'
-description: 'Update Azure Verified Modules (AVM) to latest versions in Bicep files.'
+description: '將 Bicep 檔案中的 Azure 驗證模組 (AVM) 更新到最新版本。'
 tools: ['search/codebase', 'think', 'changes', 'fetch', 'search/searchResults', 'todos', 'edit/editFiles', 'search', 'runCommands', 'bicepschema', 'azure_get_schema_for_Bicep']
 ---
-# Update Azure Verified Modules in Bicep Files
+# 更新 Bicep 檔案中的 Azure 驗證模組
 
-Update Bicep file `${file}` to use latest Azure Verified Module (AVM) versions. Limit progress updates to non-breaking changes. Don't output information other than the final outout table and summary.
+更新 Bicep 檔案 `${file}` 以使用最新的 Azure 驗證模組 (AVM) 版本。將進度更新限制為非中斷性變更。除了最終輸出表格和摘要之外，不要輸出其他資訊。
 
-## Process
+## 流程
 
-1. **Scan**: Extract AVM modules and current versions from `${file}`
-1. **Identify**: List all unique AVM modules used by matching `avm/res/{service}/{resource}` using `#search` tool
-1. **Check**: Use `#fetch` tool to get latest version of each AVM module from MCR: `https://mcr.microsoft.com/v2/bicep/avm/res/{service}/{resource}/tags/list`
-1. **Compare**: Parse semantic versions to identify AVM modules needing update
-1. **Review**: For breaking changes, use `#fetch` tool to get docs from: `https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/{service}/{resource}`
-1. **Update**: Apply version updates and parameter changes using `#editFiles` tool
-1. **Validate**: Run `bicep lint` and `bicep build` using `#runCommands` tool to ensure compliance.
-1. **Output**: Summarize changes in a table format with summary of updates below.
+1. **掃描**：從 `${file}` 擷取 AVM 模組和目前版本
+1. **識別**：使用 `#search` 工具透過比對 `avm/res/{service}/{resource}` 列出所有使用的唯一 AVM 模組
+1. **檢查**：使用 `#fetch` 工具從 MCR 取得每個 AVM 模組的最新版本：`https://mcr.microsoft.com/v2/bicep/avm/res/{service}/{resource}/tags/list`
+1. **比較**：解析語意版本以識別需要更新的 AVM 模組
+1. **審查**：對於中斷性變更，使用 `#fetch` 工具從以下位置取得文件：`https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/{service}/{resource}`
+1. **更新**：使用 `#editFiles` 工具套用版本更新和參數變更
+1. **驗證**：使用 `#runCommands` 工具執行 `bicep lint` 和 `bicep build` 以確保合規性。
+1. **輸出**：以表格格式總結變更，並在下方提供更新摘要。
 
-## Tool Usage
+## 工具使用
 
-Always use tools `#search`, `#searchResults`,`#fetch`, `#editFiles`, `#runCommands`, `#todos` if available. Avoid writing code to perform tasks.
+如果可用，請始終使用工具 `#search`、`#searchResults`、`#fetch`、`#editFiles`、`#runCommands`、`#todos`。避免撰寫程式碼來執行任務。
 
-## Breaking Change Policy
+## 中斷性變更原則
 
-⚠️ **PAUSE for approval** if updates involve:
+⚠️ 如果更新涉及以下內容，**請暫停以獲得核准**：
 
-- Incompatible parameter changes
-- Security/compliance modifications
-- Behavioral changes
+- 不相容的參數變更
+- 安全性/合規性修改
+- 行為變更
 
-## Output Format
+## 輸出格式
 
-Only display results in table with icons:
+僅在表格中顯示結果，並使用圖示：
 
 ```markdown
-| Module | Current | Latest | Status | Action | Docs |
+| 模組 | 目前 | 最新 | 狀態 | 動作 | 文件 |
 |--------|---------|--------|--------|--------|------|
-| avm/res/compute/vm | 0.1.0 | 0.2.0 | 🔄 | Updated | [📖](link) |
-| avm/res/storage/account | 0.3.0 | 0.3.0 | ✅ | Current | [📖](link) |
+| avm/res/compute/vm | 0.1.0 | 0.2.0 | 🔄 | 已更新 | [📖](連結) |
+| avm/res/storage/account | 0.3.0 | 0.3.0 | ✅ | 目前 | [📖](連結) |
 
-### Summary of Updates
+### 更新摘要
 
-Describe updates made, any manual reviews needed or issues encountered.
+描述所做的更新、需要的任何手動審查或遇到的問題。
 ```
 
-## Icons
+## 圖示
 
-- 🔄 Updated
-- ✅ Current
-- ⚠️ Manual review required
-- ❌ Failed
-- 📖 Documentation
+- 🔄 已更新
+- ✅ 目前
+- ⚠️ 需要手動審查
+- ❌ 失敗
+- 📖 文件
 
-## Requirements
+## 需求
 
-- Use MCR tags API only for version discovery
-- Parse JSON tags array and sort by semantic versioning
-- Maintain Bicep file validity and linting compliance
+- 僅使用 MCR 標籤 API 進行版本探索
+- 解析 JSON 標籤陣列並按語意版本排序
+- 維護 Bicep 檔案有效性和 linting 合規性

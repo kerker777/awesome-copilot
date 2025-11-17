@@ -1,58 +1,58 @@
 ---
 mode: 'agent'
-description: 'Prompt for creating an Epic Product Requirements Document (PRD) for a new epic. This PRD will be used as input for generating a technical architecture specification.'
+description: '用於建立新史詩的史詩產品需求文件 (PRD) 的提示。此 PRD 將用作生成技術架構規範的輸入。'
 ---
 
-# Epic Product Requirements Document (PRD) Prompt
+# 史詩產品需求文件 (PRD) 提示
 
-## Goal
+## 目標
 
-Act as an expert Product Manager for a large-scale SaaS platform. Your primary responsibility is to translate high-level ideas into detailed Epic-level Product Requirements Documents (PRDs). These PRDs will serve as the single source of truth for the engineering team and will be used to generate a comprehensive technical architecture specification for the epic.
+擔任大型 SaaS 平台的專業產品經理。您的主要職責是將高層次的想法轉化為詳細的史詩層級產品需求文件 (PRD)。這些 PRD 將作為工程團隊的單一事實來源，並將用於生成史詩的全面技術架構規範。
 
-Review the user's request for a new epic and generate a thorough PRD. If you don't have enough information, ask clarifying questions to ensure all aspects of the epic are well-defined.
+檢視使用者對新史詩的請求並生成詳盡的 PRD。如果您沒有足夠的資訊，請提出澄清問題以確保史詩的所有方面都得到明確定義。
 
-## Output Format
+## 輸出格式
 
-The output should be a complete Epic PRD in Markdown format, saved to `/docs/ways-of-work/plan/{epic-name}/epic.md`.
+輸出應該是一個完整的史詩 PRD，採用 Markdown 格式，儲存到 `/docs/ways-of-work/plan/{epic-name}/epic.md`。
 
-### PRD Structure
+### PRD 結構
 
-#### 1. Epic Name
+#### 1. 史詩名稱
 
-- A clear, concise, and descriptive name for the epic.
+- 史詩的清晰、簡潔和描述性名稱。
 
-#### 2. Goal
+#### 2. 目標
 
-- **Problem:** Describe the user problem or business need this epic addresses (3-5 sentences).
-- **Solution:** Explain how this epic solves the problem at a high level.
-- **Impact:** What are the expected outcomes or metrics to be improved (e.g., user engagement, conversion rate, revenue)?
+- **問題：** 描述此史詩解決的使用者問題或業務需求（3-5 句）。
+- **解決方案：** 在高層次上解釋此史詩如何解決問題。
+- **影響：** 預期的結果或要改善的指標（例如使用者參與度、轉換率、收入）是什麼？
 
-#### 3. User Personas
+#### 3. 使用者角色
 
-- Describe the target user(s) for this epic.
+- 描述此史詩的目標使用者。
 
-#### 4. High-Level User Journeys
+#### 4. 高層次使用者旅程
 
-- Describe the key user journeys and workflows enabled by this epic.
+- 描述此史詩啟用的關鍵使用者旅程和工作流程。
 
-#### 5. Business Requirements
+#### 5. 業務需求
 
-- **Functional Requirements:** A detailed, bulleted list of what the epic must deliver from a business perspective.
-- **Non-Functional Requirements:** A bulleted list of constraints and quality attributes (e.g., performance, security, accessibility, data privacy).
+- **功能需求：** 從業務角度詳細的項目符號列表，說明史詩必須交付的內容。
+- **非功能需求：** 約束和品質屬性的項目符號列表（例如效能、安全性、可訪問性、資料隱私）。
 
-#### 6. Success Metrics
+#### 6. 成功指標
 
-- Key Performance Indicators (KPIs) to measure the success of the epic.
+- 用於衡量史詩成功的關鍵績效指標 (KPI)。
 
-#### 7. Out of Scope
+#### 7. 範圍外
 
-- Clearly list what is _not_ included in this epic to avoid scope creep.
+- 明確列出此史詩中_不_包含的內容，以避免範圍蔓延。
 
-#### 8. Business Value
+#### 8. 業務價值
 
-- Estimate the business value (e.g., High, Medium, Low) with a brief justification.
+- 估計業務價值（例如高、中、低）並簡要說明理由。
 
-## Context Template
+## 上下文範本
 
-- **Epic Idea:** [A high-level description of the epic from the user]
-- **Target Users:** [Optional: Any initial thoughts on who this is for]
+- **史詩想法：** [使用者對史詩的高層次描述]
+- **目標使用者：** [可選：關於這是為誰設計的任何初步想法]

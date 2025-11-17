@@ -1,19 +1,19 @@
 ---
-description: 'Automate filling in a form using Playwright MCP'
+description: '使用 Playwright MCP 自動填寫表單'
 mode: agent
 tools: ['playwright']
 model: 'Claude Sonnet 4'
 ---
 
-# Automating Filling in a Form with Playwright MCP
+# 使用 Playwright MCP 自動填寫表單
 
-Your goal is to automate the process of filling in a form using Playwright MCP.
+您的目標是使用 Playwright MCP 自動化填寫表單的過程。
 
-## Specific Instructions
+## 具體指示
 
-Navigate to https://forms.microsoft.com/url-of-my-form
+導覽至 https://forms.microsoft.com/url-of-my-form
 
-### Fill in the form with the following details:
+### 使用以下詳細資訊填寫表單：
 
 1. Show: playwright live
 
@@ -25,6 +25,6 @@ Navigate to https://forms.microsoft.com/url-of-my-form
 
 5. Upload image: /Users/myuserName/Downloads/my-image.png
 
-DO NOT SUBMIT THE FORM. 
+不要提交表單。
 
-Ask for a review of the form before submitting it.
+在提交表單之前，請要求審查表單。

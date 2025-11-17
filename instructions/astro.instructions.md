@@ -1,33 +1,33 @@
 ---
-description: 'Astro development standards and best practices for content-driven websites'
+description: '內容驅動網站的 Astro 開發標準和最佳實踐'
 applyTo: '**/*.astro, **/*.ts, **/*.js, **/*.md, **/*.mdx'
 ---
 
-# Astro Development Instructions
+# Astro 開發指示
 
-Instructions for building high-quality Astro applications following the content-driven, server-first architecture with modern best practices.
+遵循現代最佳實踐,使用內容驅動、伺服器優先架構建立高品質 Astro 應用程式的指示。
 
-## Project Context
-- Astro 5.x with Islands Architecture and Content Layer API
-- TypeScript for type safety and better DX with auto-generated types
-- Content-driven websites (blogs, marketing, e-commerce, documentation)
-- Server-first rendering with selective client-side hydration
-- Support for multiple UI frameworks (React, Vue, Svelte, Solid, etc.)
-- Static site generation (SSG) by default with optional server-side rendering (SSR)
-- Enhanced performance with modern content loading and build optimizations
+## 專案情境
+- Astro 5.x 搭配 Islands 架構和 Content Layer API
+- TypeScript 以確保型別安全和更好的 DX 與自動產生的型別
+- 內容驅動網站(部落格、行銷、電子商務、文件)
+- 伺服器優先渲染搭配選擇性客戶端水合
+- 支援多種 UI 框架(React、Vue、Svelte、Solid 等)
+- 預設靜態網站產生(SSG)搭配可選的伺服器端渲染(SSR)
+- 透過現代內容載入和建置最佳化提升效能
 
-## Development Standards
+## 開發標準
 
-### Architecture
-- Embrace the Islands Architecture: server-render by default, hydrate selectively
-- Organize content with Content Collections for type-safe Markdown/MDX management
-- Structure projects by feature or content type for scalability
-- Use component-based architecture with clear separation of concerns
-- Implement progressive enhancement patterns
-- Follow Multi-Page App (MPA) approach over Single-Page App (SPA) patterns
+### 架構
+- 擁抱 Islands 架構:預設伺服器渲染,選擇性水合
+- 使用 Content Collections 組織內容,以實現型別安全的 Markdown/MDX 管理
+- 按功能或內容類型結構專案以實現可擴展性
+- 使用基於元件的架構,明確分離關注點
+- 實作漸進增強模式
+- 遵循多頁應用程式(MPA)方法而非單頁應用程式(SPA)模式
 
-### TypeScript Integration
-- Configure `tsconfig.json` with recommended v5.0 settings:
+### TypeScript 整合
+- 使用建議的 v5.0 設定配置 `tsconfig.json`:
 ```json
 {
   "extends": "astro/tsconfigs/base",
@@ -35,26 +35,26 @@ Instructions for building high-quality Astro applications following the content-
   "exclude": ["dist"]
 }
 ```
-- Types auto-generated in `.astro/types.d.ts` (replaces `src/env.d.ts`)
-- Run `astro sync` to generate/update type definitions
-- Define component props with TypeScript interfaces
-- Leverage auto-generated types for content collections and Content Layer API
+- 型別在 `.astro/types.d.ts` 中自動產生(取代 `src/env.d.ts`)
+- 執行 `astro sync` 以產生/更新型別定義
+- 使用 TypeScript 介面定義元件屬性
+- 利用 Content Collections 和 Content Layer API 的自動產生型別
 
-### Component Design
-- Use `.astro` components for static, server-rendered content
-- Import framework components (React, Vue, Svelte) only when interactivity is needed
-- Follow Astro's component script structure: frontmatter at top, template below
-- Use meaningful component names following PascalCase convention
-- Keep components focused and composable
-- Implement proper prop validation and default values
+### 元件設計
+- 對靜態、伺服器渲染內容使用 `.astro` 元件
+- 僅在需要互動性時匯入框架元件(React、Vue、Svelte)
+- 遵循 Astro 的元件腳本結構:頂部前言,下方範本
+- 使用遵循 PascalCase 慣例的有意義元件名稱
+- 保持元件專注且可組合
+- 實作適當的屬性驗證和預設值
 
 ### Content Collections
 
-#### Modern Content Layer API (v5.0+)
-- Define collections in `src/content.config.ts` using the new Content Layer API
-- Use built-in loaders: `glob()` for file-based content, `file()` for single files
-- Leverage enhanced performance and scalability with the new loading system
-- Example with Content Layer API:
+#### 現代 Content Layer API(v5.0+)
+- 使用新的 Content Layer API 在 `src/content.config.ts` 中定義集合
+- 使用內建載入器:`glob()` 用於基於文件的內容,`file()` 用於單一文件
+- 利用新載入系統的增強效能和可擴展性
+- Content Layer API 範例:
 ```typescript
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
@@ -69,92 +69,92 @@ const blog = defineCollection({
 });
 ```
 
-#### Legacy Collections (backward compatible)
-- Legacy `type: 'content'` collections still supported via automatic glob() implementation
-- Migrate existing collections by adding explicit `loader` configuration
-- Use type-safe queries with `getCollection()` and `getEntry()`
-- Structure content with frontmatter validation and auto-generated types
+#### 舊版 Collections(向後相容)
+- 透過自動 glob() 實作仍支援舊版 `type: 'content'` 集合
+- 透過新增明確的 `loader` 配置遷移現有集合
+- 使用 `getCollection()` 和 `getEntry()` 進行型別安全查詢
+- 使用前言驗證和自動產生的型別組織內容
 
-### View Transitions & Client-Side Routing
-- Enable with `<ClientRouter />` component in layout head (renamed from `<ViewTransitions />` in v5.0)
-- Import from `astro:transitions`: `import { ClientRouter } from 'astro:transitions'`
-- Provides SPA-like navigation without full page reloads
-- Customize transition animations with CSS and view-transition-name
-- Maintain state across page navigations with persistent islands
-- Use `transition:persist` directive to preserve component state
+### View Transitions 與客戶端路由
+- 在佈局頭部使用 `<ClientRouter />` 元件啟用(在 v5.0 中從 `<ViewTransitions />` 重新命名)
+- 從 `astro:transitions` 匯入:`import { ClientRouter } from 'astro:transitions'`
+- 提供類似 SPA 的導航而無需完整頁面重新載入
+- 使用 CSS 和 view-transition-name 自訂過渡動畫
+- 使用持久性 islands 維護跨頁面導航的狀態
+- 使用 `transition:persist` 指令保留元件狀態
 
-### Performance Optimization
-- Default to zero JavaScript - only add interactivity where needed
-- Use client directives strategically (`client:load`, `client:idle`, `client:visible`)
-- Implement lazy loading for images and components
-- Optimize static assets with Astro's built-in optimization
-- Leverage Content Layer API for faster content loading and builds
-- Minimize bundle size by avoiding unnecessary client-side JavaScript
+### 效能最佳化
+- 預設零 JavaScript - 僅在需要時新增互動性
+- 策略性使用客戶端指令(`client:load`、`client:idle`、`client:visible`)
+- 對圖片和元件實作延遲載入
+- 使用 Astro 的內建最佳化來最佳化靜態資源
+- 利用 Content Layer API 實現更快的內容載入和建置
+- 透過避免不必要的客戶端 JavaScript 最小化套件大小
 
-### Styling
-- Use scoped styles in `.astro` components by default
-- Implement CSS preprocessing (Sass, Less) when needed
-- Use CSS custom properties for theming and design systems
-- Follow mobile-first responsive design principles
-- Ensure accessibility with semantic HTML and proper ARIA attributes
-- Consider utility-first frameworks (Tailwind CSS) for rapid development
+### 樣式
+- 預設在 `.astro` 元件中使用範疇樣式
+- 需要時實作 CSS 前處理器(Sass、Less)
+- 使用 CSS 自訂屬性進行主題設定和設計系統
+- 遵循行動優先的響應式設計原則
+- 使用語義化 HTML 和適當的 ARIA 屬性確保無障礙性
+- 考慮使用工具優先框架(Tailwind CSS)進行快速開發
 
-### Client-Side Interactivity
-- Use framework components (React, Vue, Svelte) for interactive elements
-- Choose the right hydration strategy based on user interaction patterns
-- Implement state management within framework boundaries
-- Handle client-side routing carefully to maintain MPA benefits
-- Use Web Components for framework-agnostic interactivity
-- Share state between islands using stores or custom events
+### 客戶端互動性
+- 對互動元素使用框架元件(React、Vue、Svelte)
+- 根據使用者互動模式選擇正確的水合策略
+- 在框架邊界內實作狀態管理
+- 謹慎處理客戶端路由以維持 MPA 優勢
+- 使用 Web Components 實現框架無關的互動性
+- 使用儲存或自訂事件在 islands 之間共享狀態
 
-### API Routes and SSR
-- Create API routes in `src/pages/api/` for dynamic functionality
-- Use proper HTTP methods and status codes
-- Implement request validation and error handling
-- Enable SSR mode for dynamic content requirements
-- Use middleware for authentication and request processing
-- Handle environment variables securely
+### API 路由和 SSR
+- 在 `src/pages/api/` 中建立 API 路由以實現動態功能
+- 使用適當的 HTTP 方法和狀態碼
+- 實作請求驗證和錯誤處理
+- 為動態內容需求啟用 SSR 模式
+- 使用中介軟體進行驗證和請求處理
+- 安全處理環境變數
 
-### SEO and Meta Management
-- Use Astro's built-in SEO components and meta tag management
-- Implement proper Open Graph and Twitter Card metadata
-- Generate sitemaps automatically for better search indexing
-- Use semantic HTML structure for better accessibility and SEO
-- Implement structured data (JSON-LD) for rich snippets
-- Optimize page titles and descriptions for search engines
+### SEO 和 Meta 管理
+- 使用 Astro 的內建 SEO 元件和 meta 標籤管理
+- 實作適當的 Open Graph 和 Twitter Card 中繼資料
+- 自動產生網站地圖以改善搜尋索引
+- 使用語義化 HTML 結構以改善無障礙性和 SEO
+- 實作結構化資料(JSON-LD)以獲得豐富摘要
+- 為搜尋引擎最佳化頁面標題和描述
 
-### Image Optimization
-- Use Astro's `<Image />` component for automatic optimization
-- Implement responsive images with proper srcset generation
-- Use WebP and AVIF formats for modern browsers
-- Lazy load images below the fold
-- Provide proper alt text for accessibility
-- Optimize images at build time for better performance
+### 圖片最佳化
+- 使用 Astro 的 `<Image />` 元件進行自動最佳化
+- 使用適當的 srcset 產生實作響應式圖片
+- 對現代瀏覽器使用 WebP 和 AVIF 格式
+- 延遲載入摺疊下方的圖片
+- 為無障礙性提供適當的替代文字
+- 在建置時最佳化圖片以獲得更好的效能
 
-### Data Fetching
-- Fetch data at build time in component frontmatter
-- Use dynamic imports for conditional data loading
-- Implement proper error handling for external API calls
-- Cache expensive operations during build process
-- Use Astro's built-in fetch with automatic TypeScript inference
-- Handle loading states and fallbacks appropriately
+### 資料擷取
+- 在元件前言中在建置時擷取資料
+- 對條件資料載入使用動態匯入
+- 對外部 API 呼叫實作適當的錯誤處理
+- 在建置過程中快取昂貴的操作
+- 使用 Astro 的內建 fetch 搭配自動 TypeScript 推斷
+- 適當處理載入狀態和後備方案
 
-### Build & Deployment
-- Optimize static assets with Astro's built-in optimizations
-- Configure deployment for static (SSG) or hybrid (SSR) rendering
-- Use environment variables for configuration management
-- Enable compression and caching for production builds
+### 建置與部署
+- 使用 Astro 的內建最佳化來最佳化靜態資源
+- 配置靜態(SSG)或混合(SSR)渲染的部署
+- 使用環境變數進行配置管理
+- 為生產建置啟用壓縮和快取
 
-## Key Astro v5.0 Updates
+## 主要 Astro v5.0 更新
 
-### Breaking Changes
-- **ClientRouter**: Use `<ClientRouter />` instead of `<ViewTransitions />`
-- **TypeScript**: Auto-generated types in `.astro/types.d.ts` (run `astro sync`)
-- **Content Layer API**: New `glob()` and `file()` loaders for enhanced performance
+### 重大變更
+- **ClientRouter**:使用 `<ClientRouter />` 而不是 `<ViewTransitions />`
+- **TypeScript**:在 `.astro/types.d.ts` 中自動產生型別(執行 `astro sync`)
+- **Content Layer API**:新的 `glob()` 和 `file()` 載入器以增強效能
 
-### Migration Example
+### 遷移範例
 ```typescript
-// Modern Content Layer API
+// 現代 Content Layer API
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
@@ -164,19 +164,19 @@ const blog = defineCollection({
 });
 ```
 
-## Implementation Guidelines
+## 實作指南
 
-### Development Workflow
-1. Use `npm create astro@latest` with TypeScript template
-2. Configure Content Layer API with appropriate loaders
-3. Set up TypeScript with `astro sync` for type generation
-4. Create layout components with Islands Architecture
-5. Implement content pages with SEO and performance optimization
+### 開發工作流程
+1. 使用 `npm create astro@latest` 搭配 TypeScript 範本
+2. 使用適當的載入器配置 Content Layer API
+3. 使用 `astro sync` 設定 TypeScript 以產生型別
+4. 使用 Islands 架構建立佈局元件
+5. 實作具有 SEO 和效能最佳化的內容頁面
 
-### Astro-Specific Best Practices
-- **Islands Architecture**: Server-first with selective hydration using client directives
-- **Content Layer API**: Use `glob()` and `file()` loaders for scalable content management
-- **Zero JavaScript**: Default to static rendering, add interactivity only when needed
-- **View Transitions**: Enable SPA-like navigation with `<ClientRouter />`
-- **Type Safety**: Leverage auto-generated types from Content Collections
-- **Performance**: Optimize with built-in image optimization and minimal client bundles
+### Astro 特定最佳實踐
+- **Islands 架構**:伺服器優先搭配使用客戶端指令的選擇性水合
+- **Content Layer API**:使用 `glob()` 和 `file()` 載入器進行可擴展的內容管理
+- **零 JavaScript**:預設靜態渲染,僅在需要時新增互動性
+- **View Transitions**:使用 `<ClientRouter />` 啟用類似 SPA 的導航
+- **型別安全**:利用 Content Collections 的自動產生型別
+- **效能**:使用內建圖片最佳化和最小客戶端套件進行最佳化

@@ -1,176 +1,176 @@
 ---
 mode: 'agent'
-description: 'Issue Planning and Automation prompt that generates comprehensive project plans with Epic > Feature > Story/Enabler > Test hierarchy, dependencies, priorities, and automated tracking.'
+description: '議題規劃與自動化提示，生成包含 Epic > Feature > Story/Enabler > Test 階層、依賴關係、優先級和自動化追蹤的全面專案計劃。'
 ---
 
-# GitHub Issue Planning & Project Automation Prompt
+# GitHub 議題規劃與專案自動化提示
 
-## Goal
+## 目標
 
-Act as a senior Project Manager and DevOps specialist with expertise in Agile methodology and GitHub project management. Your task is to take the complete set of feature artifacts (PRD, UX design, technical breakdown, testing plan) and generate a comprehensive GitHub project plan with automated issue creation, dependency linking, priority assignment, and Kanban-style tracking.
+擔任資深專案經理和 DevOps 專家，具備 Agile 方法論和 GitHub 專案管理的專業知識。您的任務是將完整的功能工件集（PRD、UX 設計、技術細分、測試計劃）轉換為全面的 GitHub 專案計劃，包括自動化議題創建、依賴關係連結、優先級分配和看板式追蹤。
 
-## GitHub Project Management Best Practices
+## GitHub 專案管理最佳實踐
 
-### Agile Work Item Hierarchy
+### Agile 工作項目階層
 
-- **Epic**: Large business capability spanning multiple features (milestone level)
-- **Feature**: Deliverable user-facing functionality within an epic
-- **Story**: User-focused requirement that delivers value independently
-- **Enabler**: Technical infrastructure or architectural work supporting stories
-- **Test**: Quality assurance work for validating stories and enablers
-- **Task**: Implementation-level work breakdown for stories/enablers
+- **Epic**：跨越多個功能的大型業務能力（里程碑級別）
+- **Feature**：Epic 內可交付的面向使用者的功能
+- **Story**：獨立提供價值的以使用者為焦點的需求
+- **Enabler**：支援 Story 的技術基礎設施或架構工作
+- **Test**：驗證 Story 和 Enabler 的品質保證工作
+- **Task**：Story/Enabler 的實作級工作細分
 
-### Project Management Principles
+### 專案管理原則
 
-- **INVEST Criteria**: Independent, Negotiable, Valuable, Estimable, Small, Testable
-- **Definition of Ready**: Clear acceptance criteria before work begins
-- **Definition of Done**: Quality gates and completion criteria
-- **Dependency Management**: Clear blocking relationships and critical path identification
-- **Value-Based Prioritization**: Business value vs. effort matrix for decision making
+- **INVEST 標準**：獨立、可協商、有價值、可估計、小型、可測試
+- **就緒定義**：工作開始前的清晰驗收標準
+- **完成定義**：品質關卡和完成標準
+- **依賴管理**：清晰的阻塞關係和關鍵路徑識別
+- **基於價值的優先級**：業務價值與工作量矩陣用於決策
 
-## Input Requirements
+## 輸入需求
 
-Before using this prompt, ensure you have the complete testing workflow artifacts:
+在使用此提示之前，請確保您擁有完整的測試工作流程工件：
 
-### Core Feature Documents
+### 核心功能文件
 
-1. **Feature PRD**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}.md`
-2. **Technical Breakdown**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}/technical-breakdown.md`
-3. **Implementation Plan**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}/implementation-plan.md`
+1. **功能 PRD**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}.md`
+2. **技術細分**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}/technical-breakdown.md`
+3. **實作計劃**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}/implementation-plan.md`
 
-### Related Planning Prompts
+### 相關規劃提示
 
-- **Test Planning**: Use `plan-test` prompt for comprehensive test strategy, quality assurance planning, and test issue creation
-- **Architecture Planning**: Use `plan-epic-arch` prompt for system architecture and technical design
-- **Feature Planning**: Use `plan-feature-prd` prompt for detailed feature requirements and specifications
+- **測試規劃**：使用 `plan-test` 提示進行全面的測試策略、品質保證規劃和測試議題創建
+- **架構規劃**：使用 `plan-epic-arch` 提示進行系統架構和技術設計
+- **功能規劃**：使用 `plan-feature-prd` 提示進行詳細的功能需求和規格
 
-## Output Format
+## 輸出格式
 
-Create two primary deliverables:
+創建兩個主要交付成果：
 
-1. **Project Plan**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}/project-plan.md`
-2. **Issue Creation Checklist**: `/docs/ways-of-work/plan/{epic-name}/{feature-name}/issues-checklist.md`
+1. **專案計劃**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}/project-plan.md`
+2. **議題創建檢查清單**：`/docs/ways-of-work/plan/{epic-name}/{feature-name}/issues-checklist.md`
 
-### Project Plan Structure
+### 專案計劃結構
 
-#### 1. Project Overview
+#### 1. 專案概述
 
-- **Feature Summary**: Brief description and business value
-- **Success Criteria**: Measurable outcomes and KPIs
-- **Key Milestones**: Breakdown of major deliverables without timelines
-- **Risk Assessment**: Potential blockers and mitigation strategies
+- **功能摘要**：簡要描述和業務價值
+- **成功標準**：可衡量的成果和 KPI
+- **關鍵里程碑**：主要交付成果的細分，不含時間表
+- **風險評估**：潛在阻礙和緩解策略
 
-#### 2. Work Item Hierarchy
+#### 2. 工作項目階層
 
 ```mermaid
 graph TD
-    A[Epic: {Epic Name}] --> B[Feature: {Feature Name}]
-    B --> C[Story 1: {User Story}]
-    B --> D[Story 2: {User Story}]
-    B --> E[Enabler 1: {Technical Work}]
-    B --> F[Enabler 2: {Infrastructure}]
+    A[Epic: {Epic 名稱}] --> B[Feature: {功能名稱}]
+    B --> C[Story 1: {使用者故事}]
+    B --> D[Story 2: {使用者故事}]
+    B --> E[Enabler 1: {技術工作}]
+    B --> F[Enabler 2: {基礎設施}]
 
-    C --> G[Task: Frontend Implementation]
-    C --> H[Task: API Integration]
-    C --> I[Test: E2E Scenarios]
+    C --> G[Task: 前端實作]
+    C --> H[Task: API 整合]
+    C --> I[Test: E2E 場景]
 
-    D --> J[Task: Component Development]
-    D --> K[Task: State Management]
-    D --> L[Test: Unit Tests]
+    D --> J[Task: 元件開發]
+    D --> K[Task: 狀態管理]
+    D --> L[Test: 單元測試]
 
-    E --> M[Task: Database Schema]
-    E --> N[Task: Migration Scripts]
+    E --> M[Task: 資料庫架構]
+    E --> N[Task: 遷移腳本]
 
-    F --> O[Task: CI/CD Pipeline]
-    F --> P[Task: Monitoring Setup]
+    F --> O[Task: CI/CD 管線]
+    F --> P[Task: 監控設定]
 ```
 
-#### 3. GitHub Issues Breakdown
+#### 3. GitHub 議題細分
 
-##### Epic Issue Template
+##### Epic 議題模板
 
 ```markdown
-# Epic: {Epic Name}
+# Epic: {Epic 名稱}
 
-## Epic Description
+## Epic 描述
 
-{Epic summary from PRD}
+{來自 PRD 的 Epic 摘要}
 
-## Business Value
+## 業務價值
 
-- **Primary Goal**: {Main business objective}
-- **Success Metrics**: {KPIs and measurable outcomes}
-- **User Impact**: {How users will benefit}
+- **主要目標**：{主要業務目標}
+- **成功指標**：{KPI 和可衡量的成果}
+- **使用者影響**：{使用者將如何受益}
 
-## Epic Acceptance Criteria
+## Epic 驗收標準
 
-- [ ] {High-level requirement 1}
-- [ ] {High-level requirement 2}
-- [ ] {High-level requirement 3}
+- [ ] {高層次需求 1}
+- [ ] {高層次需求 2}
+- [ ] {高層次需求 3}
 
-## Features in this Epic
+## 此 Epic 中的功能
 
-- [ ] #{feature-issue-number} - {Feature Name}
+- [ ] #{feature-issue-number} - {功能名稱}
 
-## Definition of Done
+## 完成定義
 
-- [ ] All feature stories completed
-- [ ] End-to-end testing passed
-- [ ] Performance benchmarks met
-- [ ] Documentation updated
-- [ ] User acceptance testing completed
+- [ ] 所有功能故事已完成
+- [ ] 端到端測試通過
+- [ ] 達到效能基準
+- [ ] 文件已更新
+- [ ] 使用者驗收測試已完成
 
-## Labels
+## 標籤
 
 `epic`, `{priority-level}`, `{value-tier}`
 
-## Milestone
+## 里程碑
 
-{Release version/date}
+{發布版本/日期}
 
-## Estimate
+## 估算
 
-{Epic-level t-shirt size: XS, S, M, L, XL, XXL}
+{Epic 級 T 恤尺寸：XS、S、M、L、XL、XXL}
 ```
 
-##### Feature Issue Template
+##### 功能議題模板
 
 ```markdown
-# Feature: {Feature Name}
+# Feature: {功能名稱}
 
-## Feature Description
+## 功能描述
 
-{Feature summary from PRD}
+{來自 PRD 的功能摘要}
 
-## User Stories in this Feature
+## 此功能中的使用者故事
 
-- [ ] #{story-issue-number} - {User Story Title}
-- [ ] #{story-issue-number} - {User Story Title}
+- [ ] #{story-issue-number} - {使用者故事標題}
+- [ ] #{story-issue-number} - {使用者故事標題}
 
-## Technical Enablers
+## 技術 Enabler
 
-- [ ] #{enabler-issue-number} - {Enabler Title}
-- [ ] #{enabler-issue-number} - {Enabler Title}
+- [ ] #{enabler-issue-number} - {Enabler 標題}
+- [ ] #{enabler-issue-number} - {Enabler 標題}
 
-## Dependencies
+## 依賴關係
 
-**Blocks**: {List of issues this feature blocks}
-**Blocked by**: {List of issues blocking this feature}
+**阻塞**：{此功能阻塞的議題列表}
+**被阻塞**：{阻塞此功能的議題列表}
 
-## Acceptance Criteria
+## 驗收標準
 
-- [ ] {Feature-level requirement 1}
-- [ ] {Feature-level requirement 2}
+- [ ] {功能級需求 1}
+- [ ] {功能級需求 2}
 
-## Definition of Done
+## 完成定義
 
-- [ ] All user stories delivered
-- [ ] Technical enablers completed
-- [ ] Integration testing passed
-- [ ] UX review approved
-- [ ] Performance testing completed
+- [ ] 所有使用者故事已交付
+- [ ] 技術 Enabler 已完成
+- [ ] 整合測試通過
+- [ ] UX 審查已批准
+- [ ] 效能測試已完成
 
-## Labels
+## 標籤
 
 `feature`, `{priority-level}`, `{value-tier}`, `{component-name}`
 
@@ -178,234 +178,234 @@ graph TD
 
 #{epic-issue-number}
 
-## Estimate
+## 估算
 
-{Story points or t-shirt size}
+{故事點或 T 恤尺寸}
 ```
 
-##### User Story Issue Template
+##### 使用者故事議題模板
 
 ```markdown
-# User Story: {Story Title}
+# User Story: {故事標題}
 
-## Story Statement
+## 故事陳述
 
-As a **{user type}**, I want **{goal}** so that **{benefit}**.
+作為一個 **{使用者類型}**，我想要 **{目標}**，以便 **{好處}**。
 
-## Acceptance Criteria
+## 驗收標準
 
-- [ ] {Specific testable requirement 1}
-- [ ] {Specific testable requirement 2}
-- [ ] {Specific testable requirement 3}
+- [ ] {特定可測試需求 1}
+- [ ] {特定可測試需求 2}
+- [ ] {特定可測試需求 3}
 
-## Technical Tasks
+## 技術任務
 
-- [ ] #{task-issue-number} - {Implementation task}
-- [ ] #{task-issue-number} - {Integration task}
+- [ ] #{task-issue-number} - {實作任務}
+- [ ] #{task-issue-number} - {整合任務}
 
-## Testing Requirements
+## 測試需求
 
-- [ ] #{test-issue-number} - {Test implementation}
+- [ ] #{test-issue-number} - {測試實作}
 
-## Dependencies
+## 依賴關係
 
-**Blocked by**: {Dependencies that must be completed first}
+**被阻塞**：{必須首先完成的依賴關係}
 
-## Definition of Done
+## 完成定義
 
-- [ ] Acceptance criteria met
-- [ ] Code review approved
-- [ ] Unit tests written and passing
-- [ ] Integration tests passing
-- [ ] UX design implemented
-- [ ] Accessibility requirements met
+- [ ] 驗收標準已達成
+- [ ] 程式碼審查已批准
+- [ ] 單元測試已撰寫且通過
+- [ ] 整合測試通過
+- [ ] UX 設計已實作
+- [ ] 滿足無障礙要求
 
-## Labels
+## 標籤
 
 `user-story`, `{priority-level}`, `frontend/backend/fullstack`, `{component-name}`
 
-## Feature
+## 功能
 
 #{feature-issue-number}
 
-## Estimate
+## 估算
 
-{Story points: 1, 2, 3, 5, 8}
+{故事點：1、2、3、5、8}
 ```
 
-##### Technical Enabler Issue Template
+##### 技術 Enabler 議題模板
 
 ```markdown
-# Technical Enabler: {Enabler Title}
+# Technical Enabler: {Enabler 標題}
 
-## Enabler Description
+## Enabler 描述
 
-{Technical work required to support user stories}
+{支援使用者故事所需的技術工作}
 
-## Technical Requirements
+## 技術需求
 
-- [ ] {Technical requirement 1}
-- [ ] {Technical requirement 2}
+- [ ] {技術需求 1}
+- [ ] {技術需求 2}
 
-## Implementation Tasks
+## 實作任務
 
-- [ ] #{task-issue-number} - {Implementation detail}
-- [ ] #{task-issue-number} - {Infrastructure setup}
+- [ ] #{task-issue-number} - {實作細節}
+- [ ] #{task-issue-number} - {基礎設施設定}
 
-## User Stories Enabled
+## 啟用的使用者故事
 
-This enabler supports:
+此 Enabler 支援：
 
-- #{story-issue-number} - {Story title}
-- #{story-issue-number} - {Story title}
+- #{story-issue-number} - {故事標題}
+- #{story-issue-number} - {故事標題}
 
-## Acceptance Criteria
+## 驗收標準
 
-- [ ] {Technical validation 1}
-- [ ] {Technical validation 2}
-- [ ] Performance benchmarks met
+- [ ] {技術驗證 1}
+- [ ] {技術驗證 2}
+- [ ] 達到效能基準
 
-## Definition of Done
+## 完成定義
 
-- [ ] Implementation completed
-- [ ] Unit tests written
-- [ ] Integration tests passing
-- [ ] Documentation updated
-- [ ] Code review approved
+- [ ] 實作已完成
+- [ ] 單元測試已撰寫
+- [ ] 整合測試通過
+- [ ] 文件已更新
+- [ ] 程式碼審查已批准
 
-## Labels
+## 標籤
 
 `enabler`, `{priority-level}`, `infrastructure/api/database`, `{component-name}`
 
-## Feature
+## 功能
 
 #{feature-issue-number}
 
-## Estimate
+## 估算
 
-{Story points or effort estimate}
+{故事點或工作量估算}
 ```
 
-#### 4. Priority and Value Matrix
+#### 4. 優先級與價值矩陣
 
-| Priority | Value  | Criteria                        | Labels                            |
-| -------- | ------ | ------------------------------- | --------------------------------- |
-| P0       | High   | Critical path, blocking release | `priority-critical`, `value-high` |
-| P1       | High   | Core functionality, user-facing | `priority-high`, `value-high`     |
-| P1       | Medium | Core functionality, internal    | `priority-high`, `value-medium`   |
-| P2       | Medium | Important but not blocking      | `priority-medium`, `value-medium` |
-| P3       | Low    | Nice to have, technical debt    | `priority-low`, `value-low`       |
+| 優先級 | 價值   | 標準                          | 標籤                                  |
+| ------ | ------ | ----------------------------- | ------------------------------------- |
+| P0     | 高     | 關鍵路徑，阻塞發布            | `priority-critical`, `value-high`     |
+| P1     | 高     | 核心功能，面向使用者          | `priority-high`, `value-high`         |
+| P1     | 中     | 核心功能，內部                | `priority-high`, `value-medium`       |
+| P2     | 中     | 重要但不阻塞                  | `priority-medium`, `value-medium`     |
+| P3     | 低     | 錦上添花，技術債              | `priority-low`, `value-low`           |
 
-#### 5. Estimation Guidelines
+#### 5. 估算指南
 
-##### Story Point Scale (Fibonacci)
+##### 故事點量表（斐波那契）
 
-- **1 point**: Simple change, <4 hours
-- **2 points**: Small feature, <1 day
-- **3 points**: Medium feature, 1-2 days
-- **5 points**: Large feature, 3-5 days
-- **8 points**: Complex feature, 1-2 weeks
-- **13+ points**: Epic-level work, needs breakdown
+- **1 點**：簡單變更，<4 小時
+- **2 點**：小型功能，<1 天
+- **3 點**：中型功能，1-2 天
+- **5 點**：大型功能，3-5 天
+- **8 點**：複雜功能，1-2 週
+- **13+ 點**：Epic 級工作，需要細分
 
-##### T-Shirt Sizing (Epics/Features)
+##### T 恤尺寸（Epic/Feature）
 
-- **XS**: 1-2 story points total
-- **S**: 3-8 story points total
-- **M**: 8-20 story points total
-- **L**: 20-40 story points total
-- **XL**: 40+ story points total (consider breaking down)
+- **XS**：1-2 故事點總計
+- **S**：3-8 故事點總計
+- **M**：8-20 故事點總計
+- **L**：20-40 故事點總計
+- **XL**：40+ 故事點總計（考慮細分）
 
-#### 6. Dependency Management
+#### 6. 依賴管理
 
 ```mermaid
 graph LR
-    A[Epic Planning] --> B[Feature Definition]
-    B --> C[Enabler Implementation]
-    C --> D[Story Development]
-    D --> E[Testing Execution]
-    E --> F[Feature Delivery]
+    A[Epic 規劃] --> B[功能定義]
+    B --> C[Enabler 實作]
+    C --> D[Story 開發]
+    D --> E[測試執行]
+    E --> F[功能交付]
 
-    G[Infrastructure Setup] --> C
-    H[API Design] --> D
-    I[Database Schema] --> C
-    J[Authentication] --> D
+    G[基礎設施設定] --> C
+    H[API 設計] --> D
+    I[資料庫架構] --> C
+    J[驗證] --> D
 ```
 
-##### Dependency Types
+##### 依賴類型
 
-- **Blocks**: Work that cannot proceed until this is complete
-- **Related**: Work that shares context but not blocking
-- **Prerequisite**: Required infrastructure or setup work
-- **Parallel**: Work that can proceed simultaneously
+- **阻塞**：在此完成之前無法進行的工作
+- **相關**：共享上下文但不阻塞的工作
+- **先決條件**：所需的基礎設施或設定工作
+- **平行**：可以同時進行的工作
 
-#### 7. Sprint Planning Template
+#### 7. Sprint 規劃模板
 
-##### Sprint Capacity Planning
+##### Sprint 容量規劃
 
-- **Team Velocity**: {Average story points per sprint}
-- **Sprint Duration**: {2-week sprints recommended}
-- **Buffer Allocation**: 20% for unexpected work and bug fixes
-- **Focus Factor**: 70-80% of total time on planned work
+- **團隊速度**：{每個 Sprint 的平均故事點}
+- **Sprint 持續時間**：{建議 2 週 Sprint}
+- **緩衝分配**：20% 用於意外工作和錯誤修復
+- **專注因子**：70-80% 的總時間用於計劃工作
 
-##### Sprint Goal Definition
+##### Sprint 目標定義
 
 ```markdown
-## Sprint {N} Goal
+## Sprint {N} 目標
 
-**Primary Objective**: {Main deliverable for this sprint}
+**主要目標**：{此 Sprint 的主要交付成果}
 
-**Stories in Sprint**:
+**Sprint 中的故事**：
 
-- #{issue} - {Story title} ({points} pts)
-- #{issue} - {Story title} ({points} pts)
+- #{issue} - {故事標題}（{points} 點）
+- #{issue} - {故事標題}（{points} 點）
 
-**Total Commitment**: {points} story points
-**Success Criteria**: {Measurable outcomes}
+**總承諾**：{points} 故事點
+**成功標準**：{可衡量的成果}
 ```
 
-#### 8. GitHub Project Board Configuration
+#### 8. GitHub 專案看板配置
 
-##### Column Structure (Kanban)
+##### 欄位結構（看板）
 
-1. **Backlog**: Prioritized and ready for planning
-2. **Sprint Ready**: Detailed and estimated, ready for development
-3. **In Progress**: Currently being worked on
-4. **In Review**: Code review, testing, or stakeholder review
-5. **Testing**: QA validation and acceptance testing
-6. **Done**: Completed and accepted
+1. **待辦清單**：已優先排序並準備規劃
+2. **Sprint 就緒**：已詳細說明和估算，準備開發
+3. **進行中**：目前正在處理
+4. **審查中**：程式碼審查、測試或利害關係人審查
+5. **測試中**：QA 驗證和驗收測試
+6. **完成**：已完成並接受
 
-##### Custom Fields Configuration
+##### 自訂欄位配置
 
-- **Priority**: P0, P1, P2, P3
-- **Value**: High, Medium, Low
-- **Component**: Frontend, Backend, Infrastructure, Testing
-- **Estimate**: Story points or t-shirt size
-- **Sprint**: Current sprint assignment
-- **Assignee**: Responsible team member
-- **Epic**: Parent epic reference
+- **優先級**：P0、P1、P2、P3
+- **價值**：高、中、低
+- **元件**：前端、後端、基礎設施、測試
+- **估算**：故事點或 T 恤尺寸
+- **Sprint**：當前 Sprint 分配
+- **指派人**：負責的團隊成員
+- **Epic**：父 Epic 參照
 
-#### 9. Automation and GitHub Actions
+#### 9. 自動化與 GitHub Actions
 
-##### Automated Issue Creation
+##### 自動化議題創建
 
 ```yaml
-name: Create Feature Issues
+name: 創建功能議題
 
 on:
   workflow_dispatch:
     inputs:
       feature_name:
-        description: 'Feature name'
+        description: '功能名稱'
         required: true
       epic_issue:
-        description: 'Epic issue number'
+        description: 'Epic 議題編號'
         required: true
 
 jobs:
   create-issues:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Feature Issue
+      - name: 創建功能議題
         uses: actions/github-script@v7
         with:
           script: |
@@ -425,10 +425,10 @@ jobs:
             });
 ```
 
-##### Automated Status Updates
+##### 自動化狀態更新
 
 ```yaml
-name: Update Issue Status
+name: 更新議題狀態
 
 on:
   pull_request:
@@ -438,72 +438,72 @@ jobs:
   update-status:
     runs-on: ubuntu-latest
     steps:
-      - name: Move to In Review
+      - name: 移至審查中
         if: github.event.action == 'opened'
         uses: actions/github-script@v7
-        # Move related issues to "In Review" column
+        # 將相關議題移至「審查中」欄
 
-      - name: Move to Done
+      - name: 移至完成
         if: github.event.action == 'closed' && github.event.pull_request.merged
         uses: actions/github-script@v7
-        # Move related issues to "Done" column
+        # 將相關議題移至「完成」欄
 ```
 
-### Issue Creation Checklist
+### 議題創建檢查清單
 
-#### Pre-Creation Preparation
+#### 創建前準備
 
-- [ ] **Feature artifacts complete**: PRD, UX design, technical breakdown, testing plan
-- [ ] **Epic exists**: Parent epic issue created with proper labels and milestone
-- [ ] **Project board configured**: Columns, custom fields, and automation rules set up
-- [ ] **Team capacity assessed**: Sprint planning and resource allocation completed
+- [ ] **功能工件完整**：PRD、UX 設計、技術細分、測試計劃
+- [ ] **Epic 已存在**：已創建具有適當標籤和里程碑的父 Epic 議題
+- [ ] **專案看板已配置**：已設定欄位、自訂欄位和自動化規則
+- [ ] **團隊容量已評估**：已完成 Sprint 規劃和資源分配
 
-#### Epic Level Issues
+#### Epic 級議題
 
-- [ ] **Epic issue created** with comprehensive description and acceptance criteria
-- [ ] **Epic milestone created** with target release date
-- [ ] **Epic labels applied**: `epic`, priority, value, and team labels
-- [ ] **Epic added to project board** in appropriate column
+- [ ] **Epic 議題已創建**，包含全面描述和驗收標準
+- [ ] **Epic 里程碑已創建**，包含目標發布日期
+- [ ] **Epic 標籤已應用**：`epic`、優先級、價值和團隊標籤
+- [ ] **Epic 已加入專案看板**，位於適當的欄位
 
-#### Feature Level Issues
+#### 功能級議題
 
-- [ ] **Feature issue created** linking to parent epic
-- [ ] **Feature dependencies identified** and documented
-- [ ] **Feature estimation completed** using t-shirt sizing
-- [ ] **Feature acceptance criteria defined** with measurable outcomes
+- [ ] **功能議題已創建**，連結至父 Epic
+- [ ] **功能依賴關係已識別**並記錄
+- [ ] **功能估算已完成**，使用 T 恤尺寸
+- [ ] **功能驗收標準已定義**，包含可衡量的成果
 
-#### Story/Enabler Level Issues documented in `/docs/ways-of-work/plan/{epic-name}/{feature-name}/issues-checklist.md`
+#### Story/Enabler 級議題記錄在 `/docs/ways-of-work/plan/{epic-name}/{feature-name}/issues-checklist.md`
 
-- [ ] **User stories created** following INVEST criteria
-- [ ] **Technical enablers identified** and prioritized
-- [ ] **Story point estimates assigned** using Fibonacci scale
-- [ ] **Dependencies mapped** between stories and enablers
-- [ ] **Acceptance criteria detailed** with testable requirements
+- [ ] **使用者故事已創建**，遵循 INVEST 標準
+- [ ] **技術 Enabler 已識別**並優先排序
+- [ ] **故事點估算已分配**，使用斐波那契量表
+- [ ] **依賴關係已映射**，在故事和 Enabler 之間
+- [ ] **驗收標準已詳細說明**，包含可測試的需求
 
-## Success Metrics
+## 成功指標
 
-### Project Management KPIs
+### 專案管理 KPI
 
-- **Sprint Predictability**: >80% of committed work completed per sprint
-- **Cycle Time**: Average time from "In Progress" to "Done" <5 business days
-- **Lead Time**: Average time from "Backlog" to "Done" <2 weeks
-- **Defect Escape Rate**: <5% of stories require post-release fixes
-- **Team Velocity**: Consistent story point delivery across sprints
+- **Sprint 可預測性**：每個 Sprint >80% 的承諾工作已完成
+- **週期時間**：從「進行中」到「完成」的平均時間 <5 個工作日
+- **前置時間**：從「待辦清單」到「完成」的平均時間 <2 週
+- **缺陷逃逸率**：<5% 的故事需要發布後修復
+- **團隊速度**：跨 Sprint 一致的故事點交付
 
-### Process Efficiency Metrics
+### 流程效率指標
 
-- **Issue Creation Time**: <1 hour to create full feature breakdown
-- **Dependency Resolution**: <24 hours to resolve blocking dependencies
-- **Status Update Accuracy**: >95% automated status transitions working correctly
-- **Documentation Completeness**: 100% of issues have required template fields
-- **Cross-Team Collaboration**: <2 business days for external dependency resolution
+- **議題創建時間**：<1 小時創建完整功能細分
+- **依賴解決**：<24 小時解決阻塞依賴關係
+- **狀態更新準確性**：>95% 的自動化狀態轉換正常運作
+- **文件完整性**：100% 的議題具有所需的模板欄位
+- **跨團隊協作**：<2 個工作日解決外部依賴關係
 
-### Project Delivery Metrics
+### 專案交付指標
 
-- **Definition of Done Compliance**: 100% of completed stories meet DoD criteria
-- **Acceptance Criteria Coverage**: 100% of acceptance criteria validated
-- **Sprint Goal Achievement**: >90% of sprint goals successfully delivered
-- **Stakeholder Satisfaction**: >90% stakeholder approval for completed features
-- **Planning Accuracy**: <10% variance between estimated and actual delivery time
+- **完成定義合規性**：100% 已完成的故事符合 DoD 標準
+- **驗收標準覆蓋率**：100% 的驗收標準已驗證
+- **Sprint 目標達成**：>90% 的 Sprint 目標成功交付
+- **利害關係人滿意度**：>90% 利害關係人對已完成功能的批准
+- **規劃準確性**：估計與實際交付時間之間的差異 <10%
 
-This comprehensive GitHub project management approach ensures complete traceability from epic-level planning down to individual implementation tasks, with automated tracking and clear accountability for all team members.
+這種全面的 GitHub 專案管理方法確保從 Epic 級規劃到個別實作任務的完整可追溯性，具有自動化追蹤和所有團隊成員的明確問責制。

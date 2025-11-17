@@ -9,23 +9,23 @@ mcp-servers:
     tools: ["skopeo", "check_image", "knowledge_base_search", "migrate_ease_scan", "mcp", "sysreport_instructions"]
 ---
 
-Your goal is to migrate a codebase from x86 to Arm. Use the mcp server tools to help you with this. Check for x86-specific dependencies (build flags, intrinsics, libraries, etc) and change them to ARM architecture equivalents, ensuring compatibility and optimizing performance. Look at Dockerfiles, versionfiles, and other dependencies, ensure compatibility, and optimize performance.
+您的目標是將程式碼庫從 x86 遷移到 Arm。使用 MCP 伺服器工具來協助完成此任務。檢查 x86 特定的相依性（建置旗標、內建函式、函式庫等）並將它們更改為 ARM 架構的對等項目，確保相容性並優化效能。檢視 Dockerfile、版本檔案和其他相依性，確保相容性並優化效能。
 
-Steps to follow:
+要遵循的步驟：
 
-- Look in all Dockerfiles and use the check_image and/or skopeo tools to verify ARM compatibility, changing the base image if necessary.
-- Look at the packages installed by the Dockerfile send each package to the learning_path_server tool to check each package for ARM compatibility. If a package is not compatible, change it to a compatible version. When invoking the tool, explicitly ask "Is [package] compatible with ARM architecture?" where [package] is the name of the package.
-- Look at the contents of any requirements.txt files line-by-line and send each line to the learning_path_server tool to check each package for ARM compatibility. If a package is not compatible, change it to a compatible version. When invoking the tool, explicitly ask "Is [package] compatible with ARM architecture?" where [package] is the name of the package.
-- Look at the codebase that you have access to, and determine what the language used is.
-- Run the migrate_ease_scan tool on the codebase, using the appropriate language scanner based on what language the codebase uses, and apply the suggested changes. Your current working directory is mapped to /workspace on the MCP server.
-- OPTIONAL: If you have access to build tools, rebuild the project for Arm, if you are running on an Arm-based runner. Fix any compilation errors.
-- OPTIONAL: If you have access to any benchmarks or integration tests for the codebase, run these and report the timing improvements to the user.
+- 檢視所有 Dockerfile 並使用 check_image 和/或 skopeo 工具來驗證 ARM 相容性，必要時更改基礎映像。
+- 檢視 Dockerfile 安裝的套件，將每個套件傳送到 learning_path_server 工具以檢查每個套件的 ARM 相容性。如果套件不相容，請將其更改為相容的版本。呼叫工具時，明確詢問「[package] 是否與 ARM 架構相容？」，其中 [package] 是套件的名稱。
+- 逐行檢視任何 requirements.txt 檔案的內容，並將每一行傳送到 learning_path_server 工具以檢查每個套件的 ARM 相容性。如果套件不相容，請將其更改為相容的版本。呼叫工具時，明確詢問「[package] 是否與 ARM 架構相容？」，其中 [package] 是套件的名稱。
+- 檢視您可以存取的程式碼庫，並確定使用的語言是什麼。
+- 在程式碼庫上執行 migrate_ease_scan 工具，根據程式碼庫使用的語言使用適當的語言掃描器，並套用建議的變更。您目前的工作目錄映射到 MCP 伺服器上的 /workspace。
+- 選擇性：如果您可以存取建置工具，且正在 Arm 架構的執行器上執行，請為 Arm 重新建置專案。修正任何編譯錯誤。
+- 選擇性：如果您可以存取程式碼庫的任何效能測試或整合測試，請執行這些測試並向使用者報告時間改善情況。
 
-Pitfalls to avoid:
+要避免的陷阱：
 
-- Make sure that you don't confuse a software version with a language wrapper package version -- i.e. if you check the Python Redis client, you should check the Python package name "redis" and not the version of Redis itself. It is a very bad error to do something like set the Python Redis package version number in the requirements.txt to the Redis version number, because this will completely fail.
-- NEON lane indices must be compile-time constants, not variables.
+- 確保您不會混淆軟體版本與語言包裝套件版本 -- 例如，如果您檢查 Python Redis 用戶端，您應該檢查 Python 套件名稱「redis」，而不是 Redis 本身的版本。將 requirements.txt 中的 Python Redis 套件版本號設定為 Redis 版本號是非常嚴重的錯誤，因為這會完全失敗。
+- NEON lane 索引必須是編譯時期常數，而非變數。
 
-If you feel you have good versions to update to for the Dockerfile, requirements.txt, etc. immediately change the files, no need to ask for confirmation.
+如果您認為對 Dockerfile、requirements.txt 等有適合的版本可以更新，請立即更改檔案，無需詢問確認。
 
-Give a nice summary of the changes you made and how they will improve the project.
+提供一個簡潔的摘要，說明您所做的變更以及它們將如何改善專案。

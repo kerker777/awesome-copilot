@@ -1,19 +1,19 @@
-# 🎯 Reusable Prompts
+# 🎯 可重複使用的提示詞
 
-Ready-to-use prompt templates for specific development scenarios and tasks, defining prompt text with a specific mode, model, and available set of tools.
-### How to Use Reusable Prompts
+針對特定開發情境和任務的即用型提示詞範本，定義具有特定模式、模型和可用工具集的提示詞文字。
+### 如何使用可重複使用的提示詞
 
-**To Install:**
-- Click the **VS Code** or **VS Code Insiders** install button for the prompt you want to use
-- Download the `*.prompt.md` file and manually add it to your prompt collection
+**安裝方式：**
+- 點擊您想使用的提示詞的 **VS Code** 或 **VS Code Insiders** 安裝按鈕
+- 下載 `*.prompt.md` 檔案並手動將其加入您的提示詞集合
 
-**To Run/Execute:**
-- Use `/prompt-name` in VS Code chat after installation
-- Run the `Chat: Run Prompt` command from the Command Palette
-- Hit the run button while you have a prompt file open in VS Code
+**執行/使用：**
+- 安裝後在 VS Code 聊天中使用 `/prompt-name`
+- 從命令選擇區執行 `Chat: Run Prompt` 命令
+- 在 VS Code 中開啟提示詞檔案時按執行按鈕
 
-| Title | Description |
-| ----- | ----------- |
+| 標題 | 說明 |
+| ---- | ---- |
 | [.NET Upgrade Analysis Prompts](../prompts/dotnet-upgrade.prompt.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fdotnet-upgrade.prompt.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode-insiders%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fdotnet-upgrade.prompt.md) | Ready-to-use prompts for comprehensive .NET framework upgrade analysis and execution |
 | [.NET/C# Best Practices](../prompts/dotnet-best-practices.prompt.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fdotnet-best-practices.prompt.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode-insiders%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fdotnet-best-practices.prompt.md) | Ensure .NET/C# code meets best practices for the solution/project. |
 | [.NET/C# Design Pattern Review](../prompts/dotnet-design-pattern-review.prompt.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fdotnet-design-pattern-review.prompt.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/prompt?url=vscode-insiders%3Achat-prompt%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Fprompts%2Fdotnet-design-pattern-review.prompt.md) | Review the C#/.NET code for design pattern implementation and suggest improvements. |

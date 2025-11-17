@@ -1,62 +1,62 @@
 ---
 applyTo: '**'
-description: 'See process Copilot is following where you can edit this to reshape the interaction or save when follow up may be needed'
+description: '查看 Copilot 所遵循的流程,您可以編輯此流程以重塑互動或在需要後續追蹤時儲存'
 ---
 
-# Copilot Process tracking Instructions
+# Copilot 流程追蹤指令
 
-**ABSOLUTE MANDATORY RULES:**
-- You must review these instructions in full before executing any steps to understand the full instructions guidelines.
-- You must follow these instructions exactly as specified without deviation.
-- Do not keep repeating status updates while processing or explanations unless explicitly required. This is bad and will flood Copilot session context.
-- NO phase announcements (no "# Phase X" headers in output)
-- Phases must be executed one at a time and in the exact order specified.
-- NO combining of phases in one response
-- NO skipping of phases
-- NO verbose explanations or commentary
-- Only output the exact text specified in phase instructions
+**絕對強制性規則:**
+- 在執行任何步驟之前,您必須完整審查這些指令以了解完整的指令指南。
+- 您必須完全按照指定遵循這些指令,不得偏離。
+- 除非明確要求,否則在處理過程中不要持續重複狀態更新或解釋。這樣做會淹沒 Copilot 會話上下文。
+- 不要宣布階段(輸出中不要有「# Phase X」標題)
+- 階段必須按照指定的確切順序一次執行一個。
+- 不要在一個回應中合併多個階段
+- 不要跳過階段
+- 不要冗長的解釋或評論
+- 只輸出階段指令中指定的確切文字
 
-# Phase 1: Initialization
+# 階段 1: 初始化
 
-- Create file `\Copilot-Processing.md` in workspace root
-- Populate `\Copilot-Processing.md` with user request details
-- Work silently without announcements until complete.
-- When this phase is complete keep mental note of this that <Phase 1> is done and does not need to be repeated.
+- 在工作區根目錄建立檔案 `\Copilot-Processing.md`
+- 在 `\Copilot-Processing.md` 中填入使用者請求的詳細資訊
+- 在完成之前靜默工作,不要宣布。
+- 當此階段完成時,請記住 <階段 1> 已完成,不需要重複。
 
-# Phase 2: Planning
+# 階段 2: 規劃
 
-- Generate an action plan into the `\Copilot-Processing.md` file.
-- Generate detailed and granular task specific action items to be used for tracking each action plan item with todo/complete status in the file `\Copilot-Processing.md`.
-- This should include:
-  - Specific tasks for each action item in the action plan as a phase.
-  - Clear descriptions of what needs to be done
-  - Any dependencies or prerequisites for each task
-  - Ensure tasks are granular enough to be executed one at a time
-- Work silently without announcements until complete.
-- When this phase is complete keep mental note of this that <Phase 2> is done and does not need to be repeated.
+- 在 `\Copilot-Processing.md` 檔案中產生行動計畫。
+- 產生詳細且細緻的任務特定行動項目,用於追蹤每個行動計畫項目,並在檔案 `\Copilot-Processing.md` 中標記待辦/完成狀態。
+- 這應該包括:
+  - 行動計畫中每個行動項目的特定任務(作為一個階段)。
+  - 需要完成的清楚描述
+  - 每個任務的任何相依性或先決條件
+  - 確保任務足夠細緻,可以一次執行一個
+- 在完成之前靜默工作,不要宣布。
+- 當此階段完成時,請記住 <階段 2> 已完成,不需要重複。
 
-# Phase 3: Execution
+# 階段 3: 執行
 
-- Execute action items from the action plan in logical groupings/phases
-- Work silently without announcements until complete.
-- Update file `\Copilot-Processing.md` and mark the action item(s) as complete in the tracking.
-- When a phase is complete keep mental note of this that the specific phase from `\Copilot-Processing.md` is done and does not need to be repeated.
-- Repeat this pattern until all action items are complete
+- 以邏輯分組/階段執行行動計畫中的行動項目
+- 在完成之前靜默工作,不要宣布。
+- 更新檔案 `\Copilot-Processing.md` 並在追蹤中將行動項目標記為完成。
+- 當一個階段完成時,請記住 `\Copilot-Processing.md` 中的特定階段已完成,不需要重複。
+- 重複此模式直到所有行動項目都完成
 
-# Phase 4: Summary
+# 階段 4: 總結
 
-- Add summary to `\Copilot-Processing.md`
-- Work silently without announcements until complete.
-- Execute only when ALL actions complete
-- Inform user: "Added final summary to `\Copilot-Processing.md`."
-- Remind user to review the summary and confirm completion of the process then to remove the file when done so it is not added to the repository.
+- 在 `\Copilot-Processing.md` 中新增總結
+- 在完成之前靜默工作,不要宣布。
+- 僅在所有動作完成時執行
+- 通知使用者:「已將最終總結新增至 `\Copilot-Processing.md`。」
+- 提醒使用者審查總結並確認流程完成,然後在完成後刪除檔案,以免將其新增到儲存庫中。
 
-**ENFORCEMENT RULES:**
-- NEVER write "# Phase X" headers in responses
-- NEVER repeat the word "Phase" in output unless explicitly required
-- NEVER provide explanations beyond the exact text specified
-- NEVER combine multiple phases in one response
-- NEVER continue past current phase without user input
-- If you catch yourself being verbose, STOP and provide only required output
-- If you catch yourself about to skip a phase, STOP and go back to the correct phase
-- If you catch yourself combining phases, STOP and perform only the current phase
+**執行規則:**
+- 絕不在回應中寫入「# Phase X」標題
+- 除非明確要求,否則絕不在輸出中重複「階段」一詞
+- 絕不提供超出指定確切文字的解釋
+- 絕不在一個回應中合併多個階段
+- 絕不在沒有使用者輸入的情況下繼續超越當前階段
+- 如果您發現自己過於冗長,請停止並僅提供所需的輸出
+- 如果您發現自己即將跳過一個階段,請停止並返回正確的階段
+- 如果您發現自己正在合併階段,請停止並僅執行當前階段

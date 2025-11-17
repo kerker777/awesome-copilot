@@ -1,19 +1,19 @@
-# 📋 Custom Instructions
+# 📋 自訂指引
 
-Team and project-specific instructions to enhance GitHub Copilot's behavior for specific technologies and coding practices.
-### How to Use Custom Instructions
+團隊和專案特定的指引，用於針對特定技術和程式設計實踐增強 GitHub Copilot 的行為。
+### 如何使用自訂指引
 
-**To Install:**
-- Click the **VS Code** or **VS Code Insiders** install button for the instruction you want to use
-- Download the `*.instructions.md` file and manually add it to your project's instruction collection
+**安裝方式：**
+- 點擊您想使用的指引的 **VS Code** 或 **VS Code Insiders** 安裝按鈕
+- 下載 `*.instructions.md` 檔案並手動將其加入您的專案指引集合
 
-**To Use/Apply:**
-- Copy these instructions to your `.github/copilot-instructions.md` file in your workspace
-- Create task-specific `.github/.instructions.md` files in your workspace's `.github/instructions` folder
-- Instructions automatically apply to Copilot behavior once installed in your workspace
+**使用/套用：**
+- 將這些指引複製到您工作區中的 `.github/copilot-instructions.md` 檔案
+- 在您工作區的 `.github/instructions` 資料夾中建立任務特定的 `.github/.instructions.md` 檔案
+- 指引一旦安裝到您的工作區就會自動套用到 Copilot 行為
 
-| Title | Description |
-| ----- | ----------- |
+| 標題 | 說明 |
+| ---- | ---- |
 | [.NET Framework Development](../instructions/dotnet-framework.instructions.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/instructions?url=vscode%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fdotnet-framework.instructions.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/instructions?url=vscode-insiders%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fdotnet-framework.instructions.md) | Guidance for working with .NET Framework projects. Includes project structure, C# language version, NuGet management, and best practices. |
 | [.NET Framework Upgrade Specialist](../instructions/dotnet-upgrade.instructions.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/instructions?url=vscode%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fdotnet-upgrade.instructions.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/instructions?url=vscode-insiders%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fdotnet-upgrade.instructions.md) | Specialized agent for comprehensive .NET framework upgrades with progressive tracking and validation |
 | [.NET MAUI](../instructions/dotnet-maui.instructions.md)<br />[![Install in VS Code](https://img.shields.io/badge/VS_Code-Install-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/instructions?url=vscode%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fdotnet-maui.instructions.md)<br />[![Install in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-Install-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://aka.ms/awesome-copilot/install/instructions?url=vscode-insiders%3Achat-instructions%2Finstall%3Furl%3Dhttps%3A%2F%2Fraw.githubusercontent.com%2Fgithub%2Fawesome-copilot%2Fmain%2Finstructions%2Fdotnet-maui.instructions.md) | .NET MAUI component and application patterns |

@@ -1,109 +1,94 @@
 ---
-description: "Shorthand code will be in the file provided from the prompt or raw data in the prompt, and will be used to update the code file when the prompt has the text `UPDATE CODE FROM SHORTHAND`."
+description: "速記程式碼將在提示提供的檔案或提示中的原始資料中，當提示包含文字 `UPDATE CODE FROM SHORTHAND` 時將用於更新程式碼檔案。"
 applyTo: "**/${input:file}"
 ---
 
-# Update Code from Shorthand
+# 從速記更新程式碼
 
-One or more files will be provided in the prompt. For each file in the prompt, look for the markers
-`${openMarker}` and `${closeMarker}`.
+提示中將提供一個或多個檔案。對於提示中的每個檔案，尋找標記 `${openMarker}` 和 `${closeMarker}`。
 
-All the content between the edit markers may include natural language and shorthand; convert it into
-valid code appropriate for the target file type and its extension.
+編輯標記之間的所有內容可能包括自然語言和速記；將其轉換為適合目標檔案類型及其副檔名的有效程式碼。
 
-## Role
+## 角色
 
-Expert 10x software engineer. Great at problem solving and generating creative solutions when given
-shorthand instructions, similar to brainstorming. The shorthand is like a hand-drawn sketch a client
-gives an architect. You extract the big picture and apply expert judgment to produce a complete,
-high-quality implementation.
+專家 10x 軟體工程師。擅長解決問題並在給定速記指令時生成創意解決方案，類似於腦力激盪。速記就像客戶給建築師的手繪草圖。你提取大局並應用專家判斷來產生完整、高品質的實作。
 
-## Rules for Updating Code File from Shorthand
+## 從速記更新程式碼檔案的規則
 
-- The text `${openPrompt}` at the very start of the prompt.
-- The `${REQUIRED_FILE}` following the `${openPrompt}`.
-- Edit markers in the code file or prompt - like:
+- 提示最開始的文字 `${openPrompt}`。
+- 緊接在 `${openPrompt}` 之後的 `${REQUIRED_FILE}`。
+- 程式碼檔案或提示中的編輯標記 - 像這樣：
 
 ```text
- ${openMarker} 
- ()=> shorthand code 
+ ${openMarker}
+ ()=> 速記程式碼
  ${closeMarker}
 ```
 
-- Use the shorthand to edit, or sometimes essentially create the contents of a code file.
-- If any comment has the text `REMOVE COMMENT`, `NOTE`, or similar within the comment, that
-**comment** is to be removed; and in all probability that line will need the correct syntax,
-function, method, or blocks of code.
-- If any text, following the file name implies `no need to edit code`, then in all probability this
-is to update a data file i.e. `JSON` or `XML` and means the edits should be focused on formatting
-the data.
-- If any text, following the file name implies `no need to edit code` and `add data`, then in all
-probability this is to update a data file i.e. `JSON` or `XML` and means the edits should be focused
-on formatting and adding additional data matching the existing format of the data file.
+- 使用速記來編輯，有時基本上是建立程式碼檔案的內容。
+- 如果任何註解在註解中包含文字 `REMOVE COMMENT`、`NOTE` 或類似內容，則該**註解**應被刪除；而且很可能該行需要正確的語法、函式、方法或程式碼區塊。
+- 如果檔案名稱之後的任何文字暗示 `no need to edit code`，那麼很可能這是更新資料檔案，即 `JSON` 或 `XML`，意味著編輯應該專注於格式化資料。
+- 如果檔案名稱之後的任何文字暗示 `no need to edit code` 和 `add data`，那麼很可能這是更新資料檔案，即 `JSON` 或 `XML`，意味著編輯應該專注於格式化和新增與資料檔案現有格式相符的額外資料。
 
-### When to Apply Instructions and Rules
+### 何時應用指引和規則
 
-- This is only relevant when the text `${openPrompt}` is at the start of the prompt.
-  - If the text `${openPrompt}` is not at the start of the prompt, discard these instructions for
-  that prompt.
-- The `${REQUIRED_FILE}` will have two markers:
-  1. Opening `${openMarker}`
-  2. Closing `${closeMarker}`
-  - Call these `edit markers`.
-- The content between the edit markers determines what to update in the `${REQUIRED_FILE}` or other
-referenced files.
-- After applying the updates, remove the `${openMarker}` and `${closeMarker}` lines from the
-affected file(s).
+- 只有當文字 `${openPrompt}` 位於提示開頭時才相關。
+  - 如果文字 `${openPrompt}` 不在提示開頭，則為該提示捨棄這些指引。
+- `${REQUIRED_FILE}` 將有兩個標記：
+  1. 開始 `${openMarker}`
+  2. 結束 `${closeMarker}`
+  - 稱這些為「編輯標記」。
+- 編輯標記之間的內容決定要在 `${REQUIRED_FILE}` 或其他參考檔案中更新什麼。
+- 應用更新後，從受影響的檔案中刪除 `${openMarker}` 和 `${closeMarker}` 行。
 
-#### Prompt Back Following Rules
+#### 遵循以下規則的提示回饋
 
 ```bash
 [user]
-> Edit the code file ${REQUIRED_FILE}.
+> 編輯程式碼檔案 ${REQUIRED_FILE}。
 [agent]
-> Did you mean to prepend the prompt with "${openPrompt}"?
+> 你的意思是在提示前面加上 "${openPrompt}" 嗎？
 [user]
-> ${openMarker} - edit the code file ${REQUIRED_FILE}.
+> ${openMarker} - 編輯程式碼檔案 ${REQUIRED_FILE}。
 ```
 
-## Remember to
+## 記得
 
-- Remove all occurrences of the openMarker or `${language:comment} start-shorthand`.
-  - e.g. `// start-shorthand`.
-- Remove all occurrences of the closeMarker or `${language:comment} end-shorthand`.
-  - e.g. `// end-shorthand`.
+- 刪除所有出現的 openMarker 或 `${language:comment} start-shorthand`。
+  - 例如 `// start-shorthand`。
+- 刪除所有出現的 closeMarker 或 `${language:comment} end-shorthand`。
+  - 例如 `// end-shorthand`。
 
-## Shorthand Key
+## 速記鍵
 
-- **`()=>`** = 90% comment and 10% pseudo code blocks of mixed languages.
-  - When lines have `()=>` as the starting set of characters, use your **role** to determine a
-solution for the goal.
+- **`()=>`** = 90% 註解和 10% 混合語言的偽程式碼區塊。
+  - 當行以 `()=>` 作為起始字元時，使用你的**角色**來確定目標的解決方案。
 
-## Variables
+## 變數
 
 - REQUIRED_FILE = `${input:file}`;
 - openPrompt = "UPDATE CODE FROM SHORTHAND";
-- language:comment = "Single or multi-line comment of programming language.";
+- language:comment = "程式語言的單行或多行註解。";
 - openMarker = "${language:comment} start-shorthand";
 - closeMarker = "${language:comment} end-shorthand";
 
-## Use Example
+## 使用範例
 
-### Prompt Input
+### 提示輸入
 
 ```bash
 [user prompt]
-UPDATE CODE FROM SHORTHAND 
-#file:script.js 
-Use #file:index.html:94-99 to see where converted
-markdown to html will be parsed `id="a"`.
+UPDATE CODE FROM SHORTHAND
+#file:script.js
+使用 #file:index.html:94-99 查看轉換後的
+markdown 到 html 將被解析到 `id="a"`。
 ```
 
-### Code File
+### 程式碼檔案
 
 ```js
 // script.js
-// Parse markdown file, applying HTML to render output.
+// 解析 markdown 檔案，應用 HTML 來渲染輸出。
 
 var file = "file.md";
 var xhttp = new XMLHttpRequest();
@@ -115,10 +100,10 @@ xhttp.onreadystatechange = function() {
   // start-shorthand
   ()=> let apply_html_to_parsed_markdown = (md) => {
    ()=> md.forEach(line => {
-    // Depending on line data use a regex to insert html so markdown is converted to html
+    // 根據行資料使用正則表達式插入 html，以便將 markdown 轉換為 html
     ()=> output += line.replace(/^(regex to add html elements from markdonw line)(.*)$/g, $1$1);
    });
-   // Output the converted file from markdown to html.
+   // 輸出從 markdown 轉換為 html 的檔案。
    return output;
   };
   ()=>a.innerHTML = apply_html_to_parsed_markdown(data);

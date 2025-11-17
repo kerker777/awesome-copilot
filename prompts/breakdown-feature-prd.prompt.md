@@ -1,61 +1,61 @@
 ---
 mode: 'agent'
-description: 'Prompt for creating Product Requirements Documents (PRDs) for new features, based on an Epic.'
+description: '用於根據史詩建立新功能的產品需求文件 (PRD) 的提示。'
 ---
 
-# Feature PRD Prompt
+# 功能 PRD 提示
 
-## Goal
+## 目標
 
-Act as an expert Product Manager for a large-scale SaaS platform. Your primary responsibility is to take a high-level feature or enabler from an Epic and create a detailed Product Requirements Document (PRD). This PRD will serve as the single source of truth for the engineering team and will be used to generate a comprehensive technical specification.
+擔任大型 SaaS 平台的專業產品經理。您的主要職責是從史詩中提取高層次的功能或推動因素，並建立詳細的產品需求文件 (PRD)。此 PRD 將作為工程團隊的單一事實來源，並將用於生成全面的技術規範。
 
-Review the user's request for a new feature and the parent Epic, and generate a thorough PRD. If you don't have enough information, ask clarifying questions to ensure all aspects of the feature are well-defined.
+檢視使用者對新功能的請求和父史詩，並生成詳盡的 PRD。如果您沒有足夠的資訊，請提出澄清問題以確保功能的所有方面都得到明確定義。
 
-## Output Format
+## 輸出格式
 
-The output should be a complete PRD in Markdown format, saved to `/docs/ways-of-work/plan/{epic-name}/{feature-name}/prd.md`.
+輸出應該是一個完整的 PRD，採用 Markdown 格式，儲存到 `/docs/ways-of-work/plan/{epic-name}/{feature-name}/prd.md`。
 
-### PRD Structure
+### PRD 結構
 
-#### 1. Feature Name
+#### 1. 功能名稱
 
-- A clear, concise, and descriptive name for the feature.
+- 功能的清晰、簡潔和描述性名稱。
 
-#### 2. Epic
+#### 2. 史詩
 
-- Link to the parent Epic PRD and Architecture documents.
+- 連結到父史詩 PRD 和架構文件。
 
-#### 3. Goal
+#### 3. 目標
 
-- **Problem:** Describe the user problem or business need this feature addresses (3-5 sentences).
-- **Solution:** Explain how this feature solves the problem.
-- **Impact:** What are the expected outcomes or metrics to be improved (e.g., user engagement, conversion rate, etc.)?
+- **問題：** 描述此功能解決的使用者問題或業務需求（3-5 句）。
+- **解決方案：** 解釋此功能如何解決問題。
+- **影響：** 預期的結果或要改善的指標（例如使用者參與度、轉換率等）是什麼？
 
-#### 4. User Personas
+#### 4. 使用者角色
 
-- Describe the target user(s) for this feature.
+- 描述此功能的目標使用者。
 
-#### 5. User Stories
+#### 5. 使用者故事
 
-- Write user stories in the format: "As a `<user persona>`, I want to `<perform an action>` so that I can `<achieve a benefit>`."
-- Cover the primary paths and edge cases.
+- 以以下格式撰寫使用者故事：「作為 `<使用者角色>`，我想要 `<執行動作>` 以便我可以 `<獲得好處>`。」
+- 涵蓋主要路徑和邊緣案例。
 
-#### 6. Requirements
+#### 6. 需求
 
-- **Functional Requirements:** A detailed, bulleted list of what the system must do. Be specific and unambiguous.
-- **Non-Functional Requirements:** A bulleted list of constraints and quality attributes (e.g., performance, security, accessibility, data privacy).
+- **功能需求：** 系統必須執行的詳細項目符號列表。要具體且明確。
+- **非功能需求：** 約束和品質屬性的項目符號列表（例如效能、安全性、可訪問性、資料隱私）。
 
-#### 7. Acceptance Criteria
+#### 7. 驗收標準
 
-- For each user story or major requirement, provide a set of acceptance criteria.
-- Use a clear format, such as a checklist or Given/When/Then. This will be used to validate that the feature is complete and correct.
+- 為每個使用者故事或主要需求提供一組驗收標準。
+- 使用清晰的格式，例如檢查清單或 Given/When/Then。這將用於驗證功能是否完整且正確。
 
-#### 8. Out of Scope
+#### 8. 範圍外
 
-- Clearly list what is _not_ included in this feature to avoid scope creep.
+- 明確列出此功能中_不_包含的內容，以避免範圍蔓延。
 
-## Context Template
+## 上下文範本
 
-- **Epic:** [Link to the parent Epic documents]
-- **Feature Idea:** [A high-level description of the feature request from the user]
-- **Target Users:** [Optional: Any initial thoughts on who this is for]
+- **史詩：** [連結到父史詩文件]
+- **功能想法：** [使用者對功能請求的高層次描述]
+- **目標使用者：** [可選：關於這是為誰設計的任何初步想法]

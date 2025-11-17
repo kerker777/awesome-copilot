@@ -1,84 +1,84 @@
 ---
 mode: 'agent'
-description: 'Ensure .NET/C# code meets best practices for the solution/project.'
+description: '確保 .NET/C# 程式碼符合解決方案/專案的最佳實踐。'
 ---
-# .NET/C# Best Practices
+# .NET/C# 最佳實踐
 
-Your task is to ensure .NET/C# code in ${selection} meets the best practices specific to this solution/project. This includes:
+您的任務是確保 ${selection} 中的 .NET/C# 程式碼符合此解決方案/專案的最佳實踐。這包括：
 
-## Documentation & Structure
+## 文件與結構
 
-- Create comprehensive XML documentation comments for all public classes, interfaces, methods, and properties
-- Include parameter descriptions and return value descriptions in XML comments
-- Follow the established namespace structure: {Core|Console|App|Service}.{Feature}
+- 為所有公開的類別、介面、方法和屬性建立完整的 XML 文件註解
+- 在 XML 註解中包含參數描述和返回值描述
+- 遵循既定的命名空間結構：{Core|Console|App|Service}.{Feature}
 
-## Design Patterns & Architecture
+## 設計模式與架構
 
-- Use primary constructor syntax for dependency injection (e.g., `public class MyClass(IDependency dependency)`)
-- Implement the Command Handler pattern with generic base classes (e.g., `CommandHandler<TOptions>`)
-- Use interface segregation with clear naming conventions (prefix interfaces with 'I')
-- Follow the Factory pattern for complex object creation.
+- 使用主要建構函式語法進行相依性注入（例如，`public class MyClass(IDependency dependency)`）
+- 使用泛型基底類別實作 Command Handler 模式（例如，`CommandHandler<TOptions>`）
+- 使用具有清晰命名慣例的介面隔離（介面前綴加 'I'）
+- 遵循 Factory 模式進行複雜物件建立
 
-## Dependency Injection & Services
+## 相依性注入與服務
 
-- Use constructor dependency injection with null checks via ArgumentNullException
-- Register services with appropriate lifetimes (Singleton, Scoped, Transient)
-- Use Microsoft.Extensions.DependencyInjection patterns
-- Implement service interfaces for testability
+- 使用建構函式相依性注入，並透過 ArgumentNullException 進行 null 檢查
+- 使用適當的生命週期註冊服務（Singleton、Scoped、Transient）
+- 使用 Microsoft.Extensions.DependencyInjection 模式
+- 實作服務介面以提高可測試性
 
-## Resource Management & Localization
+## 資源管理與本地化
 
-- Use ResourceManager for localized messages and error strings
-- Separate LogMessages and ErrorMessages resource files
-- Access resources via `_resourceManager.GetString("MessageKey")`
+- 使用 ResourceManager 管理本地化訊息和錯誤字串
+- 分離 LogMessages 和 ErrorMessages 資源檔案
+- 透過 `_resourceManager.GetString("MessageKey")` 存取資源
 
-## Async/Await Patterns
+## Async/Await 模式
 
-- Use async/await for all I/O operations and long-running tasks
-- Return Task or Task<T> from async methods
-- Use ConfigureAwait(false) where appropriate
-- Handle async exceptions properly
+- 對所有 I/O 操作和長時間執行的任務使用 async/await
+- 從非同步方法返回 Task 或 Task<T>
+- 在適當的地方使用 ConfigureAwait(false)
+- 適當地處理非同步例外
 
-## Testing Standards
+## 測試標準
 
-- Use MSTest framework with FluentAssertions for assertions
-- Follow AAA pattern (Arrange, Act, Assert)
-- Use Moq for mocking dependencies
-- Test both success and failure scenarios
-- Include null parameter validation tests
+- 使用 MSTest 框架搭配 FluentAssertions 進行斷言
+- 遵循 AAA 模式（Arrange、Act、Assert）
+- 使用 Moq 模擬相依性
+- 測試成功和失敗情境
+- 包含 null 參數驗證測試
 
-## Configuration & Settings
+## 設定與設置
 
-- Use strongly-typed configuration classes with data annotations
-- Implement validation attributes (Required, NotEmptyOrWhitespace)
-- Use IConfiguration binding for settings
-- Support appsettings.json configuration files
+- 使用具有資料註解的強類型設定類別
+- 實作驗證屬性（Required、NotEmptyOrWhitespace）
+- 使用 IConfiguration 繫結設定
+- 支援 appsettings.json 設定檔
 
-## Semantic Kernel & AI Integration
+## Semantic Kernel 與 AI 整合
 
-- Use Microsoft.SemanticKernel for AI operations
-- Implement proper kernel configuration and service registration
-- Handle AI model settings (ChatCompletion, Embedding, etc.)
-- Use structured output patterns for reliable AI responses
+- 使用 Microsoft.SemanticKernel 進行 AI 操作
+- 實作適當的核心設定和服務註冊
+- 處理 AI 模型設定（ChatCompletion、Embedding 等）
+- 使用結構化輸出模式以獲得可靠的 AI 回應
 
-## Error Handling & Logging
+## 錯誤處理與日誌記錄
 
-- Use structured logging with Microsoft.Extensions.Logging
-- Include scoped logging with meaningful context
-- Throw specific exceptions with descriptive messages
-- Use try-catch blocks for expected failure scenarios
+- 使用 Microsoft.Extensions.Logging 進行結構化日誌記錄
+- 包含具有有意義內容的範圍日誌記錄
+- 拋出具有描述性訊息的特定例外
+- 對預期的失敗情境使用 try-catch 區塊
 
-## Performance & Security
+## 效能與安全性
 
-- Use C# 12+ features and .NET 8 optimizations where applicable
-- Implement proper input validation and sanitization
-- Use parameterized queries for database operations
-- Follow secure coding practices for AI/ML operations
+- 在適用的地方使用 C# 12+ 功能和 .NET 8 最佳化
+- 實作適當的輸入驗證和清理
+- 對資料庫操作使用參數化查詢
+- 遵循 AI/ML 操作的安全編碼實踐
 
-## Code Quality
+## 程式碼品質
 
-- Ensure SOLID principles compliance
-- Avoid code duplication through base classes and utilities
-- Use meaningful names that reflect domain concepts
-- Keep methods focused and cohesive
-- Implement proper disposal patterns for resources
+- 確保符合 SOLID 原則
+- 透過基底類別和工具程式避免程式碼重複
+- 使用反映領域概念的有意義名稱
+- 保持方法專注且內聚
+- 為資源實作適當的處置模式

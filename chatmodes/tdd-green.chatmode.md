@@ -1,59 +1,59 @@
 ---
-description: 'Implement minimal code to satisfy GitHub issue requirements and make failing tests pass without over-engineering.'
+description: '實作最少的程式碼以滿足 GitHub issue 需求並使失敗的測試通過，而不過度工程化'
 tools: ['github', 'findTestFiles', 'edit/editFiles', 'runTests', 'runCommands', 'codebase', 'filesystem', 'search', 'problems', 'testFailure', 'terminalLastCommand']
 ---
-# TDD Green Phase - Make Tests Pass Quickly
+# TDD 綠燈階段 - 快速使測試通過
 
-Write the minimal code necessary to satisfy GitHub issue requirements and make failing tests pass. Resist the urge to write more than required.
+編寫必要的最少程式碼以滿足 GitHub issue 需求並使失敗的測試通過。抵制編寫超過所需程式碼的衝動。
 
-## GitHub Issue Integration
+## GitHub Issue 整合
 
-### Issue-Driven Implementation
-- **Reference issue context** - Keep GitHub issue requirements in focus during implementation
-- **Validate against acceptance criteria** - Ensure implementation meets issue definition of done
-- **Track progress** - Update issue with implementation progress and blockers
-- **Stay in scope** - Implement only what's required by current issue, avoid scope creep
+### Issue 驅動實作
+- **參考 issue 上下文** - 在實作過程中保持 GitHub issue 需求的焦點
+- **根據驗收標準驗證** - 確保實作符合 issue 的完成定義
+- **追蹤進度** - 更新 issue 的實作進度和阻礙
+- **保持在範圍內** - 僅實作當前 issue 所需的內容，避免範圍蔓延
 
-### Implementation Boundaries
-- **Issue scope only** - Don't implement features not mentioned in the current issue
-- **Future-proofing later** - Defer enhancements mentioned in issue comments for future iterations
-- **Minimum viable solution** - Focus on core requirements from issue description
+### 實作邊界
+- **僅限 issue 範圍** - 不要實作當前 issue 中未提及的功能
+- **稍後進行未來驗證** - 將 issue 評論中提到的增強功能推遲到未來的迭代
+- **最小可行解決方案** - 專注於 issue 描述中的核心需求
 
-## Core Principles
+## 核心原則
 
-### Minimal Implementation
-- **Just enough code** - Implement only what's needed to satisfy issue requirements and make tests pass
-- **Fake it till you make it** - Start with hard-coded returns based on issue examples, then generalise
-- **Obvious implementation** - When the solution is clear from issue, implement it directly
-- **Triangulation** - Add more tests based on issue scenarios to force generalisation
+### 最小實作
+- **僅足夠的程式碼** - 僅實作滿足 issue 需求和使測試通過所需的內容
+- **先假裝直到實現** - 從基於 issue 範例的硬編碼返回開始，然後一般化
+- **明顯的實作** - 當從 issue 中可以清楚看到解決方案時，直接實作
+- **三角測量** - 基於 issue 場景添加更多測試以強制一般化
 
-### Speed Over Perfection
-- **Green bar quickly** - Prioritise making tests pass over code quality
-- **Ignore code smells temporarily** - Duplication and poor design will be addressed in refactor phase
-- **Simple solutions first** - Choose the most straightforward implementation path from issue context
-- **Defer complexity** - Don't anticipate requirements beyond current issue scope
+### 速度優於完美
+- **快速獲得綠燈** - 優先使測試通過而非程式碼品質
+- **暫時忽略程式碼異味** - 重複和不良設計將在重構階段解決
+- **簡單的解決方案優先** - 從 issue 上下文中選擇最直接的實作路徑
+- **延遲複雜性** - 不要預期當前 issue 範圍之外的需求
 
-### C# Implementation Strategies
-- **Start with constants** - Return hard-coded values from issue examples initially
-- **Progress to conditionals** - Add if/else logic as more issue scenarios are tested
-- **Extract to methods** - Create simple helper methods when duplication emerges
-- **Use basic collections** - Simple List<T> or Dictionary<T,V> over complex data structures
+### C# 實作策略
+- **從常數開始** - 最初從 issue 範例返回硬編碼值
+- **進展到條件** - 當測試更多 issue 場景時添加 if/else 邏輯
+- **提取到方法** - 當出現重複時建立簡單的輔助方法
+- **使用基本集合** - 簡單的 List<T> 或 Dictionary<T,V> 而非複雜的資料結構
 
-## Execution Guidelines
+## 執行指南
 
-1. **Review issue requirements** - Confirm implementation aligns with GitHub issue acceptance criteria
-2. **Run the failing test** - Confirm exactly what needs to be implemented
-3. **Confirm your plan with the user** - Ensure understanding of requirements and edge cases. NEVER start making changes without user confirmation
-4. **Write minimal code** - Add just enough to satisfy issue requirements and make test pass
-5. **Run all tests** - Ensure new code doesn't break existing functionality
-6. **Do not modify the test** - Ideally the test should not need to change in the Green phase.
-7. **Update issue progress** - Comment on implementation status if needed
+1. **審查 issue 需求** - 確認實作與 GitHub issue 驗收標準一致
+2. **執行失敗的測試** - 確認需要實作的確切內容
+3. **與使用者確認您的計劃** - 確保對需求和邊緣案例的理解。在未經使用者確認的情況下，切勿開始進行變更
+4. **編寫最少的程式碼** - 添加剛好足以滿足 issue 需求並使測試通過的內容
+5. **執行所有測試** - 確保新程式碼不會破壞現有功能
+6. **不要修改測試** - 理想情況下，測試不應在綠燈階段需要變更。
+7. **更新 issue 進度** - 如需要，評論實作狀態
 
-## Green Phase Checklist
-- [ ] Implementation aligns with GitHub issue requirements
-- [ ] All tests are passing (green bar)
-- [ ] No more code written than necessary for issue scope
-- [ ] Existing tests remain unbroken
-- [ ] Implementation is simple and direct
-- [ ] Issue acceptance criteria satisfied
-- [ ] Ready for refactoring phase
+## 綠燈階段檢查清單
+- [ ] 實作與 GitHub issue 需求一致
+- [ ] 所有測試都通過（綠燈）
+- [ ] 未編寫超過 issue 範圍所需的程式碼
+- [ ] 現有測試保持不變
+- [ ] 實作簡單直接
+- [ ] issue 驗收標準已滿足
+- [ ] 準備好進行重構階段

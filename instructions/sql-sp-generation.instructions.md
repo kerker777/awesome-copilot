@@ -1,74 +1,74 @@
 ---
-description: 'Guidelines for generating SQL statements and stored procedures'
+description: '生成 SQL 語句和預存程序的指南'
 applyTo: '**/*.sql'
 ---
 
-# SQL Development
+# SQL 開發
 
-## Database schema generation
-- all table names should be in singular form
-- all column names should be in singular form
-- all tables should have a primary key column named `id`
-- all tables should have a column named `created_at` to store the creation timestamp
-- all tables should have a column named `updated_at` to store the last update timestamp
+## 資料庫結構描述生成
+- 所有資料表名稱應使用單數形式
+- 所有欄位名稱應使用單數形式
+- 所有資料表應有一個名為 `id` 的主鍵欄位
+- 所有資料表應有一個名為 `created_at` 的欄位來儲存建立時間戳記
+- 所有資料表應有一個名為 `updated_at` 的欄位來儲存最後更新時間戳記
 
-## Database schema design
-- all tables should have a primary key constraint
-- all foreign key constraints should have a name
-- all foreign key constraints should be defined inline
-- all foreign key constraints should have `ON DELETE CASCADE` option
-- all foreign key constraints should have `ON UPDATE CASCADE` option
-- all foreign key constraints should reference the primary key of the parent table
+## 資料庫結構描述設計
+- 所有資料表應有主鍵約束
+- 所有外鍵約束應有名稱
+- 所有外鍵約束應內嵌定義
+- 所有外鍵約束應有 `ON DELETE CASCADE` 選項
+- 所有外鍵約束應有 `ON UPDATE CASCADE` 選項
+- 所有外鍵約束應參考父資料表的主鍵
 
-## SQL Coding Style
-- use uppercase for SQL keywords (SELECT, FROM, WHERE)
-- use consistent indentation for nested queries and conditions
-- include comments to explain complex logic
-- break long queries into multiple lines for readability
-- organize clauses consistently (SELECT, FROM, JOIN, WHERE, GROUP BY, HAVING, ORDER BY)
+## SQL 編碼風格
+- SQL 關鍵字使用大寫（SELECT、FROM、WHERE）
+- 對巢狀查詢和條件使用一致的縮排
+- 包含註解以解釋複雜邏輯
+- 將長查詢分成多行以提高可讀性
+- 一致地組織子句（SELECT、FROM、JOIN、WHERE、GROUP BY、HAVING、ORDER BY）
 
-## SQL Query Structure
-- use explicit column names in SELECT statements instead of SELECT *
-- qualify column names with table name or alias when using multiple tables
-- limit the use of subqueries when joins can be used instead
-- include LIMIT/TOP clauses to restrict result sets
-- use appropriate indexing for frequently queried columns
-- avoid using functions on indexed columns in WHERE clauses
+## SQL 查詢結構
+- 在 SELECT 語句中使用明確的欄位名稱，而非 SELECT *
+- 使用多個資料表時，使用資料表名稱或別名限定欄位名稱
+- 當可以使用 join 時，限制使用子查詢
+- 包含 LIMIT/TOP 子句以限制結果集
+- 對經常查詢的欄位使用適當的索引
+- 避免在 WHERE 子句中對索引欄位使用函式
 
-## Stored Procedure Naming Conventions
-- prefix stored procedure names with 'usp_'
-- use PascalCase for stored procedure names
-- use descriptive names that indicate purpose (e.g., usp_GetCustomerOrders)
-- include plural noun when returning multiple records (e.g., usp_GetProducts)
-- include singular noun when returning single record (e.g., usp_GetProduct)
+## 預存程序命名慣例
+- 預存程序名稱以 'usp_' 為前綴
+- 預存程序名稱使用 PascalCase
+- 使用指示目的的描述性名稱（例如 usp_GetCustomerOrders）
+- 回傳多筆記錄時包含複數名詞（例如 usp_GetProducts）
+- 回傳單筆記錄時包含單數名詞（例如 usp_GetProduct）
 
-## Parameter Handling
-- prefix parameters with '@'
-- use camelCase for parameter names
-- provide default values for optional parameters
-- validate parameter values before use
-- document parameters with comments
-- arrange parameters consistently (required first, optional later)
-
-
-## Stored Procedure Structure
-- include header comment block with description, parameters, and return values
-- return standardized error codes/messages
-- return result sets with consistent column order
-- use OUTPUT parameters for returning status information
-- prefix temporary tables with 'tmp_'
+## 參數處理
+- 參數以 '@' 為前綴
+- 參數名稱使用 camelCase
+- 為可選參數提供預設值
+- 使用前驗證參數值
+- 使用註解記錄參數
+- 一致地安排參數（先必需，後可選）
 
 
-## SQL Security Best Practices
-- parameterize all queries to prevent SQL injection
-- use prepared statements when executing dynamic SQL
-- avoid embedding credentials in SQL scripts
-- implement proper error handling without exposing system details
-- avoid using dynamic SQL within stored procedures
+## 預存程序結構
+- 包含含有描述、參數和回傳值的標頭註解區塊
+- 回傳標準化的錯誤代碼/訊息
+- 以一致的欄位順序回傳結果集
+- 使用 OUTPUT 參數回傳狀態資訊
+- 臨時資料表以 'tmp_' 為前綴
 
-## Transaction Management
-- explicitly begin and commit transactions
-- use appropriate isolation levels based on requirements
-- avoid long-running transactions that lock tables
-- use batch processing for large data operations
-- include SET NOCOUNT ON for stored procedures that modify data
+
+## SQL 安全最佳實踐
+- 參數化所有查詢以防止 SQL 注入
+- 執行動態 SQL 時使用預備語句
+- 避免在 SQL 腳本中嵌入憑證
+- 實作適當的錯誤處理，不公開系統詳細資訊
+- 避免在預存程序中使用動態 SQL
+
+## 交易管理
+- 明確開始和提交交易
+- 根據需求使用適當的隔離層級
+- 避免鎖定資料表的長時間執行交易
+- 對大型資料操作使用批次處理
+- 為修改資料的預存程序包含 SET NOCOUNT ON

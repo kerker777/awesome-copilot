@@ -1,114 +1,114 @@
 ---
-description: 'Guidelines for TypeScript Development targeting TypeScript 5.x and ES2022 output'
+description: '針對 TypeScript 5.x 和 ES2022 輸出的 TypeScript 開發指南'
 applyTo: '**/*.ts'
 ---
 
-# TypeScript Development
+# TypeScript 開發
 
-> These instructions assume projects are built with TypeScript 5.x (or newer) compiling to an ES2022 JavaScript baseline. Adjust guidance if your runtime requires older language targets or down-level transpilation.
+> 這些指引假設專案使用 TypeScript 5.x（或更新版本）編譯到 ES2022 JavaScript 基準。如果你的執行環境需要較舊的語言目標或向下層級轉譯，請調整指南。
 
-## Core Intent
+## 核心意圖
 
-- Respect the existing architecture and coding standards.
-- Prefer readable, explicit solutions over clever shortcuts.
-- Extend current abstractions before inventing new ones.
-- Prioritize maintainability and clarity, short methods and classes, clean code.
+- 尊重現有架構和編碼標準。
+- 優先選擇可讀、明確的解決方案而非聰明的捷徑。
+- 在發明新抽象之前擴展當前抽象。
+- 優先考慮可維護性和清晰度、簡短的方法和類別、乾淨的程式碼。
 
-## General Guardrails
+## 一般護欄
 
-- Target TypeScript 5.x / ES2022 and prefer native features over polyfills.
-- Use pure ES modules; never emit `require`, `module.exports`, or CommonJS helpers.
-- Rely on the project's build, lint, and test scripts unless asked otherwise.
-- Note design trade-offs when intent is not obvious.
+- 目標為 TypeScript 5.x / ES2022，優先使用原生功能而非 polyfills。
+- 使用純 ES 模組；永遠不要發出 `require`、`module.exports` 或 CommonJS 輔助程式。
+- 除非另有要求，否則依賴專案的構建、lint 和測試腳本。
+- 當意圖不明顯時註明設計權衡。
 
-## Project Organization
+## 專案組織
 
-- Follow the repository's folder and responsibility layout for new code.
-- Use kebab-case filenames (e.g., `user-session.ts`, `data-service.ts`) unless told otherwise.
-- Keep tests, types, and helpers near their implementation when it aids discovery.
-- Reuse or extend shared utilities before adding new ones.
+- 對新程式碼遵循儲存庫的資料夾和職責佈局。
+- 使用 kebab-case 檔案名稱（例如 `user-session.ts`、`data-service.ts`），除非另有說明。
+- 當有助於發現時，將測試、型別和輔助程式保持在其實作附近。
+- 在新增新的實用程式之前重用或擴展共享實用程式。
 
-## Naming & Style
+## 命名和風格
 
-- Use PascalCase for classes, interfaces, enums, and type aliases; camelCase for everything else.
-- Skip interface prefixes like `I`; rely on descriptive names.
-- Name things for their behavior or domain meaning, not implementation.
+- 對類別、介面、列舉和型別別名使用 PascalCase；對其他所有內容使用 camelCase。
+- 跳過 `I` 等介面前綴；依賴描述性名稱。
+- 根據行為或領域意義而非實作來命名事物。
 
-## Formatting & Style
+## 格式和風格
 
-- Run the repository's lint/format scripts (e.g., `npm run lint`) before submitting.
-- Match the project's indentation, quote style, and trailing comma rules.
-- Keep functions focused; extract helpers when logic branches grow.
-- Favor immutable data and pure functions when practical.
+- 在提交之前執行儲存庫的 lint/format 腳本（例如 `npm run lint`）。
+- 符合專案的縮排、引號風格和尾隨逗號規則。
+- 保持函式專注；當邏輯分支增長時提取輔助程式。
+- 在實際時偏好不可變資料和純函式。
 
-## Type System Expectations
+## 型別系統期望
 
-- Avoid `any` (implicit or explicit); prefer `unknown` plus narrowing.
-- Use discriminated unions for realtime events and state machines.
-- Centralize shared contracts instead of duplicating shapes.
-- Express intent with TypeScript utility types (e.g., `Readonly`, `Partial`, `Record`).
+- 避免 `any`（隱式或顯式）；優先使用 `unknown` 加窄化。
+- 對即時事件和狀態機使用可辨識聯合。
+- 集中共享合約而非重複形狀。
+- 使用 TypeScript 實用型別（例如 `Readonly`、`Partial`、`Record`）表達意圖。
 
-## Async, Events & Error Handling
+## 非同步、事件和錯誤處理
 
-- Use `async/await`; wrap awaits in try/catch with structured errors.
-- Guard edge cases early to avoid deep nesting.
-- Send errors through the project's logging/telemetry utilities.
-- Surface user-facing errors via the repository's notification pattern.
-- Debounce configuration-driven updates and dispose resources deterministically.
+- 使用 `async/await`；在 try/catch 中包裝 awaits，並使用結構化錯誤。
+- 及早防護邊緣情況以避免深度巢狀。
+- 透過專案的日誌記錄/遙測實用程式發送錯誤。
+- 透過儲存庫的通知模式顯示面向使用者的錯誤。
+- 去抖動配置驅動的更新並確定性地處置資源。
 
-## Architecture & Patterns
+## 架構和模式
 
-- Follow the repository's dependency injection or composition pattern; keep modules single-purpose.
-- Observe existing initialization and disposal sequences when wiring into lifecycles.
-- Keep transport, domain, and presentation layers decoupled with clear interfaces.
-- Supply lifecycle hooks (e.g., `initialize`, `dispose`) and targeted tests when adding services.
+- 遵循儲存庫的依賴注入或組合模式；保持模組單一用途。
+- 在連接到生命週期時遵守現有的初始化和處置序列。
+- 使用清晰介面保持傳輸、領域和展示層解耦。
+- 在新增服務時提供生命週期鉤子（例如 `initialize`、`dispose`）和針對性測試。
 
-## External Integrations
+## 外部整合
 
-- Instantiate clients outside hot paths and inject them for testability.
-- Never hardcode secrets; load them from secure sources.
-- Apply retries, backoff, and cancellation to network or IO calls.
-- Normalize external responses and map errors to domain shapes.
+- 在熱路徑之外實例化客戶端並注入它們以實現可測試性。
+- 永遠不要硬編碼金鑰；從安全來源載入它們。
+- 對網路或 IO 呼叫應用重試、退避和取消。
+- 正規化外部回應並將錯誤映射到領域形狀。
 
-## Security Practices
+## 安全實踐
 
-- Validate and sanitize external input with schema validators or type guards.
-- Avoid dynamic code execution and untrusted template rendering.
-- Encode untrusted content before rendering HTML; use framework escaping or trusted types.
-- Use parameterized queries or prepared statements to block injection.
-- Keep secrets in secure storage, rotate them regularly, and request least-privilege scopes.
-- Favor immutable flows and defensive copies for sensitive data.
-- Use vetted crypto libraries only.
-- Patch dependencies promptly and monitor advisories.
+- 使用結構描述驗證器或型別防護驗證和清理外部輸入。
+- 避免動態程式碼執行和不受信任的範本渲染。
+- 在渲染 HTML 之前編碼不受信任的內容；使用框架跳脫或可信型別。
+- 使用參數化查詢或預備語句來阻止注入。
+- 將金鑰保存在安全儲存中，定期輪換它們，並請求最小權限範圍。
+- 對敏感資料偏好不可變流和防禦性複製。
+- 僅使用經過審查的加密函式庫。
+- 及時修補依賴項並監控公告。
 
-## Configuration & Secrets
+## 配置和金鑰
 
-- Reach configuration through shared helpers and validate with schemas or dedicated validators.
-- Handle secrets via the project's secure storage; guard `undefined` and error states.
-- Document new configuration keys and update related tests.
+- 透過共享輔助程式存取配置，並使用結構描述或專用驗證器進行驗證。
+- 透過專案的安全儲存處理金鑰；防護 `undefined` 和錯誤狀態。
+- 記錄新的配置金鑰並更新相關測試。
 
-## UI & UX Components
+## UI 和 UX 元件
 
-- Sanitize user or external content before rendering.
-- Keep UI layers thin; push heavy logic to services or state managers.
-- Use messaging or events to decouple UI from business logic.
+- 在渲染之前清理使用者或外部內容。
+- 保持 UI 層簡潔；將繁重邏輯推送到服務或狀態管理器。
+- 使用訊息傳遞或事件將 UI 與業務邏輯解耦。
 
-## Testing Expectations
+## 測試期望
 
-- Add or update unit tests with the project's framework and naming style.
-- Expand integration or end-to-end suites when behavior crosses modules or platform APIs.
-- Run targeted test scripts for quick feedback before submitting.
-- Avoid brittle timing assertions; prefer fake timers or injected clocks.
+- 使用專案的框架和命名風格新增或更新單元測試。
+- 當行為跨模組或平台 API 時擴展整合或端對端套件。
+- 在提交之前執行針對性測試腳本以獲得快速回饋。
+- 避免脆弱的計時斷言；優先使用假計時器或注入的時鐘。
 
-## Performance & Reliability
+## 效能和可靠性
 
-- Lazy-load heavy dependencies and dispose them when done.
-- Defer expensive work until users need it.
-- Batch or debounce high-frequency events to reduce thrash.
-- Track resource lifetimes to prevent leaks.
+- 延遲載入繁重的依賴項並在完成後處置它們。
+- 將昂貴的工作延遲到使用者需要時。
+- 批次處理或去抖動高頻率事件以減少抖動。
+- 追蹤資源生命週期以防止洩漏。
 
-## Documentation & Comments
+## 文檔和註解
 
-- Add JSDoc to public APIs; include `@remarks` or `@example` when helpful.
-- Write comments that capture intent, and remove stale notes during refactors.
-- Update architecture or design docs when introducing significant patterns.
+- 為公開 API 新增 JSDoc；在有幫助時包含 `@remarks` 或 `@example`。
+- 撰寫捕捉意圖的註解，並在重構期間刪除過時的註解。
+- 在引入重要模式時更新架構或設計文檔。

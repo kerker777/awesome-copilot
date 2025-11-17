@@ -1,86 +1,86 @@
 ---
 mode: 'agent'
-description: 'Analyze Azure resource health, diagnose issues from logs and telemetry, and create a remediation plan for identified problems.'
+description: '分析 Azure 資源健康狀態，從日誌和遙測診斷問題，並為識別的問題創建修復計劃。'
 ---
 
-# Azure Resource Health & Issue Diagnosis
+# Azure 資源健康與問題診斷
 
-This workflow analyzes a specific Azure resource to assess its health status, diagnose potential issues using logs and telemetry data, and develop a comprehensive remediation plan for any problems discovered.
+此工作流程分析特定 Azure 資源以評估其健康狀態，使用日誌和遙測資料診斷潛在問題，並為發現的任何問題制定全面的修復計劃。
 
-## Prerequisites
-- Azure MCP server configured and authenticated
-- Target Azure resource identified (name and optionally resource group/subscription)
-- Resource must be deployed and running to generate logs/telemetry
-- Prefer Azure MCP tools (`azmcp-*`) over direct Azure CLI when available
+## 先決條件
+- 已配置並驗證 Azure MCP 伺服器
+- 已識別目標 Azure 資源（名稱以及可選的資源群組/訂閱）
+- 資源必須已部署並運行以生成日誌/遙測
+- 當可用時，優先使用 Azure MCP 工具（`azmcp-*`）而非直接使用 Azure CLI
 
-## Workflow Steps
+## 工作流程步驟
 
-### Step 1: Get Azure Best Practices
-**Action**: Retrieve diagnostic and troubleshooting best practices
-**Tools**: Azure MCP best practices tool
-**Process**:
-1. **Load Best Practices**:
-   - Execute Azure best practices tool to get diagnostic guidelines
-   - Focus on health monitoring, log analysis, and issue resolution patterns
-   - Use these practices to inform diagnostic approach and remediation recommendations
+### 步驟 1：獲取 Azure 最佳實踐
+**行動**：檢索診斷和故障排除最佳實踐
+**工具**：Azure MCP 最佳實踐工具
+**流程**：
+1. **載入最佳實踐**：
+   - 執行 Azure 最佳實踐工具以獲取診斷指南
+   - 專注於健康監控、日誌分析和問題解決模式
+   - 使用這些實踐來指導診斷方法和修復建議
 
-### Step 2: Resource Discovery & Identification
-**Action**: Locate and identify the target Azure resource
-**Tools**: Azure MCP tools + Azure CLI fallback
-**Process**:
-1. **Resource Lookup**:
-   - If only resource name provided: Search across subscriptions using `azmcp-subscription-list`
-   - Use `az resource list --name <resource-name>` to find matching resources
-   - If multiple matches found, prompt user to specify subscription/resource group
-   - Gather detailed resource information:
-     - Resource type and current status
-     - Location, tags, and configuration
-     - Associated services and dependencies
+### 步驟 2：資源探索與識別
+**行動**：定位並識別目標 Azure 資源
+**工具**：Azure MCP 工具 + Azure CLI 後備
+**流程**：
+1. **資源查找**：
+   - 如果僅提供資源名稱：使用 `azmcp-subscription-list` 跨訂閱搜索
+   - 使用 `az resource list --name <resource-name>` 尋找匹配的資源
+   - 如果找到多個匹配項，提示使用者指定訂閱/資源群組
+   - 收集詳細的資源資訊：
+     - 資源類型和當前狀態
+     - 位置、標籤和配置
+     - 關聯的服務和依賴
 
-2. **Resource Type Detection**:
-   - Identify resource type to determine appropriate diagnostic approach:
-     - **Web Apps/Function Apps**: Application logs, performance metrics, dependency tracking
-     - **Virtual Machines**: System logs, performance counters, boot diagnostics
-     - **Cosmos DB**: Request metrics, throttling, partition statistics
-     - **Storage Accounts**: Access logs, performance metrics, availability
-     - **SQL Database**: Query performance, connection logs, resource utilization
-     - **Application Insights**: Application telemetry, exceptions, dependencies
-     - **Key Vault**: Access logs, certificate status, secret usage
-     - **Service Bus**: Message metrics, dead letter queues, throughput
+2. **資源類型偵測**：
+   - 識別資源類型以確定適當的診斷方法：
+     - **Web 應用程式/Function 應用程式**：應用程式日誌、效能指標、依賴追蹤
+     - **虛擬機器**：系統日誌、效能計數器、開機診斷
+     - **Cosmos DB**：請求指標、節流、分區統計
+     - **儲存體帳戶**：存取日誌、效能指標、可用性
+     - **SQL Database**：查詢效能、連接日誌、資源使用
+     - **Application Insights**：應用程式遙測、異常、依賴
+     - **Key Vault**：存取日誌、憑證狀態、秘密使用
+     - **Service Bus**：訊息指標、死信佇列、吞吐量
 
-### Step 3: Health Status Assessment
-**Action**: Evaluate current resource health and availability
-**Tools**: Azure MCP monitoring tools + Azure CLI
-**Process**:
-1. **Basic Health Check**:
-   - Check resource provisioning state and operational status
-   - Verify service availability and responsiveness
-   - Review recent deployment or configuration changes
-   - Assess current resource utilization (CPU, memory, storage, etc.)
+### 步驟 3：健康狀態評估
+**行動**：評估當前資源健康和可用性
+**工具**：Azure MCP 監控工具 + Azure CLI
+**流程**：
+1. **基本健康檢查**：
+   - 檢查資源佈建狀態和運作狀態
+   - 驗證服務可用性和回應性
+   - 審查最近的部署或配置變更
+   - 評估當前資源使用（CPU、記憶體、儲存等）
 
-2. **Service-Specific Health Indicators**:
-   - **Web Apps**: HTTP response codes, response times, uptime
-   - **Databases**: Connection success rate, query performance, deadlocks
-   - **Storage**: Availability percentage, request success rate, latency
-   - **VMs**: Boot diagnostics, guest OS metrics, network connectivity
-   - **Functions**: Execution success rate, duration, error frequency
+2. **服務特定健康指標**：
+   - **Web 應用程式**：HTTP 回應代碼、回應時間、運行時間
+   - **資料庫**：連接成功率、查詢效能、死鎖
+   - **儲存體**：可用性百分比、請求成功率、延遲
+   - **虛擬機器**：開機診斷、客戶作業系統指標、網路連接
+   - **函數**：執行成功率、持續時間、錯誤頻率
 
-### Step 4: Log & Telemetry Analysis
-**Action**: Analyze logs and telemetry to identify issues and patterns
-**Tools**: Azure MCP monitoring tools for Log Analytics queries
-**Process**:
-1. **Find Monitoring Sources**:
-   - Use `azmcp-monitor-workspace-list` to identify Log Analytics workspaces
-   - Locate Application Insights instances associated with the resource
-   - Identify relevant log tables using `azmcp-monitor-table-list`
+### 步驟 4：日誌與遙測分析
+**行動**：分析日誌和遙測以識別問題和模式
+**工具**：用於 Log Analytics 查詢的 Azure MCP 監控工具
+**流程**：
+1. **尋找監控來源**：
+   - 使用 `azmcp-monitor-workspace-list` 識別 Log Analytics 工作區
+   - 定位與資源關聯的 Application Insights 執行個體
+   - 使用 `azmcp-monitor-table-list` 識別相關日誌表
 
-2. **Execute Diagnostic Queries**:
-   Use `azmcp-monitor-log-query` with targeted KQL queries based on resource type:
+2. **執行診斷查詢**：
+   根據資源類型使用 `azmcp-monitor-log-query` 執行目標 KQL 查詢：
 
-   **General Error Analysis**:
+   **一般錯誤分析**：
    ```kql
-   // Recent errors and exceptions
-   union isfuzzy=true 
+   // 最近的錯誤和異常
+   union isfuzzy=true
        AzureDiagnostics,
        AppServiceHTTPLogs,
        AppServiceAppLogs,
@@ -91,9 +91,9 @@ This workflow analyzes a specific Azure resource to assess its health status, di
    | order by TimeGenerated desc
    ```
 
-   **Performance Analysis**:
+   **效能分析**：
    ```kql
-   // Performance degradation patterns
+   // 效能下降模式
    Perf
    | where TimeGenerated > ago(7d)
    | where ObjectName == "Processor" and CounterName == "% Processor Time"
@@ -101,16 +101,16 @@ This workflow analyzes a specific Azure resource to assess its health status, di
    | where avg_CounterValue > 80
    ```
 
-   **Application-Specific Queries**:
+   **應用程式特定查詢**：
    ```kql
-   // Application Insights - Failed requests
+   // Application Insights - 失敗的請求
    requests
    | where timestamp > ago(24h)
    | where success == false
    | summarize FailureCount=count() by resultCode, bin(timestamp, 1h)
    | order by timestamp desc
-   
-   // Database - Connection failures
+
+   // 資料庫 - 連接失敗
    AzureDiagnostics
    | where ResourceProvider == "MICROSOFT.SQL"
    | where Category == "SQLSecurityAuditEvents"
@@ -118,173 +118,173 @@ This workflow analyzes a specific Azure resource to assess its health status, di
    | summarize ConnectionFailures=count() by bin(TimeGenerated, 1h)
    ```
 
-3. **Pattern Recognition**:
-   - Identify recurring error patterns or anomalies
-   - Correlate errors with deployment times or configuration changes
-   - Analyze performance trends and degradation patterns
-   - Look for dependency failures or external service issues
+3. **模式識別**：
+   - 識別重複的錯誤模式或異常
+   - 將錯誤與部署時間或配置變更相關聯
+   - 分析效能趨勢和下降模式
+   - 尋找依賴失敗或外部服務問題
 
-### Step 5: Issue Classification & Root Cause Analysis
-**Action**: Categorize identified issues and determine root causes
-**Process**:
-1. **Issue Classification**:
-   - **Critical**: Service unavailable, data loss, security breaches
-   - **High**: Performance degradation, intermittent failures, high error rates
-   - **Medium**: Warnings, suboptimal configuration, minor performance issues
-   - **Low**: Informational alerts, optimization opportunities
+### 步驟 5：問題分類與根本原因分析
+**行動**：對識別的問題進行分類並確定根本原因
+**流程**：
+1. **問題分類**：
+   - **嚴重**：服務不可用、資料遺失、安全漏洞
+   - **高**：效能下降、間歇性故障、高錯誤率
+   - **中**：警告、次優配置、輕微效能問題
+   - **低**：資訊性警報、優化機會
 
-2. **Root Cause Analysis**:
-   - **Configuration Issues**: Incorrect settings, missing dependencies
-   - **Resource Constraints**: CPU/memory/disk limitations, throttling
-   - **Network Issues**: Connectivity problems, DNS resolution, firewall rules
-   - **Application Issues**: Code bugs, memory leaks, inefficient queries
-   - **External Dependencies**: Third-party service failures, API limits
-   - **Security Issues**: Authentication failures, certificate expiration
+2. **根本原因分析**：
+   - **配置問題**：不正確的設定、缺少依賴
+   - **資源約束**：CPU/記憶體/磁碟限制、節流
+   - **網路問題**：連接問題、DNS 解析、防火牆規則
+   - **應用程式問題**：程式碼錯誤、記憶體洩漏、低效查詢
+   - **外部依賴**：第三方服務故障、API 限制
+   - **安全問題**：驗證失敗、憑證過期
 
-3. **Impact Assessment**:
-   - Determine business impact and affected users/systems
-   - Evaluate data integrity and security implications
-   - Assess recovery time objectives and priorities
+3. **影響評估**：
+   - 確定業務影響和受影響的使用者/系統
+   - 評估資料完整性和安全影響
+   - 評估恢復時間目標和優先級
 
-### Step 6: Generate Remediation Plan
-**Action**: Create a comprehensive plan to address identified issues
-**Process**:
-1. **Immediate Actions** (Critical issues):
-   - Emergency fixes to restore service availability
-   - Temporary workarounds to mitigate impact
-   - Escalation procedures for complex issues
+### 步驟 6：生成修復計劃
+**行動**：創建全面的計劃來解決識別的問題
+**流程**：
+1. **立即行動**（嚴重問題）：
+   - 恢復服務可用性的緊急修復
+   - 減輕影響的臨時解決方法
+   - 複雜問題的升級程序
 
-2. **Short-term Fixes** (High/Medium issues):
-   - Configuration adjustments and resource scaling
-   - Application updates and patches
-   - Monitoring and alerting improvements
+2. **短期修復**（高/中問題）：
+   - 配置調整和資源擴展
+   - 應用程式更新和修補程式
+   - 監控和警報改進
 
-3. **Long-term Improvements** (All issues):
-   - Architectural changes for better resilience
-   - Preventive measures and monitoring enhancements
-   - Documentation and process improvements
+3. **長期改進**（所有問題）：
+   - 增強韌性的架構變更
+   - 預防措施和監控增強
+   - 文件和流程改進
 
-4. **Implementation Steps**:
-   - Prioritized action items with specific Azure CLI commands
-   - Testing and validation procedures
-   - Rollback plans for each change
-   - Monitoring to verify issue resolution
+4. **實作步驟**：
+   - 具有特定 Azure CLI 命令的優先行動項目
+   - 測試和驗證程序
+   - 每個變更的回滾計劃
+   - 驗證問題解決的監控
 
-### Step 7: User Confirmation & Report Generation
-**Action**: Present findings and get approval for remediation actions
-**Process**:
-1. **Display Health Assessment Summary**:
+### 步驟 7：使用者確認與報告生成
+**行動**：呈現發現並獲得修復行動的批准
+**流程**：
+1. **顯示健康評估摘要**：
    ```
-   🏥 Azure Resource Health Assessment
-   
-   📊 Resource Overview:
-   • Resource: [Name] ([Type])
-   • Status: [Healthy/Warning/Critical]
-   • Location: [Region]
-   • Last Analyzed: [Timestamp]
-   
-   🚨 Issues Identified:
-   • Critical: X issues requiring immediate attention
-   • High: Y issues affecting performance/reliability  
-   • Medium: Z issues for optimization
-   • Low: N informational items
-   
-   🔍 Top Issues:
-   1. [Issue Type]: [Description] - Impact: [High/Medium/Low]
-   2. [Issue Type]: [Description] - Impact: [High/Medium/Low]
-   3. [Issue Type]: [Description] - Impact: [High/Medium/Low]
-   
-   🛠️ Remediation Plan:
-   • Immediate Actions: X items
-   • Short-term Fixes: Y items  
-   • Long-term Improvements: Z items
-   • Estimated Resolution Time: [Timeline]
-   
-   ❓ Proceed with detailed remediation plan? (y/n)
+   🏥 Azure 資源健康評估
+
+   📊 資源概述：
+   • 資源：[名稱]（[類型]）
+   • 狀態：[健康/警告/嚴重]
+   • 位置：[區域]
+   • 最後分析：[時間戳記]
+
+   🚨 識別的問題：
+   • 嚴重：X 個需要立即關注的問題
+   • 高：Y 個影響效能/可靠性的問題
+   • 中：Z 個優化問題
+   • 低：N 個資訊項目
+
+   🔍 主要問題：
+   1. [問題類型]：[描述] - 影響：[高/中/低]
+   2. [問題類型]：[描述] - 影響：[高/中/低]
+   3. [問題類型]：[描述] - 影響：[高/中/低]
+
+   🛠️ 修復計劃：
+   • 立即行動：X 項
+   • 短期修復：Y 項
+   • 長期改進：Z 項
+   • 估計解決時間：[時間表]
+
+   ❓ 繼續執行詳細的修復計劃？(y/n)
    ```
 
-2. **Generate Detailed Report**:
+2. **生成詳細報告**：
    ```markdown
-   # Azure Resource Health Report: [Resource Name]
-   
-   **Generated**: [Timestamp]  
-   **Resource**: [Full Resource ID]  
-   **Overall Health**: [Status with color indicator]
-   
-   ## 🔍 Executive Summary
-   [Brief overview of health status and key findings]
-   
-   ## 📊 Health Metrics
-   - **Availability**: X% over last 24h
-   - **Performance**: [Average response time/throughput]
-   - **Error Rate**: X% over last 24h
-   - **Resource Utilization**: [CPU/Memory/Storage percentages]
-   
-   ## 🚨 Issues Identified
-   
-   ### Critical Issues
-   - **[Issue 1]**: [Description]
-     - **Root Cause**: [Analysis]
-     - **Impact**: [Business impact]
-     - **Immediate Action**: [Required steps]
-   
-   ### High Priority Issues  
-   - **[Issue 2]**: [Description]
-     - **Root Cause**: [Analysis]
-     - **Impact**: [Performance/reliability impact]
-     - **Recommended Fix**: [Solution steps]
-   
-   ## 🛠️ Remediation Plan
-   
-   ### Phase 1: Immediate Actions (0-2 hours)
+   # Azure 資源健康報告：[資源名稱]
+
+   **生成時間**：[時間戳記]
+   **資源**：[完整資源 ID]
+   **整體健康**：[帶顏色指示器的狀態]
+
+   ## 🔍 執行摘要
+   [健康狀態和關鍵發現的簡要概述]
+
+   ## 📊 健康指標
+   - **可用性**：過去 24 小時 X%
+   - **效能**：[平均回應時間/吞吐量]
+   - **錯誤率**：過去 24 小時 X%
+   - **資源使用**：[CPU/記憶體/儲存百分比]
+
+   ## 🚨 識別的問題
+
+   ### 嚴重問題
+   - **[問題 1]**：[描述]
+     - **根本原因**：[分析]
+     - **影響**：[業務影響]
+     - **立即行動**：[所需步驟]
+
+   ### 高優先級問題
+   - **[問題 2]**：[描述]
+     - **根本原因**：[分析]
+     - **影響**：[效能/可靠性影響]
+     - **建議修復**：[解決方案步驟]
+
+   ## 🛠️ 修復計劃
+
+   ### 階段 1：立即行動（0-2 小時）
    ```bash
-   # Critical fixes to restore service
-   [Azure CLI commands with explanations]
-   ```
-   
-   ### Phase 2: Short-term Fixes (2-24 hours)
-   ```bash
-   # Performance and reliability improvements
-   [Azure CLI commands with explanations]
-   ```
-   
-   ### Phase 3: Long-term Improvements (1-4 weeks)
-   ```bash
-   # Architectural and preventive measures
-   [Azure CLI commands and configuration changes]
-   ```
-   
-   ## 📈 Monitoring Recommendations
-   - **Alerts to Configure**: [List of recommended alerts]
-   - **Dashboards to Create**: [Monitoring dashboard suggestions]
-   - **Regular Health Checks**: [Recommended frequency and scope]
-   
-   ## ✅ Validation Steps
-   - [ ] Verify issue resolution through logs
-   - [ ] Confirm performance improvements
-   - [ ] Test application functionality
-   - [ ] Update monitoring and alerting
-   - [ ] Document lessons learned
-   
-   ## 📝 Prevention Measures
-   - [Recommendations to prevent similar issues]
-   - [Process improvements]
-   - [Monitoring enhancements]
+   # 恢復服務的嚴重修復
+   [帶解釋的 Azure CLI 命令]
    ```
 
-## Error Handling
-- **Resource Not Found**: Provide guidance on resource name/location specification
-- **Authentication Issues**: Guide user through Azure authentication setup
-- **Insufficient Permissions**: List required RBAC roles for resource access
-- **No Logs Available**: Suggest enabling diagnostic settings and waiting for data
-- **Query Timeouts**: Break down analysis into smaller time windows
-- **Service-Specific Issues**: Provide generic health assessment with limitations noted
+   ### 階段 2：短期修復（2-24 小時）
+   ```bash
+   # 效能和可靠性改進
+   [帶解釋的 Azure CLI 命令]
+   ```
 
-## Success Criteria
-- ✅ Resource health status accurately assessed
-- ✅ All significant issues identified and categorized
-- ✅ Root cause analysis completed for major problems
-- ✅ Actionable remediation plan with specific steps provided
-- ✅ Monitoring and prevention recommendations included
-- ✅ Clear prioritization of issues by business impact
-- ✅ Implementation steps include validation and rollback procedures
+   ### 階段 3：長期改進（1-4 週）
+   ```bash
+   # 架構和預防措施
+   [Azure CLI 命令和配置變更]
+   ```
+
+   ## 📈 監控建議
+   - **要配置的警報**：[建議警報清單]
+   - **要創建的儀表板**：[監控儀表板建議]
+   - **定期健康檢查**：[建議頻率和範圍]
+
+   ## ✅ 驗證步驟
+   - [ ] 通過日誌驗證問題解決
+   - [ ] 確認效能改進
+   - [ ] 測試應用程式功能
+   - [ ] 更新監控和警報
+   - [ ] 記錄經驗教訓
+
+   ## 📝 預防措施
+   - [防止類似問題的建議]
+   - [流程改進]
+   - [監控增強]
+   ```
+
+## 錯誤處理
+- **未找到資源**：提供有關資源名稱/位置規範的指導
+- **驗證問題**：指導使用者完成 Azure 驗證設定
+- **權限不足**：列出資源存取所需的 RBAC 角色
+- **無可用日誌**：建議啟用診斷設定並等待資料
+- **查詢超時**：將分析分解為較小的時間窗口
+- **服務特定問題**：提供具有注明限制的一般健康評估
+
+## 成功標準
+- ✅ 準確評估資源健康狀態
+- ✅ 識別並分類所有重大問題
+- ✅ 完成主要問題的根本原因分析
+- ✅ 提供具有特定步驟的可行修復計劃
+- ✅ 包含監控和預防建議
+- ✅ 按業務影響明確排列問題優先級
+- ✅ 實作步驟包括驗證和回滾程序

@@ -1,27 +1,21 @@
 ---
 mode: 'agent'
-description: 'Finalize prompt file using the role of an AI agent to polish the prompt for the end user.'
+description: '使用 AI 代理程式的角色最終確定提示詞檔案，為終端使用者潤飾提示詞。'
 tools: ['edit/editFiles']
 ---
 
-# Finalize Agent Prompt
+# 最終確定代理程式提示詞
 
-## Current Role
+## 當前角色
 
-You are an AI agent who knows what works best for the prompt files you have
-seen and the feedback you have received. Apply that experience to refine the
-current prompt so it aligns with proven best practices.
+您是一位 AI 代理程式，知道您所見過的提示詞檔案中什麼最有效，以及您收到的回饋。運用該經驗來完善當前提示詞，使其與經過驗證的最佳實踐保持一致。
 
-## Requirements
+## 需求
 
-- A prompt file must be provided. If none accompanies the request, ask for the
-  file before proceeding.
-- Maintain the prompt’s front matter, encoding, and markdown structure while
-  making improvements.
+- 必須提供提示詞檔案。如果請求中沒有隨附檔案，請在繼續之前要求檔案。
+- 在進行改進的同時，保持提示詞的前置資料、編碼和 markdown 結構。
 
-## Goal
+## 目標
 
-1. Read the prompt file carefully and refine its structure, wording, and
-   organization to match the successful patterns you have observed.
-2. Check for spelling, grammar, or clarity issues and correct them without
-   changing the original intent of the instructions.
+1. 仔細閱讀提示詞檔案，並完善其結構、措辭和組織，以符合您觀察到的成功模式。
+2. 檢查拼寫、語法或清晰度問題並加以修正，而不改變指示的原始意圖。

@@ -1,28 +1,28 @@
 ---
 agent: agent
-description: 'Run pytest tests with coverage, discover lines missing coverage, and increase coverage to 100%.'
+description: '執行具有涵蓋率的 pytest 測試，探索遺失涵蓋率的行，並將涵蓋率提高到 100%。'
 ---
 
-The goal is for the tests to cover all lines of code.
+目標是讓測試涵蓋所有程式碼行。
 
-Generate a coverage report with:
+使用以下指令產生涵蓋率報告：
 
 pytest --cov --cov-report=annotate:cov_annotate
 
-If you are checking for coverage of a specific module, you can specify it like this:
+如果您要檢查特定模組的涵蓋率，可以這樣指定：
 
 pytest --cov=your_module_name --cov-report=annotate:cov_annotate
 
-You can also specify specific tests to run, for example:
+您也可以指定要執行的特定測試，例如：
 
 pytest tests/test_your_module.py --cov=your_module_name --cov-report=annotate:cov_annotate
 
-Open the cov_annotate directory to view the annotated source code.
-There will be one file per source file. If a file has 100% source coverage, it means all lines are covered by tests, so you do not need to open the file.
+開啟 cov_annotate 目錄以檢視已註解的原始碼。
+每個原始碼檔案會有一個對應檔案。如果檔案具有 100% 的原始碼涵蓋率，表示所有行都由測試涵蓋，因此您不需要開啟該檔案。
 
-For each file that has less than 100% test coverage, find the matching file in cov_annotate and review the file.
+對於測試涵蓋率低於 100% 的每個檔案，在 cov_annotate 中尋找相符的檔案並審查該檔案。
 
-If a line starts with a ! (exclamation mark), it means that the line is not covered by tests.
-Add tests to cover the missing lines.
+如果某行以 !（驚嘆號）開頭，表示該行未被測試涵蓋。
+新增測試以涵蓋遺失的行。
 
-Keep running the tests and improving coverage until all lines are covered.
+持續執行測試並改善涵蓋率，直到所有行都被涵蓋。

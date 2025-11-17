@@ -1,41 +1,41 @@
-The following instructions are only to be applied when performing a code review.
+以下指引僅在進行程式碼審查時適用。
 
-## README updates
+## README 更新
 
-* [ ] The new file should be added to the `README.md`.
+* [ ] 新文件應加入至 `README.md`。
 
-## Prompt file guide
+## Prompt 文件指南
 
-**Only apply to files that end in `.prompt.md`**
+**僅適用於以 `.prompt.md` 結尾的文件**
 
-* [ ] The prompt has markdown front matter.
-* [ ] The prompt has a `mode` field specified of either `agent` or `ask`.
-* [ ] The prompt has a `description` field.
-* [ ] The `description` field is not empty.
-* [ ] The `description` field value is wrapped in single quotes.
-* [ ] The file name is lower case, with words separated by hyphens.
-* [ ] Encourage the use of `tools`, but it's not required.
-* [ ] Strongly encourage the use of `model` to specify the model that the prompt is optimised for.
+* [ ] Prompt 包含 markdown front matter。
+* [ ] Prompt 指定了 `mode` 欄位,值為 `agent` 或 `ask`。
+* [ ] Prompt 包含 `description` 欄位。
+* [ ] `description` 欄位不為空。
+* [ ] `description` 欄位值以單引號包裹。
+* [ ] 檔名為小寫,單字間以連字號分隔。
+* [ ] 鼓勵使用 `tools`,但非必要。
+* [ ] 強烈鼓勵使用 `model` 指定 prompt 最佳化的模型。
 
-## Instruction file guide
+## Instruction 文件指南
 
-**Only apply to files that end in `.instructions.md`**
+**僅適用於以 `.instructions.md` 結尾的文件**
 
-* [ ] The instruction has markdown front matter.
-* [ ] The instruction has a `description` field.
-* [ ] The `description` field is not empty.
-* [ ] The `description` field value is wrapped in single quotes.
-* [ ] The file name is lower case, with words separated by hyphens.
-* [ ] The instruction has an `applyTo` field that specifies the file or files to which the instructions apply. If they wish to specify multiple file paths they should formated like `'**.js, **.ts'`.
+* [ ] Instruction 包含 markdown front matter。
+* [ ] Instruction 包含 `description` 欄位。
+* [ ] `description` 欄位不為空。
+* [ ] `description` 欄位值以單引號包裹。
+* [ ] 檔名為小寫,單字間以連字號分隔。
+* [ ] Instruction 包含 `applyTo` 欄位,指定指引適用的檔案。如果需要指定多個檔案路徑,應格式化為 `'**.js, **.ts'`。
 
-## Chat Mode file guide
+## Chat Mode 文件指南
 
-**Only apply to files that end in `.chatmode.md`**
+**僅適用於以 `.chatmode.md` 結尾的文件**
 
-* [ ] The chat mode has markdown front matter.
-* [ ] The chat mode has a `description` field.
-* [ ] The `description` field is not empty.
-* [ ] The `description` field value is wrapped in single quotes.
-* [ ] The file name is lower case, with words separated by hyphens.
-* [ ] Encourage the use of `tools`, but it's not required.
-* [ ] Strongly encourage the use of `model` to specify the model that the chat mode is optimised for.
+* [ ] Chat mode 包含 markdown front matter。
+* [ ] Chat mode 包含 `description` 欄位。
+* [ ] `description` 欄位不為空。
+* [ ] `description` 欄位值以單引號包裹。
+* [ ] 檔名為小寫,單字間以連字號分隔。
+* [ ] 鼓勵使用 `tools`,但非必要。
+* [ ] 強烈鼓勵使用 `model` 指定 chat mode 最佳化的模型。

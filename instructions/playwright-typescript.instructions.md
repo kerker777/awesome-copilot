@@ -3,42 +3,42 @@ description: 'Playwright test generation instructions'
 applyTo: '**'
 ---
 
-## Test Writing Guidelines
+## 測試撰寫指南
 
-### Code Quality Standards
-- **Locators**: Prioritize user-facing, role-based locators (`getByRole`, `getByLabel`, `getByText`, etc.) for resilience and accessibility. Use `test.step()` to group interactions and improve test readability and reporting.
-- **Assertions**: Use auto-retrying web-first assertions. These assertions start with the `await` keyword (e.g., `await expect(locator).toHaveText()`). Avoid `expect(locator).toBeVisible()` unless specifically testing for visibility changes.
-- **Timeouts**: Rely on Playwright's built-in auto-waiting mechanisms. Avoid hard-coded waits or increased default timeouts.
-- **Clarity**: Use descriptive test and step titles that clearly state the intent. Add comments only to explain complex logic or non-obvious interactions.
-
-
-### Test Structure
-- **Imports**: Start with `import { test, expect } from '@playwright/test';`.
-- **Organization**: Group related tests for a feature under a `test.describe()` block.
-- **Hooks**: Use `beforeEach` for setup actions common to all tests in a `describe` block (e.g., navigating to a page).
-- **Titles**: Follow a clear naming convention, such as `Feature - Specific action or scenario`.
+### 程式碼品質標準
+- **定位器（Locators）**：優先使用面向使用者的、基於角色的定位器（`getByRole`、`getByLabel`、`getByText` 等）以提高彈性和無障礙性。使用 `test.step()` 來分組互動並提高測試的可讀性和報告。
+- **斷言（Assertions）**：使用自動重試的 web-first 斷言。這些斷言以 `await` 關鍵字開頭（例如 `await expect(locator).toHaveText()`）。除非特別測試可見性變化，否則避免使用 `expect(locator).toBeVisible()`。
+- **超時（Timeouts）**：依賴 Playwright 的內建自動等待機制。避免硬編碼等待或增加預設超時時間。
+- **清晰度**：使用清楚說明意圖的描述性測試和步驟標題。僅在解釋複雜邏輯或非明顯互動時添加註解。
 
 
-### File Organization
-- **Location**: Store all test files in the `tests/` directory.
-- **Naming**: Use the convention `<feature-or-page>.spec.ts` (e.g., `login.spec.ts`, `search.spec.ts`).
-- **Scope**: Aim for one test file per major application feature or page.
-
-### Assertion Best Practices
-- **UI Structure**: Use `toMatchAriaSnapshot` to verify the accessibility tree structure of a component. This provides a comprehensive and accessible snapshot.
-- **Element Counts**: Use `toHaveCount` to assert the number of elements found by a locator.
-- **Text Content**: Use `toHaveText` for exact text matches and `toContainText` for partial matches.
-- **Navigation**: Use `toHaveURL` to verify the page URL after an action.
+### 測試結構
+- **匯入（Imports）**：以 `import { test, expect } from '@playwright/test';` 開頭。
+- **組織**：在 `test.describe()` 區塊下將功能的相關測試分組。
+- **鉤子（Hooks）**：對於 `describe` 區塊中所有測試通用的設置動作使用 `beforeEach`（例如導航到頁面）。
+- **標題**：遵循清晰的命名慣例，例如 `功能 - 特定動作或場景`。
 
 
-## Example Test Structure
+### 檔案組織
+- **位置**：將所有測試檔案儲存在 `tests/` 目錄中。
+- **命名**：使用慣例 `<feature-or-page>.spec.ts`（例如 `login.spec.ts`、`search.spec.ts`）。
+- **範圍**：每個主要應用程式功能或頁面設置一個測試檔案。
+
+### 斷言最佳實踐
+- **UI 結構**：使用 `toMatchAriaSnapshot` 來驗證元件的無障礙樹結構。這提供了全面且可存取的快照。
+- **元素計數**：使用 `toHaveCount` 來斷言定位器找到的元素數量。
+- **文字內容**：對於精確的文字匹配使用 `toHaveText`，對於部分匹配使用 `toContainText`。
+- **導航**：在動作後使用 `toHaveURL` 來驗證頁面 URL。
+
+
+## 範例測試結構
 
 ```typescript
 import { test, expect } from '@playwright/test';
 
 test.describe('Movie Search Feature', () => {
   test.beforeEach(async ({ page }) => {
-    // Navigate to the application before each test
+    // 在每個測試之前導航到應用程式
     await page.goto('https://debs-obrien.github.io/playwright-movies-app');
   });
 
@@ -51,7 +51,7 @@ test.describe('Movie Search Feature', () => {
     });
 
     await test.step('Verify search results', async () => {
-      // Verify the accessibility tree of the search results
+      // 驗證搜尋結果的無障礙樹
       await expect(page.getByRole('main')).toMatchAriaSnapshot(`
         - main:
           - heading "Garfield" [level=1]
@@ -68,19 +68,19 @@ test.describe('Movie Search Feature', () => {
 });
 ```
 
-## Test Execution Strategy
+## 測試執行策略
 
-1. **Initial Run**: Execute tests with `npx playwright test --project=chromium`
-2. **Debug Failures**: Analyze test failures and identify root causes
-3. **Iterate**: Refine locators, assertions, or test logic as needed
-4. **Validate**: Ensure tests pass consistently and cover the intended functionality
-5. **Report**: Provide feedback on test results and any issues discovered
+1. **初始執行**：使用 `npx playwright test --project=chromium` 執行測試
+2. **偵錯失敗**：分析測試失敗並識別根本原因
+3. **迭代**：根據需要精煉定位器、斷言或測試邏輯
+4. **驗證**：確保測試穩定通過並涵蓋預期功能
+5. **報告**：提供關於測試結果和發現的任何問題的回饋
 
-## Quality Checklist
+## 品質檢查清單
 
-Before finalizing tests, ensure:
-- [ ] All locators are accessible and specific and avoid strict mode violations
-- [ ] Tests are grouped logically and follow a clear structure
-- [ ] Assertions are meaningful and reflect user expectations
-- [ ] Tests follow consistent naming conventions
-- [ ] Code is properly formatted and commented
+在完成測試之前，確保：
+- [ ] 所有定位器都是可存取和特定的，並避免嚴格模式違規
+- [ ] 測試按邏輯分組並遵循清晰的結構
+- [ ] 斷言有意義且反映使用者期望
+- [ ] 測試遵循一致的命名慣例
+- [ ] 程式碼正確格式化並包含註解
